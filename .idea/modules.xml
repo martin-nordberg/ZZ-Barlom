@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SampleApps/Experiment/Experiment.iml" filepath="$PROJECT_DIR$/SampleApps/Experiment/Experiment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KatyDOM/KatyDOM.iml" filepath="$PROJECT_DIR$/KatyDOM/KatyDOM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KatyDOMLib.iml" filepath="$PROJECT_DIR$/KatyDOMLib.iml" />
+    </modules>
+  </component>
+</project>
