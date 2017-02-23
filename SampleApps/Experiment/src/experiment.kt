@@ -1,6 +1,8 @@
 
+import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 import org.katydom.api.katyDomComponent
+import org.katydom.api.makeKatyDomLifecycle
 import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.dom.createElement
@@ -66,3 +68,18 @@ val vdomNode = katyDom {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+fun main( args: Array<String> ) {
+
+    val lifecycle = makeKatyDomLifecycle()
+
+    val appElement = document.getElementById("app")
+
+    if ( appElement != null && vdomNode is KatyDomHtmlElement ) {
+        lifecycle.build(appElement, vdomNode)
+    }
+
+    console.log( "DONE" )
+
+}

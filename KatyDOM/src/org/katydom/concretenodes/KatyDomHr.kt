@@ -23,7 +23,7 @@ internal class KatyDomHr(
     /**
      * The CSS style attribute for the element.
      */
-    style: String,
+    style: String?,
 
     /**
      * The other attributes for the element.

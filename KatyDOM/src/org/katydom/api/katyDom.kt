@@ -6,8 +6,17 @@
 package org.katydom.api
 
 import org.katydom.abstractnodes.KatyDomNode
+import org.katydom.browser.browserSpi
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomListItemContentBuilder
+import org.katydom.lifecycle.KatyDomLifecycleImpl
+import org.katydom.spi.DomSpi
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+fun makeKatyDomLifecycle(/*TODO: options*/ spi: DomSpi = browserSpi): KatyDomLifecycle {
+    return KatyDomLifecycleImpl(spi)
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

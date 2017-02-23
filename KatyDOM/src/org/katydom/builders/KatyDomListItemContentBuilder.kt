@@ -14,10 +14,14 @@ class KatyDomListItemContentBuilder
 
     fun li(
         selector: String = "",
-        style: String = "",
+        style: String? = null,
         fillChildNodes: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        content.addChildNode(KatyDomLi(selector, style, KatyDomFlowContentBuilder().apply { fillChildNodes() }.content))
+        content.addChildNode(KatyDomLi(
+            selector,
+            style,
+            KatyDomFlowContentBuilder().apply { fillChildNodes() }.content
+        ))
     }
 
 }

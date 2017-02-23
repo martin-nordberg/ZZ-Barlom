@@ -36,7 +36,7 @@ abstract class KatyDomElement(
             }
 
         // Parse the id and classes out of the selector as relevant.
-        val selectorPieces = selector?.split("\\.") ?: listOf()
+        val selectorPieces = selector?.split(".") ?: listOf()
         if (selectorPieces.isEmpty()) {
             id = content.attributes.find { it.name == "id" }?.value
             classList = classAttributes

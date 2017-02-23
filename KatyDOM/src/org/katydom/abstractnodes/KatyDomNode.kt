@@ -13,7 +13,7 @@ package org.katydom.abstractnodes
 abstract class KatyDomNode(
 
     /** The child nodes within this node. Defaults to an empty list. */
-    val childNodes: List<KatyDomNode> = arrayListOf()
+    val childNodes: Iterable<KatyDomNode> = arrayListOf()
 
 ) {
 

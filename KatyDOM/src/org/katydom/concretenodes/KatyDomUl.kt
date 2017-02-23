@@ -24,7 +24,7 @@ internal class KatyDomUl(
     /**
      * The CSS style attribute for the element.
      */
-    style: String,
+    style: String?,
 
     /**
      * The other attributes, child nodes, and event listeners for the element.

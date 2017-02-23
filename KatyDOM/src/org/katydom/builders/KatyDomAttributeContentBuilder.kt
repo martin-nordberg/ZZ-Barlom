@@ -6,7 +6,6 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomAttribute
-import org.katydom.abstractnodes.KatyDomContent
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,7 +17,7 @@ import org.katydom.abstractnodes.KatyDomContent
 open class KatyDomAttributeContentBuilder {
 
     /** The content being built by this builder. */
-    internal val content: KatyDomContent = KatyDomContent()
+    internal val content: KatyDomContentUnderConstruction = KatyDomContentUnderConstruction()
 
     /**
      * Adds one attribute to the content.
