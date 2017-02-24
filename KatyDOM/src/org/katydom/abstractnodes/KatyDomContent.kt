@@ -25,6 +25,8 @@ interface KatyDomContent {
 
     val childNodes: Iterable<KatyDomNode>
 
+    val classList: Set<String>
+
     val dataset: Iterable<KatyDomAttribute>
 
     val soleChildNode: KatyDomNode

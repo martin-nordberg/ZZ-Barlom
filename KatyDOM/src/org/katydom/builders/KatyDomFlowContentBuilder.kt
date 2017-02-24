@@ -14,7 +14,7 @@ import org.katydom.concretenodes.KatyDomUl
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class KatyDomFlowContentBuilder
-    : KatyDomAttributeContentBuilder() {
+    : KatyDomElementContentBuilder() {
 
     val soleNode: KatyDomNode
         get() = content.soleChildNode
@@ -34,12 +34,12 @@ class KatyDomFlowContentBuilder
     fun hr(
         selector: String = "",
         style: String? = null,
-        fillAttributes: KatyDomAttributeContentBuilder.() -> Unit
+        fillAttributes: KatyDomElementContentBuilder.() -> Unit
     ) {
         content.addChildNode(KatyDomHr(
             selector,
             style,
-            KatyDomAttributeContentBuilder().apply { fillAttributes() }.content
+            KatyDomElementContentBuilder().apply { fillAttributes() }.content
         ))
     }
 

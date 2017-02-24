@@ -50,8 +50,9 @@ val vdomNode = katyDom {
 
         }
 
-        div {
-            attribute("src", "some/url")
+        div( ".some-class" ) {
+            classes( "big" to true, "small" to false, "smelly" to true)
+            attribute("class", "very-classy")
             attributes("a1" to "v1", "a2" to "v2")
         }
 
@@ -61,7 +62,7 @@ val vdomNode = katyDom {
             attribute("id", "me")
         }
 
-        cmp0
+        cmp0()
 
     }
 

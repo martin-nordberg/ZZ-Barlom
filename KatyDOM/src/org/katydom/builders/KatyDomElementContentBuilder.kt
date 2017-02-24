@@ -14,7 +14,7 @@ import org.katydom.abstractnodes.KatyDomAttribute
  * specialized content builders that also add child nodes of the right types for given context.
  */
 @KatyDomContentBuilderDsl
-open class KatyDomAttributeContentBuilder {
+open class KatyDomElementContentBuilder {
 
     /** The content being built by this builder. */
     internal val content: KatyDomContentUnderConstruction = KatyDomContentUnderConstruction()
@@ -28,6 +28,10 @@ open class KatyDomAttributeContentBuilder {
         name: String,
         value: String
     ) {
+        if ( name.startsWith("data-") ) {
+            // warning: use data(..) instead
+            content.addDataAttribute(KatyDomAttribute(name.substring(5),value))
+        }
         content.addAttribute(KatyDomAttribute(name, value))
     }
 
@@ -42,6 +46,15 @@ open class KatyDomAttributeContentBuilder {
     }
 
     /**
+     * Adds multiple classes to the content being built.
+     * @param pairs a list of the classes (first) and on/off flags (second) for the classes to add.
+     */
+    fun classes(vararg pairs: Pair<String, Boolean>) {
+        val classList = pairs.filter { it.second }.map{ it.first }
+        content.addClasses( classList )
+    }
+
+    /**
      * Adds one data attribute to the content being built.
      * @param name the name of the data attribute. May have the "data-" prefix omitted.
      * @param value the string value of the data attribute.
@@ -51,10 +64,11 @@ open class KatyDomAttributeContentBuilder {
         value: String
     ) {
         if (name.startsWith("data-")) {
-            content.addDataAttribute(KatyDomAttribute(name, value))
+            // TODO: warning "data-" prefix not needed
+            content.addDataAttribute(KatyDomAttribute(name.substring(5), value))
         }
         else {
-            content.addDataAttribute(KatyDomAttribute("data-" + name, value))
+            content.addDataAttribute(KatyDomAttribute(name, value))
         }
     }
 

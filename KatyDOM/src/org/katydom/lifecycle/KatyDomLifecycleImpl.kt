@@ -23,7 +23,7 @@ internal class KatyDomLifecycleImpl(private val spi: DomSpi) : KatyDomLifecycle 
         val parent = spi.parentNode(domElement)
 
         if (parent != null) {
-            spi.appendChild(parent, root)
+            spi.insertBefore(parent, root, domElement)
             spi.removeChild(parent, domElement)
         }
 
@@ -45,12 +45,16 @@ internal class KatyDomLifecycleImpl(private val spi: DomSpi) : KatyDomLifecycle 
                 domElement.setAttribute("class", katyDomNode.classList.joinToString(" "))
             }
 
-            if (katyDomNode is KatyDomHtmlElement && katyDomNode.style != null) {
-                domElement.setAttribute("style", katyDomNode.style)
-            }
-
             for (attr in katyDomNode.otherAttributes) {
                 domElement.setAttribute(attr.name, attr.value)
+            }
+
+            for (attr in katyDomNode.dataset) {
+                domElement.setAttribute("data-"+attr.name, attr.value)
+            }
+
+            if (katyDomNode is KatyDomHtmlElement && katyDomNode.style != null) {
+                domElement.setAttribute("style", katyDomNode.style)
             }
 
         }

@@ -14,6 +14,9 @@ import org.katydom.spi.DomSpi
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Constructs an object that orchestrates the main loop of the virtual DOM build and patch sequence.
+ */
 fun makeKatyDomLifecycle(/*TODO: options*/ spi: DomSpi = browserSpi): KatyDomLifecycle {
     return KatyDomLifecycleImpl(spi)
 }

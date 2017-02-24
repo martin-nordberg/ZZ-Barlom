@@ -24,9 +24,10 @@ import org.katydom.abstractnodes.KatyDomNode
  *   - Child Nodes - the contained elements within the element under construction.
  */
 internal class KatyDomContentUnderConstruction(
-    private val _attributes: MutableMap<String,KatyDomAttribute> = mutableMapOf(),
+    private val _attributes: MutableMap<String, KatyDomAttribute> = mutableMapOf(),
+    private val _classList: MutableSet<String> = mutableSetOf(),
     // TODO: style
-    private val _dataset: MutableMap<String,KatyDomAttribute> = mutableMapOf(),
+    private val _dataset: MutableMap<String, KatyDomAttribute> = mutableMapOf(),
     // TODO: aria
     // TODO: event listeners
     private val _childNodes: MutableList<KatyDomNode> = mutableListOf()
@@ -37,6 +38,9 @@ internal class KatyDomContentUnderConstruction(
 
     override val childNodes: Iterable<KatyDomNode>
         get() = _childNodes
+
+    override val classList: Set<String>
+        get() = _classList
 
     override val dataset: Iterable<KatyDomAttribute>
         get() = _dataset.values
@@ -57,7 +61,7 @@ internal class KatyDomContentUnderConstruction(
      * @param attribute the attribute to add.
      */
     fun addAttribute(attribute: KatyDomAttribute) {
-        _attributes.put(attribute.name,attribute)
+        _attributes.put(attribute.name, attribute)
     }
 
     /**
@@ -69,16 +73,24 @@ internal class KatyDomContentUnderConstruction(
     }
 
     /**
+     * Adds a list of classes to this element.
+     */
+    fun addClasses(classList: List<String>) {
+        this._classList.addAll( classList )
+    }
+
+    /**
      * Adds a data attribute to this content under construction.
      * @param attribute a data attribute to be added.
      */
     fun addDataAttribute(attribute: KatyDomAttribute) {
-        _dataset.put(attribute.name,attribute)
+        _dataset.put(attribute.name, attribute)
     }
 
     override fun withFilteredAttributes(predicate: (KatyDomAttribute) -> Boolean): KatyDomContent {
         return KatyDomContentUnderConstruction(
-            _attributes.filter{ entry -> predicate(entry.value) }.toMutableMap(),
+            _attributes.filter { entry -> predicate(entry.value) }.toMutableMap(),
+            _classList,
             _dataset,
             _childNodes
         )

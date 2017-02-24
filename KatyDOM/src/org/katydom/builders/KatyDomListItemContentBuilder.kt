@@ -10,7 +10,7 @@ import org.katydom.concretenodes.KatyDomLi
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class KatyDomListItemContentBuilder
-    : KatyDomAttributeContentBuilder() {
+    : KatyDomElementContentBuilder() {
 
     fun li(
         selector: String = "",

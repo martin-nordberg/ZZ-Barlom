@@ -8,7 +8,7 @@ package org.katydom.abstractnodes
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Abstract class representing a KDom virtual element. Corresponds to DOM Element.
+ * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
  */
 abstract class KatyDomElement(
     selector: String?,
@@ -39,7 +39,7 @@ abstract class KatyDomElement(
         val selectorPieces = selector?.split(".") ?: listOf()
         if (selectorPieces.isEmpty()) {
             id = content.attributes.find { it.name == "id" }?.value
-            classList = classAttributes
+            classList = classAttributes.plus(content.classList)
         }
         else {
 
@@ -52,11 +52,13 @@ abstract class KatyDomElement(
             else {
                 id = content.attributes.find { it.name == "id" }?.value
                 if (selectorPieces[0].isEmpty()) {
+                    // TODO: Warning: selector should start with "." or "#"; "." assumed.
                     firstClassIdx = 1
                 }
             }
 
             classList = classAttributes.plus(selectorPieces.subList(firstClassIdx, selectorPieces.size))
+                                       .plus(content.classList)
 
         }
 
