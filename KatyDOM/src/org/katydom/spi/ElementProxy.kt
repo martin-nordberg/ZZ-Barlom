@@ -10,6 +10,11 @@ package org.katydom.spi
  */
 interface ElementProxy : NodeProxy {
 
+    /**
+     * Sets one attribute of the element.
+     * @param qualifiedName the attribute name.
+     * @param value the attribute value.
+     */
     fun setAttribute(qualifiedName: String, value: String)
 
 }
