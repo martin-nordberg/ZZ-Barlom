@@ -5,7 +5,7 @@
 
 package org.katydom.builders
 
-import org.katydom.abstractnodes.KatyDomAttribute
+import org.katydom.abstractnodes.KatyDomElement
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -14,10 +14,7 @@ import org.katydom.abstractnodes.KatyDomAttribute
  * specialized content builders that also add child nodes of the right types for given context.
  */
 @KatyDomContentBuilderDsl
-open class KatyDomElementContentBuilder {
-
-    /** The content being built by this builder. */
-    internal val content: KatyDomContentUnderConstruction = KatyDomContentUnderConstruction()
+open class KatyDomElementContentBuilder(private val element: KatyDomElement) {
 
     /**
      * Adds one attribute to the content.
@@ -28,11 +25,11 @@ open class KatyDomElementContentBuilder {
         name: String,
         value: String
     ) {
-        if ( name.startsWith("data-") ) {
+        if (name.startsWith("data-")) {
             // warning: use data(..) instead
-            content.addDataAttribute(KatyDomAttribute(name.substring(5),value))
+            element.setData(name.substring(5), value)
         }
-        content.addAttribute(KatyDomAttribute(name, value))
+        element.setAttribute(name, value)
     }
 
     /**
@@ -50,8 +47,8 @@ open class KatyDomElementContentBuilder {
      * @param pairs a list of the classes (first) and on/off flags (second) for the classes to add.
      */
     fun classes(vararg pairs: Pair<String, Boolean>) {
-        val classList = pairs.filter { it.second }.map{ it.first }
-        content.addClasses( classList )
+        val classList = pairs.filter { it.second }.map { it.first }
+        element.addClasses(classList)
     }
 
     /**
@@ -65,10 +62,10 @@ open class KatyDomElementContentBuilder {
     ) {
         if (name.startsWith("data-")) {
             // TODO: warning "data-" prefix not needed
-            content.addDataAttribute(KatyDomAttribute(name.substring(5), value))
+            element.setData(name.substring(5), value)
         }
         else {
-            content.addDataAttribute(KatyDomAttribute(name, value))
+            element.setData(name, value)
         }
     }
 

@@ -1,3 +1,8 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.katydom.lifecycle
 
 import org.katydom.abstractnodes.KatyDomElement
@@ -5,26 +10,27 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.abstractnodes.KatyDomNode
 import org.katydom.api.KatyDomLifecycle
 import org.katydom.concretenodes.KatyDomText
-import org.katydom.spi.DomSpi
-import org.w3c.dom.Element
+import org.katydom.spi.DocumentProxy
+import org.katydom.spi.ElementProxy
 
 /**
  * Implementation of the KatyDOM lifecycle to build and patch a real DOM tree from an initial and changed virtual DOM
  * tree.
  */
-internal class KatyDomLifecycleImpl(private val spi: DomSpi) : KatyDomLifecycle {
+internal class KatyDomLifecycleImpl : KatyDomLifecycle {
 
-    override fun build(domElement: Element, firstKatyDomElement: KatyDomHtmlElement) {
+    override fun build(domElement: ElementProxy, firstKatyDomElement: KatyDomHtmlElement) {
 
-        val root = spi.createElement(firstKatyDomElement.nodeName)
+        val document = domElement.ownerDocument
+        val root: ElementProxy = document.createElement(firstKatyDomElement.nodeName)
 
-        establishNewNode(root, firstKatyDomElement)
+        establishNewNode(document, root, firstKatyDomElement)
 
-        val parent = spi.parentNode(domElement)
+        val parent = domElement.parentNode
 
         if (parent != null) {
-            spi.insertBefore(parent, root, domElement)
-            spi.removeChild(parent, domElement)
+            parent.insertBefore(root, domElement)
+            parent.removeChild(domElement)
         }
 
     }
@@ -33,12 +39,13 @@ internal class KatyDomLifecycleImpl(private val spi: DomSpi) : KatyDomLifecycle 
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun establishNewNode(domElement: Element, katyDomNode: KatyDomNode) {
+    private fun establishNewNode(document: DocumentProxy, domElement: ElementProxy, katyDomNode: KatyDomNode) {
 
         if (katyDomNode is KatyDomElement) {
 
-            if (katyDomNode.id != null) {
-                domElement.setAttribute("id", katyDomNode.id)
+            katyDomNode.id.ifPresent {
+                id ->
+                domElement.setAttribute("id", id)
             }
 
             if (katyDomNode.classList.isNotEmpty()) {
@@ -46,11 +53,11 @@ internal class KatyDomLifecycleImpl(private val spi: DomSpi) : KatyDomLifecycle 
             }
 
             for (attr in katyDomNode.otherAttributes) {
-                domElement.setAttribute(attr.name, attr.value)
+                domElement.setAttribute(attr.key, attr.value)
             }
 
             for (attr in katyDomNode.dataset) {
-                domElement.setAttribute("data-"+attr.name, attr.value)
+                domElement.setAttribute("data-" + attr.key, attr.value)
             }
 
             if (katyDomNode is KatyDomHtmlElement && katyDomNode.style != null) {
@@ -62,13 +69,13 @@ internal class KatyDomLifecycleImpl(private val spi: DomSpi) : KatyDomLifecycle 
         for (childNode in katyDomNode.childNodes) {
 
             if (childNode is KatyDomElement) {
-                val childElement = spi.createElement(childNode.nodeName)
-                establishNewNode(childElement, childNode)
-                spi.appendChild(domElement, childElement)
+                val childElement = document.createElement(childNode.nodeName)
+                establishNewNode(document, childElement, childNode)
+                domElement.appendChild(childElement)
             }
             else if (childNode is KatyDomText) {
-                val childText = spi.createTextNode(childNode.textChars)
-                spi.appendChild(domElement, childText)
+                val childText = document.createTextNode(childNode.textChars)
+                domElement.appendChild(childText)
             }
 
         }

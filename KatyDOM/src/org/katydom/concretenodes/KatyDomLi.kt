@@ -5,7 +5,6 @@
 
 package org.katydom.concretenodes
 
-import org.katydom.abstractnodes.KatyDomContent
 import org.katydom.abstractnodes.KatyDomHtmlElement
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,19 +18,14 @@ internal class KatyDomLi(
      * The "selector" for the element: "#" followed by the id plus a repetition of "." followed by a class name.
      * E.g. "#mybutton.big-button.warning".
      */
-    selector: String,
+    selector: String?,
 
     /**
      * The CSS style attribute for the element.
      */
-    style: String?,
+    style: String?
 
-    /**
-     * The other attributes, child nodes, and event listeners for the element.
-     */
-    content: KatyDomContent
-
-) : KatyDomHtmlElement(selector, style, content) {
+) : KatyDomHtmlElement(selector, style) {
 
     override val nodeName = "li"
 

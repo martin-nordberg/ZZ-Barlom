@@ -5,7 +5,7 @@
 
 package org.katydom.builders
 
-import org.katydom.abstractnodes.KatyDomNode
+import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.KatyDomDiv
 import org.katydom.concretenodes.KatyDomHr
 import org.katydom.concretenodes.KatyDomText
@@ -13,50 +13,41 @@ import org.katydom.concretenodes.KatyDomUl
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class KatyDomFlowContentBuilder
-    : KatyDomElementContentBuilder() {
-
-    val soleNode: KatyDomNode
-        get() = content.soleChildNode
+class KatyDomFlowContentBuilder(private val element: KatyDomHtmlElement)
+    : KatyDomElementContentBuilder(element) {
 
     fun div(
         selector: String = "",
         style: String? = null,
-        fillChildNodes: KatyDomFlowContentBuilder.() -> Unit
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        content.addChildNode(KatyDomDiv(
-            selector,
-            style,
-            KatyDomFlowContentBuilder().apply { fillChildNodes() }.content
-        ))
+        val childElement = KatyDomDiv(selector, style)
+        KatyDomFlowContentBuilder(childElement).defineContent()
+        element.addChildNode(childElement)
     }
 
     fun hr(
         selector: String = "",
         style: String? = null,
-        fillAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineContent: KatyDomElementContentBuilder.() -> Unit
     ) {
-        content.addChildNode(KatyDomHr(
-            selector,
-            style,
-            KatyDomElementContentBuilder().apply { fillAttributes() }.content
-        ))
+        val childElement = KatyDomHr(selector, style)
+        KatyDomFlowContentBuilder(childElement).defineContent()
+        element.addChildNode(childElement)
     }
 
     fun text(textChars: String) {
-        content.addChildNode(KatyDomText(textChars))
+        element.addChildNode(KatyDomText(textChars))
     }
 
     fun ul(
         selector: String = "",
         style: String? = null,
-        fillChildNodes: KatyDomListItemContentBuilder.() -> Unit
+        defineContent: KatyDomListItemContentBuilder.() -> Unit
     ) {
-        content.addChildNode(KatyDomUl(
-            selector,
-            style,
-            KatyDomListItemContentBuilder().apply { fillChildNodes() }.content
-        ))
+        val childElement = KatyDomUl(selector, style)
+        KatyDomListItemContentBuilder(childElement).defineContent()
+        element.addChildNode(childElement)
     }
 
 }

@@ -9,31 +9,44 @@ package org.katydom.abstractnodes
 
 abstract class KatyDomHtmlElement(
     selector: String?,
-    style: String?,
-    content: KatyDomContent
-) : KatyDomElement(selector, content.withFilteredAttributes { it.name != "style" }) {
+    style: String?
+) : KatyDomElement(selector) {
 
+    // TODO: Needs to be String/String map of many styles
     val style: String?
 
+    ////
+
+    private class Scaffolding(
+        style: String?
+    ) {
+
+        var style: String? = null
+
+        init {
+            this.style = style
+        }
+
+    }
+
+    private var _scaffolding: Scaffolding?
+
     init {
+        val sc = Scaffolding(style)
+        _scaffolding = sc
+        this.style = sc.style
 
-        val style0 = content.attributes.find { it.name == "style" }?.value
+    }
 
-        if (style != null) {
+    private val scaffolding: Scaffolding
+        get() = _scaffolding ?: throw IllegalStateException("Attempted to modify a fully constructed KatyDomHtmlElement.")
 
-            if (style0 != null) {
-                // TODO: not sure simple concatenation is enough to keep valid CSS
-                this.style = style + ";" + style0
-            }
-            else {
-                this.style = style
-            }
+    internal fun setStyle(style: String) {
+        scaffolding.style = style
+    }
 
-        }
-        else {
-            this.style = style0
-        }
-
+    override fun removeScaffolding3() {
+        _scaffolding = null
     }
 
 }

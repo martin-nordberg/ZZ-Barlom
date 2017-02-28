@@ -5,64 +5,129 @@
 
 package org.katydom.abstractnodes
 
+import org.katydom.infrastructure.Cell
+import org.katydom.infrastructure.MutableCell
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
  */
 abstract class KatyDomElement(
-    selector: String?,
-    content: KatyDomContent
-) : KatyDomNode(content.childNodes) {
+    selector: String?
+) : KatyDomNode() {
 
     val classList: Set<String>
 
-    val dataset = content.dataset
+    val dataset: Map<String, String>
 
-    val id: String?
+    val id: Cell<String>
 
-    val otherAttributes: List<KatyDomAttribute> = content.attributes.filter { it.name !== "class" && it.name != "id" }
+    val otherAttributes: Map<String, String>
 
-    init {
+    ////
 
-        // Look for a "class" attribute and split its space-separated value.
-        val className = content.attributes.find { it.name == "class" }?.value
-        val classAttributes: Set<String> =
-            if (className == null || className.isEmpty()) {
-                setOf()
-            }
-            else {
-                className.split(" ").toHashSet()
-            }
+    private class Scaffolding(
+        selector: String?
+    ) {
+        val classList: MutableSet<String> = hashSetOf()
+        val dataset: MutableMap<String, String> = hashMapOf()
+        var id = MutableCell<String>(null)
+        val otherAttributes: MutableMap<String, String> = hashMapOf()
 
-        // Parse the id and classes out of the selector as relevant.
-        val selectorPieces = selector?.split(".") ?: listOf()
-        if (selectorPieces.isEmpty()) {
-            id = content.attributes.find { it.name == "id" }?.value
-            classList = classAttributes.plus(content.classList)
-        }
-        else {
+        init {
 
-            var firstClassIdx = 0
-            if (selectorPieces[0].startsWith("#")) {
-                id = selectorPieces[0].substring(1)
-                firstClassIdx = 1
-                // TODO: warning if there is also an id attribute in content
-            }
-            else {
-                id = content.attributes.find { it.name == "id" }?.value
-                if (selectorPieces[0].isEmpty()) {
+            // Parse the id and classes out of the selector as relevant.
+            val selectorPieces = selector?.split(".")
+
+            if (selectorPieces != null) {
+
+                var firstClassIdx = 0
+                if (selectorPieces[0].startsWith("#")) {
+                    id.set(selectorPieces[0].substring(1))
+                    firstClassIdx = 1
+                }
+                else if (selectorPieces[0].isEmpty()) {
                     // TODO: Warning: selector should start with "." or "#"; "." assumed.
                     firstClassIdx = 1
                 }
-            }
 
-            classList = classAttributes.plus(selectorPieces.subList(firstClassIdx, selectorPieces.size))
-                                       .plus(content.classList)
+                classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
+
+            }
 
         }
 
     }
+
+    private var _scaffolding: Scaffolding?
+
+    init {
+        val sc = Scaffolding(selector)
+        _scaffolding = sc
+        classList = sc.classList
+        dataset = sc.dataset
+        id = sc.id
+        otherAttributes = sc.otherAttributes
+
+    }
+
+    private val scaffolding: Scaffolding
+        get() = _scaffolding ?: throw IllegalStateException("Attempted to modify a fully constructed KatyDomElement.")
+
+    internal fun addClass(className: String) {
+        scaffolding.classList.add(className)
+    }
+
+    internal fun addClasses(classes: Iterable<String>) {
+        scaffolding.classList.addAll(classes)
+    }
+
+    internal fun setAttribute(name: String, value: String) {
+        if (name == "class") {
+            addClass(value)
+        }
+        else if (name == "id") {
+            // TODO: Warning: use selector instead of setAttribute("id",...).
+            scaffolding.id.set(value);
+        }
+        else if (name.startsWith("data-")) {
+            // TODO: Warning: use setData instead.
+            setData(name.substring(5), value)
+        }
+        else {
+            scaffolding.otherAttributes.put(name, value)
+        }
+    }
+
+    internal fun setAttributes(attributes: Map<String, String>) {
+        for (attribute in attributes) {
+            setAttribute(attribute.key, attribute.value)
+        }
+    }
+
+    internal fun setData(name: String, value: String) {
+        if (name.startsWith("data-")) {
+            // TODO: Warning: "data-" prefix not required for dataset additions.
+            scaffolding.dataset.put(name.substring(5), value)
+        }
+        else {
+            scaffolding.dataset.put(name, value)
+        }
+    }
+
+    internal fun setData(dataset: Map<String, String>) {
+        for (data in dataset) {
+            setData(data.key, data.value)
+        }
+    }
+
+    override final fun removeScaffolding2() {
+        _scaffolding = null
+        removeScaffolding3()
+    }
+
+    abstract protected fun removeScaffolding3()
 
 }
 

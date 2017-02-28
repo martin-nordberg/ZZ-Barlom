@@ -6,19 +6,18 @@
 package org.katydom.api
 
 import org.katydom.abstractnodes.KatyDomNode
-import org.katydom.browser.browserSpi
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomListItemContentBuilder
+import org.katydom.concretenodes.KatyDomDiv
 import org.katydom.lifecycle.KatyDomLifecycleImpl
-import org.katydom.spi.DomSpi
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Constructs an object that orchestrates the main loop of the virtual DOM build and patch sequence.
  */
-fun makeKatyDomLifecycle(/*TODO: options*/ spi: DomSpi = browserSpi): KatyDomLifecycle {
-    return KatyDomLifecycleImpl(spi)
+fun makeKatyDomLifecycle(/*TODO: options*/): KatyDomLifecycle {
+    return KatyDomLifecycleImpl()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +28,9 @@ fun makeKatyDomLifecycle(/*TODO: options*/ spi: DomSpi = browserSpi): KatyDomLif
  * @return the root DOM node after it has been built by the provided function.
  */
 fun katyDom(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit): KatyDomNode {
-    return KatyDomFlowContentBuilder().apply { fillChildNodes() }.soleNode
+    val pseudoParentElement = KatyDomDiv(null, null)
+    KatyDomFlowContentBuilder(pseudoParentElement).fillChildNodes()
+    return pseudoParentElement.childNodes.first()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

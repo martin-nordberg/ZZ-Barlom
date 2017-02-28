@@ -21,6 +21,10 @@ internal class KatyDomText(
 
     override val nodeName = "#text"
 
+    override fun removeScaffolding2() {
+        // no scaffolding needed; nothing to do
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

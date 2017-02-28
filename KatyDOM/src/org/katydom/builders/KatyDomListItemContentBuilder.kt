@@ -5,23 +5,22 @@
 
 package org.katydom.builders
 
+import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.KatyDomLi
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class KatyDomListItemContentBuilder
-    : KatyDomElementContentBuilder() {
+class KatyDomListItemContentBuilder(private val element: KatyDomHtmlElement)
+    : KatyDomElementContentBuilder(element) {
 
     fun li(
         selector: String = "",
         style: String? = null,
-        fillChildNodes: KatyDomFlowContentBuilder.() -> Unit
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        content.addChildNode(KatyDomLi(
-            selector,
-            style,
-            KatyDomFlowContentBuilder().apply { fillChildNodes() }.content
-        ))
+        val childElement = KatyDomLi(selector, style)
+        KatyDomFlowContentBuilder(childElement).defineContent()
+        element.addChildNode(childElement)
     }
 
 }
