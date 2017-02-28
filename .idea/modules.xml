@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SampleApps/Experiment/Experiment.iml" filepath="$PROJECT_DIR$/SampleApps/Experiment/Experiment.iml" />
       <module fileurl="file://$PROJECT_DIR$/KatyDOM/KatyDOM.iml" filepath="$PROJECT_DIR$/KatyDOM/KatyDOM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KatyDOM-JVM/KatyDOM-JVM.iml" filepath="$PROJECT_DIR$/KatyDOM-JVM/KatyDOM-JVM.iml" />
       <module fileurl="file://$PROJECT_DIR$/KatyDOMLib.iml" filepath="$PROJECT_DIR$/KatyDOMLib.iml" />
     </modules>
   </component>
