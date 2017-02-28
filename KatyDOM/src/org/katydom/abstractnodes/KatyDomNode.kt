@@ -18,7 +18,7 @@ abstract class KatyDomNode {
     /** The name of this node (usually the HTML tag name, otherwise a pseudo tag name like "#text"). */
     abstract val nodeName: String
 
-    ////
+////
 
     private class Scaffolding(
         val childNodes: MutableList<KatyDomNode> = arrayListOf()

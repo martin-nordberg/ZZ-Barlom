@@ -60,8 +60,10 @@ internal class KatyDomLifecycleImpl : KatyDomLifecycle {
                 domElement.setAttribute("data-" + attr.key, attr.value)
             }
 
-            if (katyDomNode is KatyDomHtmlElement && katyDomNode.style != null) {
-                domElement.setAttribute("style", katyDomNode.style)
+            if (katyDomNode is KatyDomHtmlElement) {
+                katyDomNode.style.ifPresent { style ->
+                    domElement.setAttribute("style", style)
+                }
             }
 
         }
