@@ -3,7 +3,6 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 import org.katydom.api.katyDomComponent
 import org.katydom.api.makeKatyDomLifecycle
-import org.katydom.browserspi.DomElementProxy
 import org.w3c.dom.Element
 import kotlin.browser.document
 import kotlin.dom.createElement
@@ -79,7 +78,7 @@ fun main( args: Array<String> ) {
     val appElement = document.getElementById("app")
 
     if ( appElement != null && vdomNode is KatyDomHtmlElement ) {
-        lifecycle.build(DomElementProxy(appElement), vdomNode)
+        lifecycle.build(appElement, vdomNode)
     }
 
     console.log( "DONE" )

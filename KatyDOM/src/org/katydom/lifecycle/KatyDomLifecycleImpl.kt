@@ -10,8 +10,8 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.abstractnodes.KatyDomNode
 import org.katydom.api.KatyDomLifecycle
 import org.katydom.concretenodes.KatyDomText
-import org.katydom.spi.DocumentProxy
-import org.katydom.spi.ElementProxy
+import org.w3c.dom.Document
+import org.w3c.dom.Element
 
 /**
  * Implementation of the KatyDOM lifecycle to build and patch a real DOM tree from an initial and changed virtual DOM
@@ -19,10 +19,10 @@ import org.katydom.spi.ElementProxy
  */
 internal class KatyDomLifecycleImpl : KatyDomLifecycle {
 
-    override fun build(domElement: ElementProxy, firstKatyDomElement: KatyDomHtmlElement) {
+    override fun build(domElement: Element, firstKatyDomElement: KatyDomHtmlElement) {
 
-        val document = domElement.ownerDocument
-        val root: ElementProxy = document.createElement(firstKatyDomElement.nodeName)
+        val document = domElement.ownerDocument!!
+        val root: Element = document.createElement(firstKatyDomElement.nodeName)
 
         establishNewNode(document, root, firstKatyDomElement)
 
@@ -39,12 +39,11 @@ internal class KatyDomLifecycleImpl : KatyDomLifecycle {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun establishNewNode(document: DocumentProxy, domElement: ElementProxy, katyDomNode: KatyDomNode) {
+    private fun establishNewNode(document: Document, domElement: Element, katyDomNode: KatyDomNode) {
 
         if (katyDomNode is KatyDomElement) {
 
-            katyDomNode.id.ifPresent {
-                id ->
+            katyDomNode.id.ifPresent { id ->
                 domElement.setAttribute("id", id)
             }
 
