@@ -6,6 +6,8 @@
 package org.katydom.concretenodes
 
 import org.katydom.abstractnodes.KatyDomNode
+import org.w3c.dom.Node
+import org.w3c.dom.Text
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,8 +23,17 @@ internal class KatyDomText(
 
     override val nodeName = "#text"
 
-    override fun removeMoreScaffolding() {
-        // no scaffolding needed; nothing to do
+////
+
+    override fun patch2(domElement: Node, priorElement: KatyDomNode) {
+
+        if ( !(domElement is Text) ) throw IllegalArgumentException( "DOM node expected to be text." )
+        if ( !(priorElement is KatyDomText) ) throw IllegalArgumentException( "KatyDOM node expected to be KatyDOM text.")
+
+        if ( domElement.wholeText != priorElement.textChars ) {
+            domElement.replaceWholeText( priorElement.textChars )
+        }
+
     }
 
 }
