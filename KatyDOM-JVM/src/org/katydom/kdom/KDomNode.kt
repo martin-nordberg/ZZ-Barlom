@@ -58,6 +58,10 @@ abstract class KDomNode : Node {
         return _parentNode
     }
 
+    override fun hasChildNodes(): Boolean {
+        return _firstChild != null
+    }
+
     override fun insertBefore(newChild: Node, refChild: Node?): KDomNode {
 
         val result = newChild as KDomNode
@@ -148,10 +152,6 @@ abstract class KDomNode : Node {
     }
 
     override fun getTextContent(): String {
-        TODO("not yet needed")
-    }
-
-    override fun hasChildNodes(): Boolean {
         TODO("not yet needed")
     }
 

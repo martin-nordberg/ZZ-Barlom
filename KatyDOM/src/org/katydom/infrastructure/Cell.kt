@@ -11,6 +11,13 @@ package org.katydom.infrastructure
  * TODO: Make it iterable like a collection of one element?
  */
 interface Cell<T> {
+
+    fun contains(value:T):Boolean
+
     fun get(): T?
+
+    fun ifNotPresent(action: () -> Unit)
+
     fun ifPresent(action: (T) -> Unit)
+
 }

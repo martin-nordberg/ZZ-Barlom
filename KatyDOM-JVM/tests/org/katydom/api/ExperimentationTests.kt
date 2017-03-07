@@ -1,34 +1,16 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.katydom.api
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.abstractnodes.KatyDomNode
-import org.katydom.kdom.KDomDocument
 
 /**
  * Tests for quick trials of KatyDOM DSL.
  */
-class ExperimentationTest {
-
-    private fun check(expectedHtml : String, vdomNode : KatyDomNode) {
-
-        val body = KDomDocument().createElement("body")
-        val div = body.ownerDocument.createElement( "div" )
-
-        body.appendChild( div )
-
-        assertEquals( div, body.firstChild )
-
-        val lifecycle = makeKatyDomLifecycle()
-
-        if ( vdomNode is KatyDomHtmlElement) {
-            lifecycle.build(div, vdomNode)
-        }
-
-        assertEquals( expectedHtml, body.firstChild?.toHtmlString() )
-
-    }
+class ExperimentationTests {
 
     @Test
     fun `Sample 1 of KatyDOM DSL should produce correct HTML`() {
@@ -87,7 +69,7 @@ class ExperimentationTest {
                      |  <hr id="me"></hr>
                      |</div>""".trimMargin()
 
-        check( html, vdomNode )
+        checkBuild( html, vdomNode )
 
     }
 

@@ -14,8 +14,9 @@ import org.katydom.infrastructure.MutableCell
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
  */
 abstract class KatyDomElement(
-    selector: String?
-) : KatyDomNode() {
+    selector: String?,
+    key: String?
+) : KatyDomNode(key) {
 
     val classList: Set<String>
 
@@ -122,12 +123,12 @@ abstract class KatyDomElement(
         }
     }
 
-    override final fun removeScaffolding2() {
+    override final fun removeMoreScaffolding() {
         _scaffolding = null
-        removeScaffolding3()
+        removeStillMoreScaffolding()
     }
 
-    abstract protected fun removeScaffolding3()
+    abstract protected fun removeStillMoreScaffolding()
 
 }
 

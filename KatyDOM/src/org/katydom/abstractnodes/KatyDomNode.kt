@@ -10,19 +10,23 @@ package org.katydom.abstractnodes
 /**
  * Topmost abstract base class for KatyDOM virtual DOM. Corresponds to DOM Node.
  */
-abstract class KatyDomNode {
+abstract class KatyDomNode(val key:String?) {
 
     /** The child nodes within this node. Starts as an empty list. */
-    val childNodes: Iterable<KatyDomNode>
+    val childNodes: List<KatyDomNode>
+
+    /** A map of child nodes by their key. */
+    val childNodesByKey: Map<String, KatyDomNode>
 
     /** The name of this node (usually the HTML tag name, otherwise a pseudo tag name like "#text"). */
     abstract val nodeName: String
 
 ////
 
-    private class Scaffolding(
+    private class Scaffolding {
         val childNodes: MutableList<KatyDomNode> = arrayListOf()
-    )
+        val childNodesByKey: MutableMap<String, KatyDomNode> = hashMapOf()
+    }
 
     private var _scaffolding: Scaffolding?
 
@@ -30,6 +34,7 @@ abstract class KatyDomNode {
         val sc = Scaffolding()
         _scaffolding = sc
         childNodes = sc.childNodes
+        childNodesByKey = sc.childNodesByKey
     }
 
     private val scaffolding: Scaffolding
@@ -39,15 +44,27 @@ abstract class KatyDomNode {
      * Adds a new child node to this node.
      */
     internal fun addChildNode(childNode: KatyDomNode) {
+
         scaffolding.childNodes.add(childNode)
+
+        if ( childNode.key != null) {
+            scaffolding.childNodesByKey.put(childNode.key, childNode)
+        }
+
     }
 
+    /**
+     * Freezes the content of this node. Makes any further attempt to add child nodes fail.
+     */
     internal fun removeScaffolding() {
         _scaffolding = null
-        removeScaffolding2()
+        removeMoreScaffolding()
     }
 
-    abstract protected fun removeScaffolding2()
+    /**
+     * Removes the scaffolding of a derived class.
+     */
+    abstract protected fun removeMoreScaffolding()
 
 }
 

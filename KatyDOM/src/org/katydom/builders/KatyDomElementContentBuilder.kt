@@ -14,7 +14,12 @@ import org.katydom.abstractnodes.KatyDomElement
  * specialized content builders that also add child nodes of the right types for given context.
  */
 @KatyDomContentBuilderDsl
-open class KatyDomElementContentBuilder(private val element: KatyDomElement) {
+open class KatyDomElementContentBuilder(
+
+    /** The element whose attributes are being set. */
+    private val element: KatyDomElement
+
+) {
 
     /**
      * Adds one attribute to the content.

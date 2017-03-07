@@ -28,7 +28,7 @@ fun makeKatyDomLifecycle(/*TODO: options*/): KatyDomLifecycle {
  * @return the root DOM node after it has been built by the provided function.
  */
 fun katyDom(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit): KatyDomNode {
-    val pseudoParentElement = KatyDomDiv(null, null)
+    val pseudoParentElement = KatyDomDiv(null, null, null)
     KatyDomFlowContentBuilder(pseudoParentElement).fillChildNodes()
     return pseudoParentElement.childNodes.first()
 }

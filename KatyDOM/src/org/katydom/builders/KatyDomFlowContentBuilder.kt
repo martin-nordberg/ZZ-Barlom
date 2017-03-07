@@ -13,40 +13,55 @@ import org.katydom.concretenodes.KatyDomUl
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class KatyDomFlowContentBuilder(private val element: KatyDomHtmlElement)
-    : KatyDomElementContentBuilder(element) {
+/**
+ * Virtual DOM builder for the normal case of HTML "flow content".
+ */
+class KatyDomFlowContentBuilder(
+
+    /** The element whose content is being built. */
+    private val element: KatyDomHtmlElement
+
+) : KatyDomElementContentBuilder(element) {
 
     fun div(
         selector: String = "",
+        key: String? = null,
         style: String? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomDiv(selector, style)
+        val childElement = KatyDomDiv(selector, key, style)
         KatyDomFlowContentBuilder(childElement).defineContent()
+        childElement.removeScaffolding()
         element.addChildNode(childElement)
     }
 
     fun hr(
         selector: String = "",
+        key: String? = null,
         style: String? = null,
-        defineContent: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomHr(selector, style)
-        KatyDomFlowContentBuilder(childElement).defineContent()
+        val childElement = KatyDomHr(selector, key, style)
+        KatyDomFlowContentBuilder(childElement).defineAttributes()
+        childElement.removeScaffolding()
         element.addChildNode(childElement)
     }
 
     fun text(textChars: String) {
-        element.addChildNode(KatyDomText(textChars))
+        val textNode = KatyDomText(textChars)
+        textNode.removeScaffolding()
+        element.addChildNode(textNode)
     }
 
     fun ul(
         selector: String = "",
+        key: String? = null,
         style: String? = null,
         defineContent: KatyDomListItemContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomUl(selector, style)
+        val childElement = KatyDomUl(selector, key, style)
         KatyDomListItemContentBuilder(childElement).defineContent()
+        childElement.removeScaffolding()
         element.addChildNode(childElement)
     }
 

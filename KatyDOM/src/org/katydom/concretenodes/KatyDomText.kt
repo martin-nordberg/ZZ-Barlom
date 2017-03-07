@@ -17,11 +17,11 @@ internal class KatyDomText(
     /** The text within the node. */
     val textChars: String
 
-) : KatyDomNode() {
+) : KatyDomNode(null) {
 
     override val nodeName = "#text"
 
-    override fun removeScaffolding2() {
+    override fun removeMoreScaffolding() {
         // no scaffolding needed; nothing to do
     }
 

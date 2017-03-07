@@ -1,7 +1,11 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.katydom.infrastructure
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.katydom.infrastructure.Cell
 import org.katydom.infrastructure.MutableCell
@@ -9,7 +13,7 @@ import org.katydom.infrastructure.MutableCell
 /**
  * Tests for Cell and MutableCell.
  */
-class CellTest {
+class CellTests {
 
     @Test
     fun `Cell should initialize to null by default`() {
@@ -21,6 +25,7 @@ class CellTest {
     fun `Cell should initialize to a given value`() {
         val cell = MutableCell( "hello" )
         assertEquals( "hello", cell.get() )
+        assertTrue( cell.contains("hello"))
     }
 
     @Test

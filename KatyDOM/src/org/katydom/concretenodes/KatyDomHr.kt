@@ -20,11 +20,16 @@ internal class KatyDomHr(
     selector: String?,
 
     /**
+     * A key for this element that is unique among all child nodes of the same parent.
+     */
+    key: String?,
+
+    /**
      * The CSS style attribute for the element.
      */
     style: String?
 
-) : KatyDomHtmlElement(selector, style) {
+) : KatyDomHtmlElement(selector, key, style) {
 
     override val nodeName = "hr"
 

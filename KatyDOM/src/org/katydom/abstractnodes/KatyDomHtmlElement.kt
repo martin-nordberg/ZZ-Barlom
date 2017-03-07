@@ -12,8 +12,9 @@ import org.katydom.infrastructure.MutableCell
 
 abstract class KatyDomHtmlElement(
     selector: String?,
+    key: String?,
     style: String?
-) : KatyDomElement(selector) {
+) : KatyDomElement(selector,key) {
 
     // TODO: Needs to be String/String map of many styles
     val style: Cell<String>
@@ -23,7 +24,7 @@ abstract class KatyDomHtmlElement(
     private class Scaffolding(
         style: String?
     ) {
-        var style = MutableCell<String>( style )
+        var style = MutableCell<String>(style)
     }
 
     private var _scaffolding: Scaffolding?
@@ -39,10 +40,10 @@ abstract class KatyDomHtmlElement(
         get() = _scaffolding ?: throw IllegalStateException("Attempted to modify a fully constructed KatyDomHtmlElement.")
 
     internal fun setStyle(style: String) {
-        scaffolding.style.set( style )
+        scaffolding.style.set(style)
     }
 
-    override fun removeScaffolding3() {
+    override fun removeStillMoreScaffolding() {
         _scaffolding = null
     }
 

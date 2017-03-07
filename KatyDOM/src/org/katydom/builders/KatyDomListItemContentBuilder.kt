@@ -15,11 +15,13 @@ class KatyDomListItemContentBuilder(private val element: KatyDomHtmlElement)
 
     fun li(
         selector: String = "",
+        key: String? = null,
         style: String? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomLi(selector, style)
+        val childElement = KatyDomLi(selector, key, style)
         KatyDomFlowContentBuilder(childElement).defineContent()
+        childElement.removeScaffolding()
         element.addChildNode(childElement)
     }
 

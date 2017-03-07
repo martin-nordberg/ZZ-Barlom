@@ -18,10 +18,10 @@ interface KatyDomLifecycle {
      * Builds the real DOM corresponding to given virtual DOM in the given parent DOM element. Replaces the
      * given real DOM element.
      * @param domElement the DOM element to be the root of the application.
-     * @param firstKatyDomElement the virtual DOM root element to be built into the real DOM. Note that as a side
+     * @param katyDomElement the virtual DOM root element to be built into the real DOM. Note that as a side
      *                            effect each virtual DOM element in this tree is linked to its real DOM counterpart.
      */
-    fun build(domElement: Element, firstKatyDomElement: KatyDomHtmlElement): Unit
+    fun build(domElement: Element, katyDomElement: KatyDomHtmlElement): Element
 
     /**
      * Updates the real DOM, which was last built or patched to mirror oldKatyDomElement, with the operations needed
@@ -31,6 +31,6 @@ interface KatyDomLifecycle {
      *                          side effect each virtual DOM element in this tree is linked to its real DOM counterpart
      *                          where not already so linked.
      */
-    fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement): Unit
+    fun update(domElement: Element, oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement): Unit
 
 }

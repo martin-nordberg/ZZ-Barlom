@@ -10,7 +10,6 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.abstractnodes.KatyDomNode
 import org.katydom.api.KatyDomLifecycle
 import org.katydom.concretenodes.KatyDomText
-import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 /**
@@ -19,67 +18,194 @@ import org.w3c.dom.Element
  */
 internal class KatyDomLifecycleImpl : KatyDomLifecycle {
 
-    override fun build(domElement: Element, firstKatyDomElement: KatyDomHtmlElement) {
+    override fun build(domElement: Element, katyDomElement: KatyDomHtmlElement): Element {
 
         val document = domElement.ownerDocument!!
-        val root: Element = document.createElement(firstKatyDomElement.nodeName)
 
-        establishNewNode(document, root, firstKatyDomElement)
+        // Create the top level element.
+        val root: Element = document.createElement(katyDomElement.nodeName)
 
-        val parent = domElement.parentNode
+        // Fill it in from the virtual DOM.
+        establishNewHtmlElement(root, katyDomElement)
 
-        if (parent != null) {
-            parent.insertBefore(root, domElement)
-            parent.removeChild(domElement)
-        }
+        // Replace the placeholder element.
+        val parent = domElement.parentNode!!
+        parent.insertBefore(root, domElement)
+        parent.removeChild(domElement)
+
+        return root
 
     }
 
-    override fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun update(domElement: Element, oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement) {
+
+        patchHtmlElementAttributes(domElement, oldKatyDomElement, newKatyDomElement)
+
+        patchChildNodes(domElement, oldKatyDomElement, newKatyDomElement)
+
     }
 
-    private fun establishNewNode(document: Document, domElement: Element, katyDomNode: KatyDomNode) {
+    /**
+     * Creates a new DOM node corresponding to the given virtual DOM node.
+     */
+    private fun establishNewNode(domElement: Element, katyDomNode: KatyDomNode) {
 
-        if (katyDomNode is KatyDomElement) {
+        val document = domElement.ownerDocument;
 
-            katyDomNode.id.ifPresent { id ->
-                domElement.setAttribute("id", id)
-            }
+        for (childNode in katyDomNode.childNodes) {
 
-            if (katyDomNode.classList.isNotEmpty()) {
-                domElement.setAttribute("class", katyDomNode.classList.joinToString(" "))
-            }
-
-            for (attr in katyDomNode.otherAttributes) {
-                domElement.setAttribute(attr.key, attr.value)
-            }
-
-            for (attr in katyDomNode.dataset) {
-                domElement.setAttribute("data-" + attr.key, attr.value)
-            }
-
-            if (katyDomNode is KatyDomHtmlElement) {
-                katyDomNode.style.ifPresent { style ->
-                    domElement.setAttribute("style", style)
+            when (childNode) {
+                is KatyDomHtmlElement -> {
+                    val childElement = document.createElement(childNode.nodeName)
+                    establishNewHtmlElement(childElement, childNode)
+                    domElement.appendChild(childElement)
+                }
+                is KatyDomElement     -> {
+                    val childElement = document.createElement(childNode.nodeName)
+                    establishNewElement(childElement, childNode)
+                    domElement.appendChild(childElement)
+                }
+                is KatyDomText        -> {
+                    val childText = document.createTextNode(childNode.textChars)
+                    domElement.appendChild(childText)
                 }
             }
 
         }
 
-        for (childNode in katyDomNode.childNodes) {
+    }
 
-            if (childNode is KatyDomElement) {
-                val childElement = document.createElement(childNode.nodeName)
-                establishNewNode(document, childElement, childNode)
-                domElement.appendChild(childElement)
+    /**
+     * Creates a new DOM node corresponding to the given virtual DOM node.
+     */
+    private fun establishNewElement(domElement: Element, katyDomElement: KatyDomElement) {
+
+        establishNewNode(domElement, katyDomElement)
+
+        katyDomElement.id.ifPresent { id ->
+            domElement.setAttribute("id", id)
+        }
+
+        if (katyDomElement.classList.isNotEmpty()) {
+            domElement.setAttribute("class", katyDomElement.classList.joinToString(" "))
+        }
+
+        for (attr in katyDomElement.otherAttributes) {
+            domElement.setAttribute(attr.key, attr.value)
+        }
+
+        for (attr in katyDomElement.dataset) {
+            domElement.setAttribute("data-" + attr.key, attr.value)
+        }
+
+    }
+
+    /**
+     * Creates a new DOM node corresponding to the given virtual DOM node.
+     */
+    private fun establishNewHtmlElement(domElement: Element, katyDomHtmlElement: KatyDomHtmlElement) {
+
+        establishNewElement(domElement, katyDomHtmlElement)
+
+        katyDomHtmlElement.style.ifPresent { style ->
+            domElement.setAttribute("style", style)
+        }
+
+    }
+
+    private fun patchHtmlElementAttributes(domElement: Element, oldKatyDomNode: KatyDomHtmlElement, newKatyDomNode: KatyDomHtmlElement) {
+
+        patchElementAttributes( domElement, oldKatyDomNode, newKatyDomNode)
+
+        // Patch the style attribute.
+        newKatyDomNode.style.ifPresent { style ->
+            if (!oldKatyDomNode.style.contains(style)) {
+                domElement.setAttribute("style", style)
             }
-            else if (childNode is KatyDomText) {
-                val childText = document.createTextNode(childNode.textChars)
-                domElement.appendChild(childText)
+        }
+        newKatyDomNode.style.ifNotPresent {
+            oldKatyDomNode.style.ifPresent {
+                domElement.removeAttribute("style")
             }
+        }
+
+    }
+
+    private fun patchElementAttributes(domElement: Element, oldKatyDomNode: KatyDomHtmlElement, newKatyDomNode: KatyDomHtmlElement) {
+
+        // Patch the id attribute as needed.
+        newKatyDomNode.id.ifPresent { id ->
+            if (!oldKatyDomNode.id.contains(id)) {
+                domElement.setAttribute("id", id)
+            }
+        }
+        newKatyDomNode.id.ifNotPresent {
+            oldKatyDomNode.id.ifPresent {
+                domElement.removeAttribute("id")
+            }
+        }
+
+        // Patch the class attribute as needed.
+        if (newKatyDomNode.classList.isEmpty() && oldKatyDomNode.classList.isNotEmpty()) {
+            domElement.removeAttribute("class")
+        }
+        else if (newKatyDomNode.classList.isNotEmpty() &&
+            newKatyDomNode.classList != oldKatyDomNode.classList) {
+            domElement.setAttribute("class", newKatyDomNode.classList.joinToString(" "))
+        }
+
+        // Patch other attributes.
+        for ((key, newValue) in newKatyDomNode.otherAttributes) {
+            if (newValue != oldKatyDomNode.otherAttributes.get(key)) {
+                domElement.setAttribute(key, newValue)
+            }
+        }
+        for ((key, _) in oldKatyDomNode.otherAttributes) {
+            if (!newKatyDomNode.otherAttributes.contains(key)) {
+                domElement.removeAttribute(key)
+            }
+        }
+
+        // Patch data attributes.
+        for ((key, newValue) in newKatyDomNode.dataset) {
+            if (newValue != oldKatyDomNode.dataset.get(key)) {
+                domElement.setAttribute("data-" + key, newValue)
+            }
+        }
+        for ((key, _) in oldKatyDomNode.dataset) {
+            if (!newKatyDomNode.dataset.contains(key)) {
+                domElement.removeAttribute("data-" + key)
+            }
+        }
+
+    }
+
+    private fun patchChildNodes(domElement: Element, oldKatyDomNode: KatyDomNode, newKatyDomNode: KatyDomNode) {
+
+        if ( oldKatyDomNode.childNodes.isEmpty() ) {
+
+            establishNewNode( domElement, newKatyDomNode )
+
+        }
+        else if ( newKatyDomNode.childNodes.isEmpty() ) {
+
+            while( domElement.hasChildNodes() ) {
+                domElement.removeChild( domElement.firstChild )
+            }
+
+        }
+        else {
+
+            // TODO: The main point of virtual DOM is still TBD here: just patch the differences.
+
+            while( domElement.hasChildNodes() ) {
+                domElement.removeChild( domElement.firstChild )
+            }
+
+            establishNewNode( domElement, newKatyDomNode )
 
         }
 
     }
+
 }
