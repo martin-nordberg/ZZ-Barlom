@@ -17,7 +17,7 @@ import org.w3c.dom.Text
 internal class KatyDomText(
 
     /** The text within the node. */
-    val textChars: String
+    val nodeValue: String
 
 ) : KatyDomNode(null) {
 
@@ -27,11 +27,11 @@ internal class KatyDomText(
 
     override fun patch2(domElement: Node, priorElement: KatyDomNode) {
 
-        if ( !(domElement is Text) ) throw IllegalArgumentException( "DOM node expected to be text." )
-        if ( !(priorElement is KatyDomText) ) throw IllegalArgumentException( "KatyDOM node expected to be KatyDOM text.")
+        if (domElement !is Text) throw IllegalArgumentException( "DOM node expected to be text." )
+        if (priorElement !is KatyDomText) throw IllegalArgumentException( "KatyDOM node expected to be KatyDOM text.")
 
-        if ( domElement.wholeText != priorElement.textChars ) {
-            domElement.replaceWholeText( priorElement.textChars )
+        if ( domElement.nodeValue != priorElement.nodeValue) {
+            domElement.nodeValue = priorElement.nodeValue
         }
 
     }

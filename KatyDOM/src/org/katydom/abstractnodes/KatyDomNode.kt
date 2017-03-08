@@ -13,6 +13,7 @@ import org.w3c.dom.Node
 
 /**
  * Topmost abstract base class for KatyDOM virtual DOM. Corresponds to DOM Node.
+ * @param key a key for this KatyDOM node that is unique among all the siblings of this node.
  */
 abstract class KatyDomNode(val key: String?) {
 
@@ -29,6 +30,7 @@ abstract class KatyDomNode(val key: String?) {
 
     /**
      * Adds a new child node to this node.
+     * @param childNode the child node to add.
      */
     internal fun addChildNode(childNode: KatyDomNode) {
 
@@ -40,22 +42,33 @@ abstract class KatyDomNode(val key: String?) {
 
     }
 
+    /**
+     * Sets the attributes and child nodes of a newly created real DOM node to match this virtual DOM node.
+     * @param domNode the real DOM node to be configured to mirror this virtual DOM node.
+     */
     internal fun establish(domNode: Node) {
+
+        if (domNode.nodeName != nodeName) { throw IllegalArgumentException("Cannot establish a real DOM node differing in type from the KatyDOM node.") }
+
+        if (_scaffolding != null) throw IllegalStateException("Virtual DOM node should be fully constructed before patching real DOM.")
 
         val document: Document = domNode.ownerDocument ?: throw IllegalArgumentException("DOM element must have an owner document.")
 
         for (childNode in childNodes) {
 
             when (childNode) {
+
                 is KatyDomElement -> {
                     val childElement = document.createElement(childNode.nodeName)
                     childNode.establish(childElement)
                     domNode.appendChild(childElement)
                 }
+
                 is KatyDomText    -> {
-                    val childText = document.createTextNode(childNode.textChars)
+                    val childText = document.createTextNode(childNode.nodeValue)
                     domNode.appendChild(childText)
                 }
+
             }
 
         }
@@ -64,19 +77,36 @@ abstract class KatyDomNode(val key: String?) {
 
     }
 
+    /**
+     * Patches a real DOM node by determining the difference between this KatyDOM node and its prior edition.
+     * @param domNode the real DOM node corresponding to priorNode.
+     * @param priorNode the prior edition of this KatyDOM node.
+     */
     internal fun patch(domNode: Node, priorNode: KatyDomNode) {
 
+        if (domNode.nodeName != nodeName) throw IllegalArgumentException("Cannot patch a real DOM node differing in type from the KatyDOM node.")
+        if (priorNode.nodeName != nodeName) throw IllegalArgumentException("Cannot patch a difference between two KatyDOM nodes of different types.")
+
+        if (_scaffolding != null) throw IllegalStateException("KatyDOM node should be fully constructed before patching real DOM.")
+
+        // Quit early if the node is the same (e.g. memoized).
+        if (this == priorNode) {
+            return
+        }
+
+        // Patch the attributes.
         patch2(domNode, priorNode)
 
-        if ( priorNode.childNodes.isEmpty() ) {
+        // Patch the child nodes.
+        if (priorNode.childNodes.isEmpty()) {
 
-            establish( domNode )
+            establish(domNode)
 
         }
-        else if ( childNodes.isEmpty() ) {
+        else if (childNodes.isEmpty()) {
 
-            while( domNode.hasChildNodes() ) {
-                domNode.removeChild( domNode.firstChild )
+            while (domNode.hasChildNodes()) {
+                domNode.removeChild(domNode.firstChild!!)
             }
 
         }
@@ -84,11 +114,11 @@ abstract class KatyDomNode(val key: String?) {
 
             // TODO: The main point of virtual DOM is still TBD here: just patch the differences.
 
-            while( domNode.hasChildNodes() ) {
-                domNode.removeChild( domNode.firstChild )
+            while (domNode.hasChildNodes()) {
+                domNode.removeChild(domNode.firstChild!!)
             }
 
-            establish( domNode )
+            establish(domNode)
 
         }
 
@@ -105,22 +135,32 @@ abstract class KatyDomNode(val key: String?) {
 ////
 
     /**
-     * Performs the patch needed by a derived class. Override as needed. Base class method does nothing.
+     * Performs the DOM element configuration needed by a derived class. Override as needed. Base class method does nothing.
+     * @param domElement the real DOM element being built.
      */
-    open protected fun establish2(domElement: Node) {}
+    open protected fun establish2(domElement: Node) {
+    }
 
     /**
      * Performs the patch needed by a derived class. Override as needed. Base class method does nothing.
+     * @param domElement the real DOM node being patched.
+     * @param priorElement the prior edition of this KatyDOM node from which to compute the patch.
      */
-    open protected fun patch2(domElement: Node, priorElement: KatyDomNode) {}
+    open protected fun patch2(domElement: Node, priorElement: KatyDomNode) {
+    }
 
     /**
      * Removes the scaffolding of a derived class. Override as needed. Base class method does nothing.
      */
-    open protected fun removeScaffolding2() {}
+    open protected fun removeScaffolding2() {
+    }
 
 ////
 
+    /**
+     * Wrapper for the mutable state of this node while it is under construction. Removed when the node has been fully
+     * built.
+     */
     private class Scaffolding {
         val childNodes: MutableList<KatyDomNode> = arrayListOf()
         val childNodesByKey: MutableMap<String, KatyDomNode> = hashMapOf()

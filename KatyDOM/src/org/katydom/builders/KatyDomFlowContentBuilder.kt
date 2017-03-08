@@ -23,6 +23,9 @@ class KatyDomFlowContentBuilder(
 
 ) : KatyDomElementContentBuilder(element) {
 
+    /**
+     * Adds a div element as the next child of the element under construction.
+     */
     fun div(
         selector: String = "",
         key: String? = null,
@@ -35,6 +38,9 @@ class KatyDomFlowContentBuilder(
         element.addChildNode(childElement)
     }
 
+    /**
+     * Adds an hr element as the next child of the element under construction.
+     */
     fun hr(
         selector: String = "",
         key: String? = null,
@@ -47,12 +53,18 @@ class KatyDomFlowContentBuilder(
         element.addChildNode(childElement)
     }
 
-    fun text(textChars: String) {
-        val textNode = KatyDomText(textChars)
+    /**
+     * Adds a text node as the next child of the element under construction.
+     */
+    fun text(nodeValue: String) {
+        val textNode = KatyDomText(nodeValue)
         textNode.removeScaffolding()
         element.addChildNode(textNode)
     }
 
+    /**
+     * Adds a ul element as the next child of the element under construction.
+     */
     fun ul(
         selector: String = "",
         key: String? = null,

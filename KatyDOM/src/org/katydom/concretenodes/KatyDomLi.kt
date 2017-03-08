@@ -11,28 +11,14 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 
 /**
  * Virtual node for an <li> element.
+ * @param selector The "selector" for the element: "#" followed by the id plus a repetition of "." followed by a class
+ *                 name. E.g. "#mybutton.big-button.warning".
+ * @param key A key for this element that is unique among all child nodes of the same parent.
+ * @param style The CSS style attribute for the element.
  */
-internal class KatyDomLi(
+internal class KatyDomLi(selector: String?, key: String?, style: String?) : KatyDomHtmlElement(selector, key, style) {
 
-    /**
-     * The "selector" for the element: "#" followed by the id plus a repetition of "." followed by a class name.
-     * E.g. "#mybutton.big-button.warning".
-     */
-    selector: String?,
-
-    /**
-     * A key for this element that is unique among all child nodes of the same parent.
-     */
-    key: String?,
-
-    /**
-     * The CSS style attribute for the element.
-     */
-    style: String?
-
-) : KatyDomHtmlElement(selector, key, style) {
-
-    override val nodeName = "li"
+    override val nodeName = "LI"
 
 }
 

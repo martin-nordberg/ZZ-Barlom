@@ -123,10 +123,6 @@ abstract class KDomNode : Node {
         TODO("not yet needed")
     }
 
-    override fun getNodeName(): String {
-        TODO("not yet needed")
-    }
-
     override fun getBaseURI(): String {
         TODO("not yet needed")
     }

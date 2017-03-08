@@ -12,16 +12,21 @@ import org.w3c.dom.*
  */
 open class KDomElement(
     private val _ownerDocument: KDomDocument,
-    private val _tagName: String
+    private val _nodeName: String
 ) : KDomNode(), Element {
+
     private val _attributes : MutableMap<String,String> = mutableMapOf()
+
+    override fun getNodeName(): String {
+        return _nodeName
+    }
 
     override fun getOwnerDocument(): KDomDocument {
         return _ownerDocument
     }
 
     override fun getTagName(): String {
-        return _tagName
+        return _nodeName.toLowerCase()
     }
 
     override fun setAttribute(name: String, value: String) {
@@ -33,7 +38,7 @@ open class KDomElement(
         val result = StringBuilder()
 
         result.indent(indent)
-        result.append("<",_tagName)
+        result.append("<", tagName)
 
         for ( attr in _attributes ) {
             result.append(" ",attr.key,"=\"",attr.value,"\"" )
@@ -42,7 +47,7 @@ open class KDomElement(
         var child = this.firstChild
 
         if ( child == null ) {
-            result.append("></",_tagName,">")
+            result.append("></", tagName,">")
         }
         else {
             result.appendln(">")
@@ -53,7 +58,7 @@ open class KDomElement(
             }
 
             result.indent(indent)
-            result.append("</",_tagName,">")
+            result.append("</", tagName,">")
         }
 
         return result.toString()

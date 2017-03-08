@@ -12,11 +12,15 @@ import org.w3c.dom.*
  */
 class KDomDocument : KDomNode(), Document {
     override fun createElement(tagName: String): KDomElement {
-        return KDomHtmlElement(this,tagName)
+        return KDomElement(this,tagName)
     }
 
     override fun createTextNode(data: String): Text {
         return KDomText(this,data)
+    }
+
+    override fun getNodeName(): String {
+        return "#document"
     }
 
     override fun getOwnerDocument(): Document {

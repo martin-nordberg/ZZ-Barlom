@@ -20,6 +20,10 @@ open class KDomText(
         return _data
     }
 
+    override fun getNodeName(): String {
+        return "#text"
+    }
+
     override fun getOwnerDocument(): KDomDocument {
         return _ownerDocument
     }

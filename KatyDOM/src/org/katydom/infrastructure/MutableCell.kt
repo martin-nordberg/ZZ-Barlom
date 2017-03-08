@@ -6,7 +6,7 @@
 package org.katydom.infrastructure
 
 /**
- * Read-only interface to a mutable cell.
+ * Implementation of a cell with provision for changing its contents.
  */
 class MutableCell<T>(
     private var _value: T? = null
@@ -40,6 +40,10 @@ class MutableCell<T>(
 
     }
 
+    /**
+     * Changes the value held in this cell.
+     * @param value the new value.
+     */
     fun set(value: T?) {
         this._value = value;
     }
