@@ -19,11 +19,21 @@ import org.w3c.dom.Element
  * @param key a key for this KatyDOM element that is unique among all the siblings of this element.
  * @param style a string containing CSS for this element.
  */
+@Suppress("unused")
 abstract class KatyDomHtmlElement(
     selector: String?,
     key: String?,
     style: String?
-) : KatyDomElement(selector,key) {
+) : KatyDomElement(key) {
+
+    /** The classes of this element. */
+    val classList: Set<String>
+
+    /** The data- attributes of this element mapped by name without the "data-" prefix. */
+    val dataset: Map<String, String>
+
+    /** The ID of this element. */
+    val id: Cell<String>
 
     // TODO: Needs to be String/String map of many styles
     val style: Cell<String>
@@ -31,9 +41,79 @@ abstract class KatyDomHtmlElement(
 ////
 
     /**
+     * Adds a given class to this element.
+     * @param className the name of the class to add.
+     */
+    internal fun addClass(className: String) {
+        scaffolding.classList.add(className)
+    }
+
+    /**
+     * Adds multiple classes to this element.
+     * @param classes a sequence of class names to add.
+     */
+    internal fun addClasses(classes: Iterable<String>) {
+        scaffolding.classList.addAll(classes)
+    }
+
+    /**
+     * Sets one attribute by name and value. Splits out specific attributes like class and id to their specific
+     * handlers (with warnings).
+     * @param name the name of the attribute to set.
+     * @param value the value of the attribute.
+     */
+    override fun setAttribute(name: String, value: String) {
+
+        if (name == "class") {
+            // TODO: Warning: use addClass instead of setAttribute("class").
+            addClass(value)
+        }
+        else if (name == "id") {
+            // TODO: Warning: use selector instead of setAttribute("id",...).
+            scaffolding.id.set(value)
+        }
+        else if (name.startsWith("data-")) {
+            // TODO: Warning: use setData instead.
+            setData(name.substring(5), value)
+        }
+        else {
+            super.setAttribute(name, value)
+        }
+
+    }
+
+    /**
+     * Sets one data- attribute.
+     * @param name the name of the attribute without its "data-" prefix.
+     * @param value the value of the attribute.
+     */
+    internal fun setData(name: String, value: String) {
+
+        if (name.startsWith("data-")) {
+            // TODO: Warning: "data-" prefix not required for dataset additions.
+            scaffolding.dataset.put(name.substring(5), value)
+        }
+        else {
+            scaffolding.dataset.put(name, value)
+        }
+
+    }
+
+    /**
+     * Sets multiple data attributes at once.
+     * @param dataset a collection of name/value pairs of "data-" attributes.
+     */
+    internal fun setData(dataset: Map<String, String>) {
+
+        for ((name, value) in dataset) {
+            setData(name, value)
+        }
+
+    }
+
+    /**
      * Sets the style attribute for this element. TODO: addStyle( cssKey, cssValue )
      */
-    @Suppress("unused")
     internal fun setStyle(style: String) {
         scaffolding.style.set(style)
     }
@@ -41,6 +121,18 @@ abstract class KatyDomHtmlElement(
 ////
 
     override fun establish3(domElement: Element) {
+
+        id.ifPresent { id ->
+            domElement.setAttribute("id", id)
+        }
+
+        if (classList.isNotEmpty()) {
+            domElement.setAttribute("class", classList.joinToString(" "))
+        }
+
+        for ((key, value) in dataset) {
+            domElement.setAttribute("data-" + key, value)
+        }
 
         style.ifPresent { style ->
             domElement.setAttribute("style", style)
@@ -60,6 +152,39 @@ abstract class KatyDomHtmlElement(
     override fun patch3(domElement: Element, priorElement: KatyDomElement?) {
 
         if (priorElement !is KatyDomHtmlElement) throw IllegalArgumentException( "KatyDOM element expected to be KatyDOM HTML element." )
+
+        // Patch the id attribute as needed.
+        id.ifPresent { id ->
+            if (!priorElement.id.contains(id)) {
+                domElement.setAttribute("id", id)
+            }
+        }
+        id.ifNotPresent {
+            priorElement.id.ifPresent {
+                domElement.removeAttribute("id")
+            }
+        }
+
+        // Patch the class attribute as needed.
+        if (classList.isEmpty() && priorElement.classList.isNotEmpty()) {
+            domElement.removeAttribute("class")
+        }
+        else if (classList.isNotEmpty() &&
+            classList != priorElement.classList) {
+            domElement.setAttribute("class", classList.joinToString(" "))
+        }
+
+        // Patch data attributes.
+        for ((key, newValue) in dataset) {
+            if (newValue != priorElement.dataset[key]) {
+                domElement.setAttribute("data-" + key, newValue)
+            }
+        }
+        for ((key, _) in priorElement.dataset) {
+            if (!dataset.contains(key)) {
+                domElement.removeAttribute("data-" + key)
+            }
+        }
 
         // Patch the style attribute.
         style.ifPresent { style ->
@@ -102,18 +227,48 @@ abstract class KatyDomHtmlElement(
      * fully built.
      */
     private class Scaffolding(
+        selector: String?,
         style: String?
     ) {
+        val classList: MutableSet<String> = hashSetOf()
+        val dataset: MutableMap<String, String> = hashMapOf()
+        var id = MutableCell<String>(null)
         var style = MutableCell(style)
+
+        init {
+
+            // Parse the id and classes out of the selector as relevant.
+            val selectorPieces = selector?.split(".")
+
+            if (selectorPieces != null) {
+
+                var firstClassIdx = 0
+                if (selectorPieces[0].startsWith("#")) {
+                    id.set(selectorPieces[0].substring(1))
+                    firstClassIdx = 1
+                }
+                else if (selectorPieces[0].isEmpty()) {
+                    // TODO: Warning: selector should start with "." or "#"; "." assumed.
+                    firstClassIdx = 1
+                }
+
+                classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
+
+            }
+
+        }
+
     }
 
     private var _scaffolding: Scaffolding?
 
     init {
-        val sc = Scaffolding(style)
+        val sc = Scaffolding(selector,style)
         _scaffolding = sc
+        classList = sc.classList
+        dataset = sc.dataset
+        id = sc.id
         this.style = sc.style
-
     }
 
     private val scaffolding: Scaffolding

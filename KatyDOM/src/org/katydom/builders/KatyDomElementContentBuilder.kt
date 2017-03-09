@@ -5,7 +5,7 @@
 
 package org.katydom.builders
 
-import org.katydom.abstractnodes.KatyDomElement
+import org.katydom.abstractnodes.KatyDomHtmlElement
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ import org.katydom.abstractnodes.KatyDomElement
 open class KatyDomElementContentBuilder(
 
     /** The element whose attributes are being set. */
-    private val element: KatyDomElement
+    private val element: KatyDomHtmlElement
 
 ) {
 
