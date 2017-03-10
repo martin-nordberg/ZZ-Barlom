@@ -12,6 +12,7 @@ import org.w3c.dom.Node
 
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
+ * TODO: Probably should just move all this into KatyDomHtmlElement.
  * @param key a key for this KatyDOM element that is unique among all the siblings of this element.
  */
 abstract class KatyDomElement(key: String?) : KatyDomNode(key) {
@@ -41,6 +42,20 @@ abstract class KatyDomElement(key: String?) : KatyDomNode(key) {
             setAttribute(name, value)
         }
 
+    }
+
+    /**
+     * Sets one boolean attribute by name and value.
+     * @param name the name of the attribute to set.
+     * @param value the value of the attribute.
+     */
+    internal open fun setBooleanAttribute(name: String, value: Boolean) {
+        if (value) {
+            scaffolding.otherAttributes.put(name, "")
+        }
+        else {
+            scaffolding.otherAttributes.remove(name)
+        }
     }
 
 ////

@@ -6,16 +6,15 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.concretenodes.KatyDomDiv
-import org.katydom.concretenodes.KatyDomHr
-import org.katydom.concretenodes.KatyDomText
-import org.katydom.concretenodes.KatyDomUl
+import org.katydom.concretenodes.*
+import org.katydom.types.OrderedListType
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Virtual DOM builder for the normal case of HTML "flow content".
  */
+@Suppress("unused")
 class KatyDomFlowContentBuilder(
 
     /** The element whose content is being built. */
@@ -49,6 +48,24 @@ class KatyDomFlowContentBuilder(
     ) {
         val childElement = KatyDomHr(selector, key, style)
         KatyDomFlowContentBuilder(childElement).defineAttributes()
+        childElement.removeScaffolding()
+        element.addChildNode(childElement)
+    }
+
+    /**
+     * Adds an ol element as the next child of the element under construction.
+     */
+    fun ol(
+        selector: String = "",
+        key: String? = null,
+        reversed: Boolean? = null,
+        start: Int? = null,
+        type: OrderedListType? = null,
+        style: String? = null,
+        defineContent: KatyDomListItemContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomOl(selector, key, reversed, start, type, style)
+        KatyDomListItemContentBuilder(childElement).defineContent()
         childElement.removeScaffolding()
         element.addChildNode(childElement)
     }

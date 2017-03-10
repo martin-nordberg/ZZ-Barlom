@@ -10,7 +10,7 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for a <div> element.
+ * Virtual node for an unordered list <ul> element.
  * @param selector The "selector" for the element: "#" followed by the id plus a repetition of "." followed by a class
  *                 name. E.g. "#mybutton.big-button.warning".
  * @param key A key for this element that is unique among all child nodes of the same parent.
