@@ -25,7 +25,7 @@ internal class KatyDomText(
 
 ////
 
-    override fun patch2(domElement: Node, priorElement: KatyDomNode) {
+    override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
 
         if (domElement !is Text) throw IllegalArgumentException( "DOM node expected to be text." )
         if (priorElement !is KatyDomText) throw IllegalArgumentException( "KatyDOM node expected to be KatyDOM text.")

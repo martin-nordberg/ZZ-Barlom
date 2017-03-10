@@ -12,15 +12,34 @@ import org.w3c.dom.Node
 
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
- * TODO: Probably should just move all this into KatyDomHtmlElement.
  * @param key a key for this KatyDOM element that is unique among all the siblings of this element.
  */
-abstract class KatyDomElement(key: String?) : KatyDomNode(key) {
+abstract class KatyDomElement(
+    selector: String?,
+    key: String?,
+    style: String?
+) : KatyDomNode(key) {
 
     /** Miscellaneous other attributes of this element, mapped from name to value. */
-    val otherAttributes: Map<String, String>
+    val attributes: Map<String, String>
 
 ////
+
+    /**
+     * Adds a given class to this element.
+     * @param className the name of the class to add.
+     */
+    internal fun addClass(className: String) {
+        scaffolding.classList.add(className)
+    }
+
+    /**
+     * Adds multiple classes to this element.
+     * @param classes a sequence of class names to add.
+     */
+    internal fun addClasses(classes: Iterable<String>) {
+        scaffolding.classList.addAll(classes)
+    }
 
     /**
      * Sets one attribute by name and value. Splits out specific attributes like class and id to their specific
@@ -28,8 +47,13 @@ abstract class KatyDomElement(key: String?) : KatyDomNode(key) {
      * @param name the name of the attribute to set.
      * @param value the value of the attribute.
      */
-    internal open fun setAttribute(name: String, value: String) {
-        scaffolding.otherAttributes.put(name, value)
+    internal fun setAttribute(name: String, value: String?) {
+        if ( value == null ) {
+            scaffolding.otherAttributes.remove(key)
+        }
+        else {
+            scaffolding.otherAttributes.put(name, value)
+        }
     }
 
     /**
@@ -49,79 +73,102 @@ abstract class KatyDomElement(key: String?) : KatyDomNode(key) {
      * @param name the name of the attribute to set.
      * @param value the value of the attribute.
      */
-    internal open fun setBooleanAttribute(name: String, value: Boolean) {
-        if (value) {
+    internal open fun setBooleanAttribute(name: String, value: Boolean?) {
+
+        if (value != null && value) {
             scaffolding.otherAttributes.put(name, "")
         }
         else {
             scaffolding.otherAttributes.remove(name)
         }
+
     }
 
-////
+    /**
+     * Sets one data- attribute.
+     * @param name the name of the attribute without its "data-" prefix.
+     * @param value the value of the attribute.
+     */
+    internal fun setData(name: String, value: String) {
 
-    override final fun establish2(domElement: Node) {
-
-        if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
-
-        // Establish predefined attributes.
-        establish3(domElement)
-
-        // Establish other attributes.
-        for ((key, value) in otherAttributes) {
-            domElement.setAttribute(key, value)
+        if (name.startsWith("data-")) {
+            // TODO: Warning: "data-" prefix not required for dataset additions.
+            scaffolding.dataset.put(name.substring(5), value)
+        }
+        else {
+            scaffolding.dataset.put(name, value)
         }
 
     }
 
     /**
-     * Further establishes DOM attributes in a class derived from this one. Override as needed. The base class method
-     * does nothing.
-     * @param domElement the newly created element to have its attributes set.
+     * Sets multiple data attributes at once.
+     * @param dataset a collection of name/value pairs of "data-" attributes.
      */
-    open protected fun establish3(domElement: Element) {
+    internal fun setData(dataset: Map<String, String>) {
+
+        for ((name, value) in dataset) {
+            setData(name, value)
+        }
+
     }
 
-    override final fun patch2(domElement: Node, priorElement: KatyDomNode) {
+    /**
+     * Sets the style attribute for this element. TODO: addStyle( cssKey, cssValue )
+     */
+    internal fun setStyle(style: String?) {
+        setAttribute("style",style)
+    }
+
+////
+
+    override final fun establishAttributes(domElement: Node) {
+
+        if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
+
+        // Establish other attributes.
+        for ((key, value) in attributes) {
+            domElement.setAttribute(key, value)
+        }
+
+    }
+
+    override final fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
 
         if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
         if (priorElement !is KatyDomElement) throw IllegalArgumentException("KatyDOM node expected to be element.")
 
-        // Patch predefined attributes.
-        patch3(domElement, priorElement)
-
         // Patch other attributes.
-        for ((key, newValue) in otherAttributes) {
-            if (newValue != priorElement.otherAttributes[key]) {
+        for ((key, newValue) in attributes) {
+            if (newValue != priorElement.attributes[key]) {
                 domElement.setAttribute(key, newValue)
             }
         }
-        for ((key, _) in priorElement.otherAttributes) {
-            if (!otherAttributes.contains(key)) {
+        for ((key, _) in priorElement.attributes) {
+            if (!attributes.contains(key)) {
                 domElement.removeAttribute(key)
             }
         }
 
     }
 
-    /**
-     * Completes even more patching of the DOM element corresponding to this element. Override in a derived class
-     * as needed. The base class method does nothing.
-     * @param domElement the real DOM element being patched
-     * @param priorElement the prior edition of this KatyDOM element from which to compute the patch.
-     */
-    open protected fun patch3(domElement: Element, priorElement: KatyDomElement?) {
-    }
+    override final fun removeAttributesScaffolding() {
 
-    override final fun removeScaffolding2() {
+        val sc = scaffolding
+
+        if ( sc.classList.isNotEmpty() ) {
+            val attrClasses = sc.otherAttributes.get("class")
+            if ( attrClasses != null ) {
+                sc.classList.addAll(attrClasses.split(" "))
+            }
+            sc.otherAttributes.put("class",sc.classList.joinToString(" "))
+        }
+
+        for ( (name,value) in sc.dataset ) {
+            setAttribute("data-"+name,value)
+        }
+
         _scaffolding = null
-        removeScaffolding3()
-    }
-
-    /**
-     * Removes any further scaffolding in a derived class. Override as needed. The base class method does nothing.
-     */
-    open protected fun removeScaffolding3() {
     }
 
 ////
@@ -130,16 +177,46 @@ abstract class KatyDomElement(key: String?) : KatyDomNode(key) {
      * Wrapper for the mutable state of this element while it is under construction. Removed when the element has been
      * fully built.
      */
-    private class Scaffolding {
+    private class Scaffolding(
+        selectorPieces: List<String>,
+        firstClassIdx: Int
+    ) {
+        val classList: MutableSet<String> = hashSetOf()
+        val dataset: MutableMap<String, String> = hashMapOf()
         val otherAttributes: MutableMap<String, String> = hashMapOf()
+
+        init {
+            classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
+        }
+
     }
 
     private var _scaffolding: Scaffolding?
 
     init {
-        val sc = Scaffolding()
+        // Parse the id and classes out of the selector as relevant.
+        val selectorPieces = selector?.split(".") ?: listOf()
+
+        var firstClassIdx = 0
+        var id: String? = null
+
+        if ( selectorPieces.isNotEmpty() ) {
+            if (selectorPieces[0].startsWith("#")) {
+                id = selectorPieces[0].substring(1)
+                firstClassIdx = 1
+            }
+            else if (selectorPieces[0].isEmpty()) {
+                // TODO: Warning: selector should start with "." or "#"; "." assumed.
+                firstClassIdx = 1
+            }
+        }
+
+        val sc = Scaffolding(selectorPieces,firstClassIdx)
         _scaffolding = sc
-        otherAttributes = sc.otherAttributes
+        attributes = sc.otherAttributes
+
+        setAttribute("id", id)
+        setAttribute("style",style)
 
     }
 

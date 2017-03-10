@@ -73,7 +73,7 @@ abstract class KatyDomNode(val key: String?) {
 
         }
 
-        establish2(domNode)
+        establishAttributes(domNode)
 
     }
 
@@ -95,7 +95,7 @@ abstract class KatyDomNode(val key: String?) {
         }
 
         // Patch the attributes.
-        patch2(domNode, priorNode)
+        patchAttributes(domNode, priorNode)
 
         // Patch the child nodes.
         if (priorNode.childNodes.isEmpty()) {
@@ -129,7 +129,7 @@ abstract class KatyDomNode(val key: String?) {
      */
     internal fun removeScaffolding() {
         _scaffolding = null
-        removeScaffolding2()
+        removeAttributesScaffolding()
     }
 
 ////
@@ -138,7 +138,7 @@ abstract class KatyDomNode(val key: String?) {
      * Performs the DOM element configuration needed by a derived class. Override as needed. Base class method does nothing.
      * @param domElement the real DOM element being built.
      */
-    open protected fun establish2(domElement: Node) {
+    open protected fun establishAttributes(domElement: Node) {
     }
 
     /**
@@ -146,16 +146,18 @@ abstract class KatyDomNode(val key: String?) {
      * @param domElement the real DOM node being patched.
      * @param priorElement the prior edition of this KatyDOM node from which to compute the patch.
      */
-    open protected fun patch2(domElement: Node, priorElement: KatyDomNode) {
+    open protected fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
     }
 
     /**
      * Removes the scaffolding of a derived class. Override as needed. Base class method does nothing.
      */
-    open protected fun removeScaffolding2() {
+    open protected fun removeAttributesScaffolding() {
     }
 
 ////
+
+    // TODO: Funky idea of scaffolding is over complicated - just use a boolean frozen flag.
 
     /**
      * Wrapper for the mutable state of this node while it is under construction. Removed when the node has been fully

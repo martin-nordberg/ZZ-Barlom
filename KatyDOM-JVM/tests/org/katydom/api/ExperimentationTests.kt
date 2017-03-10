@@ -48,7 +48,7 @@ class ExperimentationTests {
 
         }
 
-        val html = """<div id="myDiv" class="my-class" style="color:red">
+        val html = """<div style="color:red" id="myDiv" class="my-class">
                      |  <div>
                      |    a sample
                      |    <ul id="a-list">
@@ -64,7 +64,7 @@ class ExperimentationTests {
                      |      </li>
                      |    </ul>
                      |  </div>
-                     |  <div class="some-class big smelly very-classy" a1="v1" a2="v2"></div>
+                     |  <div a1="v1" a2="v2" class="some-class big smelly very-classy"></div>
                      |  example
                      |  <hr id="me"></hr>
                      |</div>""".trimMargin()

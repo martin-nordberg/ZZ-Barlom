@@ -33,17 +33,9 @@ internal class KatyDomOl(
 
     init {
 
-        if (reversed != null) {
-            setBooleanAttribute("reversed", reversed)
-        }
-
-        if ( start != null) {
-            setAttribute("start",start.toString())
-        }
-
-        if ( type!=null) {
-            setAttribute("type",type.toHtmlString())
-        }
+        setBooleanAttribute("reversed", reversed)
+        setAttribute("start",start?.toString())
+        setAttribute("type",type?.toHtmlString())
 
     }
 
