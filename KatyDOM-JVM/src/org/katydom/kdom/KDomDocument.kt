@@ -12,11 +12,11 @@ import org.w3c.dom.*
  */
 class KDomDocument : KDomNode(), Document {
     override fun createElement(tagName: String): KDomElement {
-        return KDomElement(this,tagName)
+        return KDomElement(this, tagName)
     }
 
     override fun createTextNode(data: String): Text {
-        return KDomText(this,data)
+        return KDomText(this, data)
     }
 
     override fun getNodeName(): String {
@@ -28,7 +28,7 @@ class KDomDocument : KDomNode(), Document {
     }
 
     override fun toHtmlString(indent: Int): String {
-        throw UnsupportedOperationException( "Whole document is not meant to be converted to HTML" )
+        throw UnsupportedOperationException("Whole document is not meant to be converted to HTML")
     }
 
 ////

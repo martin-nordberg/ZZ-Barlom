@@ -32,8 +32,8 @@ class ExperimentationTests {
                     }
                 }
 
-                div( ".some-class" ) {
-                    classes( "big" to true, "small" to false, "smelly" to true)
+                div(".some-class") {
+                    classes("big" to true, "small" to false, "smelly" to true)
                     attribute("class", "very-classy")
                     attributes("a1" to "v1", "a2" to "v2")
                 }
@@ -69,7 +69,7 @@ class ExperimentationTests {
                      |  <hr id="me"></hr>
                      |</div>""".trimMargin()
 
-        checkBuild( html, vdomNode )
+        checkBuild(html, vdomNode)
 
     }
 

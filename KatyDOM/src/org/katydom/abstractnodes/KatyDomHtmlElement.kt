@@ -5,10 +5,6 @@
 
 package org.katydom.abstractnodes
 
-import org.katydom.infrastructure.Cell
-import org.katydom.infrastructure.MutableCell
-import org.w3c.dom.Element
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -24,7 +20,7 @@ abstract class KatyDomHtmlElement(
     selector: String?,
     key: String?,
     style: String?
-) : KatyDomElement(selector,key,style) {
+) : KatyDomElement(selector, key, style) {
 
 
 ////

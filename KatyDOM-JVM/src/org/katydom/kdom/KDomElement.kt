@@ -5,7 +5,10 @@
 package org.katydom.kdom
 
 import org.katydom.infrastructure.indent
-import org.w3c.dom.*
+import org.w3c.dom.Attr
+import org.w3c.dom.Element
+import org.w3c.dom.NodeList
+import org.w3c.dom.TypeInfo
 
 /**
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
@@ -15,7 +18,7 @@ open class KDomElement(
     private val _nodeName: String
 ) : KDomNode(), Element {
 
-    private val _attributes : MutableMap<String,String> = mutableMapOf()
+    private val _attributes: MutableMap<String, String> = mutableMapOf()
 
     override fun getNodeName(): String {
         return _nodeName
@@ -33,21 +36,21 @@ open class KDomElement(
         _attributes.put(name, value)
     }
 
-    override fun toHtmlString(indent : Int) : String {
+    override fun toHtmlString(indent: Int): String {
 
         val result = StringBuilder()
 
         result.indent(indent)
         result.append("<", tagName)
 
-        for ( attr in _attributes ) {
-            result.append(" ",attr.key,"=\"",attr.value,"\"" )
+        for (attr in _attributes) {
+            result.append(" ", attr.key, "=\"", attr.value, "\"")
         }
 
         var child = this.firstChild
 
-        if ( child == null ) {
-            result.append("></", tagName,">")
+        if (child == null) {
+            result.append("></", tagName, ">")
         }
         else {
             result.appendln(">")
@@ -58,7 +61,7 @@ open class KDomElement(
             }
 
             result.indent(indent)
-            result.append("</", tagName,">")
+            result.append("</", tagName, ">")
         }
 
         return result.toString()

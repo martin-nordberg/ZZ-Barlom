@@ -21,7 +21,7 @@ class KatyDomListItemContentBuilder(private val element: KatyDomHtmlElement)
     ) {
         val childElement = KatyDomLi(selector, key, style)
         KatyDomFlowContentBuilder(childElement).defineContent()
-        childElement.removeScaffolding()
+        childElement.freeze()
         element.addChildNode(childElement)
     }
 

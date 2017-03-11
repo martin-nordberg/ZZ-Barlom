@@ -33,7 +33,7 @@ class KatyDomFlowContentBuilder(
     ) {
         val childElement = KatyDomDiv(selector, key, style)
         KatyDomFlowContentBuilder(childElement).defineContent()
-        childElement.removeScaffolding()
+        childElement.freeze()
         element.addChildNode(childElement)
     }
 
@@ -48,7 +48,7 @@ class KatyDomFlowContentBuilder(
     ) {
         val childElement = KatyDomHr(selector, key, style)
         KatyDomFlowContentBuilder(childElement).defineAttributes()
-        childElement.removeScaffolding()
+        childElement.freeze()
         element.addChildNode(childElement)
     }
 
@@ -66,7 +66,7 @@ class KatyDomFlowContentBuilder(
     ) {
         val childElement = KatyDomOl(selector, key, reversed, start, type, style)
         KatyDomListItemContentBuilder(childElement).defineContent()
-        childElement.removeScaffolding()
+        childElement.freeze()
         element.addChildNode(childElement)
     }
 
@@ -75,7 +75,7 @@ class KatyDomFlowContentBuilder(
      */
     fun text(nodeValue: String) {
         val textNode = KatyDomText(nodeValue)
-        textNode.removeScaffolding()
+        textNode.freeze()
         element.addChildNode(textNode)
     }
 
@@ -90,7 +90,7 @@ class KatyDomFlowContentBuilder(
     ) {
         val childElement = KatyDomUl(selector, key, style)
         KatyDomListItemContentBuilder(childElement).defineContent()
-        childElement.removeScaffolding()
+        childElement.freeze()
         element.addChildNode(childElement)
     }
 

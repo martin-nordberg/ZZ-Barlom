@@ -12,14 +12,14 @@ class PatchTests {
 
         val vnode1 = katyDom {
 
-            div ( "#mydiv.funnyone" ) {
+            div("#mydiv.funnyone") {
 
-                ul ( "#theList" ) {
+                ul("#theList") {
 
-                    li ( key="1" ) { text( "One" ) }
-                    li ( key="2" ) { text( "Two" ) }
-                    li ( key="3" ) { text( "Three" ) }
-                    li ( key="4" ) { text( "Four" ) }
+                    li(key = "1") { text("One") }
+                    li(key = "2") { text("Two") }
+                    li(key = "3") { text("Three") }
+                    li(key = "4") { text("Four") }
 
                 }
 
@@ -46,14 +46,14 @@ class PatchTests {
 
         val vnode2 = katyDom {
 
-            div ( "#mydiv.funnyone" ) {
+            div("#mydiv.funnyone") {
 
-                ul ( "#theList" ) {
+                ul("#theList") {
 
-                    li ( key="1" ) { text( "One" ) }
-                    li ( key="2" ) { text( "Two" ) }
-                    li ( key="4" ) { text( "Four" ) }
-                    li ( key="5" ) { text( "Five" ) }
+                    li(key = "1") { text("One") }
+                    li(key = "2") { text("Two") }
+                    li(key = "4") { text("Four") }
+                    li(key = "5") { text("Five") }
 
                 }
 
@@ -78,7 +78,7 @@ class PatchTests {
                       |  </ul>
                       |</div>""".trimMargin()
 
-        checkPatch( html2, vnode2, html1, vnode1 )
+        checkPatch(html2, vnode2, html1, vnode1)
 
     }
 

@@ -24,7 +24,7 @@ abstract class KDomNode : Node {
 
     override fun appendChild(newChild: Node): KDomNode {
         val result = newChild as KDomNode
-        if ( _firstChild == null ) {
+        if (_firstChild == null) {
             _firstChild = result
         }
         else {
@@ -42,7 +42,7 @@ abstract class KDomNode : Node {
 
         var result = _firstChild
 
-        while ( result != null && result._nextSibling != null ) {
+        while (result != null && result._nextSibling != null) {
             result = result._nextSibling
         }
 
@@ -66,21 +66,21 @@ abstract class KDomNode : Node {
 
         val result = newChild as KDomNode
 
-        if ( refChild == null || _firstChild == null ) {
+        if (refChild == null || _firstChild == null) {
             return appendChild(newChild)
         }
 
-        if ( _firstChild == refChild ) {
+        if (_firstChild == refChild) {
             _firstChild = result
         }
         else {
             var child = _firstChild
-            while ( child != null && child._nextSibling != null && child._nextSibling != refChild ) {
+            while (child != null && child._nextSibling != null && child._nextSibling != refChild) {
                 child = child._nextSibling
             }
 
-            if ( child == null ) {
-                return appendChild( newChild )
+            if (child == null) {
+                return appendChild(newChild)
             }
             else {
                 child._nextSibling = newChild
@@ -95,15 +95,15 @@ abstract class KDomNode : Node {
 
     override fun removeChild(oldChild: Node): KDomNode {
         val result = oldChild as KDomNode
-        if ( _firstChild == result ) {
+        if (_firstChild == result) {
             _firstChild = result._nextSibling
         }
         else {
             var child = _firstChild
-            while ( child != null && child._nextSibling != result ) {
+            while (child != null && child._nextSibling != result) {
                 child = child._nextSibling
             }
-            if ( child != null ) {
+            if (child != null) {
                 child._nextSibling = result._nextSibling
             }
         }
@@ -115,7 +115,7 @@ abstract class KDomNode : Node {
         _parentNode = parentNode
     }
 
-    abstract fun toHtmlString(indent : Int = 0) : String
+    abstract fun toHtmlString(indent: Int = 0): String
 
 ////
 

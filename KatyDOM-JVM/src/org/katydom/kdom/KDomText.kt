@@ -6,14 +6,14 @@
 package org.katydom.kdom
 
 import org.katydom.infrastructure.indent
-import org.w3c.dom.*
+import org.w3c.dom.Text
 
 /**
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
  */
 open class KDomText(
     private val _ownerDocument: KDomDocument,
-    private val _data : String
+    private val _data: String
 ) : KDomNode(), Text {
 
     override fun getData(): String {
@@ -36,7 +36,7 @@ open class KDomText(
     }
 
 ////
-    
+
     override fun insertData(offset: Int, arg: String?) {
         TODO("not yet needed")
     }

@@ -12,7 +12,7 @@ package org.katydom.infrastructure
  */
 interface Cell<T> {
 
-    fun contains(value:T):Boolean
+    fun contains(value: T): Boolean
 
     fun get(): T?
 

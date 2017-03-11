@@ -16,7 +16,7 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
  * @param key A key for this element that is unique among all child nodes of the same parent.
  * @param style The CSS style attribute for the element.
  */
-internal class KatyDomUl( selector: String?, key: String?, style: String? ) : KatyDomHtmlElement(selector, key, style) {
+internal class KatyDomUl(selector: String?, key: String?, style: String?) : KatyDomHtmlElement(selector, key, style) {
 
     override val nodeName = "UL"
 

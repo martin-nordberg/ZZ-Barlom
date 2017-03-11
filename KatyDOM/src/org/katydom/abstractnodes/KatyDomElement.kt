@@ -5,6 +5,8 @@
 
 package org.katydom.abstractnodes
 
+import org.katydom.infrastructure.UnusedMap
+import org.katydom.infrastructure.UnusedSet
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 
@@ -20,17 +22,16 @@ abstract class KatyDomElement(
     style: String?
 ) : KatyDomNode(key) {
 
-    /** Miscellaneous other attributes of this element, mapped from name to value. */
-    val attributes: Map<String, String>
-
-////
-
     /**
      * Adds a given class to this element.
      * @param className the name of the class to add.
      */
     internal fun addClass(className: String) {
-        scaffolding.classList.add(className)
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
+        classList.add(className)
+
     }
 
     /**
@@ -38,7 +39,11 @@ abstract class KatyDomElement(
      * @param classes a sequence of class names to add.
      */
     internal fun addClasses(classes: Iterable<String>) {
-        scaffolding.classList.addAll(classes)
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
+        classList.addAll(classes)
+
     }
 
     /**
@@ -48,11 +53,14 @@ abstract class KatyDomElement(
      * @param value the value of the attribute.
      */
     internal fun setAttribute(name: String, value: String?) {
-        if ( value == null ) {
-            scaffolding.otherAttributes.remove(key)
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
+        if (value == null) {
+            attributes.remove(key)
         }
         else {
-            scaffolding.otherAttributes.put(name, value)
+            attributes.put(name, value)
         }
     }
 
@@ -61,6 +69,8 @@ abstract class KatyDomElement(
      * @param attributes the attribute name/value pairs to set.
      */
     internal fun setAttributes(attributes: Map<String, String>) {
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
 
         for ((name, value) in attributes) {
             setAttribute(name, value)
@@ -75,11 +85,13 @@ abstract class KatyDomElement(
      */
     internal open fun setBooleanAttribute(name: String, value: Boolean?) {
 
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
         if (value != null && value) {
-            scaffolding.otherAttributes.put(name, "")
+            attributes.put(name, "")
         }
         else {
-            scaffolding.otherAttributes.remove(name)
+            attributes.remove(name)
         }
 
     }
@@ -91,12 +103,14 @@ abstract class KatyDomElement(
      */
     internal fun setData(name: String, value: String) {
 
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
         if (name.startsWith("data-")) {
             // TODO: Warning: "data-" prefix not required for dataset additions.
-            scaffolding.dataset.put(name.substring(5), value)
+            dataset.put(name.substring(5), value)
         }
         else {
-            scaffolding.dataset.put(name, value)
+            dataset.put(name, value)
         }
 
     }
@@ -106,6 +120,8 @@ abstract class KatyDomElement(
      * @param dataset a collection of name/value pairs of "data-" attributes.
      */
     internal fun setData(dataset: Map<String, String>) {
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
 
         for ((name, value) in dataset) {
             setData(name, value)
@@ -117,7 +133,11 @@ abstract class KatyDomElement(
      * Sets the style attribute for this element. TODO: addStyle( cssKey, cssValue )
      */
     internal fun setStyle(style: String?) {
-        setAttribute("style",style)
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
+        setAttribute("style", style)
+
     }
 
 ////
@@ -152,76 +172,62 @@ abstract class KatyDomElement(
 
     }
 
-    override final fun removeAttributesScaffolding() {
+    override final fun freezeAttributes() {
 
-        val sc = scaffolding
-
-        if ( sc.classList.isNotEmpty() ) {
-            val attrClasses = sc.otherAttributes.get("class")
-            if ( attrClasses != null ) {
-                sc.classList.addAll(attrClasses.split(" "))
+        if (classList.isNotEmpty()) {
+            val attrClasses = attributes["class"]
+            if (attrClasses != null) {
+                classList.addAll(attrClasses.split(" "))
             }
-            sc.otherAttributes.put("class",sc.classList.joinToString(" "))
+            attributes.put("class", classList.joinToString(" "))
         }
 
-        for ( (name,value) in sc.dataset ) {
-            setAttribute("data-"+name,value)
+        for ((name, value) in dataset) {
+            setAttribute("data-" + name, value)
         }
 
-        _scaffolding = null
+        classList = Unused.classList
+        dataset = Unused.dataset
     }
 
 ////
 
-    /**
-     * Wrapper for the mutable state of this element while it is under construction. Removed when the element has been
-     * fully built.
-     */
-    private class Scaffolding(
-        selectorPieces: List<String>,
-        firstClassIdx: Int
-    ) {
-        val classList: MutableSet<String> = hashSetOf()
-        val dataset: MutableMap<String, String> = hashMapOf()
-        val otherAttributes: MutableMap<String, String> = hashMapOf()
+    /** The attributes of this element, mapped from name to value. */
+    private val attributes: MutableMap<String, String> = hashMapOf()
 
-        init {
-            classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
-        }
+    /** A list of classes for this element. */
+    private var classList: MutableSet<String> = hashSetOf()
 
-    }
-
-    private var _scaffolding: Scaffolding?
+    /** A list of the data-* properties of this element, keyed without the "data-" prefix. */
+    private var dataset: MutableMap<String, String> = hashMapOf()
 
     init {
         // Parse the id and classes out of the selector as relevant.
-        val selectorPieces = selector?.split(".") ?: listOf()
+        val selectorPieces = selector?.split(".")
 
-        var firstClassIdx = 0
-        var id: String? = null
+        if (selectorPieces != null && selectorPieces.isNotEmpty()) {
+            var firstClassIdx = 0
 
-        if ( selectorPieces.isNotEmpty() ) {
             if (selectorPieces[0].startsWith("#")) {
-                id = selectorPieces[0].substring(1)
+                setAttribute("id", selectorPieces[0].substring(1))
                 firstClassIdx = 1
             }
             else if (selectorPieces[0].isEmpty()) {
                 // TODO: Warning: selector should start with "." or "#"; "." assumed.
                 firstClassIdx = 1
             }
+
+            classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
         }
 
-        val sc = Scaffolding(selectorPieces,firstClassIdx)
-        _scaffolding = sc
-        attributes = sc.otherAttributes
-
-        setAttribute("id", id)
-        setAttribute("style",style)
+        setAttribute("style", style)
 
     }
 
-    private val scaffolding: Scaffolding
-        get() = _scaffolding ?: throw IllegalStateException("Attempted to modify a fully constructed KatyDomElement.")
+    private companion object Unused {
+        val classList = UnusedSet<String>()
+        val dataset: MutableMap<String, String> = UnusedMap<String, String>()
+    }
 
 }
 
