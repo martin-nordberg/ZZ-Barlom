@@ -13,6 +13,7 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
  * KatyDOM content builder for attributes and event handlers available to all nodes. Serves as a base class for more
  * specialized content builders that also add child nodes of the right types for given context.
  */
+@Suppress("unused")
 @KatyDomContentBuilderDsl
 open class KatyDomElementContentBuilder(
 
@@ -31,7 +32,7 @@ open class KatyDomElementContentBuilder(
         value: String
     ) {
         if (name.startsWith("data-")) {
-            // warning: use data(..) instead
+            // TODO: Warning: use data(..) instead.
             element.setData(name.substring(5), value)
         }
         element.setAttribute(name, value)
@@ -66,7 +67,7 @@ open class KatyDomElementContentBuilder(
         value: String
     ) {
         if (name.startsWith("data-")) {
-            // TODO: warning "data-" prefix not needed
+            // TODO: Warning "data-" prefix not needed.
             element.setData(name.substring(5), value)
         }
         else {

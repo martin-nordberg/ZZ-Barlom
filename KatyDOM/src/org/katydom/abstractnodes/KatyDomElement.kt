@@ -14,13 +14,47 @@ import org.w3c.dom.Node
 
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
- * @param key a key for this KatyDOM element that is unique among all the siblings of this element.
  */
-abstract class KatyDomElement(
-    selector: String?,
-    key: String?,
-    style: String?
-) : KatyDomNode(key) {
+abstract class KatyDomElement : KatyDomNode {
+
+    constructor(
+        selector: String?,
+        key: String?,
+        style: String?
+    ) : super(key) {
+
+        // Parse the id and classes out of the selector as relevant.
+        val selectorPieces = selector?.split(".")
+
+        if (selectorPieces != null && selectorPieces.isNotEmpty()) {
+            var firstClassIdx = 0
+
+            if (selectorPieces[0].startsWith("#")) {
+                setAttribute("id", selectorPieces[0].substring(1))
+                firstClassIdx = 1
+            }
+            else if (selectorPieces[0].isEmpty()) {
+                // TODO: Warning: selector should start with "." or "#"; "." assumed.
+                firstClassIdx = 1
+            }
+
+            classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
+        }
+
+        setAttribute("style", style)
+
+    }
+
+    constructor(
+        selector: String?,
+        key: String?,
+        style: String?,
+        tabindex: Int?
+    ) : this(selector, key, style) {
+
+        setAttribute("tabindex", tabindex?.toString())
+
+    }
 
     /**
      * Adds a given class to this element.
@@ -79,11 +113,11 @@ abstract class KatyDomElement(
     }
 
     /**
-     * Sets one boolean attribute by name and value.
+     * Sets one boolean attribute by name and value. A boolean attribute has the value true if present or false if absent.
      * @param name the name of the attribute to set.
      * @param value the value of the attribute.
      */
-    internal open fun setBooleanAttribute(name: String, value: Boolean?) {
+    internal fun setBooleanAttribute(name: String, value: Boolean?) {
 
         if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
 
@@ -137,6 +171,52 @@ abstract class KatyDomElement(
         if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
 
         setAttribute("style", style)
+
+    }
+
+    /**
+     * Sets one true/false attribute by name and value. A true/false attribute has the value "true" or "false".
+     * @param name the name of the attribute to set.
+     * @param value the value of the attribute.
+     */
+    internal fun setTrueFalseAttribute(name: String, value: Boolean?) {
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
+        if (value != null) {
+            if (value) {
+                attributes.put(name, "true")
+            }
+            else {
+                attributes.put(name, "false")
+            }
+        }
+        else {
+            attributes.remove(name)
+        }
+
+    }
+
+    /**
+     * Sets one yes/no attribute by name and value. A boolean attribute has the value "yes" or "no".
+     * @param name the name of the attribute to set.
+     * @param value the value of the attribute.
+     */
+    internal fun setYesNoAttribute(name: String, value: Boolean?) {
+
+        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+
+        if (value != null) {
+            if (value) {
+                attributes.put(name, "yes")
+            }
+            else {
+                attributes.put(name, "no")
+            }
+        }
+        else {
+            attributes.remove(name)
+        }
 
     }
 
@@ -201,29 +281,7 @@ abstract class KatyDomElement(
     /** A list of the data-* properties of this element, keyed without the "data-" prefix. */
     private var dataset: MutableMap<String, String> = hashMapOf()
 
-    init {
-        // Parse the id and classes out of the selector as relevant.
-        val selectorPieces = selector?.split(".")
-
-        if (selectorPieces != null && selectorPieces.isNotEmpty()) {
-            var firstClassIdx = 0
-
-            if (selectorPieces[0].startsWith("#")) {
-                setAttribute("id", selectorPieces[0].substring(1))
-                firstClassIdx = 1
-            }
-            else if (selectorPieces[0].isEmpty()) {
-                // TODO: Warning: selector should start with "." or "#"; "." assumed.
-                firstClassIdx = 1
-            }
-
-            classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
-        }
-
-        setAttribute("style", style)
-
-    }
-
+    /** Static placeholders to replace attributes under construction when no longer needed. */
     private companion object Unused {
         val classList = UnusedSet<String>()
         val dataset: MutableMap<String, String> = UnusedMap<String, String>()

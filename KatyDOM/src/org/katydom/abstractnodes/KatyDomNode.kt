@@ -151,35 +151,44 @@ abstract class KatyDomNode(val key: String?) {
 
 ////
 
+    /**
+     * States in the lifecycle of a node.
+     */
     protected enum class EState {
+        /** The node is still being built by one of teh KatyDOM builders. */
         UNDER_CONSTRUCTION,
+        /** The node has been fully defined and is ready to be established in the real DOM. */
         CONSTRUCTED,
+        /** The node has been established in the real DOM (either the first edition or replacing a prior edition). */
         ESTABLISHED,
+        /** The node has been replaced by a newer edition in the real DOM. */
         PATCHED
     }
 
     /**
-     * Performs the DOM element configuration needed by a derived class. Override as needed. Base class method does nothing.
+     * Performs the DOM element configuration needed by a derived class.
      * @param domElement the real DOM element being built.
      */
-    open protected fun establishAttributes(domElement: Node) {
-    }
+    abstract protected fun establishAttributes(domElement: Node)
 
     /**
      * Removes the scaffolding of a derived class. Override as needed. Base class method does nothing.
      */
-    open protected fun freezeAttributes() {
-    }
+    abstract protected fun freezeAttributes()
 
+    /** Whether this node is fully constructed. */
     protected val isConstructed
         get() = state == EState.CONSTRUCTED
 
+    /** Whether this node has been established in the real DOM. */
     protected val isEstablished
         get() = state == EState.ESTABLISHED
 
+    /** Whether this node has been replaced by a later edition in the real DOM. */
     protected val isPatched
         get() = state == EState.PATCHED
 
+    /** Whether this node is still being built. */
     protected val isUnderConstruction
         get() = state == EState.UNDER_CONSTRUCTION
 
@@ -188,8 +197,7 @@ abstract class KatyDomNode(val key: String?) {
      * @param domElement the real DOM node being patched.
      * @param priorElement the prior edition of this KatyDOM node from which to compute the patch.
      */
-    open protected fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
-    }
+    abstract protected fun patchAttributes(domElement: Node, priorElement: KatyDomNode)
 
 ////
 

@@ -4,7 +4,7 @@ package org.katydom.types
  * Enumeration of allowed values for the ol element's type attribute.
  * See https://www.w3.org/TR/html5/grouping-content.html#attr-ol-type.
  */
-enum class OrderedListType {
+enum class EOrderedListType {
 
     DECIMAL_NUMBERS,
     LOWER_CASE_LETTERS,

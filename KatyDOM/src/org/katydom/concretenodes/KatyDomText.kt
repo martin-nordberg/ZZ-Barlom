@@ -25,6 +25,14 @@ internal class KatyDomText(
 
 ////
 
+    override fun establishAttributes(domElement: Node) {
+        // Nothing to establish; text already set during node creation.
+    }
+
+    override fun freezeAttributes() {
+        // Nothing to freeze beyond the base node.
+    }
+
     override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
 
         if (domElement !is Text) throw IllegalArgumentException("DOM node expected to be text.")
