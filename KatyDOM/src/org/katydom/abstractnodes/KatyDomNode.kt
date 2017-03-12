@@ -32,7 +32,13 @@ abstract class KatyDomNode(val key: String?) {
      */
     internal fun addChildNode(childNode: KatyDomNode) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM node after it has been fully constructed.")
+        if (isAddingAttributes) {
+            freezeAttributes()
+            state = EState.ADDING_CHILD_NODES
+        }
+        else if (!isAddingChildNodes) {
+            throw IllegalStateException("Cannot modify a KatyDOM node after it has been fully constructed.")
+        }
 
         childNodes.add(childNode)
 
@@ -48,8 +54,8 @@ abstract class KatyDomNode(val key: String?) {
      */
     internal fun establish(domNode: Node) {
 
-        if (isUnderConstruction) throw IllegalStateException("KatyDOM node must be fully constructed before establishing the real DOM.")
-        if (!isConstructed) throw IllegalStateException("KatyDOM node already established.")
+        if (state < EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node must be fully constructed before establishing the real DOM.")
+        if (state > EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node already established.")
 
         if (domNode.nodeName != nodeName) {
             throw IllegalArgumentException("Cannot establish a real DOM node differing in type from the KatyDOM node.")
@@ -78,6 +84,8 @@ abstract class KatyDomNode(val key: String?) {
 
         establishAttributes(domNode)
 
+        this.domNode = domNode
+
         state = EState.ESTABLISHED
 
     }
@@ -87,9 +95,11 @@ abstract class KatyDomNode(val key: String?) {
      */
     internal fun freeze() {
 
-        if (!isUnderConstruction) throw IllegalStateException("KatyDOM node already fully constructed.")
+        if (state >= EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node already fully constructed.")
 
-        freezeAttributes()
+        if (isAddingAttributes) {
+            freezeAttributes()
+        }
 
         state = EState.CONSTRUCTED
 
@@ -102,8 +112,8 @@ abstract class KatyDomNode(val key: String?) {
      */
     internal fun patch(domNode: Node, priorNode: KatyDomNode) {
 
-        if (isUnderConstruction) throw IllegalStateException("KatyDOM node must be fully constructed before establishing the real DOM.")
-        if (!isConstructed) throw IllegalStateException("KatyDOM node already established.")
+        if (state < EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node must be fully constructed before establishing the real DOM.")
+        if (state > EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node already established.")
 
         if (priorNode.isPatched) throw IllegalStateException("Prior node cannot be patched twice.")
         if (!priorNode.isEstablished) throw IllegalStateException("Prior KatyDOM node must be established before patching.")
@@ -131,6 +141,10 @@ abstract class KatyDomNode(val key: String?) {
                 domNode.removeChild(domNode.firstChild!!)
             }
 
+            this.domNode = domNode
+
+            state = EState.ESTABLISHED
+
         }
         else {
 
@@ -144,7 +158,6 @@ abstract class KatyDomNode(val key: String?) {
 
         }
 
-        state = EState.ESTABLISHED
         priorNode.state = EState.PATCHED
 
     }
@@ -155,8 +168,10 @@ abstract class KatyDomNode(val key: String?) {
      * States in the lifecycle of a node.
      */
     protected enum class EState {
-        /** The node is still being built by one of teh KatyDOM builders. */
-        UNDER_CONSTRUCTION,
+        /** The node is still open for its attributes to be set by one of the KatyDOM builders. */
+        ADDING_ATTRIBUTES,
+        /** The node's children are still under construction. */
+        ADDING_CHILD_NODES,
         /** The node has been fully defined and is ready to be established in the real DOM. */
         CONSTRUCTED,
         /** The node has been established in the real DOM (either the first edition or replacing a prior edition). */
@@ -176,6 +191,14 @@ abstract class KatyDomNode(val key: String?) {
      */
     abstract protected fun freezeAttributes()
 
+    /** Whether this node is still being built. */
+    protected val isAddingAttributes
+        get() = state == EState.ADDING_ATTRIBUTES
+
+    /** Whether this node is still being built. */
+    protected val isAddingChildNodes
+        get() = state == EState.ADDING_CHILD_NODES
+
     /** Whether this node is fully constructed. */
     protected val isConstructed
         get() = state == EState.CONSTRUCTED
@@ -187,10 +210,6 @@ abstract class KatyDomNode(val key: String?) {
     /** Whether this node has been replaced by a later edition in the real DOM. */
     protected val isPatched
         get() = state == EState.PATCHED
-
-    /** Whether this node is still being built. */
-    protected val isUnderConstruction
-        get() = state == EState.UNDER_CONSTRUCTION
 
     /**
      * Performs the patch needed by a derived class. Override as needed. Base class method does nothing.
@@ -207,8 +226,11 @@ abstract class KatyDomNode(val key: String?) {
     /** A map of child nodes by their key. */
     private val childNodesByKey: MutableMap<String, KatyDomNode> = hashMapOf()
 
+    /** The established DOM node after this node has been established or patched. */
+    private var domNode: Node? = null
+
     /** Flag set to true once the node is fully constructed. */
-    private var state: EState = EState.UNDER_CONSTRUCTION
+    private var state: EState = EState.ADDING_ATTRIBUTES
 
 }
 

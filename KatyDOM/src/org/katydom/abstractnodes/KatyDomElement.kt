@@ -27,6 +27,7 @@ abstract class KatyDomElement : KatyDomNode {
         val selectorPieces = selector?.split(".")
 
         if (selectorPieces != null && selectorPieces.isNotEmpty()) {
+
             var firstClassIdx = 0
 
             if (selectorPieces[0].startsWith("#")) {
@@ -39,6 +40,7 @@ abstract class KatyDomElement : KatyDomNode {
             }
 
             classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
+
         }
 
         setAttribute("style", style)
@@ -62,7 +64,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClass(className: String) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         classList.add(className)
 
@@ -74,7 +76,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClasses(classes: Iterable<String>) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         classList.addAll(classes)
 
@@ -88,7 +90,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttribute(name: String, value: String?) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         if (value == null) {
             attributes.remove(key)
@@ -104,7 +106,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttributes(attributes: Map<String, String>) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         for ((name, value) in attributes) {
             setAttribute(name, value)
@@ -119,7 +121,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setBooleanAttribute(name: String, value: Boolean?) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         if (value != null && value) {
             attributes.put(name, "")
@@ -137,7 +139,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(name: String, value: String) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         if (name.startsWith("data-")) {
             // TODO: Warning: "data-" prefix not required for dataset additions.
@@ -155,7 +157,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(dataset: Map<String, String>) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         for ((name, value) in dataset) {
             setData(name, value)
@@ -168,7 +170,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setStyle(style: String?) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         setAttribute("style", style)
 
@@ -181,7 +183,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setTrueFalseAttribute(name: String, value: Boolean?) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         if (value != null) {
             if (value) {
@@ -204,7 +206,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setYesNoAttribute(name: String, value: Boolean?) {
 
-        if (!isUnderConstruction) throw IllegalStateException("Cannot modify a KatyDOM element after it has been fully constructed.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
 
         if (value != null) {
             if (value) {
@@ -255,11 +257,13 @@ abstract class KatyDomElement : KatyDomNode {
     override final fun freezeAttributes() {
 
         if (classList.isNotEmpty()) {
+
             val attrClasses = attributes["class"]
             if (attrClasses != null) {
                 classList.addAll(attrClasses.split(" "))
             }
             attributes.put("class", classList.joinToString(" "))
+
         }
 
         for ((name, value) in dataset) {

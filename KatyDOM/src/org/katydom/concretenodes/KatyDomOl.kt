@@ -18,12 +18,6 @@ internal class KatyDomOl : KatyDomHtmlElement {
 
     /**
      * Constructs a new ordered list element with minimal attributes.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key A non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param reversed Whether the list is to appear in reverse order.
-     * @param start The numeric value for the first list item.
-     * @param style The CSS style attribute for the element.
-     * @param type The type of list counter to use.
      */
     constructor(
         selector: String?,
@@ -42,21 +36,6 @@ internal class KatyDomOl : KatyDomHtmlElement {
 
     /**
      * Constructs a new ordered list element with full attributes.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key A non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param accesskey a string specifiying the HTML accesskey value.
-     * @param contenteditable whether the element has editable content.
-     * @param dir the left-to-right direction of text inside this element.
-     * @param hidden true if the element is to be hidden.
-     * @param lang the language of text within this element.
-     * @param reversed Whether the list is to appear in reverse order.
-     * @param spellcheck whether the element is subject to spell checking.
-     * @param start The numeric value for the first list item.
-     * @param style a string containing CSS for this element.
-     * @param tabindex the tab index for the element.
-     * @param title a tool tip for the element.
-     * @param translate whether to translate text within this element.
-     * @param type The type of list counter to use.
      */
     constructor(
         selector: String?,

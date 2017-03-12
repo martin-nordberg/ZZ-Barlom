@@ -25,11 +25,11 @@ class KatyDomFlowContentBuilder(
 
     /**
      * Adds a div element with minimal attributes as the next child of the element under construction.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
      * @param style a string containing CSS for the element.
      * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-    */
+     */
     fun div(
         selector: String? = null,
         key: String? = null,
@@ -44,7 +44,7 @@ class KatyDomFlowContentBuilder(
 
     /**
      * Adds a div element with any global attributes as the next child of the element under construction.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifiying the HTML accesskey value.
      * @param contenteditable whether the element has editable content.
@@ -81,13 +81,13 @@ class KatyDomFlowContentBuilder(
 
     /**
      * Adds an hr element as the next child of the element under construction.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
      * @param style a string containing CSS for the element.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun hr(
-        selector: String = "",
+        selector: String? = null,
         key: String? = null,
         style: String? = null,
         defineAttributes: KatyDomElementContentBuilder.() -> Unit
@@ -100,9 +100,16 @@ class KatyDomFlowContentBuilder(
 
     /**
      * Adds an ol element as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param reversed whether the list is to appear in reverse order.
+     * @param start the numeric value for the first list item.
+     * @param style the CSS style attribute for the element.
+     * @param type the type of list counter to use.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun ol(
-        selector: String = "",
+        selector: String? = null,
         key: String? = null,
         reversed: Boolean? = null,
         start: Int? = null,
@@ -116,10 +123,53 @@ class KatyDomFlowContentBuilder(
         element.addChildNode(childElement)
     }
 
-    // TODO: ol with full attributes
+    /**
+     * Adds an ol element as the next child of the element under construction. Allows setting all global HTML
+     * attributes.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifiying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param reversed whether the list is to appear in reverse order.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param start the numeric value for the first list item.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param type the type of list counter to use.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun ol(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        reversed: Boolean? = null,
+        spellcheck: Boolean? = null,
+        start: Int? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        type: EOrderedListType? = null,
+        defineContent: KatyDomListItemContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomOl(selector, key, accesskey, contenteditable, dir, hidden, lang, reversed, spellcheck, start, style, tabindex, title, translate, type)
+        KatyDomListItemContentBuilder(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
 
     /**
      * Adds a text node as the next child of the element under construction.
+     * @param nodeValue the text within the node.
      */
     fun text(nodeValue: String) {
         val textNode = KatyDomText(nodeValue)
@@ -129,9 +179,13 @@ class KatyDomFlowContentBuilder(
 
     /**
      * Adds a ul element as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param style a string containing CSS for this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun ul(
-        selector: String = "",
+        selector: String? = null,
         key: String? = null,
         style: String? = null,
         defineContent: KatyDomListItemContentBuilder.() -> Unit
@@ -142,7 +196,43 @@ class KatyDomFlowContentBuilder(
         element.addChildNode(childElement)
     }
 
-    // TODO: ul with full attributes
+    /**
+     * Adds a new ul element as the next child of the element under construction. Allows setting all global HTML
+     * attributes.
+     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifiying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun ul(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomListItemContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomUl(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
+        KatyDomListItemContentBuilder(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
 
 }
 
