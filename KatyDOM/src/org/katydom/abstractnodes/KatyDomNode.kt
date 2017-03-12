@@ -107,10 +107,14 @@ abstract class KatyDomNode(val key: String?) {
 
     /**
      * Patches a real DOM node by determining the difference between this KatyDOM node and its prior edition.
-     * @param domNode the real DOM node corresponding to priorNode.
      * @param priorNode the prior edition of this KatyDOM node.
      */
-    internal fun patch(domNode: Node, priorNode: KatyDomNode) {
+    internal fun patch(priorNode: KatyDomNode) {
+
+        // Quit early if the node is the same (e.g. memoized).
+        if (this === priorNode) {
+            return
+        }
 
         if (state < EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node must be fully constructed before establishing the real DOM.")
         if (state > EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node already established.")
@@ -118,13 +122,9 @@ abstract class KatyDomNode(val key: String?) {
         if (priorNode.isPatched) throw IllegalStateException("Prior node cannot be patched twice.")
         if (!priorNode.isEstablished) throw IllegalStateException("Prior KatyDOM node must be established before patching.")
 
-        if (domNode.nodeName != nodeName) throw IllegalArgumentException("Cannot patch a real DOM node differing in type from the KatyDOM node.")
         if (priorNode.nodeName != nodeName) throw IllegalArgumentException("Cannot patch a difference between two KatyDOM nodes of different types.")
 
-        // Quit early if the node is the same (e.g. memoized).
-        if (this == priorNode) {
-            return
-        }
+        val domNode = priorNode.domNode ?: throw IllegalStateException("Prior KatyDOM node is not linked to its DOM node.")
 
         // Patch the attributes.
         patchAttributes(domNode, priorNode)

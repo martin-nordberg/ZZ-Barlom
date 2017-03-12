@@ -11,6 +11,7 @@ import org.w3c.dom.*
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
  */
 class KDomDocument : KDomNode(), Document {
+
     override fun createElement(tagName: String): KDomElement {
         return KDomElement(this, tagName)
     }

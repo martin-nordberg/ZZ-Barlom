@@ -17,6 +17,12 @@ import org.w3c.dom.Node
  */
 abstract class KatyDomElement : KatyDomNode {
 
+    /**
+     * Constructs a new element with minimal attributes.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param style a string containing CSS for this element.
+     */
     constructor(
         selector: String?,
         key: String?,
@@ -47,6 +53,13 @@ abstract class KatyDomElement : KatyDomNode {
 
     }
 
+    /**
+     * Constructs a new element with global attributes beyond id and class.
+     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     */
     constructor(
         selector: String?,
         key: String?,
@@ -288,7 +301,7 @@ abstract class KatyDomElement : KatyDomNode {
     /** Static placeholders to replace attributes under construction when no longer needed. */
     private companion object Unused {
         val classList = UnusedSet<String>()
-        val dataset: MutableMap<String, String> = UnusedMap<String, String>()
+        val dataset = UnusedMap<String, String>()
     }
 
 }

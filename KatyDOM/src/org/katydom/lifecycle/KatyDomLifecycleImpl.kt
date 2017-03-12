@@ -36,7 +36,7 @@ internal class KatyDomLifecycleImpl : KatyDomLifecycle {
 
     override fun update(domElement: Element, oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement) {
 
-        newKatyDomElement.patch(domElement, oldKatyDomElement)
+        newKatyDomElement.patch(oldKatyDomElement)
 
     }
 

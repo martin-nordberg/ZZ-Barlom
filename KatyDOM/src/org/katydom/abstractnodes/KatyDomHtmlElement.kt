@@ -28,7 +28,7 @@ abstract class KatyDomHtmlElement : KatyDomElement {
     ) : super(selector, key, style)
 
     /**
-     * Constructs a new HTML element with global elements beyond id and class.
+     * Constructs a new HTML element with global attributes beyond id and class.
      * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifiying the HTML accesskey value.
