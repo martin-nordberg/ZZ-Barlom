@@ -66,6 +66,8 @@ abstract class KDomNode : Node {
 
         val result = newChild as KDomNode
 
+        result._parentNode?.removeChild(result)
+
         if (refChild == null || _firstChild == null) {
             return appendChild(newChild)
         }

@@ -5,7 +5,6 @@
 
 package org.katydom.abstractnodes
 
-import org.katydom.concretenodes.KatyDomText
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 
@@ -18,8 +17,15 @@ import org.w3c.dom.Node
 abstract class KatyDomNode(val key: String?) {
 
     /** Returns the first child node in this node. (Out of bounds error if there is none.) */
-    val firstChildNode: KatyDomNode
-        get() = childNodes.first()
+    val soleChildNode: KatyDomNode
+        get() {
+
+            if (firstChildNode == Nothing) throw IllegalStateException("No child found.")
+            if (firstChildNode != lastChildNode) throw IllegalStateException("More than one child node found.")
+
+            return firstChildNode
+
+        }
 
     /** The name of this node (usually the HTML tag name, otherwise a pseudo tag name like "#text"). */
     abstract val nodeName: String
@@ -40,10 +46,20 @@ abstract class KatyDomNode(val key: String?) {
             throw IllegalStateException("Cannot modify a KatyDOM node after it has been fully constructed.")
         }
 
-        childNodes.add(childNode)
+        if (childNodesByKey.containsKey(childNode.key)) throw IllegalStateException("Duplicate key: " + childNode.key)
+
+        if (firstChildNode == Nothing) {
+            firstChildNode = childNode
+            lastChildNode = childNode
+        }
+        else {
+            childNode.prevSiblingNode = lastChildNode
+            lastChildNode.nextSiblingNode = childNode
+            lastChildNode = childNode
+        }
 
         if (childNode.key != null) {
-            childNodesByKey.put(childNode.key, childNode)
+            childNodesByKey[childNode.key] = childNode
         }
 
     }
@@ -61,26 +77,7 @@ abstract class KatyDomNode(val key: String?) {
             throw IllegalArgumentException("Cannot establish a real DOM node differing in type from the KatyDOM node.")
         }
 
-        val document: Document = domNode.ownerDocument ?: throw IllegalArgumentException("DOM element must have an owner document.")
-
-        for (childNode in childNodes) {
-
-            when (childNode) {
-
-                is KatyDomElement -> {
-                    val childElement = document.createElement(childNode.nodeName)
-                    childNode.establish(childElement)
-                    domNode.appendChild(childElement)
-                }
-
-                is KatyDomText    -> {
-                    val childText = document.createTextNode(childNode.nodeValue)
-                    domNode.appendChild(childText)
-                }
-
-            }
-
-        }
+        establishChildNodes(domNode)
 
         establishAttributes(domNode)
 
@@ -113,6 +110,7 @@ abstract class KatyDomNode(val key: String?) {
 
         // Quit early if the node is the same (e.g. memoized).
         if (this === priorNode) {
+            if (!isPatched) throw IllegalStateException("New KatyDOM node is identical to prior node but prior node has not been patched.")
             return
         }
 
@@ -130,12 +128,12 @@ abstract class KatyDomNode(val key: String?) {
         patchAttributes(domNode, priorNode)
 
         // Patch the child nodes.
-        if (priorNode.childNodes.isEmpty()) {
+        if (priorNode.firstChildNode == Nothing) {
 
             establish(domNode)
 
         }
-        else if (childNodes.isEmpty()) {
+        else if (firstChildNode == Nothing) {
 
             while (domNode.hasChildNodes()) {
                 domNode.removeChild(domNode.firstChild!!)
@@ -146,15 +144,14 @@ abstract class KatyDomNode(val key: String?) {
             state = EState.ESTABLISHED
 
         }
+        else if (childNodesByKey.isEmpty()) {
+
+            patchChildNodes(domNode, priorNode)
+
+        }
         else {
 
-            // TODO: The main point of virtual DOM is still TBD here: just patch the differences.
-
-            while (domNode.hasChildNodes()) {
-                domNode.removeChild(domNode.firstChild!!)
-            }
-
-            establish(domNode)
+            patchChildNodesByKey(domNode, priorNode)
 
         }
 
@@ -180,16 +177,18 @@ abstract class KatyDomNode(val key: String?) {
         PATCHED
     }
 
+    protected abstract fun createDomNode(document: Document, domNode: Node, domChild: Node?)
+
     /**
      * Performs the DOM element configuration needed by a derived class.
      * @param domElement the real DOM element being built.
      */
-    abstract protected fun establishAttributes(domElement: Node)
+    protected abstract fun establishAttributes(domElement: Node)
 
     /**
      * Removes the scaffolding of a derived class. Override as needed. Base class method does nothing.
      */
-    abstract protected fun freezeAttributes()
+    protected abstract fun freezeAttributes()
 
     /** Whether this node is still being built. */
     protected val isAddingAttributes
@@ -216,12 +215,133 @@ abstract class KatyDomNode(val key: String?) {
      * @param domElement the real DOM node being patched.
      * @param priorElement the prior edition of this KatyDOM node from which to compute the patch.
      */
-    abstract protected fun patchAttributes(domElement: Node, priorElement: KatyDomNode)
+    protected abstract fun patchAttributes(domElement: Node, priorElement: KatyDomNode)
 
 ////
 
-    /** The child nodes within this node. Starts as an empty list. */
-    private val childNodes: MutableList<KatyDomNode> = arrayListOf()
+    private fun establishChildNodes(domNode: Node) {
+
+        val document: Document = domNode.ownerDocument ?: throw IllegalArgumentException("DOM element must have an owner document.")
+
+        var childNode = firstChildNode
+
+        while (childNode != Nothing) {
+
+            childNode.createDomNode(document, domNode, null)
+
+            childNode = childNode.nextSiblingNode
+
+        }
+    }
+
+    /**
+     * Patches the child nodes of the DOM with changes between this node and the prior node.
+     */
+    private fun patchChildNodes(domNode: Node, priorNode: KatyDomNode) {
+
+        // TODO: The main point of virtual DOM is still TBD here: just patch the differences.
+
+        while (domNode.hasChildNodes()) {
+            domNode.removeChild(domNode.firstChild!!)
+        }
+
+        establishChildNodes(domNode)
+
+    }
+
+    /**
+     * Patches the child nodes of the DOM with changes between this node and the prior node.
+     */
+    private fun patchChildNodesByKey(domNode: Node, priorNode: KatyDomNode) {
+
+        var startChild = firstChildNode
+        var endChild = lastChildNode
+
+        var priorStartChild = priorNode.firstChildNode
+        var priorEndChild = priorNode.lastChildNode
+
+        var domChild = domNode.firstChild
+
+        val document: Document = domNode.ownerDocument ?: throw IllegalArgumentException("DOM element must have an owner document.")
+
+        while (startChild != endChild.nextSiblingNode) {
+
+            if (startChild.key == priorStartChild.key) {
+
+                domChild = domChild!!.nextSibling
+
+                startChild.patch(priorStartChild)
+
+                startChild = startChild.nextSiblingNode
+                priorStartChild = priorStartChild.nextSiblingNode
+
+            }
+            else if (endChild.key == priorEndChild.key) {
+
+                endChild.patch(priorEndChild)
+
+                endChild = endChild.prevSiblingNode
+                priorEndChild = priorEndChild.prevSiblingNode
+
+            }
+            else if (startChild.key == priorEndChild.key) {
+
+                domNode.insertBefore(priorEndChild.domNode!!, domChild)
+
+                startChild.patch(priorEndChild)
+
+                startChild = startChild.nextSiblingNode
+                priorEndChild = priorEndChild.prevSiblingNode
+
+            }
+            else if (endChild.key == priorStartChild.key) {
+
+                if (endChild.nextSiblingNode == Nothing) {
+                    domNode.insertBefore(priorStartChild.domNode!!, null)
+                }
+                else {
+                    domNode.insertBefore(priorStartChild.domNode!!, endChild.nextSiblingNode.domNode)
+                }
+
+                endChild.patch(priorStartChild)
+
+                endChild = endChild.prevSiblingNode
+                priorStartChild = priorStartChild.nextSiblingNode
+
+            }
+            else {
+
+                val priorChild = priorNode.childNodesByKey[startChild.key]
+                if (priorChild != null) {
+
+                    domNode.insertBefore(priorChild.domNode!!, domChild)
+
+                    startChild.patch(priorChild)
+
+                }
+                else {
+
+                    startChild.createDomNode(document, domNode, domChild)
+
+                }
+
+                startChild = startChild.nextSiblingNode
+
+            }
+
+        }
+
+        while (priorStartChild != priorEndChild.nextSiblingNode) {
+
+            if (childNodesByKey[priorStartChild.key] == null) {
+                domNode.removeChild(priorStartChild.domNode!!)
+            }
+
+            priorStartChild = priorStartChild.nextSiblingNode
+
+        }
+
+    }
 
     /** A map of child nodes by their key. */
     private val childNodesByKey: MutableMap<String, KatyDomNode> = hashMapOf()
@@ -229,8 +349,45 @@ abstract class KatyDomNode(val key: String?) {
     /** The established DOM node after this node has been established or patched. */
     private var domNode: Node? = null
 
+    /** The first child node within this node. Starts as Nothing, meaning no children. */
+    private var firstChildNode: KatyDomNode = Nothing
+
+    /** The last child node within this node. Starts as Nothing, meaning no children. */
+    private var lastChildNode: KatyDomNode = Nothing
+
+    /** The next sibling node within this node. Points to Nothing from last child in the list. */
+    private var nextSiblingNode: KatyDomNode = Nothing
+
+    /** The previous sibling node within this node. Linked to Nothing for first child in the list. */
+    private var prevSiblingNode: KatyDomNode = Nothing
+
     /** Flag set to true once the node is fully constructed. */
     private var state: EState = EState.ADDING_ATTRIBUTES
+
+    private object Nothing : KatyDomNode("org.katydom.abstractnodes.KatyDomNode.Nothing#key") {
+
+        override val nodeName: String
+            get() {
+                throw UnsupportedOperationException("Cannot use Nothing")
+            }
+
+        override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+            throw UnsupportedOperationException("Cannot use Nothing")
+        }
+
+        override fun establishAttributes(domElement: Node) {
+            throw UnsupportedOperationException("Cannot use Nothing")
+        }
+
+        override fun freezeAttributes() {
+            throw UnsupportedOperationException("Cannot use Nothing")
+        }
+
+        override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
+            throw UnsupportedOperationException("Cannot use Nothing")
+        }
+
+    }
 
 }
 

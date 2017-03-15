@@ -82,4 +82,51 @@ class PatchTests {
 
     }
 
+    @Test
+    fun `Reordered nodes (A) patch correctly`() {
+
+        val vnode1 = katyDom {
+
+            div("#holder") {
+
+                div("#a") {}
+                div("#b") {}
+                div("#c") {}
+                div("#d") {}
+
+            }
+
+        }
+
+        val html1 = """<div id="holder">
+                      |  <div id="a"></div>
+                      |  <div id="b"></div>
+                      |  <div id="c"></div>
+                      |  <div id="d"></div>
+                      |</div>""".trimMargin()
+
+        val vnode2 = katyDom {
+
+            div("#holder") {
+
+                div("#a") {}
+                div("#c") {}
+                div("#b") {}
+                div("#d") {}
+
+            }
+
+        }
+
+        val html2 = """<div id="holder">
+                      |  <div id="a"></div>
+                      |  <div id="c"></div>
+                      |  <div id="b"></div>
+                      |  <div id="d"></div>
+                      |</div>""".trimMargin()
+
+        checkPatch(html2, vnode2, html1, vnode1)
+
+    }
+
 }

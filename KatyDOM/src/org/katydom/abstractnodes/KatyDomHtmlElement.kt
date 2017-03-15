@@ -6,6 +6,8 @@
 package org.katydom.abstractnodes
 
 import org.katydom.types.EDirection
+import org.w3c.dom.Document
+import org.w3c.dom.Node
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,6 +70,12 @@ abstract class KatyDomHtmlElement : KatyDomElement {
 
     }
 
+    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+        val childElement = document.createElement(nodeName)
+        establish(childElement)
+        domNode.insertBefore(childElement, domChild)
+
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

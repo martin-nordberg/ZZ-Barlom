@@ -17,20 +17,10 @@ import org.w3c.dom.Node
  */
 abstract class KatyDomElement : KatyDomNode {
 
-    /**
-     * Constructs a new element with minimal attributes.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param style a string containing CSS for this element.
-     */
-    constructor(
-        selector: String?,
-        key: String?,
-        style: String?
-    ) : super(key) {
-
-        // Parse the id and classes out of the selector as relevant.
-        val selectorPieces = selector?.split(".")
+    private constructor(
+        selectorPieces: List<String>?,
+        key: String?
+    ) : super(key ?: keyFromSelector(selectorPieces)) {
 
         if (selectorPieces != null && selectorPieces.isNotEmpty()) {
 
@@ -48,6 +38,20 @@ abstract class KatyDomElement : KatyDomNode {
             classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
 
         }
+
+    }
+
+    /**
+     * Constructs a new element with minimal attributes.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param style a string containing CSS for this element.
+     */
+    constructor(
+        selector: String?,
+        key: String?,
+        style: String?
+    ) : this(selector?.split("."), key) {
 
         setAttribute("style", style)
 
@@ -299,9 +303,23 @@ abstract class KatyDomElement : KatyDomNode {
     private var dataset: MutableMap<String, String> = hashMapOf()
 
     /** Static placeholders to replace attributes under construction when no longer needed. */
-    private companion object Unused {
+    private object Unused {
         val classList = UnusedSet<String>()
         val dataset = UnusedMap<String, String>()
+    }
+
+    private companion object {
+
+        /**
+         * Computes the key as the ID when there is no key.
+         */
+        fun keyFromSelector(selectorPieces: List<String>?): String? {
+            if (selectorPieces != null && selectorPieces.isNotEmpty() && selectorPieces[0].startsWith("#")) {
+                return selectorPieces[0].substring(1)
+            }
+            return null
+        }
+
     }
 
 }

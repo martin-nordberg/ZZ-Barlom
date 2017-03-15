@@ -6,6 +6,7 @@
 package org.katydom.concretenodes
 
 import org.katydom.abstractnodes.KatyDomNode
+import org.w3c.dom.Document
 import org.w3c.dom.Node
 import org.w3c.dom.Text
 
@@ -20,10 +21,14 @@ internal class KatyDomText(
     val nodeValue: String
 
 ) : KatyDomNode(null) {
-
     override val nodeName = "#text"
 
 ////
+
+    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+        val childText = document.createTextNode(nodeValue)
+        domNode.insertBefore(childText, domChild)
+    }
 
     override fun establishAttributes(domElement: Node) {
         // Nothing to establish; text already set during node creation.
