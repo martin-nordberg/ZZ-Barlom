@@ -47,6 +47,7 @@ abstract class KatyDomNode(val key: String?) {
         }
 
         if (childNodesByKey.containsKey(childNode.key)) throw IllegalStateException("Duplicate key: " + childNode.key)
+        // TODO: Warning for a mixture of keyed and keyless children ...
 
         if (firstChildNode == Nothing) {
             firstChildNode = childNode
@@ -77,9 +78,10 @@ abstract class KatyDomNode(val key: String?) {
             throw IllegalArgumentException("Cannot establish a real DOM node differing in type from the KatyDOM node.")
         }
 
-        establishChildNodes(domNode)
-
-        establishAttributes(domNode)
+        if (nodeName != "#text") {
+            establishChildNodes(domNode)
+            establishAttributes(domNode)
+        }
 
         this.domNode = domNode
 
@@ -110,15 +112,16 @@ abstract class KatyDomNode(val key: String?) {
 
         // Quit early if the node is the same (e.g. memoized).
         if (this === priorNode) {
-            if (!isPatched) throw IllegalStateException("New KatyDOM node is identical to prior node but prior node has not been patched.")
+            if (!isPatchedReplaced) throw IllegalStateException("New KatyDOM node is identical to prior node but prior node has not been patched.")
             return
         }
 
         if (state < EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node must be fully constructed before establishing the real DOM.")
         if (state > EState.CONSTRUCTED) throw IllegalStateException("KatyDOM node already established.")
 
-        if (priorNode.isPatched) throw IllegalStateException("Prior node cannot be patched twice.")
-        if (!priorNode.isEstablished) throw IllegalStateException("Prior KatyDOM node must be established before patching.")
+        if (priorNode.isPatchedRemoved) throw IllegalStateException("Prior node cannot be patched after being removed.")
+        if (priorNode.isPatchedReplaced) throw IllegalStateException("Prior node cannot be patched twice.")
+        if (!priorNode.isEstablished) throw IllegalStateException("Prior KatyDOM node must be established before patching. " + priorNode.nodeName)
 
         if (priorNode.nodeName != nodeName) throw IllegalArgumentException("Cannot patch a difference between two KatyDOM nodes of different types.")
 
@@ -144,18 +147,13 @@ abstract class KatyDomNode(val key: String?) {
             state = EState.ESTABLISHED
 
         }
-        else if (childNodesByKey.isEmpty()) {
+        else {
 
             patchChildNodes(domNode, priorNode)
 
         }
-        else {
 
-            patchChildNodesByKey(domNode, priorNode)
-
-        }
-
-        priorNode.state = EState.PATCHED
+        priorNode.state = EState.PATCHED_REPLACED
 
     }
 
@@ -174,7 +172,9 @@ abstract class KatyDomNode(val key: String?) {
         /** The node has been established in the real DOM (either the first edition or replacing a prior edition). */
         ESTABLISHED,
         /** The node has been replaced by a newer edition in the real DOM. */
-        PATCHED
+        PATCHED_REPLACED,
+        /** The node does not appear in a newer edition. */
+        PATCHED_REMOVED
     }
 
     protected abstract fun createDomNode(document: Document, domNode: Node, domChild: Node?)
@@ -206,9 +206,13 @@ abstract class KatyDomNode(val key: String?) {
     protected val isEstablished
         get() = state == EState.ESTABLISHED
 
+    /** Whether this node has been removed from a later edition in the real DOM. */
+    protected val isPatchedRemoved
+        get() = state == EState.PATCHED_REMOVED
+
     /** Whether this node has been replaced by a later edition in the real DOM. */
-    protected val isPatched
-        get() = state == EState.PATCHED
+    protected val isPatchedReplaced
+        get() = state == EState.PATCHED_REPLACED
 
     /**
      * Performs the patch needed by a derived class. Override as needed. Base class method does nothing.
@@ -219,6 +223,9 @@ abstract class KatyDomNode(val key: String?) {
 
 ////
 
+    /**
+     * Establishes child nodes in the given DOM node  matching the child node of this KatyDOM node.
+     */
     private fun establishChildNodes(domNode: Node) {
 
         val document: Document = domNode.ownerDocument ?: throw IllegalArgumentException("DOM element must have an owner document.")
@@ -235,38 +242,80 @@ abstract class KatyDomNode(val key: String?) {
     }
 
     /**
-     * Patches the child nodes of the DOM with changes between this node and the prior node.
+     * Whether this KatyDOM node matches the given KatyDOM node for purposes of patching.
+     * @param otherNode the node to compare with.
      */
-    private fun patchChildNodes(domNode: Node, priorNode: KatyDomNode) {
+    private fun matches(otherNode: KatyDomNode): Boolean {
 
-        // TODO: The main point of virtual DOM is still TBD here: just patch the differences.
-
-        while (domNode.hasChildNodes()) {
-            domNode.removeChild(domNode.firstChild!!)
+        if (nodeName != otherNode.nodeName) {
+            return false
         }
 
-        establishChildNodes(domNode)
+        if (key != null) {
+            return key == otherNode.key
+        }
+
+        if (otherNode.key != null) {
+            return false
+        }
+
+        if (nodeName == "#text") {
+            return true
+        }
+
+        if (firstChildNode != Nothing &&
+            firstChildNode.key != null &&
+            otherNode.childNodesByKey[firstChildNode.key!!] != null) {
+            return true
+        }
+
+        if (lastChildNode != Nothing &&
+            lastChildNode.key != null &&
+            otherNode.childNodesByKey[lastChildNode.key!!] != null) {
+            return true
+        }
+
+        if (nextSiblingNode != Nothing &&
+            nextSiblingNode.key != null &&
+            otherNode.nextSiblingNode != Nothing &&
+            nextSiblingNode.key == otherNode.nextSiblingNode.key) {
+            return true
+        }
+
+        if (prevSiblingNode != Nothing &&
+            prevSiblingNode.key != null &&
+            otherNode.prevSiblingNode != Nothing &&
+            prevSiblingNode.key == otherNode.prevSiblingNode.key) {
+            return true
+        }
+
+        return false
 
     }
 
     /**
      * Patches the child nodes of the DOM with changes between this node and the prior node.
+     * @param domNode the DOM node to patch changes into.
+     * @param priorNode the prior edition of this KatyDOM node that corresponds to the given domNode.
      */
-    private fun patchChildNodesByKey(domNode: Node, priorNode: KatyDomNode) {
+    private fun patchChildNodes(domNode: Node, priorNode: KatyDomNode) {
 
+        // Shrinking interval of child nodes of this node.
         var startChild = firstChildNode
         var endChild = lastChildNode
 
+        // Shrinking internal of child nodes of prior node.
         var priorStartChild = priorNode.firstChildNode
         var priorEndChild = priorNode.lastChildNode
 
+        // First existing DOM node - moves forward as the interval shrinks in the front
         var domChild = domNode.firstChild
 
         val document: Document = domNode.ownerDocument ?: throw IllegalArgumentException("DOM element must have an owner document.")
 
         while (startChild != endChild.nextSiblingNode) {
 
-            if (startChild.key == priorStartChild.key) {
+            if (startChild.matches(priorStartChild)) {
 
                 domChild = domChild!!.nextSibling
 
@@ -276,7 +325,7 @@ abstract class KatyDomNode(val key: String?) {
                 priorStartChild = priorStartChild.nextSiblingNode
 
             }
-            else if (endChild.key == priorEndChild.key) {
+            else if (endChild.matches(priorEndChild)) {
 
                 endChild.patch(priorEndChild)
 
@@ -284,7 +333,7 @@ abstract class KatyDomNode(val key: String?) {
                 priorEndChild = priorEndChild.prevSiblingNode
 
             }
-            else if (startChild.key == priorEndChild.key) {
+            else if (startChild.matches(priorEndChild)) {
 
                 domNode.insertBefore(priorEndChild.domNode!!, domChild)
 
@@ -294,7 +343,7 @@ abstract class KatyDomNode(val key: String?) {
                 priorEndChild = priorEndChild.prevSiblingNode
 
             }
-            else if (endChild.key == priorStartChild.key) {
+            else if (endChild.matches(priorStartChild)) {
 
                 if (endChild.nextSiblingNode == Nothing) {
                     domNode.insertBefore(priorStartChild.domNode!!, null)
@@ -310,6 +359,8 @@ abstract class KatyDomNode(val key: String?) {
 
             }
             else {
+
+                // TODO: only works for keyed nodes
 
                 val priorChild = priorNode.childNodesByKey[startChild.key]
                 if (priorChild != null) {
@@ -331,10 +382,12 @@ abstract class KatyDomNode(val key: String?) {
 
         }
 
+        // Delete any obsolete prior nodes.
         while (priorStartChild != priorEndChild.nextSiblingNode) {
 
-            if (childNodesByKey[priorStartChild.key] == null) {
+            if (priorStartChild.isEstablished) {
                 domNode.removeChild(priorStartChild.domNode!!)
+                priorStartChild.state = EState.PATCHED_REMOVED
             }
 
             priorStartChild = priorStartChild.nextSiblingNode

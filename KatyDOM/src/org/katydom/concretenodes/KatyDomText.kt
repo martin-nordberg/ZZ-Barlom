@@ -27,6 +27,7 @@ internal class KatyDomText(
 
     override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
         val childText = document.createTextNode(nodeValue)
+        establish(childText)
         domNode.insertBefore(childText, domChild)
     }
 
