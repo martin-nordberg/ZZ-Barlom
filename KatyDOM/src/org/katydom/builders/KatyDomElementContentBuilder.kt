@@ -6,6 +6,8 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.api.MouseEventHandler
+import org.katydom.types.EMouseEventType
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -84,6 +86,14 @@ open class KatyDomElementContentBuilder(
         pairs.forEach { pair ->
             data(pair.first, pair.second)
         }
+    }
+
+    /**
+     * Adds an event handler for mouse clicks.
+     * @param handler the callback that listens to mouse clicks.
+     */
+    fun onclick( handler: MouseEventHandler ) {
+        element.addMouseEventHandler( EMouseEventType.CLICK, handler )
     }
 
 }

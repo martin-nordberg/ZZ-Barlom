@@ -36,6 +36,10 @@ class ExperimentationTests {
                     classes("big" to true, "small" to false, "smelly" to true)
                     attribute("class", "very-classy")
                     attributes("a1" to "v1", "a2" to "v2")
+
+                    onclick { event ->
+                      event.clientX
+                    }
                 }
 
                 text("example")

@@ -5,6 +5,8 @@
 
 package org.katydom.abstractnodes
 
+import org.katydom.api.MouseEventHandler
+import org.katydom.types.EMouseEventType
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 
@@ -16,7 +18,7 @@ import org.w3c.dom.Node
  */
 abstract class KatyDomNode(val key: String?) {
 
-    /** Returns the first child node in this node. (Out of bounds error if there is none.) */
+    /** Returns the first and only child node in this node. (Exception if there is none or more than one.) */
     val soleChildNode: KatyDomNode
         get() {
 
@@ -42,6 +44,9 @@ abstract class KatyDomNode(val key: String?) {
             freezeAttributes()
             state = EState.ADDING_CHILD_NODES
         }
+        else if (isAddingEventHandlers) {
+            state = EState.ADDING_CHILD_NODES
+        }
         else if (!isAddingChildNodes) {
             throw IllegalStateException("Cannot modify a KatyDOM node after it has been fully constructed.")
         }
@@ -62,6 +67,25 @@ abstract class KatyDomNode(val key: String?) {
         if (childNode.key != null) {
             childNodesByKey[childNode.key] = childNode
         }
+
+    }
+
+    /**
+     * Adds a mouse event handler for the given type of mouse event.
+     * @param eventType the kind of event
+     * @param handler the callback when the vent occurs
+     */
+    internal fun addMouseEventHandler(eventType: EMouseEventType, handler: MouseEventHandler) {
+
+        if (isAddingAttributes) {
+            freezeAttributes()
+            state = EState.ADDING_CHILD_NODES
+        }
+        else if (!isAddingEventHandlers) {
+            throw IllegalStateException("KatyDOM node's event handlers must be defined before its child nodes.")
+        }
+
+        mouseEventHandlers.add(eventType to handler)
 
     }
 
@@ -165,6 +189,8 @@ abstract class KatyDomNode(val key: String?) {
     protected enum class EState {
         /** The node is still open for its attributes to be set by one of the KatyDOM builders. */
         ADDING_ATTRIBUTES,
+        /** The node is being modified for event handling. */
+        ADDING_EVENT_HANDLERS,
         /** The node's children are still under construction. */
         ADDING_CHILD_NODES,
         /** The node has been fully defined and is ready to be established in the real DOM. */
@@ -190,13 +216,17 @@ abstract class KatyDomNode(val key: String?) {
      */
     protected abstract fun freezeAttributes()
 
-    /** Whether this node is still being built. */
+    /** Whether this node is still having its attributes set. */
     protected val isAddingAttributes
         get() = state == EState.ADDING_ATTRIBUTES
 
     /** Whether this node is still being built. */
     protected val isAddingChildNodes
         get() = state == EState.ADDING_CHILD_NODES
+
+    /** Whether this node is still having its event handlers set. */
+    protected val isAddingEventHandlers
+        get() = state == EState.ADDING_EVENT_HANDLERS
 
     /** Whether this node is fully constructed. */
     protected val isConstructed
@@ -401,6 +431,9 @@ abstract class KatyDomNode(val key: String?) {
 
     /** The established DOM node after this node has been established or patched. */
     private var domNode: Node? = null
+
+    /** A map of registered event handlers. */
+    private val mouseEventHandlers: MutableList<Pair<EMouseEventType, MouseEventHandler>> = mutableListOf()
 
     /** The first child node within this node. Starts as Nothing, meaning no children. */
     private var firstChildNode: KatyDomNode = Nothing

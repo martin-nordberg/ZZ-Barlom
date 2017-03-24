@@ -81,7 +81,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClass(className: String) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         classList.add(className)
 
@@ -93,7 +93,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClasses(classes: Iterable<String>) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         classList.addAll(classes)
 
@@ -107,7 +107,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttribute(name: String, value: String?) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         if (value == null) {
             attributes.remove(key)
@@ -123,7 +123,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttributes(attributes: Map<String, String>) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         for ((name, value) in attributes) {
             setAttribute(name, value)
@@ -138,7 +138,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setBooleanAttribute(name: String, value: Boolean?) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         if (value != null && value) {
             attributes.put(name, "")
@@ -156,7 +156,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(name: String, value: String) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         if (name.startsWith("data-")) {
             // TODO: Warning: "data-" prefix not required for dataset additions.
@@ -174,7 +174,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(dataset: Map<String, String>) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         for ((name, value) in dataset) {
             setData(name, value)
@@ -187,7 +187,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setStyle(style: String?) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         setAttribute("style", style)
 
@@ -200,7 +200,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setTrueFalseAttribute(name: String, value: Boolean?) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         if (value != null) {
             if (value) {
@@ -223,7 +223,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setYesNoAttribute(name: String, value: Boolean?) {
 
-        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add child nodes.")
+        if (!isAddingAttributes) throw IllegalStateException("Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes.")
 
         if (value != null) {
             if (value) {
