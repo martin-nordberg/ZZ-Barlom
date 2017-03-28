@@ -3,20 +3,9 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 import org.katydom.api.katyDomComponent
 import org.katydom.api.makeKatyDomLifecycle
-import org.w3c.dom.Element
 import kotlin.browser.document
-import kotlin.dom.createElement
 
 
-fun Element.appendChildWithText(tag: String, text: String) {
-
-    appendChild(document.createElement(tag) {
-        appendChild(document.createTextNode(text))
-    })
-
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 val cmp0 = katyDomComponent {
@@ -43,6 +32,10 @@ val vdomNode = katyDom {
                 li { text("item 1") }
                 li { text("item 2") }
                 li {
+                    onclick {
+                        console.log( "Clicked!" )
+                    }
+
                     text("item 3")
                     div {}
                 }

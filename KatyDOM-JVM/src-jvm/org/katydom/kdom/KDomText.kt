@@ -86,5 +86,3 @@ open class KDomText(
     }
 
 }
-
-private val FIFTY_SPACES = "                                                  "

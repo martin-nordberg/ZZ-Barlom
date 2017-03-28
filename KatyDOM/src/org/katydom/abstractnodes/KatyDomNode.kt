@@ -6,9 +6,12 @@
 package org.katydom.abstractnodes
 
 import org.katydom.api.MouseEventHandler
+import org.katydom.eventtarget.addEventListener
 import org.katydom.types.EMouseEventType
 import org.w3c.dom.Document
 import org.w3c.dom.Node
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.MouseEvent
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -103,8 +106,9 @@ abstract class KatyDomNode(val key: String?) {
         }
 
         if (nodeName != "#text") {
-            establishChildNodes(domNode)
             establishAttributes(domNode)
+            establishEventHandlers(domNode)
+            establishChildNodes(domNode)
         }
 
         this.domNode = domNode
@@ -254,7 +258,7 @@ abstract class KatyDomNode(val key: String?) {
 ////
 
     /**
-     * Establishes child nodes in the given DOM node  matching the child node of this KatyDOM node.
+     * Establishes child nodes in the given DOM node matching the child nodes of this KatyDOM node.
      */
     private fun establishChildNodes(domNode: Node) {
 
@@ -269,6 +273,20 @@ abstract class KatyDomNode(val key: String?) {
             childNode = childNode.nextSiblingNode
 
         }
+    }
+
+    /**
+     * Establishes event handlers for the given domNode from the event handlers of this KatyDOM node.
+     */
+    private fun establishEventHandlers(domNode: Node) {
+
+        for (eventHandler in mouseEventHandlers) {
+            domNode.addEventListener(
+                eventHandler.first.domName,
+                { e: Event -> eventHandler.second(e as MouseEvent) }
+            )
+        }
+
     }
 
     /**
