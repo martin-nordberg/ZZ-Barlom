@@ -5,6 +5,7 @@
 
 package org.katydom.api
 
+import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
 
 /**
@@ -12,6 +13,11 @@ import org.w3c.dom.events.MouseEvent
  */
 @Suppress("unused")
 class EventCancellationException : RuntimeException()
+
+/**
+ * Generic event handler: input is any event. To cancel an event throw EventCancellationException.
+ */
+typealias EventHandler = (e: Event) -> Unit
 
 /**
  * Mouse event handler: input is a mouse event. To cancel an event throw EventCancellationException.

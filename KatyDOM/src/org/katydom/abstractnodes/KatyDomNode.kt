@@ -5,8 +5,9 @@
 
 package org.katydom.abstractnodes
 
+import org.katydom.api.EventCancellationException
+import org.katydom.api.EventHandler
 import org.katydom.api.MouseEventHandler
-import org.katydom.eventtarget.addEventListener
 import org.katydom.types.EMouseEventType
 import org.w3c.dom.Document
 import org.w3c.dom.Node
@@ -88,7 +89,17 @@ abstract class KatyDomNode(val key: String?) {
             throw IllegalStateException("KatyDOM node's event handlers must be defined before its child nodes.")
         }
 
-        mouseEventHandlers.add(eventType to handler)
+        eventHandlers.put(
+            eventType.domName,
+            { event: Event ->
+                try {
+                    handler(event as MouseEvent)
+                }
+                catch (exception: EventCancellationException) {
+                    event.preventDefault()
+                }
+            }
+        )
 
     }
 
@@ -158,10 +169,13 @@ abstract class KatyDomNode(val key: String?) {
         // Patch the attributes.
         patchAttributes(domNode, priorNode)
 
+        // Patch the event handlers
+        patchEventHandlers(domNode, priorNode)
+
         // Patch the child nodes.
         if (priorNode.firstChildNode == Nothing) {
 
-            establish(domNode)
+            establishChildNodes(domNode)
 
         }
         else if (firstChildNode == Nothing) {
@@ -280,10 +294,10 @@ abstract class KatyDomNode(val key: String?) {
      */
     private fun establishEventHandlers(domNode: Node) {
 
-        for (eventHandler in mouseEventHandlers) {
+        for ((key, eventHandler) in eventHandlers) {
             domNode.addEventListener(
-                eventHandler.first.domName,
-                { e: Event -> eventHandler.second(e as MouseEvent) }
+                key,
+                eventHandler
             )
         }
 
@@ -444,6 +458,36 @@ abstract class KatyDomNode(val key: String?) {
 
     }
 
+    /**
+     * Patches the event handlers of the DOM with changes between this node and the prior node.
+     * @param domNode the DOM node to patch changes into.
+     * @param priorNode the prior edition of this KatyDOM node that corresponds to the given domNode.
+     */
+    private fun patchEventHandlers(domNode: Node, priorNode: KatyDomNode) {
+
+        // TODO: Need the event handlers to implement equals
+
+        // Establish the new event listeners
+        for ((key, eventHandler) in eventHandlers) {
+            if (eventHandler != priorNode.eventHandlers[key]) {
+                val priorEventHandler = priorNode.eventHandlers[key]
+                if (priorEventHandler != null) {
+                    domNode.removeEventListener(key, priorEventHandler)
+                }
+                domNode.addEventListener(key, eventHandler)
+            }
+        }
+
+        // Kill of the old ones
+        for ((key, priorEventHandler) in priorNode.eventHandlers) {
+            if (!eventHandlers.contains(key)) {
+                domNode.removeEventListener(key, priorEventHandler)
+            }
+        }
+
+
+    }
+
     /** A map of child nodes by their key. */
     private val childNodesByKey: MutableMap<String, KatyDomNode> = hashMapOf()
 
@@ -451,7 +495,7 @@ abstract class KatyDomNode(val key: String?) {
     private var domNode: Node? = null
 
     /** A map of registered event handlers. */
-    private val mouseEventHandlers: MutableList<Pair<EMouseEventType, MouseEventHandler>> = mutableListOf()
+    private val eventHandlers: MutableMap<String, EventHandler> = mutableMapOf()
 
     /** The first child node within this node. Starts as Nothing, meaning no children. */
     private var firstChildNode: KatyDomNode = Nothing
@@ -468,6 +512,9 @@ abstract class KatyDomNode(val key: String?) {
     /** Flag set to true once the node is fully constructed. */
     private var state: EState = EState.ADDING_ATTRIBUTES
 
+    /**
+     * Sentinel null-like object for terminating lists without real null.
+     */
     private object Nothing : KatyDomNode("org.katydom.abstractnodes.KatyDomNode.Nothing#key") {
 
         override val nodeName: String
