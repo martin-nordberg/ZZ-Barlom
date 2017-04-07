@@ -11,3 +11,7 @@ import org.w3c.dom.events.Event
 fun Node.addEventListener(eventName: String, eventHandler:(Event)->Unit ) {
     // do nothing in JVM
 }
+
+fun Node.removeEventListener(eventName: String, eventHandler:(Event)->Unit) {
+    // do nothing in JVM
+}
