@@ -1,3 +1,8 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.katydom.eventtarget
 
 /**
@@ -5,3 +10,5 @@ package org.katydom.eventtarget
  */
 
 fun addEventListener() {}
+
+fun removeEventListener() {}

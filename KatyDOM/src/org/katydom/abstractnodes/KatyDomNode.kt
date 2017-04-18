@@ -481,7 +481,7 @@ abstract class KatyDomNode(val key: String?) {
             }
         }
 
-        // Kill of the old ones
+        // Kill off the old ones
         for ((key, priorEventHandler) in priorNode.eventHandlers) {
             if (!eventHandlers.contains(key)) {
                 domNode.removeEventListener(key, priorEventHandler)
