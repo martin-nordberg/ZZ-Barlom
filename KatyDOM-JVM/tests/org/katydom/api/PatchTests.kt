@@ -87,7 +87,7 @@ class PatchTests {
 
         val vnode1 = katyDom {
 
-            div("#holder") {
+            article("#holder") {
 
                 div("#a") {}
                 div("#b") {}
@@ -98,16 +98,16 @@ class PatchTests {
 
         }
 
-        val html1 = """<div id="holder">
+        val html1 = """<article id="holder">
                       |  <div id="a"></div>
                       |  <div id="b"></div>
                       |  <div id="c"></div>
                       |  <div id="d"></div>
-                      |</div>""".trimMargin()
+                      |</article>""".trimMargin()
 
         val vnode2 = katyDom {
 
-            div("#holder") {
+            article("#holder") {
 
                 div("#a") {}
                 div("#c") {}
@@ -118,12 +118,12 @@ class PatchTests {
 
         }
 
-        val html2 = """<div id="holder">
+        val html2 = """<article id="holder">
                       |  <div id="a"></div>
                       |  <div id="c"></div>
                       |  <div id="b"></div>
                       |  <div id="d"></div>
-                      |</div>""".trimMargin()
+                      |</article>""".trimMargin()
 
         checkPatch(html2, vnode2, html1, vnode1)
 

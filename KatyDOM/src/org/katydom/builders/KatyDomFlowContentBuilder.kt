@@ -19,9 +19,68 @@ import org.katydom.types.EOrderedListType
 class KatyDomFlowContentBuilder(
 
     /** The element whose content is being built. */
-    private val element: KatyDomHtmlElement
+    private val element: KatyDomHtmlElement,
+
+    /** Restrictions on content enforced at run time. */
+    private val contentRestrictions: KatyDomFlowContentRestrictions = KatyDomFlowContentRestrictions()
 
 ) : KatyDomElementContentBuilder(element) {
+
+    /**
+     * Adds an article element with minimal attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
+     * @param style a string containing CSS for the element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun article(
+        selector: String? = null,
+        key: String? = null,
+        style: String? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomArticle(selector, key, style)
+        this.withMainNotAllowed(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
+
+    /**
+     * Adds an article element with any global attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifiying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun article(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomArticle(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
+        this.withMainNotAllowed(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
 
     /**
      * Adds a div element with minimal attributes as the next child of the element under construction.
@@ -37,7 +96,7 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         val childElement = KatyDomDiv(selector, key, style)
-        KatyDomFlowContentBuilder(childElement).defineContent()
+        this.withNoAddedRestrictions(childElement).defineContent()
         childElement.freeze()
         element.addChildNode(childElement)
     }
@@ -74,7 +133,7 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         val childElement = KatyDomDiv(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        KatyDomFlowContentBuilder(childElement).defineContent()
+        this.withNoAddedRestrictions(childElement).defineContent()
         childElement.freeze()
         element.addChildNode(childElement)
     }
@@ -94,6 +153,122 @@ class KatyDomFlowContentBuilder(
     ) {
         val childElement = KatyDomHr(selector, key, style)
         KatyDomElementContentBuilder(childElement).defineAttributes()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
+
+    /**
+     * Adds a main element with minimal attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
+     * @param style a string containing CSS for the element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun main(
+        selector: String? = null,
+        key: String? = null,
+        style: String? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        check( this.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here."}
+
+        val childElement = KatyDomMain(selector, key, style)
+        this.withMainNotAllowed(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
+
+    /**
+     * Adds a main element with any global attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifiying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun main(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        check( this.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here."}
+
+        val childElement = KatyDomMain(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
+        this.withMainNotAllowed(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
+
+    /**
+     * Adds a nav element with minimal attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
+     * @param style a string containing CSS for the element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun nav(
+        selector: String? = null,
+        key: String? = null,
+        style: String? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomNav(selector, key, style)
+        this.withMainNotAllowed(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
+
+    /**
+     * Adds a nav element with any global attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifiying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun nav(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomNav(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
+        this.withMainNotAllowed(childElement).defineContent()
         childElement.freeze()
         element.addChildNode(childElement)
     }
@@ -168,6 +343,62 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
+     * Adds a section element with minimal attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
+     * @param style a string containing CSS for the element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun section(
+        selector: String? = null,
+        key: String? = null,
+        style: String? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomSection(selector, key, style)
+        this.withNoAddedRestrictions(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
+
+    /**
+     * Adds a section element with any global attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifiying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
+     */
+    fun section(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        val childElement = KatyDomSection(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
+        this.withNoAddedRestrictions(childElement).defineContent()
+        childElement.freeze()
+        element.addChildNode(childElement)
+    }
+
+    /**
      * Adds a text node as the next child of the element under construction.
      * @param nodeValue the text within the node.
      */
@@ -233,6 +464,41 @@ class KatyDomFlowContentBuilder(
         childElement.freeze()
         element.addChildNode(childElement)
     }
+
+////
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no footer element allowed.
+     */
+    private fun withFooterNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+        return KatyDomFlowContentBuilder(element, contentRestrictions.withFooterNotAllowed())
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no header element allowed.
+     */
+    private fun withHeaderNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+        return KatyDomFlowContentBuilder(element, contentRestrictions.withHeaderNotAllowed())
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no main element allowed.
+     */
+    private fun withMainNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+        return KatyDomFlowContentBuilder(element, contentRestrictions.withMainNotAllowed())
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder.
+     */
+    private fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+        return KatyDomFlowContentBuilder(element, contentRestrictions)
+    }
+
 
 }
 
