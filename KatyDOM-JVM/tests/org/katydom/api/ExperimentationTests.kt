@@ -77,4 +77,40 @@ class ExperimentationTests {
 
     }
 
+    @Test
+    fun `Sample 2 of KatyDOM DSL should produce correct HTML`() {
+
+        val vdomNode = katyDom {
+
+            div("#myDiv.my-class", style = "color:red") {
+
+                div(hidden=true) {
+                    text("a sample")
+                }
+
+                div(".some-class",title="A Title") {
+                    classes("big" to true, "small" to false, "smelly" to true)
+                    attribute("class", "very-classy")
+                    attributes("a1" to "v1", "a2" to "v2")
+
+                    onclick { event ->
+                      event.clientX
+                    }
+                }
+
+            }
+
+        }
+
+        val html = """<div style="color:red" id="myDiv" class="my-class">
+                     |  <div hidden="">
+                     |    a sample
+                     |  </div>
+                     |  <div a1="v1" a2="v2" title="A Title" class="some-class big smelly very-classy"></div>
+                     |</div>""".trimMargin()
+
+        checkBuild(html, vdomNode)
+
+    }
+
 }

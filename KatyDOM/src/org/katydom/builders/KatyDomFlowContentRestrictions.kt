@@ -22,6 +22,14 @@ class KatyDomFlowContentRestrictions(
         )
     }
 
+    fun withFooterHeaderMainNotAllowed() : KatyDomFlowContentRestrictions {
+        return KatyDomFlowContentRestrictions(
+            footerAllowed = false,
+            headerAllowed = false,
+            mainAllowed = false
+        )
+    }
+
     fun withHeaderNotAllowed() : KatyDomFlowContentRestrictions {
         return KatyDomFlowContentRestrictions(
             footerAllowed = footerAllowed,
