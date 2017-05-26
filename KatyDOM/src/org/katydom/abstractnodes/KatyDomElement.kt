@@ -43,22 +43,6 @@ abstract class KatyDomElement : KatyDomNode {
     }
 
     /**
-     * Constructs a new element with minimal attributes.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param style a string containing CSS for this element.
-     */
-    constructor(
-        selector: String?,
-        key: String?,
-        style: String?
-    ) : this(selector?.split("."), key) {
-
-        setAttribute("style", style)
-
-    }
-
-    /**
      * Constructs a new element with global attributes beyond id and class.
      * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -70,8 +54,9 @@ abstract class KatyDomElement : KatyDomNode {
         key: String?,
         style: String?,
         tabindex: Int?
-    ) : this(selector, key, style) {
+    ) : this(selector?.split("."), key) {
 
+        setAttribute("style", style)
         setAttribute("tabindex", tabindex?.toString())
 
     }

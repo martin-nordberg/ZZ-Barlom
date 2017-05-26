@@ -13,21 +13,7 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an <article> element.
  */
-internal class KatyDomArticle : KatyDomHtmlElement {
-
-    /**
-     * Constructs a new article element with minimal attributes.
-     */
-    constructor(
-        selector: String?,
-        key: String?,
-        style: String?
-    ) : super(selector, key, style)
-
-    /**
-     * Constructs a new article element with global elements beyond id and class.
-     */
-    constructor(
+internal class KatyDomArticle(
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -40,7 +26,7 @@ internal class KatyDomArticle : KatyDomHtmlElement {
         tabindex: Int?,
         title: String?,
         translate: Boolean?
-    ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "ARTICLE"
 

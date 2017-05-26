@@ -16,25 +16,6 @@ class KatyDomListItemContentBuilder(private val element: KatyDomHtmlElement)
     : KatyDomElementContentBuilder(element) {
 
     /**
-     * Adds an li element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun li(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomLi(selector, key, style)
-        KatyDomFlowContentBuilder(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
      * Adds an li element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.

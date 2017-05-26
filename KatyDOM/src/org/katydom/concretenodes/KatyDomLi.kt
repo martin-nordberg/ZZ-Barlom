@@ -13,21 +13,7 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an <li> element.
  */
-internal class KatyDomLi : KatyDomHtmlElement {
-
-    /**
-     * Constructs a new li element with minimal attributes.
-     */
-    constructor(
-        selector: String?,
-        key: String?,
-        style: String?
-    ) : super(selector, key, style)
-
-    /**
-     * Constructs a new li element with global elements beyond id and class.
-     */
-    constructor(
+internal class KatyDomLi(
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -40,7 +26,7 @@ internal class KatyDomLi : KatyDomHtmlElement {
         tabindex: Int?,
         title: String?,
         translate: Boolean?
-    ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "LI"
 

@@ -12,7 +12,11 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 /**
  * Virtual node for an <hr> element.
  */
-internal class KatyDomHr(selector: String?, key: String?, style: String?) : KatyDomHtmlElement(selector, key, style) {
+internal class KatyDomHr(
+        selector: String?,
+        key: String?,
+        style: String?
+) : KatyDomHtmlElement(selector, key, style=style) {
 
     override val nodeName = "HR"
 

@@ -13,52 +13,43 @@ import org.w3c.dom.Node
 
 /**
  * Abstract KatyDOM class corresponding to a DOM HTMLElement node.
+ * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
+ * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+ * @param accesskey a string specifiying the HTML accesskey value.
+ * @param contenteditable whether the element has editable content.
+ * @param dir the left-to-right direction of text inside this element.
+ * @param hidden true if the element is to be hidden.
+ * @param lang the language of text within this element.
+ * @param spellcheck whether the element is subject to spell checking.
+ * @param style a string containing CSS for this element.
+ * @param tabindex the tab index for the element.
+ * @param title a tool tip for the element.
+ * @param translate whether to translate text within this element.
  */
 @Suppress("unused")
-abstract class KatyDomHtmlElement : KatyDomElement {
-
-    /**
-     * Constructs a new HTML element with minimal attributes.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param style a string containing CSS for this element.
-     */
-    constructor(
+abstract class KatyDomHtmlElement(
         selector: String?,
         key: String?,
-        style: String?
-    ) : super(selector, key, style)
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null
+) : KatyDomElement(selector, key, style, tabindex) {
 
-    /**
-     * Constructs a new HTML element with global attributes beyond id and class.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param accesskey a string specifiying the HTML accesskey value.
-     * @param contenteditable whether the element has editable content.
-     * @param dir the left-to-right direction of text inside this element.
-     * @param hidden true if the element is to be hidden.
-     * @param lang the language of text within this element.
-     * @param spellcheck whether the element is subject to spell checking.
-     * @param style a string containing CSS for this element.
-     * @param tabindex the tab index for the element.
-     * @param title a tool tip for the element.
-     * @param translate whether to translate text within this element.
-     */
-    constructor(
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        hidden: Boolean?,
-        lang: String?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?
-    ) : super(selector, key, style, tabindex) {
+    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+        val childElement = document.createElement(nodeName)
+        establish(childElement)
+        domNode.insertBefore(childElement, domChild)
 
+    }
+
+    init {
         setAttribute("accesskey", accesskey)
         setTrueFalseAttribute("contenteditable", contenteditable)
         setAttribute("dir", dir?.toHtmlString())
@@ -67,14 +58,6 @@ abstract class KatyDomHtmlElement : KatyDomElement {
         setTrueFalseAttribute("spellcheck", spellcheck)
         setAttribute("title", title)
         setYesNoAttribute("translate", translate)
-
-    }
-
-    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
-        val childElement = document.createElement(nodeName)
-        establish(childElement)
-        domNode.insertBefore(childElement, domChild)
-
     }
 }
 

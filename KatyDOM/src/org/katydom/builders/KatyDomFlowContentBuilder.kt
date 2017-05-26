@@ -27,25 +27,6 @@ class KatyDomFlowContentBuilder(
 ) : KatyDomElementContentBuilder(element) {
 
     /**
-     * Adds an article element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun article(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomArticle(selector, key, style)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
      * Adds an article element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -77,25 +58,6 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         val childElement = KatyDomArticle(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
-     * Adds an aside element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun aside(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomAside(selector, key, style)
         this.withMainNotAllowed(childElement).defineContent()
         childElement.freeze()
         element.addChildNode(childElement)
@@ -139,25 +101,6 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
-     * Adds a div element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun div(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomDiv(selector, key, style)
-        this.withNoAddedRestrictions(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
      * Adds a div element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -195,25 +138,6 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
-     * Adds a footer element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun footer(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomFooter(selector, key, style)
-        this.withFooterHeaderMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
      * Adds an footer element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -245,25 +169,6 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         val childElement = KatyDomFooter(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withFooterHeaderMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
-     * Adds a header element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun header(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomHeader(selector, key, style)
         this.withFooterHeaderMainNotAllowed(childElement).defineContent()
         childElement.freeze()
         element.addChildNode(childElement)
@@ -326,27 +231,6 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
-     * Adds a main element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun main(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        check( this.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here."}
-
-        val childElement = KatyDomMain(selector, key, style)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
      * Adds a main element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -386,25 +270,6 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
-     * Adds a nav element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun nav(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomNav(selector, key, style)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
      * Adds a nav element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -437,31 +302,6 @@ class KatyDomFlowContentBuilder(
     ) {
         val childElement = KatyDomNav(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
         this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
-     * Adds an ol element as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param reversed whether the list is to appear in reverse order.
-     * @param start the numeric value for the first list item.
-     * @param style the CSS style attribute for the element.
-     * @param type the type of list counter to use.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun ol(
-        selector: String? = null,
-        key: String? = null,
-        reversed: Boolean? = null,
-        start: Int? = null,
-        style: String? = null,
-        type: EOrderedListType? = null,
-        defineContent: KatyDomListItemContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomOl(selector, key, reversed, start, style, type)
-        KatyDomListItemContentBuilder(childElement).defineContent()
         childElement.freeze()
         element.addChildNode(childElement)
     }
@@ -511,25 +351,6 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
-     * Adds a section element with minimal attributes as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for the KatyDOM element that is unique among all the siblings of the element.
-     * @param style a string containing CSS for the element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun section(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomSection(selector, key, style)
-        this.withNoAddedRestrictions(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
-    }
-
-    /**
      * Adds a section element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -574,25 +395,6 @@ class KatyDomFlowContentBuilder(
         val textNode = KatyDomText(nodeValue)
         textNode.freeze()
         element.addChildNode(textNode)
-    }
-
-    /**
-     * Adds a ul element as the next child of the element under construction.
-     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param style a string containing CSS for this element.
-     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
-     */
-    fun ul(
-        selector: String? = null,
-        key: String? = null,
-        style: String? = null,
-        defineContent: KatyDomListItemContentBuilder.() -> Unit
-    ) {
-        val childElement = KatyDomUl(selector, key, style)
-        KatyDomListItemContentBuilder(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
     }
 
     /**
