@@ -11,9 +11,13 @@ import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Suppress("unused")
-class KatyDomListItemContentBuilder(private val element: KatyDomHtmlElement)
-    : KatyDomElementContentBuilder(element) {
+class KatyDomListItemContentBuilder(
+
+        internal val flowContent: KatyDomFlowContentBuilder,
+
+        private val element: KatyDomHtmlElement
+
+) : KatyDomElementContentBuilder(element) {
 
     /**
      * Adds an li element with any global attributes as the next child of the element under construction.
@@ -46,10 +50,10 @@ class KatyDomListItemContentBuilder(private val element: KatyDomHtmlElement)
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomLi(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        KatyDomFlowContentBuilder(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomLi(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                          tabindex, title, translate, defineContent)
+        )
     }
 
 }

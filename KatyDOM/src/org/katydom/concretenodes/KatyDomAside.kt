@@ -6,6 +6,7 @@
 package org.katydom.concretenodes
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +15,7 @@ import org.katydom.types.EDirection
  * Virtual node for an <aside> element.
  */
 internal class KatyDomAside(
+        flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -25,10 +27,16 @@ internal class KatyDomAside(
         style: String?,
         tabindex: Int?,
         title: String?,
-        translate: Boolean?
+        translate: Boolean?,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "ASIDE"
+
+    init {
+        flowContent.withMainNotAllowed(this).defineContent()
+        this.freeze()
+    }
 
 }
 

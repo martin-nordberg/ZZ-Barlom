@@ -22,7 +22,7 @@ class KatyDomFlowContentBuilder(
     private val element: KatyDomHtmlElement,
 
     /** Restrictions on content enforced at run time. */
-    private val contentRestrictions: KatyDomFlowContentRestrictions = KatyDomFlowContentRestrictions()
+    internal val contentRestrictions: KatyDomFlowContentRestrictions = KatyDomFlowContentRestrictions()
 
 ) : KatyDomElementContentBuilder(element) {
 
@@ -57,10 +57,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomArticle(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+            KatyDomArticle(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                           tabindex, title, translate, defineContent)
+        )
     }
 
     /**
@@ -94,10 +94,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomAside(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomAside(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                             tabindex, title, translate, defineContent)
+        )
     }
 
     /**
@@ -131,10 +131,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomDiv(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withNoAddedRestrictions(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomDiv(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                           tabindex, title, translate, defineContent)
+        )
     }
 
     /**
@@ -168,10 +168,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomFooter(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withFooterHeaderMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomFooter(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                              tabindex, title, translate,defineContent)
+        )
     }
 
     /**
@@ -205,10 +205,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomHeader(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withFooterHeaderMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomHeader(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                              tabindex, title, translate,defineContent)
+        )
     }
 
     /**
@@ -224,10 +224,7 @@ class KatyDomFlowContentBuilder(
         style: String? = null,
         defineAttributes: KatyDomElementContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomHr(selector, key, style)
-        KatyDomElementContentBuilder(childElement).defineAttributes()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(KatyDomHr(selector, key, style,defineAttributes))
     }
 
     /**
@@ -261,12 +258,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        check( this.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here."}
-
-        val childElement = KatyDomMain(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomMain(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                            tabindex, title, translate, defineContent)
+        )
     }
 
     /**
@@ -300,10 +295,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomNav(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withMainNotAllowed(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomNav(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                           tabindex, title, translate,defineContent)
+        )
     }
 
     /**
@@ -344,10 +339,10 @@ class KatyDomFlowContentBuilder(
         type: EOrderedListType? = null,
         defineContent: KatyDomListItemContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomOl(selector, key, accesskey, contenteditable, dir, hidden, lang, reversed, spellcheck, start, style, tabindex, title, translate, type)
-        KatyDomListItemContentBuilder(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomOl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, reversed, spellcheck,
+                          start, style, tabindex, title, translate, type, defineContent)
+        )
     }
 
     /**
@@ -381,10 +376,10 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomSection(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        this.withNoAddedRestrictions(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomSection(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                               tabindex, title, translate, defineContent)
+        )
     }
 
     /**
@@ -392,9 +387,7 @@ class KatyDomFlowContentBuilder(
      * @param nodeValue the text within the node.
      */
     fun text(nodeValue: String) {
-        val textNode = KatyDomText(nodeValue)
-        textNode.freeze()
-        element.addChildNode(textNode)
+        element.addChildNode(KatyDomText(nodeValue))
     }
 
     /**
@@ -429,43 +422,27 @@ class KatyDomFlowContentBuilder(
         translate: Boolean? = null,
         defineContent: KatyDomListItemContentBuilder.() -> Unit
     ) {
-        val childElement = KatyDomUl(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate)
-        KatyDomListItemContentBuilder(childElement).defineContent()
-        childElement.freeze()
-        element.addChildNode(childElement)
+        element.addChildNode(
+                KatyDomUl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                          tabindex, title, translate, defineContent)
+        )
     }
 
 ////
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
-     * as this builder plus no footer element allowed.
-     */
-    private fun withFooterNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
-        return KatyDomFlowContentBuilder(element, contentRestrictions.withFooterNotAllowed())
-    }
-
-    /**
-     * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no footer, header or main elements allowed.
      */
-    private fun withFooterHeaderMainNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+    internal fun withFooterHeaderMainNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions.withFooterHeaderMainNotAllowed())
-    }
-
-    /**
-     * Creates a new content builder for the given child [element] that has the same restrictions
-     * as this builder plus no header element allowed.
-     */
-    private fun withHeaderNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
-        return KatyDomFlowContentBuilder(element, contentRestrictions.withHeaderNotAllowed())
     }
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no main element allowed.
      */
-    private fun withMainNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+    internal fun withMainNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions.withMainNotAllowed())
     }
 
@@ -473,7 +450,7 @@ class KatyDomFlowContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    private fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+    internal fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions)
     }
 

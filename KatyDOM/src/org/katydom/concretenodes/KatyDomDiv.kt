@@ -6,6 +6,7 @@
 package org.katydom.concretenodes
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +15,7 @@ import org.katydom.types.EDirection
  * Virtual node for a <div> element.
  */
 internal class KatyDomDiv(
+        flowContent: KatyDomFlowContentBuilder? = null,
         selector: String? = null,
         key: String? = null,
         accesskey: String? = null,
@@ -25,10 +27,16 @@ internal class KatyDomDiv(
         style: String? = null,
         tabindex: Int? = null,
         title: String? = null,
-        translate: Boolean? = null
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "DIV"
+
+    init {
+        ( flowContent ?: KatyDomFlowContentBuilder(this) ).withNoAddedRestrictions(this).defineContent()
+        this.freeze()
+    }
 
 }
 

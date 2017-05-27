@@ -6,6 +6,7 @@
 package org.katydom.concretenodes
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +15,7 @@ import org.katydom.types.EDirection
  * Virtual node for a <main> element.
  */
 internal class KatyDomMain(
+        flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -25,10 +27,18 @@ internal class KatyDomMain(
         style: String?,
         tabindex: Int?,
         title: String?,
-        translate: Boolean?
+        translate: Boolean?,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "MAIN"
+
+    init {
+        check( flowContent.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here." }
+
+        flowContent.withMainNotAllowed(this).defineContent()
+        this.freeze()
+    }
 
 }
 

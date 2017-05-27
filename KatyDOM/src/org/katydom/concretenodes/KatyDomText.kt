@@ -21,7 +21,12 @@ internal class KatyDomText(
     val nodeValue: String
 
 ) : KatyDomNode(null) {
+
     override val nodeName = "#text"
+
+    init {
+        this.freeze()
+    }
 
 ////
 

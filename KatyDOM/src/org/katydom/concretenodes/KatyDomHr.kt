@@ -6,6 +6,8 @@
 package org.katydom.concretenodes
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.builders.KatyDomElementContentBuilder
+import org.katydom.builders.KatyDomFlowContentBuilder
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -15,10 +17,16 @@ import org.katydom.abstractnodes.KatyDomHtmlElement
 internal class KatyDomHr(
         selector: String?,
         key: String?,
-        style: String?
+        style: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, style=style) {
 
     override val nodeName = "HR"
+
+    init {
+        KatyDomElementContentBuilder(this).defineAttributes()
+        this.freeze()
+    }
 
 }
 

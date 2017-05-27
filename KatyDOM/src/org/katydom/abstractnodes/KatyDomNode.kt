@@ -132,21 +132,6 @@ abstract class KatyDomNode(val key: String?) {
     }
 
     /**
-     * Freezes the content of this node. Makes any further attempt to add child nodes or attributes fail.
-     */
-    internal fun freeze() {
-
-        require( state <= EState.CONSTRUCTED ) { "KatyDOM node already fully constructed." }
-
-        if (isAddingAttributes) {
-            freezeAttributes()
-        }
-
-        state = EState.CONSTRUCTED
-
-    }
-
-    /**
      * Patches a real DOM node by determining the difference between this KatyDOM node and its prior edition.
      * @param priorNode the prior edition of this KatyDOM node.
      */
@@ -231,6 +216,21 @@ abstract class KatyDomNode(val key: String?) {
      * @param domElement the real DOM element being built.
      */
     protected abstract fun establishAttributes(domElement: Node)
+
+    /**
+     * Freezes the content of this node. Makes any further attempt to add child nodes or attributes fail.
+     */
+    protected fun freeze() {
+
+        require( state <= EState.CONSTRUCTED ) { "KatyDOM node already fully constructed." }
+
+        if (isAddingAttributes) {
+            freezeAttributes()
+        }
+
+        state = EState.CONSTRUCTED
+
+    }
 
     /**
      * Removes the scaffolding of a derived class. Override as needed. Base class method does nothing.
