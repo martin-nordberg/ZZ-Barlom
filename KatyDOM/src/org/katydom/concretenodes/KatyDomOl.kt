@@ -43,7 +43,7 @@ internal class KatyDomOl(
         setAttribute("start", start?.toString())
         setAttribute("type", type?.toHtmlString())
 
-        KatyDomListItemContentBuilder(flowContent,this).defineContent()
+        KatyDomListItemContentBuilder(flowContent, true, this).defineContent()
         this.freeze()
     }
 

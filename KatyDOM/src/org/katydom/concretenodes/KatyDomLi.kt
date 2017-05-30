@@ -29,12 +29,19 @@ internal class KatyDomLi(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
+        value: Int?,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex,
+        title, translate) {
 
     override val nodeName = "LI"
 
     init {
+        if ( value != null ) {
+            check( listContent.isOrdered ) { "Only ordered list items can have value attributes." }
+            setAttribute("value", value.toString())
+        }
+
         listContent.flowContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }

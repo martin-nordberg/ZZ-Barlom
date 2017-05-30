@@ -15,6 +15,8 @@ class KatyDomListItemContentBuilder(
 
         internal val flowContent: KatyDomFlowContentBuilder,
 
+        internal val isOrdered : Boolean,
+
         private val element: KatyDomHtmlElement
 
 ) : KatyDomElementContentBuilder(element) {
@@ -33,6 +35,7 @@ class KatyDomListItemContentBuilder(
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value attribute for the list item (its ordinal number in the list).
      * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun li(
@@ -48,11 +51,12 @@ class KatyDomListItemContentBuilder(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
+        value: Int? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
                 KatyDomLi(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+                          tabindex, title, translate, value, defineContent)
         )
     }
 

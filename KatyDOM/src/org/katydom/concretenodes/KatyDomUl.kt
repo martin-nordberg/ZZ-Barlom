@@ -35,7 +35,7 @@ internal class KatyDomUl(
     override val nodeName = "UL"
 
     init {
-        KatyDomListItemContentBuilder(flowContent, this).defineContent()
+        KatyDomListItemContentBuilder(flowContent, false, this).defineContent()
         this.freeze()
     }
 
