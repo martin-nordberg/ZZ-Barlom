@@ -83,6 +83,67 @@ class PatchTests {
     }
 
     @Test
+    fun `Sample 2 patches correctly`() {
+
+        val vnode1 = katyDom {
+
+            section("#mysection") {
+
+                h1 {
+                    span( ".pink") {
+                        text( "A Heading" )
+                    }
+                }
+
+                span("#theStuff") {
+                    text("Stuff is here.")
+                }
+
+            }
+
+        }
+
+        val html1 = """<section id="mysection">
+                      |  <h1>
+                      |    <span class="pink">
+                      |      A Heading
+                      |    </span>
+                      |  </h1>
+                      |  <span id="theStuff">
+                      |    Stuff is here.
+                      |  </span>
+                      |</section>""".trimMargin()
+
+        val vnode2 = katyDom {
+
+            section("#mysection") {
+
+                h6 {
+                    text( "An Unstyled Heading" )
+                }
+
+                span("#theStuff") {
+                    text("Stuff is here.")
+                }
+
+            }
+
+        }
+
+        val html2 = """<section id="mysection">
+                      |  <h6>
+                      |    An Unstyled Heading
+                      |  </h6>
+                      |  <span id="theStuff">
+                      |    Stuff is here.
+                      |  </span>
+                      |</section>""".trimMargin()
+
+        checkPatch(html2, vnode2, html1, vnode1)
+
+    }
+
+    @Test
     fun `Reordered nodes (A) patch correctly`() {
 
         val vnode1 = katyDom {
