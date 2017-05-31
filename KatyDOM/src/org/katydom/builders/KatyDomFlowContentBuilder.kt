@@ -6,7 +6,10 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.concretenodes.*
+import org.katydom.concretenodes.grouping.*
+import org.katydom.concretenodes.sections.*
+import org.katydom.concretenodes.text.KatyDomSpan
+import org.katydom.concretenodes.text.KatyDomText
 import org.katydom.types.EDirection
 import org.katydom.types.EOrderedListType
 

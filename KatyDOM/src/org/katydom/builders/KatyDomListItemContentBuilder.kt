@@ -6,7 +6,7 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.concretenodes.KatyDomLi
+import org.katydom.concretenodes.grouping.KatyDomLi
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -3,20 +3,19 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.sections
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
-import org.katydom.builders.KatyDomListItemContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for an <li> element.
+ * Virtual node for a <footer> element.
  */
-internal class KatyDomLi(
-        listContent : KatyDomListItemContentBuilder,
+internal class KatyDomFooter(
+        flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -29,20 +28,15 @@ internal class KatyDomLi(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        value: Int?,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex,
-        title, translate) {
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    override val nodeName = "LI"
+    override val nodeName = "FOOTER"
 
     init {
-        if ( value != null ) {
-            check( listContent.isOrdered ) { "Only ordered list items can have value attributes." }
-            setAttribute("value", value.toString())
-        }
+        check( flowContent.contentRestrictions.footerAllowed ) { "Element type <footer> not allowed here."}
 
-        listContent.flowContent.withNoAddedRestrictions(this).defineContent()
+        flowContent.withFooterHeaderMainNotAllowed(this).defineContent()
         this.freeze()
     }
 

@@ -3,18 +3,19 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.grouping
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
+import org.katydom.builders.KatyDomListItemContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for a <header> element.
+ * Virtual node for an unordered list <ul> element.
  */
-internal class KatyDomHeader(
+internal class KatyDomUl(
         flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
@@ -28,18 +29,17 @@ internal class KatyDomHeader(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
+        defineContent: KatyDomListItemContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    override val nodeName = "HEADER"
+    override val nodeName = "UL"
 
     init {
-        check( flowContent.contentRestrictions.headerAllowed ) { "Element type <header> not allowed here."}
-
-        flowContent.withFooterHeaderMainNotAllowed(this).defineContent()
+        KatyDomListItemContentBuilder(flowContent, false, this).defineContent()
         this.freeze()
     }
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

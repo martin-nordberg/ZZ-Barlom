@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.sections
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
@@ -12,32 +12,31 @@ import org.katydom.types.EDirection
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for a <div> element.
+ * Virtual node for an <nav> element.
  */
-internal class KatyDomDiv(
-        flowContent: KatyDomFlowContentBuilder? = null,
-        selector: String? = null,
-        key: String? = null,
-        accesskey: String? = null,
-        contenteditable: Boolean? = null,
-        dir: EDirection? = null,
-        hidden: Boolean? = null,
-        lang: String? = null,
-        spellcheck: Boolean? = null,
-        style: String? = null,
-        tabindex: Int? = null,
-        title: String? = null,
-        translate: Boolean? = null,
+internal class KatyDomNav(
+        flowContent: KatyDomFlowContentBuilder,
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        hidden: Boolean?,
+        lang: String?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    override val nodeName = "DIV"
+    override val nodeName = "NAV"
 
     init {
-        ( flowContent ?: KatyDomFlowContentBuilder(this) ).withNoAddedRestrictions(this).defineContent()
+        flowContent.withMainNotAllowed(this).defineContent()
         this.freeze()
     }
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

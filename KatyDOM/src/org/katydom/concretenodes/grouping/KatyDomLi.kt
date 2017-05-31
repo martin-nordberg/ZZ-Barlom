@@ -3,20 +3,20 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.grouping
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
-import org.katydom.builders.KatyDomPhrasingContentBuilder
+import org.katydom.builders.KatyDomListItemContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for an <h2> element.
+ * Virtual node for an <li> element.
  */
-internal class KatyDomH2(
-        flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomLi(
+        listContent : KatyDomListItemContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -29,13 +29,20 @@ internal class KatyDomH2(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+        value: Int?,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex,
+        title, translate) {
 
-    override val nodeName = "H2"
+    override val nodeName = "LI"
 
     init {
-        flowContent.phrasingContent(this).defineContent()
+        if ( value != null ) {
+            check( listContent.isOrdered ) { "Only ordered list items can have value attributes." }
+            setAttribute("value", value.toString())
+        }
+
+        listContent.flowContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }
 

@@ -3,19 +3,19 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.sections
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
-import org.katydom.builders.KatyDomListItemContentBuilder
+import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for an unordered list <ul> element.
+ * Virtual node for an <h1> element.
  */
-internal class KatyDomUl(
+internal class KatyDomH1(
         flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
@@ -29,17 +29,16 @@ internal class KatyDomUl(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomListItemContentBuilder.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    override val nodeName = "UL"
+    override val nodeName = "H1"
 
     init {
-        KatyDomListItemContentBuilder(flowContent, false, this).defineContent()
+        flowContent.phrasingContent(this).defineContent()
         this.freeze()
     }
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

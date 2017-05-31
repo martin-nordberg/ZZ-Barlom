@@ -3,20 +3,18 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.grouping
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
-import org.katydom.builders.KatyDomListItemContentBuilder
 import org.katydom.types.EDirection
-import org.katydom.types.EOrderedListType
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for an ordered list <ol> element.
+ * Virtual node for a <main> element.
  */
-internal class KatyDomOl(
+internal class KatyDomMain(
         flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
@@ -25,29 +23,23 @@ internal class KatyDomOl(
         dir: EDirection?,
         hidden: Boolean?,
         lang: String?,
-        reversed: Boolean?,
         spellcheck: Boolean?,
-        start: Int?,
         style: String?,
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        type: EOrderedListType?,
-        defineContent: KatyDomListItemContentBuilder.() -> Unit
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    override val nodeName = "OL"
+    override val nodeName = "MAIN"
 
     init {
-        setBooleanAttribute("reversed", reversed)
-        setAttribute("start", start?.toString())
-        setAttribute("type", type?.toHtmlString())
+        check( flowContent.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here." }
 
-        KatyDomListItemContentBuilder(flowContent, true, this).defineContent()
+        flowContent.withMainNotAllowed(this).defineContent()
         this.freeze()
     }
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

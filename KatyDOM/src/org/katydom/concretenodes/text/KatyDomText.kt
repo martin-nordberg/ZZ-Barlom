@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.text
 
 import org.katydom.abstractnodes.KatyDomNode
 import org.w3c.dom.Document

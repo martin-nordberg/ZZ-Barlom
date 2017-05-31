@@ -3,19 +3,18 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.sections
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
-import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for an <h1> element.
+ * Virtual node for an <article> element.
  */
-internal class KatyDomH1(
+internal class KatyDomArticle(
         flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
@@ -29,13 +28,14 @@ internal class KatyDomH1(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    override val nodeName = "H1"
+    override val nodeName = "ARTICLE"
 
     init {
-        flowContent.phrasingContent(this).defineContent()
+        flowContent.withMainNotAllowed(this).defineContent()
         this.freeze()
     }
 

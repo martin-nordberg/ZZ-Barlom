@@ -3,18 +3,19 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes
+package org.katydom.concretenodes.sections
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
+import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for a <main> element.
+ * Virtual node for an <h3> element.
  */
-internal class KatyDomMain(
+internal class KatyDomH3(
         flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
@@ -28,15 +29,13 @@ internal class KatyDomMain(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    override val nodeName = "MAIN"
+    override val nodeName = "H3"
 
     init {
-        check( flowContent.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here." }
-
-        flowContent.withMainNotAllowed(this).defineContent()
+        flowContent.phrasingContent(this).defineContent()
         this.freeze()
     }
 

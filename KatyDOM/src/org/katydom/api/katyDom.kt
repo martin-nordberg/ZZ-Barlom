@@ -8,7 +8,7 @@ package org.katydom.api
 import org.katydom.abstractnodes.KatyDomNode
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomListItemContentBuilder
-import org.katydom.concretenodes.KatyDomDiv
+import org.katydom.concretenodes.grouping.KatyDomDiv
 import org.katydom.lifecycle.KatyDomLifecycleImpl
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
