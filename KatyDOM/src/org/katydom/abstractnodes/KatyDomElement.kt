@@ -96,7 +96,7 @@ abstract class KatyDomElement : KatyDomNode {
         require( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         if (value == null) {
-            attributes.remove(key)
+            attributes.remove(name)
         }
         else {
             attributes.put(name, value)
@@ -280,13 +280,13 @@ abstract class KatyDomElement : KatyDomNode {
 ////
 
     /** The attributes of this element, mapped from name to value. */
-    private val attributes: MutableMap<String, String> = hashMapOf()
+    private val attributes: MutableMap<String, String> = sortedMapOf()
 
     /** A list of classes for this element. */
-    private var classList: MutableSet<String> = hashSetOf()
+    private var classList: MutableSet<String> = sortedSetOf()
 
     /** A list of the data-* properties of this element, keyed without the "data-" prefix. */
-    private var dataset: MutableMap<String, String> = hashMapOf()
+    private var dataset: MutableMap<String, String> = sortedMapOf()
 
     /** Static placeholders to replace attributes under construction when no longer needed. */
     private object Unused {

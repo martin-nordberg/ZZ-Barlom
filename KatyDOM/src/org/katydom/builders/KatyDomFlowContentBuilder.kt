@@ -8,8 +8,10 @@ package org.katydom.builders
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.grouping.*
 import org.katydom.concretenodes.sections.*
+import org.katydom.concretenodes.text.KatyDomA
 import org.katydom.concretenodes.text.KatyDomSpan
 import org.katydom.concretenodes.text.KatyDomText
+import org.katydom.types.EAnchorHtmlLinkType
 import org.katydom.types.EDirection
 import org.katydom.types.EOrderedListType
 
@@ -40,9 +42,40 @@ class KatyDomFlowContentBuilder(
     private val element: KatyDomHtmlElement,
 
     /** Restrictions on content enforced at run time. */
-    internal val contentRestrictions: KatyDomFlowContentRestrictions = KatyDomFlowContentRestrictions()
+    internal val contentRestrictions: KatyDomContentRestrictions = KatyDomContentRestrictions()
 
 ) : KatyDomElementContentBuilder(element) {
+
+    /**
+     * Adds an a element with any global attributes as the next child of the element under construction.
+     */
+    fun a(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        download: String? = null,
+        hidden: Boolean? = null,
+        href: String? = null,
+        hreflang: String? = null,
+        lang: String? = null,
+        rel: Iterable<EAnchorHtmlLinkType>? = null,
+        rev: Iterable<EAnchorHtmlLinkType>? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        target: String? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        type: String? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomA(this, selector, key, accesskey, contenteditable, dir, download, hidden, href, hreflang, lang,
+                     rel, rev, spellcheck, style, tabindex, target, title, translate, type, defineContent)
+        )
+    }
 
     /**
      * Adds an article element with any global attributes as the next child of the element under construction.

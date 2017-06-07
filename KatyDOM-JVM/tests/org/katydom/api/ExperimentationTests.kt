@@ -6,6 +6,7 @@
 package org.katydom.api
 
 import org.junit.jupiter.api.Test
+import org.katydom.types.EAnchorHtmlLinkType
 
 /**
  * Tests for quick trials of KatyDOM DSL.
@@ -52,7 +53,7 @@ class ExperimentationTests {
 
         }
 
-        val html = """<div style="color:red" id="myDiv" class="my-class">
+        val html = """<div class="my-class" id="myDiv" style="color:red">
                      |  <div>
                      |    a sample
                      |    <ul id="a-list">
@@ -68,7 +69,7 @@ class ExperimentationTests {
                      |      </li>
                      |    </ul>
                      |  </div>
-                     |  <div a1="v1" a2="v2" class="some-class big smelly very-classy"></div>
+                     |  <div a1="v1" a2="v2" class="big smelly some-class very-classy"></div>
                      |  example
                      |  <hr id="me"></hr>
                      |</div>""".trimMargin()
@@ -102,11 +103,40 @@ class ExperimentationTests {
 
         }
 
-        val html = """<div style="color:red" id="myDiv" class="my-class">
+        val html = """<div class="my-class" id="myDiv" style="color:red">
                      |  <div hidden="">
                      |    a sample
                      |  </div>
-                     |  <div a1="v1" a2="v2" title="A Title" class="some-class big smelly very-classy"></div>
+                     |  <div a1="v1" a2="v2" class="big smelly some-class very-classy" title="A Title"></div>
+                     |</div>""".trimMargin()
+
+        checkBuild(html, vdomNode)
+
+    }
+
+    @Test
+    fun `Sample 3 of KatyDOM DSL should produce correct HTML`() {
+
+        val vdomNode = katyDom {
+
+            div("#myDiv.my-class", "div1" ) {
+
+                span ( ".mottled" ) {
+                    a ( href="#somewhere", rel=listOf(EAnchorHtmlLinkType.NEXT, EAnchorHtmlLinkType.NOREFERRER) ) {
+                        text( "Go Somewhere" )
+                    }
+                }
+
+            }
+
+        }
+
+        val html = """<div class="my-class" id="myDiv">
+                     |  <span class="mottled">
+                     |    <a href="#somewhere" rel="next noreferrer">
+                     |      Go Somewhere
+                     |    </a>
+                     |  </span>
                      |</div>""".trimMargin()
 
         checkBuild(html, vdomNode)

@@ -27,7 +27,7 @@ class PatchTests {
 
         }
 
-        val html1 = """<div id="mydiv" class="funnyone">
+        val html1 = """<div class="funnyone" id="mydiv">
                       |  <ul id="theList">
                       |    <li>
                       |      One
@@ -61,7 +61,7 @@ class PatchTests {
 
         }
 
-        val html2 = """<div id="mydiv" class="funnyone">
+        val html2 = """<div class="funnyone" id="mydiv">
                       |  <ul id="theList">
                       |    <li>
                       |      One
