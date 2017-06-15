@@ -6,20 +6,25 @@
 package org.katydom.builders
 
 /**
- * Set of restrictions on content. E.g. a header cannot contain a header or footer.
+ * Set of restrictions on content. E.g. a header cannot contain a header or footer; a form cannot be nested.
  */
 class KatyDomContentRestrictions(
-    val anchorTagAllowed: Boolean = true,
-    val footerAllowed: Boolean = true,
-    val headerAllowed: Boolean = true,
-    val interactiveContentAllowed: Boolean = true,
-    val mainAllowed : Boolean = true
+    val anchorTagAllowed: Boolean,
+    val footerAllowed: Boolean,
+    val formAllowed: Boolean,
+    val headerAllowed: Boolean,
+    val interactiveContentAllowed: Boolean,
+    val mainAllowed : Boolean
 ) {
+
+    constructor()
+        : this(true,true,true,true,true,true)
 
     fun withAnchorTagNotAllowed() : KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             anchorTagAllowed = false,
             footerAllowed = footerAllowed,
+            formAllowed = formAllowed,
             headerAllowed = headerAllowed,
             interactiveContentAllowed = interactiveContentAllowed,
             mainAllowed = mainAllowed
@@ -30,6 +35,7 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions(
             anchorTagAllowed = false,
             footerAllowed = footerAllowed,
+            formAllowed = formAllowed,
             headerAllowed = headerAllowed,
             interactiveContentAllowed = false,
             mainAllowed = mainAllowed
@@ -40,6 +46,7 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions(
             anchorTagAllowed = anchorTagAllowed,
             footerAllowed = false,
+            formAllowed = formAllowed,
             headerAllowed = headerAllowed,
             interactiveContentAllowed = interactiveContentAllowed,
             mainAllowed = mainAllowed
@@ -50,9 +57,21 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions(
             anchorTagAllowed = anchorTagAllowed,
             footerAllowed = false,
+            formAllowed = formAllowed,
             headerAllowed = false,
             interactiveContentAllowed = interactiveContentAllowed,
             mainAllowed = false
+        )
+    }
+
+    fun withFormNotAllowed() : KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(
+            anchorTagAllowed = anchorTagAllowed,
+            footerAllowed = footerAllowed,
+            formAllowed = false,
+            headerAllowed = headerAllowed,
+            interactiveContentAllowed = interactiveContentAllowed,
+            mainAllowed = mainAllowed
         )
     }
 
@@ -60,6 +79,7 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions(
             anchorTagAllowed = anchorTagAllowed,
             footerAllowed = footerAllowed,
+            formAllowed = formAllowed,
             headerAllowed = false,
             interactiveContentAllowed = interactiveContentAllowed,
             mainAllowed = mainAllowed
@@ -70,6 +90,7 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions(
             anchorTagAllowed = anchorTagAllowed,
             footerAllowed = footerAllowed,
+            formAllowed = formAllowed,
             headerAllowed = headerAllowed,
             interactiveContentAllowed = false,
             mainAllowed = mainAllowed
@@ -80,6 +101,7 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions(
             anchorTagAllowed = anchorTagAllowed,
             footerAllowed = footerAllowed,
+            formAllowed = formAllowed,
             headerAllowed = headerAllowed,
             interactiveContentAllowed = interactiveContentAllowed,
             mainAllowed = false
