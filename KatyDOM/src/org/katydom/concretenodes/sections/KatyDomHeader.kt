@@ -34,7 +34,7 @@ internal class KatyDomHeader(
     override val nodeName = "HEADER"
 
     init {
-        check( flowContent.contentRestrictions.headerAllowed ) { "Element type <header> not allowed here."}
+        flowContent.contentRestrictions.confirmHeaderAllowed()
 
         flowContent.withFooterHeaderMainNotAllowed(this).defineContent()
         this.freeze()

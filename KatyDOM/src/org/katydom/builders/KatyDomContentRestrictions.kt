@@ -9,16 +9,40 @@ package org.katydom.builders
  * Set of restrictions on content. E.g. a header cannot contain a header or footer; a form cannot be nested.
  */
 class KatyDomContentRestrictions(
-    val anchorTagAllowed: Boolean,
-    val footerAllowed: Boolean,
-    val formAllowed: Boolean,
-    val headerAllowed: Boolean,
-    val interactiveContentAllowed: Boolean,
-    val mainAllowed : Boolean
+    private val anchorTagAllowed: Boolean,
+    private val footerAllowed: Boolean,
+    private val formAllowed: Boolean,
+    private val headerAllowed: Boolean,
+    private val interactiveContentAllowed: Boolean,
+    private val mainAllowed : Boolean
 ) {
 
     constructor()
         : this(true,true,true,true,true,true)
+
+    fun confirmAnchorTagAllowed() {
+        check(anchorTagAllowed) { "Anchor element <a> not allowed here" }
+    }
+
+    fun confirmFooterAllowed() {
+        check(footerAllowed) { "Element type <footer> not allowed here."}
+    }
+
+    fun confirmFormAllowed() {
+        check(formAllowed) { "Element type <form> not allowed here. (Form elements cannot be nested.)" }
+    }
+
+    fun confirmHeaderAllowed() {
+        check(headerAllowed) { "Element type <header> not allowed here."}
+    }
+
+    fun confirmInteractiveContentAllowed() {
+        check(interactiveContentAllowed) { "Interactive content not allowed here." }
+    }
+
+    fun confirmMainAllowed() {
+        check(mainAllowed) { "Element type <main> not allowed here." }
+    }
 
     fun withAnchorTagNotAllowed() : KatyDomContentRestrictions {
         return KatyDomContentRestrictions(

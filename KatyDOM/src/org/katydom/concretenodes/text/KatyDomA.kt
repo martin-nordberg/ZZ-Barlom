@@ -42,8 +42,10 @@ internal class KatyDomA : KatyDomHtmlElement {
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-        check( flowContent.contentRestrictions.anchorTagAllowed ) { "Anchor tag not allowed here." }
-        check( href==null || flowContent.contentRestrictions.interactiveContentAllowed ) { "Interactive content (anchor with href) not allowed here." }
+        flowContent.contentRestrictions.confirmAnchorTagAllowed()
+        if ( href!=null ) {
+            flowContent.contentRestrictions.confirmInteractiveContentAllowed()
+        }
 
         setAttributes(download, href, hreflang, rel, rev, target, type)
 
@@ -75,8 +77,10 @@ internal class KatyDomA : KatyDomHtmlElement {
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-        check( phrasingContent.contentRestrictions.anchorTagAllowed ) { "Anchor tag not allowed here." }
-        check( href==null || phrasingContent.contentRestrictions.interactiveContentAllowed ) { "Interactive content (anchor with href) not allowed here." }
+        phrasingContent.contentRestrictions.confirmAnchorTagAllowed()
+        if( href!=null ) {
+            phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
+        }
 
         setAttributes(download, href, hreflang, rel, rev, target, type)
 

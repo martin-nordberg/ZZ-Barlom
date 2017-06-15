@@ -34,7 +34,7 @@ internal class KatyDomMain(
     override val nodeName = "MAIN"
 
     init {
-        check( flowContent.contentRestrictions.mainAllowed ) { "Element type <main> not allowed here." }
+        flowContent.contentRestrictions.confirmMainAllowed()
 
         flowContent.withMainNotAllowed(this).defineContent()
         this.freeze()

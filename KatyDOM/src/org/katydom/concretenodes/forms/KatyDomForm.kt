@@ -43,7 +43,7 @@ internal class KatyDomForm(
     override val nodeName = "FORM"
 
     init {
-        check( flowContent.contentRestrictions.formAllowed ) { "Form elements cannot be nested." }
+        flowContent.contentRestrictions.confirmFormAllowed()
 
         setAttribute("accept-charset", acceptCharset)
         setAttribute("action", action)

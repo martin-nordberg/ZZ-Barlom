@@ -34,7 +34,7 @@ internal class KatyDomFooter(
     override val nodeName = "FOOTER"
 
     init {
-        check( flowContent.contentRestrictions.footerAllowed ) { "Element type <footer> not allowed here."}
+        flowContent.contentRestrictions.confirmFooterAllowed()
 
         flowContent.withFooterHeaderMainNotAllowed(this).defineContent()
         this.freeze()

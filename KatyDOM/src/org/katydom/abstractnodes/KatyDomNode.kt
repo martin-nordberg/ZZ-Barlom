@@ -10,9 +10,6 @@ import org.katydom.api.EventHandler
 import org.katydom.api.MouseEventHandler
 import org.katydom.eventtarget.addEventListener
 import org.katydom.eventtarget.removeEventListener
-import org.katydom.infrastructure.require
-import org.katydom.infrastructure.requireArg
-import org.katydom.infrastructure.requireNonNull
 import org.katydom.types.EMouseEventType
 import org.w3c.dom.Document
 import org.w3c.dom.Node
@@ -31,8 +28,8 @@ abstract class KatyDomNode(val key: String?) {
     val soleChildNode: KatyDomNode
         get() {
 
-            require( firstChildNode != Nothing ) { "No child found." }
-            require( firstChildNode == lastChildNode ) { "More than one child node found." }
+            check( firstChildNode != Nothing ) { "No child found." }
+            check( firstChildNode == lastChildNode ) { "More than one child node found." }
 
             return firstChildNode
 
@@ -57,10 +54,10 @@ abstract class KatyDomNode(val key: String?) {
             state = EState.ADDING_CHILD_NODES
         }
         else {
-            require( isAddingChildNodes ) { "Cannot modify a KatyDOM node after it has been fully constructed." }
+            check( isAddingChildNodes ) { "Cannot modify a KatyDOM node after it has been fully constructed." }
         }
 
-        requireArg( !childNodesByKey.containsKey(childNode.key) ) { "Duplicate key: " + childNode.key }
+        require( !childNodesByKey.containsKey(childNode.key) ) { "Duplicate key: " + childNode.key }
         // TODO: Warning for a mixture of keyed and keyless children ...
 
         if (firstChildNode == Nothing) {
@@ -91,7 +88,7 @@ abstract class KatyDomNode(val key: String?) {
             state = EState.ADDING_CHILD_NODES
         }
         else {
-            require( isAddingEventHandlers ) { "KatyDOM node's event handlers must be defined before its child nodes." }
+            check( isAddingEventHandlers ) { "KatyDOM node's event handlers must be defined before its child nodes." }
         }
 
         eventHandlers.put(
@@ -114,10 +111,10 @@ abstract class KatyDomNode(val key: String?) {
      */
     internal fun establish(domNode: Node) {
 
-        require( state >= EState.CONSTRUCTED ) { "KatyDOM node must be fully constructed before establishing the real DOM." }
-        require( state <= EState.CONSTRUCTED ) { "KatyDOM node already established." }
+        check( state >= EState.CONSTRUCTED ) { "KatyDOM node must be fully constructed before establishing the real DOM." }
+        check( state <= EState.CONSTRUCTED ) { "KatyDOM node already established." }
 
-        requireArg( domNode.nodeName == nodeName ) { "Cannot establish a real DOM node differing in type from the KatyDOM node." }
+        require( domNode.nodeName == nodeName ) { "Cannot establish a real DOM node differing in type from the KatyDOM node." }
 
         if (nodeName != "#text") {
             establishAttributes(domNode)
@@ -139,20 +136,20 @@ abstract class KatyDomNode(val key: String?) {
 
         // Quit early if the node is the same (e.g. memoized).
         if (this === priorNode) {
-            require( isPatchedReplaced ) { "New KatyDOM node is identical to prior node but prior node has not been patched." }
+            check( isPatchedReplaced ) { "New KatyDOM node is identical to prior node but prior node has not been patched." }
             return
         }
 
-        require( state >= EState.CONSTRUCTED ) { "KatyDOM node must be fully constructed before establishing the real DOM." }
-        require( state <= EState.CONSTRUCTED ) { "KatyDOM node already established." }
+        check( state >= EState.CONSTRUCTED ) { "KatyDOM node must be fully constructed before establishing the real DOM." }
+        check( state <= EState.CONSTRUCTED ) { "KatyDOM node already established." }
 
-        require( !priorNode.isPatchedRemoved ) { "Prior node cannot be patched after being removed." }
-        require( !priorNode.isPatchedReplaced ) { "Prior node cannot be patched twice." }
-        require( priorNode.isEstablished ) { "Prior KatyDOM node must be established before patching. " + priorNode.nodeName }
+        check( !priorNode.isPatchedRemoved ) { "Prior node cannot be patched after being removed." }
+        check( !priorNode.isPatchedReplaced ) { "Prior node cannot be patched twice." }
+        check( priorNode.isEstablished ) { "Prior KatyDOM node must be established before patching. " + priorNode.nodeName }
 
-        requireArg( priorNode.nodeName == nodeName ) { "Cannot patch a difference between two KatyDOM nodes of different types." }
+        require( priorNode.nodeName == nodeName ) { "Cannot patch a difference between two KatyDOM nodes of different types." }
 
-        val domNode = requireNonNull(priorNode.domNode ) { "Prior KatyDOM node is not linked to its DOM node." }
+        val domNode = checkNotNull(priorNode.domNode ) { "Prior KatyDOM node is not linked to its DOM node." }
 
         // Patch the attributes.
         patchAttributes(domNode, priorNode)
@@ -222,7 +219,7 @@ abstract class KatyDomNode(val key: String?) {
      */
     protected fun freeze() {
 
-        require( state <= EState.CONSTRUCTED ) { "KatyDOM node already fully constructed." }
+        check( state <= EState.CONSTRUCTED ) { "KatyDOM node already fully constructed." }
 
         if (isAddingAttributes) {
             freezeAttributes()
@@ -279,7 +276,7 @@ abstract class KatyDomNode(val key: String?) {
      */
     private fun establishChildNodes(domNode: Node) {
 
-        val document = requireNonNull(domNode.ownerDocument, { "DOM element must have an owner document." })
+        val document = checkNotNull(domNode.ownerDocument, { "DOM element must have an owner document." })
 
         var childNode = firstChildNode
 
@@ -376,7 +373,7 @@ abstract class KatyDomNode(val key: String?) {
         // First existing DOM node - moves forward as the interval shrinks in the front
         var domChild = domNode.firstChild
 
-        val document = requireNonNull(domNode.ownerDocument, { "DOM element must have an owner document." })
+        val document = checkNotNull(domNode.ownerDocument, { "DOM element must have an owner document." })
 
         while (startChild != endChild.nextSiblingNode) {
 
