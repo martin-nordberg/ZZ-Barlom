@@ -19,18 +19,18 @@ internal class KatyDomSpan : KatyDomHtmlElement {
 
     constructor(
             flowContent: KatyDomFlowContentBuilder,
-            selector: String? = null,
-            key: String? = null,
-            accesskey: String? = null,
-            contenteditable: Boolean? = null,
-            dir: EDirection? = null,
-            hidden: Boolean? = null,
-            lang: String? = null,
-            spellcheck: Boolean? = null,
-            style: String? = null,
-            tabindex: Int? = null,
-            title: String? = null,
-            translate: Boolean? = null,
+            selector: String?,
+            key: String?,
+            accesskey: String?,
+            contenteditable: Boolean?,
+            dir: EDirection?,
+            hidden: Boolean?,
+            lang: String?,
+            spellcheck: Boolean?,
+            style: String?,
+            tabindex: Int?,
+            title: String?,
+            translate: Boolean?,
             defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
@@ -40,18 +40,18 @@ internal class KatyDomSpan : KatyDomHtmlElement {
 
     constructor(
             phrasingContent: KatyDomPhrasingContentBuilder,
-            selector: String? = null,
-            key: String? = null,
-            accesskey: String? = null,
-            contenteditable: Boolean? = null,
-            dir: EDirection? = null,
-            hidden: Boolean? = null,
-            lang: String? = null,
-            spellcheck: Boolean? = null,
-            style: String? = null,
-            tabindex: Int? = null,
-            title: String? = null,
-            translate: Boolean? = null,
+            selector: String?,
+            key: String?,
+            accesskey: String?,
+            contenteditable: Boolean?,
+            dir: EDirection?,
+            hidden: Boolean?,
+            lang: String?,
+            spellcheck: Boolean?,
+            style: String?,
+            tabindex: Int?,
+            title: String?,
+            translate: Boolean?,
             defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 

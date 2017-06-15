@@ -43,7 +43,9 @@ class ExperimentationTests {
                     }
                 }
 
-                text("example")
+                p {
+                    text("example")
+                }
 
                 br {}
 
@@ -72,7 +74,9 @@ class ExperimentationTests {
                      |    </ul>
                      |  </div>
                      |  <div a1="v1" a2="v2" class="big smelly some-class very-classy"></div>
-                     |  example
+                     |  <p>
+                     |    example
+                     |  </p>
                      |  <br>
                      |  <hr id="me">
                      |</div>""".trimMargin()

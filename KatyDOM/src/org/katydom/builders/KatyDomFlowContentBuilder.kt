@@ -474,6 +474,30 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
+     * Adds a paragraph element with any global attributes as the next child of the element under construction.
+     */
+    fun p(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+                KatyDomP(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                         tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
      * Adds a section element with any global attributes as the next child of the element under construction.
      */
     fun section(
