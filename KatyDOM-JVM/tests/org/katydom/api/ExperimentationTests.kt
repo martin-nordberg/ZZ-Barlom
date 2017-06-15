@@ -45,6 +45,8 @@ class ExperimentationTests {
 
                 text("example")
 
+                br {}
+
                 hr {
                     attribute("id", "me")
                 }
@@ -71,7 +73,8 @@ class ExperimentationTests {
                      |  </div>
                      |  <div a1="v1" a2="v2" class="big smelly some-class very-classy"></div>
                      |  example
-                     |  <hr id="me"></hr>
+                     |  <br>
+                     |  <hr id="me">
                      |</div>""".trimMargin()
 
         checkBuild(html, vdomNode)

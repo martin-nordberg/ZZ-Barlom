@@ -50,7 +50,7 @@ open class KDomElement(
         var child = this.firstChild
 
         if (child == null) {
-            result.append("></", tagName, ">")
+            result.append(">")
         }
         else {
             result.appendln(">")
@@ -61,6 +61,9 @@ open class KDomElement(
             }
 
             result.indent(indent)
+        }
+
+        if ( !elementsWithoutEndTags.contains(tagName) ) {
             result.append("</", tagName, ">")
         }
 
@@ -140,6 +143,14 @@ open class KDomElement(
 
     override fun getAttributeNS(namespaceURI: String?, localName: String?): String {
         TODO("not yet needed")
+    }
+
+////
+
+    private companion object {
+        val elementsWithoutEndTags = hashSetOf(
+          "br", "hr"
+        )
     }
 
 }

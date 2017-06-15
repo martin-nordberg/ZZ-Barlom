@@ -7,6 +7,7 @@ package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.text.KatyDomA
+import org.katydom.concretenodes.text.KatyDomBr
 import org.katydom.concretenodes.text.KatyDomSpan
 import org.katydom.concretenodes.text.KatyDomText
 import org.katydom.types.EAnchorHtmlLinkType
@@ -56,6 +57,32 @@ class KatyDomPhrasingContentBuilder(
         element.addChildNode(
             KatyDomA(this, selector, key, accesskey, contenteditable, dir, download, hidden, href, hreflang, lang,
                 rel, rev, spellcheck, style, tabindex, target, title, translate, type, defineContent)
+        )
+    }
+
+    /**
+     * Adds a br element as the next child of the element under construction.
+     * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
+     */
+    fun br(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomBr(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                tabindex, title, translate,defineAttributes)
+
         )
     }
 

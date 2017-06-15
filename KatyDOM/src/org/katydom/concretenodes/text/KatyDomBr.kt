@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.katydom.concretenodes.grouping
+package org.katydom.concretenodes.text
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomElementContentBuilder
@@ -12,9 +12,9 @@ import org.katydom.types.EDirection
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Virtual node for an <hr> element.
+ * Virtual node for a <br> element.
  */
-internal class KatyDomHr(
+internal class KatyDomBr(
     selector: String?,
     key: String?,
     accesskey: String?,
@@ -31,7 +31,7 @@ internal class KatyDomHr(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex,
                        title, translate) {
 
-    override val nodeName = "HR"
+    override val nodeName = "BR"
 
     init {
         KatyDomElementContentBuilder(this).defineAttributes()
