@@ -42,7 +42,7 @@ internal class KatyDomA : KatyDomHtmlElement {
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-        flowContent.contentRestrictions.confirmAnchorTagAllowed()
+        flowContent.contentRestrictions.confirmAnchorAllowed()
         if ( href!=null ) {
             flowContent.contentRestrictions.confirmInteractiveContentAllowed()
         }
@@ -77,7 +77,7 @@ internal class KatyDomA : KatyDomHtmlElement {
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-        phrasingContent.contentRestrictions.confirmAnchorTagAllowed()
+        phrasingContent.contentRestrictions.confirmAnchorAllowed()
         if( href!=null ) {
             phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
         }

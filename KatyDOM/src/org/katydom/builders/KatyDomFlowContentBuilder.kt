@@ -7,6 +7,7 @@ package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.forms.KatyDomForm
+import org.katydom.concretenodes.forms.KatyDomLabel
 import org.katydom.concretenodes.grouping.*
 import org.katydom.concretenodes.sections.*
 import org.katydom.concretenodes.text.KatyDomA
@@ -430,6 +431,31 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
+     * Adds a label element with its attributes as the next child of the element under construction.
+     */
+    fun label(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        `for`: String? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+                KatyDomLabel(this, selector, key, accesskey, contenteditable, dir, `for`, hidden, lang, spellcheck,
+                             style, tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
      * Adds a main element with any global attributes as the next child of the element under construction.
      */
     fun main(
@@ -637,6 +663,14 @@ class KatyDomFlowContentBuilder(
      */
     internal fun withFormNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions.withFormNotAllowed())
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no label element allowed.
+     */
+    internal fun withLabelNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+        return KatyDomFlowContentBuilder(element, contentRestrictions.withLabelNotAllowed())
     }
 
     /**

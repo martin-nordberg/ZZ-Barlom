@@ -6,6 +6,7 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.concretenodes.forms.KatyDomLabel
 import org.katydom.concretenodes.text.KatyDomA
 import org.katydom.concretenodes.text.KatyDomBr
 import org.katydom.concretenodes.text.KatyDomSpan
@@ -30,7 +31,7 @@ class KatyDomPhrasingContentBuilder(
 ) : KatyDomElementContentBuilder(element) {
 
     /**
-     * Adds an a element with any global attributes as the next child of the element under construction.
+     * Adds an a element with its attributes as the next child of the element under construction.
      */
     fun a(
         selector: String? = null,
@@ -87,10 +88,35 @@ class KatyDomPhrasingContentBuilder(
     }
 
     /**
+     * Adds a label element with its attributes as the next child of the element under construction.
+     */
+    fun label(
+        selector: String? = null,
+        key: String? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        `for`: String? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomLabel(this, selector, key, accesskey, contenteditable, dir, `for`, hidden, lang, spellcheck,
+                style, tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
      * Adds a span element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param accesskey a string specifiying the HTML accesskey value.
+     * @param accesskey a string specifying the HTML accesskey value.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
      * @param hidden true if the element is to be hidden.
@@ -133,11 +159,23 @@ class KatyDomPhrasingContentBuilder(
 
 ////
 
-    internal fun withAnchorTagInteractiveContentNotAllowed(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no anchor element or interactive content allowed.
+     */
+    internal fun withAnchorInteractiveContentNotAllowed(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(
             element,
-            contentRestrictions.withAnchorTagInteractiveContentNotAllowed()
+            contentRestrictions.withAnchorInteractiveContentNotAllowed()
         )
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no label element allowed.
+     */
+    internal fun withLabelNotAllowed(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+        return KatyDomPhrasingContentBuilder(element, contentRestrictions.withLabelNotAllowed())
     }
 
     /**
