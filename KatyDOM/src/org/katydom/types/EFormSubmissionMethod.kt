@@ -15,9 +15,9 @@ enum class EFormSubmissionMethod {
     POST;
 
     fun toHtmlString(): String {
-        when (this) {
-            GET  -> return "get"
-            POST -> return "post"
+        return when (this) {
+            GET  -> "get"
+            POST -> "post"
         }
     }
 

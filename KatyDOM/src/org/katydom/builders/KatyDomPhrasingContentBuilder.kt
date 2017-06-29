@@ -6,13 +6,12 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.concretenodes.forms.KatyDomLabel
+import org.katydom.concretenodes.forms.*
 import org.katydom.concretenodes.text.KatyDomA
 import org.katydom.concretenodes.text.KatyDomBr
 import org.katydom.concretenodes.text.KatyDomSpan
 import org.katydom.concretenodes.text.KatyDomText
-import org.katydom.types.EAnchorHtmlLinkType
-import org.katydom.types.EDirection
+import org.katydom.types.*
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -84,6 +83,840 @@ class KatyDomPhrasingContentBuilder(
             KatyDomBr(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                 tabindex, title, translate,defineAttributes)
 
+        )
+    }
+
+    /**
+     * Adds an input type="button" element with given attributes as the next child of the element under construction.
+     */
+    fun inputButton(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
+                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="checkbox" element with given attributes as the next child of the element under construction.
+     */
+    fun inputCheckbox(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autofocus: Boolean?,
+        checked: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        name: String?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputCheckbox(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
+                disabled, form, hidden, lang, name, required,
+                spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="color" element with given attributes as the next child of the element under construction.
+     */
+    fun inputColor(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputColor(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, name,
+                spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="date" element with given attributes as the next child of the element under construction.
+     */
+    fun inputDate(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: String?,
+        min: String?,
+        name: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputDate(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name,
+                readonly, required, spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="datetime-local" element with given attributes as the next child of the element under construction.
+     */
+    fun inputDateTimeLocal(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: String?,
+        min: String?,
+        name: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputDateTimeLocal(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name,
+                readonly, required, spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="email" element with given attributes as the next child of the element under construction.
+     */
+    fun inputEmail(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        maxlength: Int?,
+        minlength: Int?,
+        multiple: Boolean?,
+        name: String?,
+        pattern: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        size: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputEmail(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, maxlength, minlength, multiple, name, pattern,
+                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="file" element with given attributes as the next child of the element under construction.
+     */
+    fun inputFile(
+        selector: String?,
+        key: String?,
+        accept: String?,
+        accesskey: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        multiple: Boolean?,
+        name: String?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputFile(this, selector, key, accept, accesskey, autofocus, contenteditable, dir, disabled,
+                form, hidden, lang, multiple, name, required, spellcheck, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="hidden" element with given attributes as the next child of the element under construction.
+     */
+    fun inputHidden(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputHidden(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
+                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="image" element with given attributes as the next child of the element under construction.
+     */
+    fun inputImageButton(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        alt: String?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        formaction: String?,
+        formenctype: EFormEncodingType?,
+        formmethod: EFormSubmissionMethod?,
+        formnovalidate: Boolean?,
+        formtarget: String?,
+        height: Int?,
+        hidden: Boolean?,
+        lang: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        src: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        width: Int?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputImageButton(this, selector, key, accesskey, alt, contenteditable, dir, disabled, form, formaction,
+                formenctype, formmethod, formnovalidate, formtarget, height, hidden, lang,
+                name, spellcheck, src, style, tabindex, title, translate, value, width, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="month" element with given attributes as the next child of the element under construction.
+     */
+    fun inputMonth(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: String?,
+        min: String?,
+        name: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputMonth(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name,
+                readonly, required, spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="number" (double) element with given attributes as the next child of the element under construction.
+     */
+    fun inputNumber(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: Double?,
+        min: Double?,
+        name: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: Double?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputNumber(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name, placeholder,
+                readonly, required, spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="number" (integer) element with given attributes as the next child of the element under construction.
+     */
+    fun inputNumber(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: Int?,
+        min: Int?,
+        name: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: Int?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputNumber(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name, placeholder,
+                readonly, required, spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="password" element with given attributes as the next child of the element under construction.
+     */
+    fun inputPassword(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        inputmode: EInputMode?,
+        lang: String?,
+        maxlength: Int?,
+        minlength: Int?,
+        name: String?,
+        pattern: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        size: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputPassword(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, inputmode, lang, maxlength, minlength, name, pattern,
+                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="radio" element with given attributes as the next child of the element under construction.
+     */
+    fun inputRadioButton(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autofocus: Boolean?,
+        checked: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        name: String?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputRadioButton(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
+                disabled, form, hidden, lang, name, required,
+                spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="range" (double) element with given attributes as the next child of the element under construction.
+     */
+    fun inputRange(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: Double?,
+        min: Double?,
+        name: String?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: Double?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputRange(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name,
+                spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="range" (integer) element with given attributes as the next child of the element under construction.
+     */
+    fun inputRange(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: Int?,
+        min: Int?,
+        name: String?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: Int?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputRange(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name,
+                spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="reset" element with given attributes as the next child of the element under construction.
+     */
+    fun inputResetButton(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputResetButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
+                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="submit" element with given attributes as the next child of the element under construction.
+     */
+    fun inputSubmitButton(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        formaction: String?,
+        formenctype: EFormEncodingType?,
+        formmethod: EFormSubmissionMethod?,
+        formnovalidate: Boolean?,
+        formtarget: String?,
+        hidden: Boolean?,
+        lang: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputSubmitButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, formaction,
+                formenctype, formmethod, formnovalidate, formtarget, hidden, lang,
+                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="tel" element with given attributes as the next child of the element under construction.
+     */
+    fun inputTelephone(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        maxlength: Int?,
+        minlength: Int?,
+        name: String?,
+        pattern: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        size: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputTelephone(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, maxlength, minlength, name, pattern,
+                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="text" element with given attributes as the next child of the element under construction.
+     */
+    fun inputText(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        dirname: String?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        inputmode: EInputMode?,
+        lang: String?,
+        list: String?,
+        maxlength: Int?,
+        minlength: Int?,
+        name: String?,
+        pattern: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        size: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputText(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, dirname,
+                disabled, form, hidden, inputmode, lang, list, maxlength, minlength, name, pattern,
+                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="time" element with given attributes as the next child of the element under construction.
+     */
+    fun inputTime(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: String?,
+        min: String?,
+        name: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputTime(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name,
+                readonly, required, spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="url" element with given attributes as the next child of the element under construction.
+     */
+    fun inputUrl(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        maxlength: Int?,
+        minlength: Int?,
+        name: String?,
+        pattern: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        size: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputUrl(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, maxlength, minlength, name, pattern,
+                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="week" element with given attributes as the next child of the element under construction.
+     */
+    fun inputWeek(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        list: String?,
+        max: String?,
+        min: String?,
+        name: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        spellcheck: Boolean?,
+        step: String?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputWeek(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
+                disabled, form, hidden, lang, list, max, min, name,
+                readonly, required, spellcheck, step, style, tabindex, title, translate,
+                value, defineAttributes)
         )
     }
 

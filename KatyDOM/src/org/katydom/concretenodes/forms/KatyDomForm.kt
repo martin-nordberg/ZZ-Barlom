@@ -8,6 +8,7 @@ package org.katydom.concretenodes.forms
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.types.EDirection
+import org.katydom.types.EFormEncodingType
 import org.katydom.types.EFormSubmissionMethod
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +26,7 @@ internal class KatyDomForm(
     autocomplete: String?,
     contenteditable: Boolean?,
     dir: EDirection?,
-    enctype: String?,
+    enctype: EFormEncodingType?,
     hidden: Boolean?,
     lang: String?,
     method: EFormSubmissionMethod?,
@@ -48,7 +49,7 @@ internal class KatyDomForm(
         setAttribute("accept-charset", acceptCharset)
         setAttribute("action", action)
         setAttribute("autocomplete", autocomplete)
-        setAttribute("enctype", enctype)
+        setAttribute("enctype", enctype?.toHtmlString())
         setAttribute("method", method?.toHtmlString())
         setAttribute("name", name)
         setBooleanAttribute("novalidate", novalidate)

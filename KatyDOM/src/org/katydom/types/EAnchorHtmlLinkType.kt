@@ -24,18 +24,18 @@ enum class EAnchorHtmlLinkType {
     TAG;
 
     fun toHtmlString(): String {
-        when (this) {
-            ALTERNATE -> return "alternate"
-            AUTHOR -> return "author"
-            BOOKMARK -> return "bookmark"
-            HELP -> return "help"
-            LICENSE -> return "license"
-            NEXT -> return "next"
-            NOFOLLOW -> return "nofollow"
-            NOREFERRER -> return "noreferrer"
-            PREV -> return "prev"
-            SEARCH -> return "search"
-            TAG -> return "tag"
+        return when (this) {
+            ALTERNATE -> "alternate"
+            AUTHOR -> "author"
+            BOOKMARK -> "bookmark"
+            HELP -> "help"
+            LICENSE -> "license"
+            NEXT -> "next"
+            NOFOLLOW -> "nofollow"
+            NOREFERRER -> "noreferrer"
+            PREV -> "prev"
+            SEARCH -> "search"
+            TAG -> "tag"
         }
     }
 

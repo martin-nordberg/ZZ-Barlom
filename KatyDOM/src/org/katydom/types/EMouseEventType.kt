@@ -26,16 +26,16 @@ enum class EMouseEventType {
      */
     val domName: String
         get() {
-            when (this) {
-                CLICK       -> return "click"
-                DBL_CLICK   -> return "dblclick"
-                MOUSE_DOWN  -> return "mousedown"
-                MOUSE_ENTER -> return "mouseenter"
-                MOUSE_LEAVE -> return "mouseleave"
-                MOUSE_MOVE  -> return "mousemove"
-                MOUSE_OUT   -> return "mouseout"
-                MOUSE_OVER  -> return "mouseover"
-                MOUSE_UP    -> return "mouseup"
+            return when (this) {
+                CLICK       -> "click"
+                DBL_CLICK   -> "dblclick"
+                MOUSE_DOWN  -> "mousedown"
+                MOUSE_ENTER -> "mouseenter"
+                MOUSE_LEAVE -> "mouseleave"
+                MOUSE_MOVE  -> "mousemove"
+                MOUSE_OUT   -> "mouseout"
+                MOUSE_OVER  -> "mouseover"
+                MOUSE_UP    -> "mouseup"
             }
         }
 

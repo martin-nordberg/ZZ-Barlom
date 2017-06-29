@@ -18,12 +18,12 @@ enum class EOrderedListType {
     UPPER_CASE_ROMAN_NUMERALS;
 
     fun toHtmlString(): String {
-        when (this) {
-            DECIMAL_NUMBERS           -> return "1"
-            LOWER_CASE_LETTERS        -> return "a"
-            UPPER_CASE_LETTERS        -> return "A"
-            LOWER_CASE_ROMAN_NUMERALS -> return "i"
-            UPPER_CASE_ROMAN_NUMERALS -> return "I"
+        return when (this) {
+            DECIMAL_NUMBERS           -> "1"
+            LOWER_CASE_LETTERS        -> "a"
+            UPPER_CASE_LETTERS        -> "A"
+            LOWER_CASE_ROMAN_NUMERALS -> "i"
+            UPPER_CASE_ROMAN_NUMERALS -> "I"
         }
     }
 

@@ -16,10 +16,10 @@ enum class EDirection {
     AUTO;
 
     fun toHtmlString(): String {
-        when (this) {
-            LEFT_TO_RIGHT -> return "ltr"
-            RIGHT_TO_LEFT -> return "rtl"
-            AUTO          -> return "auto"
+        return when (this) {
+            LEFT_TO_RIGHT -> "ltr"
+            RIGHT_TO_LEFT -> "rtl"
+            AUTO          -> "auto"
         }
     }
 
