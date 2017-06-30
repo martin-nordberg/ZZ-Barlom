@@ -20,7 +20,7 @@ import org.katydom.types.*
 /**
  * Virtual DOM builder for the normal case of HTML "flow content".
  *
- * Typical glocal attribute parameters for builder methods:
+ * Typical global attribute parameters for builder methods:
  *  selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
  *  key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
  *  accesskey a string specifying the HTML accesskey value.
@@ -148,6 +148,43 @@ class KatyDomFlowContentBuilder(
             KatyDomBr(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                       tabindex, title, translate, defineAttributes)
 
+        )
+    }
+
+    /**
+     * Adds a button element with given attributes as the next child of the element under construction.
+     */
+    fun button(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        formaction: String?,
+        formenctype: EFormEncodingType?,
+        formmethod: EFormSubmissionMethod?,
+        formnovalidate: Boolean?,
+        formtarget: String?,
+        hidden: Boolean?,
+        lang: String?,
+        menu: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        type: EButtonType?,
+        value: String?,
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomButton(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form, formaction,
+                formenctype, formmethod, formnovalidate, formtarget, hidden, lang, menu,
+                name, spellcheck, style, tabindex, title, translate, type, value, defineContent)
         )
     }
 

@@ -87,6 +87,43 @@ class KatyDomPhrasingContentBuilder(
     }
 
     /**
+     * Adds a button element with given attributes as the next child of the element under construction.
+     */
+    fun button(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        formaction: String?,
+        formenctype: EFormEncodingType?,
+        formmethod: EFormSubmissionMethod?,
+        formnovalidate: Boolean?,
+        formtarget: String?,
+        hidden: Boolean?,
+        lang: String?,
+        menu: String?,
+        name: String?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        type: EButtonType?,
+        value: String?,
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomButton(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form, formaction,
+                formenctype, formmethod, formnovalidate, formtarget, hidden, lang, menu,
+                name, spellcheck, style, tabindex, title, translate, type, value, defineContent)
+        )
+    }
+
+    /**
      * Adds an input type="button" element with given attributes as the next child of the element under construction.
      */
     fun inputButton(
@@ -1000,6 +1037,17 @@ class KatyDomPhrasingContentBuilder(
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions.withAnchorInteractiveContentNotAllowed()
+        )
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no interactive content allowed.
+     */
+    internal fun withInteractiveContentNotAllowed(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+        return KatyDomPhrasingContentBuilder(
+            element,
+            contentRestrictions.withInteractiveContentNotAllowed()
         )
     }
 

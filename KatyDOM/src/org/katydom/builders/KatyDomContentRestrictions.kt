@@ -89,6 +89,13 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions( this, formAllowed = false )
     }
 
+    fun withInteractiveContentNotAllowed() : KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(
+            this,
+            interactiveContentAllowed = false
+        )
+    }
+
     fun withLabelNotAllowed() : KatyDomContentRestrictions {
         return KatyDomContentRestrictions( this, labelAllowed = false )
     }
