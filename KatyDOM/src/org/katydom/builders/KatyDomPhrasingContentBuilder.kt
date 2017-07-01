@@ -983,6 +983,39 @@ class KatyDomPhrasingContentBuilder(
     }
 
     /**
+     * Adds a select element with any global attributes as the next child of the element under construction.
+     */
+    fun select(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        lang: String?,
+        multiple: Boolean?,
+        name: String?,
+        required: Boolean?,
+        size: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineContent: KatyDomPhrasingOptionContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomSelect(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
+                hidden, lang, multiple, name, required, size, spellcheck, style,
+                tabindex, title, translate, value, defineContent)
+        )
+    }
+
+    /**
      * Adds a span element with any global attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
