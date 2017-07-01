@@ -20,7 +20,7 @@ internal class KatyDomBr
     : KatyDomHtmlElement {
 
     constructor(
-        @Suppress("UNUSED_PARAMETER") flowContentBuilder: KatyDomFlowContentBuilder,
+        flowContent: KatyDomFlowContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -37,12 +37,12 @@ internal class KatyDomBr
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex,
         title, translate) {
 
-        KatyDomElementContentBuilder(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
     constructor(
-        @Suppress("UNUSED_PARAMETER") phrasingContentBuilder: KatyDomPhrasingContentBuilder,
+        phrasingContent: KatyDomPhrasingContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -59,7 +59,7 @@ internal class KatyDomBr
     ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex,
         title, translate) {
 
-        KatyDomElementContentBuilder(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

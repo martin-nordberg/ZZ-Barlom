@@ -54,7 +54,7 @@ internal class KatyDomInputUrl : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, maxlength, minlength, name,
                       pattern, placeholder, readonly, required, size, value)
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -94,7 +94,7 @@ internal class KatyDomInputUrl : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, maxlength, minlength, name,
                       pattern, placeholder, readonly, required, size, value)
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

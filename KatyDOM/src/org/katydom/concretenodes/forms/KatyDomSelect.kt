@@ -47,7 +47,7 @@ internal class KatyDomSelect : KatyDomHtmlElement {
 
         setAttributes(autofocus, disabled, form, multiple, name, required, size, value)
 
-        KatyDomOptionContentBuilder(this).defineContent()
+        flowContent.optionContent(this).defineContent()
         this.freeze()
     }
 
@@ -80,7 +80,7 @@ internal class KatyDomSelect : KatyDomHtmlElement {
 
         setAttributes(autofocus, disabled, form, multiple, name, required, size, value)
 
-        KatyDomOptionContentBuilder(this).defineContent()
+        phrasingContent.optionContent(this).defineContent()
         this.freeze()
     }
 

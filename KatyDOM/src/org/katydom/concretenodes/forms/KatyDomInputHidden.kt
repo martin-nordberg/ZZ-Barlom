@@ -41,7 +41,7 @@ internal class KatyDomInputHidden : KatyDomHtmlElement {
 
         setAttributes(disabled, form, name, value)
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -68,7 +68,7 @@ internal class KatyDomInputHidden : KatyDomHtmlElement {
 
         setAttributes(disabled, form, name, value)
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

@@ -48,7 +48,7 @@ internal class KatyDomInputSubmitButton : KatyDomHtmlElement {
 
         setAttributes(disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, name, value)
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -80,7 +80,7 @@ internal class KatyDomInputSubmitButton : KatyDomHtmlElement {
 
         setAttributes(disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, name, value)
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

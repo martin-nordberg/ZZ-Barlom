@@ -16,7 +16,7 @@ import org.katydom.types.EDirection
  * Virtual node for an <hr> element.
  */
 internal class KatyDomHr(
-    @Suppress("UNUSED_PARAMETER") flowContent: KatyDomFlowContentBuilder,
+    flowContent: KatyDomFlowContentBuilder,
     selector: String?,
     key: String?,
     accesskey: String?,
@@ -36,7 +36,7 @@ internal class KatyDomHr(
     override val nodeName = "HR"
 
     init {
-        KatyDomElementContentBuilder(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

@@ -52,7 +52,7 @@ internal class KatyDomInputDateTimeLocal : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, max, min, name,
                       readonly, required, step, value)
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -90,7 +90,7 @@ internal class KatyDomInputDateTimeLocal : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, max, min, name,
                       readonly, required, step, value)
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

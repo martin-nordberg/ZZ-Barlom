@@ -53,7 +53,7 @@ internal class KatyDomInputNumber : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, max.toString(), min.toString(), name,
                       placeholder, readonly, required, step, value.toString())
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -92,7 +92,7 @@ internal class KatyDomInputNumber : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, max.toString(), min.toString(), name,
                       placeholder, readonly, required, step, value.toString())
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -131,7 +131,7 @@ internal class KatyDomInputNumber : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, max.toString(), min.toString(), name,
                       placeholder, readonly, required, step, value.toString())
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -170,7 +170,7 @@ internal class KatyDomInputNumber : KatyDomHtmlElement {
         setAttributes(autocomplete, autofocus, disabled, form, list, max.toString(), min.toString(), name,
                       placeholder, readonly, required, step, value.toString())
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

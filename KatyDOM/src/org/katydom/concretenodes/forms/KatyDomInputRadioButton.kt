@@ -47,7 +47,7 @@ internal class KatyDomInputRadioButton : KatyDomHtmlElement {
 
         setAttributes(autofocus, checked, disabled, form, name, required, step, value)
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -80,7 +80,7 @@ internal class KatyDomInputRadioButton : KatyDomHtmlElement {
 
         setAttributes(autofocus, checked, disabled, form, name, required, step, value)
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

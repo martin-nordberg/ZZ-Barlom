@@ -47,7 +47,7 @@ internal class KatyDomInputFile : KatyDomHtmlElement {
 
         setAttributes(accept, autofocus, disabled, form, multiple, name, required, value)
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -80,7 +80,7 @@ internal class KatyDomInputFile : KatyDomHtmlElement {
 
         setAttributes(accept, autofocus, disabled, form, multiple, name, required, value)
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

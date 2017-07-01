@@ -1542,6 +1542,21 @@ class KatyDomFlowContentBuilder(
 ////
 
     /**
+     * Creates a new attributes content builder for the given child [element].
+     */
+    internal fun attributesContent(element: KatyDomHtmlElement) : KatyDomElementContentBuilder {
+        return KatyDomElementContentBuilder(element)
+    }
+
+    /**
+     * Creates a new option content builder for the given child [element] that has the same restrictions
+     * as this builder.
+     */
+    internal fun optionContent(element: KatyDomHtmlElement) : KatyDomOptionContentBuilder {
+        return KatyDomOptionContentBuilder(element, contentRestrictions)
+    }
+
+    /**
      * Creates a new phrasing content builder for the given child [element] that has the same restrictions
      * as this builder.
      */

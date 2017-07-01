@@ -17,7 +17,7 @@ import org.katydom.types.EDirection
 internal class KatyDomOption : KatyDomHtmlElement {
 
     constructor(
-        @Suppress("UNUSED_PARAMETER") optionContent: KatyDomOptionContentBuilder,
+        optionContent: KatyDomOptionContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -41,7 +41,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
         setAttributes(disabled, label, selected)
         setAttribute("value", value)
 
-        KatyDomElementContentBuilder(this).defineAttributes()
+        optionContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

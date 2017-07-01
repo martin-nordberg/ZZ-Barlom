@@ -53,7 +53,7 @@ internal class KatyDomInputImageButton : KatyDomHtmlElement {
         setAttributes(alt, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, height,
                       name, src, value, width)
 
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineAttributes()
+        flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
@@ -90,7 +90,7 @@ internal class KatyDomInputImageButton : KatyDomHtmlElement {
         setAttributes(alt, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, height,
                       name, src, value, width)
 
-        phrasingContent.withLabelNotAllowed(this).defineAttributes()
+        phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 

@@ -15,11 +15,12 @@ class KatyDomContentRestrictions(
     private val headerAllowed: Boolean,
     private val interactiveContentAllowed: Boolean,
     private val labelAllowed : Boolean,
-    private val mainAllowed : Boolean
+    private val mainAllowed : Boolean,
+    private val optionGroupAllowed: Boolean
 ) {
 
     constructor()
-        : this(true,true,true,true,true,true,true)
+        : this(true,true,true,true,true,true,true,true)
 
     constructor(
         original: KatyDomContentRestrictions,
@@ -29,7 +30,8 @@ class KatyDomContentRestrictions(
         headerAllowed: Boolean = true,
         interactiveContentAllowed: Boolean = true,
         labelAllowed : Boolean = true,
-        mainAllowed : Boolean = true
+        mainAllowed : Boolean = true,
+        optionGroupAllowed: Boolean = true
     ) : this(
         original.anchorAllowed && anchorAllowed,
         original.footerAllowed && footerAllowed,
@@ -37,7 +39,8 @@ class KatyDomContentRestrictions(
         original.headerAllowed && headerAllowed,
         original.interactiveContentAllowed && interactiveContentAllowed,
         original.labelAllowed && labelAllowed,
-        original.mainAllowed && mainAllowed
+        original.mainAllowed && mainAllowed,
+        original.optionGroupAllowed && optionGroupAllowed
     )
 
     fun confirmAnchorAllowed() {
@@ -66,6 +69,10 @@ class KatyDomContentRestrictions(
 
     fun confirmMainAllowed() {
         check(mainAllowed) { "Element type <main> not allowed here." }
+    }
+
+    fun confirmOptionGroupAllowed() {
+        check(optionGroupAllowed) { "Element type <optgroup> not allowed here." }
     }
 
     fun withAnchorInteractiveContentNotAllowed() : KatyDomContentRestrictions {
@@ -102,6 +109,10 @@ class KatyDomContentRestrictions(
 
     fun withMainNotAllowed() : KatyDomContentRestrictions {
         return KatyDomContentRestrictions( this, mainAllowed = false )
+    }
+
+    fun withOptionGroupNotAllowed() : KatyDomContentRestrictions {
+        return KatyDomContentRestrictions( this, optionGroupAllowed = false )
     }
 
 }
