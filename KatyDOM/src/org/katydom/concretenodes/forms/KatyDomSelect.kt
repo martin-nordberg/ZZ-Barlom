@@ -6,10 +6,9 @@
 package org.katydom.concretenodes.forms
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.builders.KatyDomContentRestrictions
 import org.katydom.builders.KatyDomFlowContentBuilder
-import org.katydom.builders.KatyDomFlowOptionContentBuilder
-import org.katydom.builders.KatyDomPhrasingContentBuilder
-import org.katydom.builders.KatyDomPhrasingOptionContentBuilder
+import org.katydom.builders.KatyDomOptionContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,71 +16,37 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a select element.
  */
-internal class KatyDomSelect : KatyDomHtmlElement {
+internal class KatyDomSelect(
+    contentRestrictions: KatyDomContentRestrictions,
+    selector: String?,
+    key: String?,
+    accesskey: String?,
+    autofocus: Boolean?,
+    contenteditable: Boolean?,
+    dir: EDirection?,
+    disabled: Boolean?,
+    form: String?,
+    hidden: Boolean?,
+    lang: String?,
+    multiple: Boolean?,
+    name: String?,
+    required: Boolean?,
+    size: Int?,
+    spellcheck: Boolean?,
+    style: String?,
+    tabindex: Int?,
+    title: String?,
+    translate: Boolean?,
+    value: String?,
+    defineContent: KatyDomOptionContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    constructor(
-        flowContent: KatyDomFlowContentBuilder,
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        multiple: Boolean?,
-        name: String?,
-        required: Boolean?,
-        size: Int?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
-        defineContent: KatyDomFlowOptionContentBuilder.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-        flowContent.contentRestrictions.confirmInteractiveContentAllowed()
-
-        setAttributes(autofocus, disabled, form, multiple, name, required, size, value)
-
-        KatyDomFlowOptionContentBuilder(flowContent, this).defineContent()
-        this.freeze()
-    }
-
-    constructor(
-        phrasingContent: KatyDomPhrasingContentBuilder,
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        multiple: Boolean?,
-        name: String?,
-        required: Boolean?,
-        size: Int?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
-        defineContent: KatyDomPhrasingOptionContentBuilder.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-        phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
+    init {
+        contentRestrictions.confirmInteractiveContentAllowed()
 
         setAttributes(autofocus, disabled, form, multiple, name, required, size, value)
 
-        KatyDomPhrasingOptionContentBuilder(phrasingContent, this).defineContent()
+        KatyDomOptionContentBuilder(this).defineContent()
         this.freeze()
     }
 
