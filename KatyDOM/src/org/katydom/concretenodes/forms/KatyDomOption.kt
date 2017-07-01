@@ -17,6 +17,7 @@ import org.katydom.types.EDirection
 internal class KatyDomOption : KatyDomHtmlElement {
 
     constructor(
+        @Suppress("UNUSED_PARAMETER") optionContent: KatyDomOptionContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -45,6 +46,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
     }
 
     constructor(
+        optionContent: KatyDomOptionContentBuilder,
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -61,12 +63,12 @@ internal class KatyDomOption : KatyDomHtmlElement {
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit   // TODO: text builder
+        defineContent: KatyDomTextContentBuilder.() -> Unit
     ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
         setAttributes(disabled, label, selected)
 
-        KatyDomElementContentBuilder(this).defineAttributes()
+        optionContent.textContent(this).defineContent()
         this.freeze()
     }
 
@@ -77,6 +79,8 @@ internal class KatyDomOption : KatyDomHtmlElement {
         label: String?,
         selected: Boolean?
     ) {
+        require( label == null || !label.isEmpty() ) { "Attribute label may not be an empty string." }
+
         setBooleanAttribute("disabled", disabled)
         setAttribute("label", label)
         setBooleanAttribute("selected", selected)

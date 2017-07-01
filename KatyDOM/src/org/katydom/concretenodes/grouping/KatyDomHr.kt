@@ -7,6 +7,7 @@ package org.katydom.concretenodes.grouping
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomElementContentBuilder
+import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +16,7 @@ import org.katydom.types.EDirection
  * Virtual node for an <hr> element.
  */
 internal class KatyDomHr(
+    @Suppress("UNUSED_PARAMETER") flowContent: KatyDomFlowContentBuilder,
     selector: String?,
     key: String?,
     accesskey: String?,

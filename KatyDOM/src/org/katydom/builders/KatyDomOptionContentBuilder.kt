@@ -41,7 +41,7 @@ class KatyDomOptionContentBuilder(
         defineAttributes: KatyDomElementContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomOption(selector, key, accesskey, contenteditable, dir, disabled,
+            KatyDomOption(this, selector, key, accesskey, contenteditable, dir, disabled,
                 hidden, label, lang, name, selected, spellcheck, style,
                 tabindex, title, translate, value, defineAttributes)
         )
@@ -67,13 +67,22 @@ class KatyDomOptionContentBuilder(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit // TODO: text content builder
+        defineContent: KatyDomTextContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomOption(selector, key, accesskey, contenteditable, dir, disabled,
+            KatyDomOption(this, selector, key, accesskey, contenteditable, dir, disabled,
                 hidden, label, lang, name, selected, spellcheck, style,
-                tabindex, title, translate, defineAttributes)
+                tabindex, title, translate, defineContent)
         )
+    }
+
+////
+
+    /**
+     * Creates a new text content builder for the given child [element].
+     */
+    internal fun textContent(element: KatyDomHtmlElement) : KatyDomTextContentBuilder {
+        return KatyDomTextContentBuilder(element)
     }
 
 }

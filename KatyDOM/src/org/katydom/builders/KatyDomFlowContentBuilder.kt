@@ -145,7 +145,7 @@ class KatyDomFlowContentBuilder(
         defineAttributes: KatyDomElementContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomBr(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+            KatyDomBr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                       tabindex, title, translate, defineAttributes)
 
         )
@@ -457,7 +457,7 @@ class KatyDomFlowContentBuilder(
         defineAttributes: KatyDomElementContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomHr(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+            KatyDomHr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                       tabindex, title, translate, defineAttributes)
 
         )
@@ -1476,9 +1476,9 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomOptionContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomSelect(this.contentRestrictions, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
+                KatyDomSelect(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
                               hidden, lang, multiple, name, required, size, spellcheck, style,
-                               tabindex, title, translate, value, defineContent)
+                              tabindex, title, translate, value, defineContent)
         )
     }
 

@@ -80,7 +80,7 @@ class KatyDomPhrasingContentBuilder(
         defineAttributes: KatyDomElementContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomBr(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+            KatyDomBr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                 tabindex, title, translate,defineAttributes)
 
         )
@@ -1009,7 +1009,7 @@ class KatyDomPhrasingContentBuilder(
         defineContent: KatyDomOptionContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomSelect(this.contentRestrictions, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
+            KatyDomSelect(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
                 hidden, lang, multiple, name, required, size, spellcheck, style,
                 tabindex, title, translate, value, defineContent)
         )
