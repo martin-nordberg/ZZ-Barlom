@@ -1515,6 +1515,47 @@ class KatyDomFlowContentBuilder(
     }
 
     /**
+     * Adds a textarea element with given attributes as the next child of the element under construction.
+     */
+    fun textarea(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        cols: Int?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        dirname: String?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        inputmode: EInputMode?,
+        lang: String?,
+        maxlength: Int?,
+        minlength: Int?,
+        name: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        rows: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        wrap: EWrapType?,
+        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomTextArea(this, selector, key, accesskey, autocomplete, autofocus, cols, contenteditable, dir, dirname,
+                disabled, form, hidden, inputmode, lang, maxlength, minlength, name,
+                placeholder, readonly, required, rows, spellcheck, style, tabindex, title, translate,
+                wrap, defineAttributes)
+        )
+    }
+
+    /**
      * Adds a new ul element as the next child of the element under construction. Allows setting all global HTML
      * attributes.
      */
@@ -1562,6 +1603,13 @@ class KatyDomFlowContentBuilder(
      */
     internal fun phrasingContent(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(element, contentRestrictions)
+    }
+
+    /**
+     * Creates a new text content builder for the given child [element].
+     */
+    internal fun textContent(element: KatyDomHtmlElement) : KatyDomTextContentBuilder {
+        return KatyDomTextContentBuilder(element)
     }
 
     /**
