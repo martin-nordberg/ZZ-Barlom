@@ -13,13 +13,13 @@ import org.katydom.types.EDirection
 
 class KatyDomListItemContentBuilder(
 
-        internal val flowContent: KatyDomFlowContentBuilder,
+    internal val flowContent: KatyDomFlowContentBuilder,
 
-        internal val isOrdered : Boolean,
+    internal val isOrdered: Boolean,
 
-        private val element: KatyDomHtmlElement
+    element: KatyDomHtmlElement
 
-) : KatyDomElementContentBuilder(element) {
+) : KatyDomAttributesContentBuilder(element) {
 
     /**
      * Adds an li element with any global attributes as the next child of the element under construction.
@@ -55,8 +55,8 @@ class KatyDomListItemContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomLi(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, value, defineContent)
+            KatyDomLi(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, value, defineContent)
         )
     }
 

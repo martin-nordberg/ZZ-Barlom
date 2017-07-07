@@ -34,9 +34,8 @@ internal class KatyDomOl(
         translate: Boolean?,
         type: EOrderedListType?,
         defineContent: KatyDomListItemContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "OL"
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         setBooleanAttribute("reversed", reversed)
@@ -46,6 +45,8 @@ internal class KatyDomOl(
         KatyDomListItemContentBuilder(flowContent, true, this).defineContent()
         this.freeze()
     }
+
+    override val nodeName = "OL"
 
 }
 

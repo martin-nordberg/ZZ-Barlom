@@ -19,15 +19,15 @@ import org.katydom.types.*
  * Virtual DOM builder for the case of HTML "phrasing content".
  */
 @Suppress("unused")
-class KatyDomPhrasingContentBuilder(
+open class KatyDomPhrasingContentBuilder(
 
     /** The element whose content is being built. */
-    private val element: KatyDomHtmlElement,
+    element: KatyDomHtmlElement,
 
     /** Restrictions on content enforced at run time. */
     internal val contentRestrictions: KatyDomContentRestrictions = KatyDomContentRestrictions()
 
-) : KatyDomElementContentBuilder(element) {
+) : KatyDomAttributesContentBuilder(element) {
 
     /**
      * Adds an a element with its attributes as the next child of the element under construction.
@@ -77,7 +77,7 @@ class KatyDomPhrasingContentBuilder(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomBr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -143,7 +143,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
@@ -175,7 +175,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputCheckbox(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
@@ -209,7 +209,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputColor(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -247,7 +247,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputDate(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -285,7 +285,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputDateTimeLocal(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -326,7 +326,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputEmail(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -360,7 +360,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputFile(this, selector, key, accept, accesskey, autofocus, contenteditable, dir, disabled,
@@ -389,7 +389,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputHidden(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
@@ -426,7 +426,7 @@ class KatyDomPhrasingContentBuilder(
         translate: Boolean?,
         value: String?,
         width: Int?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputImageButton(this, selector, key, accesskey, alt, contenteditable, dir, disabled, form, formaction,
@@ -463,7 +463,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputMonth(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -474,9 +474,9 @@ class KatyDomPhrasingContentBuilder(
     }
 
     /**
-     * Adds an input type="number" (double) element with given attributes as the next child of the element under construction.
+     * Adds an input type="number" element with given attributes as the next child of the element under construction.
      */
-    fun inputNumber(
+    fun <T: Number> inputNumber(
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -489,8 +489,8 @@ class KatyDomPhrasingContentBuilder(
         hidden: Boolean?,
         lang: String?,
         list: String?,
-        max: Double?,
-        min: Double?,
+        max: T?,
+        min: T?,
         name: String?,
         placeholder: String?,
         readonly: Boolean?,
@@ -501,47 +501,8 @@ class KatyDomPhrasingContentBuilder(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        value: Double?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
-    ) {
-        element.addChildNode(
-            KatyDomInputNumber(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name, placeholder,
-                readonly, required, spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
-        )
-    }
-
-    /**
-     * Adds an input type="number" (integer) element with given attributes as the next child of the element under construction.
-     */
-    fun inputNumber(
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        autocomplete: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        list: String?,
-        max: Int?,
-        min: Int?,
-        name: String?,
-        placeholder: String?,
-        readonly: Boolean?,
-        required: Boolean?,
-        spellcheck: Boolean?,
-        step: String?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: Int?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        value: T?,
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputNumber(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -581,7 +542,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputPassword(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -615,7 +576,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputRadioButton(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
@@ -626,9 +587,9 @@ class KatyDomPhrasingContentBuilder(
     }
 
     /**
-     * Adds an input type="range" (double) element with given attributes as the next child of the element under construction.
+     * Adds an input type="range" element with given attributes as the next child of the element under construction.
      */
-    fun inputRange(
+    fun <T:Number> inputRange(
         selector: String?,
         key: String?,
         accesskey: String?,
@@ -641,8 +602,8 @@ class KatyDomPhrasingContentBuilder(
         hidden: Boolean?,
         lang: String?,
         list: String?,
-        max: Double?,
-        min: Double?,
+        max: T?,
+        min: T?,
         name: String?,
         spellcheck: Boolean?,
         step: String?,
@@ -650,44 +611,8 @@ class KatyDomPhrasingContentBuilder(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        value: Double?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
-    ) {
-        element.addChildNode(
-            KatyDomInputRange(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name,
-                spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
-        )
-    }
-
-    /**
-     * Adds an input type="range" (integer) element with given attributes as the next child of the element under construction.
-     */
-    fun inputRange(
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        autocomplete: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        list: String?,
-        max: Int?,
-        min: Int?,
-        name: String?,
-        spellcheck: Boolean?,
-        step: String?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: Int?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        value: T?,
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputRange(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -717,11 +642,53 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputResetButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
                 name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+        )
+    }
+
+    /**
+     * Adds an input type="search" element with given attributes as the next child of the element under construction.
+     */
+    fun inputSearch(
+        selector: String?,
+        key: String?,
+        accesskey: String?,
+        autocomplete: String?,
+        autofocus: Boolean?,
+        contenteditable: Boolean?,
+        dir: EDirection?,
+        dirname: String?,
+        disabled: Boolean?,
+        form: String?,
+        hidden: Boolean?,
+        inputmode: EInputMode?,
+        lang: String?,
+        list: String?,
+        maxlength: Int?,
+        minlength: Int?,
+        name: String?,
+        pattern: String?,
+        placeholder: String?,
+        readonly: Boolean?,
+        required: Boolean?,
+        size: Int?,
+        spellcheck: Boolean?,
+        style: String?,
+        tabindex: Int?,
+        title: String?,
+        translate: Boolean?,
+        value: String?,
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomInputSearch(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, dirname,
+                disabled, form, hidden, inputmode, lang, list, maxlength, minlength, name, pattern,
+                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                value, defineAttributes)
         )
     }
 
@@ -750,7 +717,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputSubmitButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, formaction,
@@ -789,7 +756,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputTelephone(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -831,7 +798,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputText(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, dirname,
@@ -869,7 +836,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputTime(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -909,7 +876,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputUrl(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -947,7 +914,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputWeek(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -1091,7 +1058,7 @@ class KatyDomPhrasingContentBuilder(
         title: String?,
         translate: Boolean?,
         wrap: EWrapType?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomTextArea(this, selector, key, accesskey, autocomplete, autofocus, cols, contenteditable, dir, dirname,
@@ -1106,8 +1073,8 @@ class KatyDomPhrasingContentBuilder(
     /**
      * Creates a new attributes content builder for the given child [element].
      */
-    internal fun attributesContent(element: KatyDomHtmlElement) : KatyDomElementContentBuilder {
-        return KatyDomElementContentBuilder(element)
+    internal fun attributesContent(element: KatyDomHtmlElement) : KatyDomAttributesContentBuilder {
+        return KatyDomAttributesContentBuilder(element)
     }
 
     /**
@@ -1159,7 +1126,7 @@ class KatyDomPhrasingContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+    internal open fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(element, contentRestrictions)
     }
 

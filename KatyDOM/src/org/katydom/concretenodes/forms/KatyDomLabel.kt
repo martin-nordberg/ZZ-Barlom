@@ -6,7 +6,6 @@
 package org.katydom.concretenodes.forms
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.types.EDirection
 
@@ -15,10 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a label element.
  */
-internal class KatyDomLabel : KatyDomHtmlElement{
-
-  constructor(
-    flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomLabel(
+    phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
     key: String?,
     accesskey: String?,
@@ -33,35 +30,9 @@ internal class KatyDomLabel : KatyDomHtmlElement{
     title: String?,
     translate: Boolean?,
     defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-  ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-        flowContent.contentRestrictions.confirmInteractiveContentAllowed()
-        flowContent.contentRestrictions.confirmLabelAllowed()
-
-        setAttribute("for", `for`)
-
-        flowContent.phrasingContent(this).withLabelNotAllowed(this).defineContent()
-        this.freeze()
-    }
-
-  constructor(
-      phrasingContent: KatyDomPhrasingContentBuilder,
-      selector: String?,
-      key: String?,
-      accesskey: String?,
-      contenteditable: Boolean?,
-      dir: EDirection?,
-      `for`: String?,
-      hidden: Boolean?,
-      lang: String?,
-      spellcheck: Boolean?,
-      style: String?,
-      tabindex: Int?,
-      title: String?,
-      translate: Boolean?,
-      defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-  ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
+    init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
         phrasingContent.contentRestrictions.confirmLabelAllowed()
 

@@ -6,7 +6,7 @@
 package org.katydom.concretenodes.grouping
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.builders.KatyDomElementContentBuilder
+import org.katydom.builders.KatyDomAttributesContentBuilder
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.types.EDirection
 
@@ -29,16 +29,16 @@ internal class KatyDomHr(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineAttributes: KatyDomElementContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex,
-                       title, translate) {
-
-    override val nodeName = "HR"
+    defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
+
+    override val nodeName = "HR"
 
 }
 

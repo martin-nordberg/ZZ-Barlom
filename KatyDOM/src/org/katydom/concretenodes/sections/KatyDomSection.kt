@@ -15,28 +15,29 @@ import org.katydom.types.EDirection
  * Virtual node for an <section> element.
  */
 internal class KatyDomSection(
-        flowContent: KatyDomFlowContentBuilder,
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        hidden: Boolean?,
-        lang: String?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "SECTION"
+    flowContent: KatyDomFlowContentBuilder,
+    selector: String?,
+    key: String?,
+    accesskey: String?,
+    contenteditable: Boolean?,
+    dir: EDirection?,
+    hidden: Boolean?,
+    lang: String?,
+    spellcheck: Boolean?,
+    style: String?,
+    tabindex: Int?,
+    title: String?,
+    translate: Boolean?,
+    defineContent: KatyDomFlowContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }
+
+    override val nodeName = "SECTION"
 
 }
 

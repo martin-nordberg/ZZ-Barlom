@@ -6,8 +6,7 @@
 package org.katydom.concretenodes.forms
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.builders.KatyDomElementContentBuilder
-import org.katydom.builders.KatyDomFlowContentBuilder
+import org.katydom.builders.KatyDomAttributesContentBuilder
 import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.types.EDirection
 
@@ -16,109 +15,42 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an input type="email" element.
  */
-internal class KatyDomInputEmail : KatyDomHtmlElement {
+internal class KatyDomInputEmail(
+    phrasingContent: KatyDomPhrasingContentBuilder,
+    selector: String?,
+    key: String?,
+    accesskey: String?,
+    autocomplete: String?,
+    autofocus: Boolean?,
+    contenteditable: Boolean?,
+    dir: EDirection?,
+    disabled: Boolean?,
+    form: String?,
+    hidden: Boolean?,
+    lang: String?,
+    list: String?,
+    maxlength: Int?,
+    minlength: Int?,
+    multiple: Boolean?,
+    name: String?,
+    pattern: String?,
+    placeholder: String?,
+    readonly: Boolean?,
+    required: Boolean?,
+    size: Int?,
+    spellcheck: Boolean?,
+    style: String?,
+    tabindex: Int?,
+    title: String?,
+    translate: Boolean?,
+    value: String?,
+    defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    constructor(
-        flowContent: KatyDomFlowContentBuilder,
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        autocomplete: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        list: String?,
-        maxlength: Int?,
-        minlength: Int?,
-        multiple: Boolean?,
-        name: String?,
-        pattern: String?,
-        placeholder: String?,
-        readonly: Boolean?,
-        required: Boolean?,
-        size: Int?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-        flowContent.contentRestrictions.confirmInteractiveContentAllowed()
-
-        setAttributes(autocomplete, autofocus, disabled, form, list, maxlength, minlength, multiple, name,
-                      pattern, placeholder, readonly, required, size, value)
-
-        flowContent.attributesContent(this).defineAttributes()
-        this.freeze()
-    }
-
-    constructor(
-        phrasingContent: KatyDomPhrasingContentBuilder,
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        autocomplete: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        list: String?,
-        maxlength: Int?,
-        minlength: Int?,
-        multiple: Boolean?,
-        name: String?,
-        pattern: String?,
-        placeholder: String?,
-        readonly: Boolean?,
-        required: Boolean?,
-        size: Int?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
+    init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
 
-        setAttributes(autocomplete, autofocus, disabled, form, list, maxlength, minlength, multiple, name,
-                      pattern, placeholder, readonly, required, size, value)
-
-        phrasingContent.attributesContent(this).defineAttributes()
-        this.freeze()
-    }
-
-    override val nodeName = "INPUT"
-
-    private fun setAttributes(
-        autocomplete: String?,
-        autofocus: Boolean?,
-        disabled: Boolean?,
-        form: String?,
-        list: String?,
-        maxlength: Int?,
-        minlength: Int?,
-        multiple: Boolean?,
-        name: String?,
-        pattern: String?,
-        placeholder: String?,
-        readonly: Boolean?,
-        required: Boolean?,
-        size: Int?,
-        value: String?
-    ) {
         require( maxlength == null || maxlength >= 0 ) { "Attribute maxlength must be non-negative." }
         require( minlength == null || minlength >= 0 ) { "Attribute minlength must be non-negative." }
         require( size == null || size >= 0 ) { "Attribute size must be non-negative." }
@@ -140,7 +72,12 @@ internal class KatyDomInputEmail : KatyDomHtmlElement {
         setAttribute("value", value)
 
         setAttribute("type", "email")
+
+        phrasingContent.attributesContent(this).defineAttributes()
+        this.freeze()
     }
+
+    override val nodeName = "INPUT"
 
 }
 

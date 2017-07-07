@@ -17,10 +17,10 @@ import org.katydom.types.EMouseEventType
  */
 @Suppress("unused")
 @KatyDomContentBuilderDsl
-open class KatyDomElementContentBuilder(
+open class KatyDomAttributesContentBuilder(
 
     /** The element whose attributes are being set. */
-    private val element: KatyDomHtmlElement
+    protected val element: KatyDomHtmlElement
 
 ) {
 

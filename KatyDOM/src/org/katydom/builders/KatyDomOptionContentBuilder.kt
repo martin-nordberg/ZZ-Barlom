@@ -14,12 +14,12 @@ import org.katydom.types.EDirection
 
 class KatyDomOptionContentBuilder(
 
-        private val element: KatyDomHtmlElement,
+    element: KatyDomHtmlElement,
 
-        /** Restrictions on content enforced at run time. */
-        internal val contentRestrictions: KatyDomContentRestrictions
+    /** Restrictions on content enforced at run time. */
+    internal val contentRestrictions: KatyDomContentRestrictions
 
-) : KatyDomElementContentBuilder(element) {
+) : KatyDomAttributesContentBuilder(element) {
 
     /**
      * Adds an option element with any global attributes as the next child of the element under construction.
@@ -42,12 +42,12 @@ class KatyDomOptionContentBuilder(
         title: String?,
         translate: Boolean?,
         value: String,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomOption(this, selector, key, accesskey, contenteditable, dir, disabled,
-                hidden, label, lang, name, selected, spellcheck, style,
-                tabindex, title, translate, value, defineAttributes)
+                          hidden, label, lang, name, selected, spellcheck, style,
+                          tabindex, title, translate, value, defineAttributes)
         )
     }
 
@@ -75,8 +75,8 @@ class KatyDomOptionContentBuilder(
     ) {
         element.addChildNode(
             KatyDomOption(this, selector, key, accesskey, contenteditable, dir, disabled,
-                hidden, label, lang, name, selected, spellcheck, style,
-                tabindex, title, translate, defineContent)
+                          hidden, label, lang, name, selected, spellcheck, style,
+                          tabindex, title, translate, defineContent)
         )
     }
 
@@ -94,7 +94,6 @@ class KatyDomOptionContentBuilder(
         label: String?,
         lang: String?,
         name: String?,
-        selected: Boolean?,
         spellcheck: Boolean?,
         style: String?,
         tabindex: Int?,
@@ -104,8 +103,8 @@ class KatyDomOptionContentBuilder(
     ) {
         element.addChildNode(
             KatyDomOptionGroup(this, selector, key, accesskey, contenteditable, dir, disabled,
-                hidden, label, lang, name, spellcheck, style,
-                tabindex, title, translate, defineContent)
+                               hidden, label, lang, name, spellcheck, style,
+                               tabindex, title, translate, defineContent)
         )
     }
 
@@ -114,14 +113,14 @@ class KatyDomOptionContentBuilder(
     /**
      * Creates a new attributes content builder for the given child [element].
      */
-    internal fun attributesContent(element: KatyDomHtmlElement) : KatyDomElementContentBuilder {
-        return KatyDomElementContentBuilder(element)
+    internal fun attributesContent(element: KatyDomHtmlElement): KatyDomAttributesContentBuilder {
+        return KatyDomAttributesContentBuilder(element)
     }
 
     /**
      * Creates a new text content builder for the given child [element].
      */
-    internal fun textContent(element: KatyDomHtmlElement) : KatyDomTextContentBuilder {
+    internal fun textContent(element: KatyDomHtmlElement): KatyDomTextContentBuilder {
         return KatyDomTextContentBuilder(element)
     }
 
@@ -129,7 +128,7 @@ class KatyDomOptionContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomOptionContentBuilder {
+    internal fun withNoAddedRestrictions(element: KatyDomHtmlElement): KatyDomOptionContentBuilder {
         return KatyDomOptionContentBuilder(element, contentRestrictions)
     }
 
@@ -137,7 +136,7 @@ class KatyDomOptionContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no option groups allowed.
      */
-    internal fun withOptionGroupNotAllowed(element: KatyDomHtmlElement) : KatyDomOptionContentBuilder {
+    internal fun withOptionGroupNotAllowed(element: KatyDomHtmlElement): KatyDomOptionContentBuilder {
         return KatyDomOptionContentBuilder(element, contentRestrictions.withOptionGroupNotAllowed())
     }
 

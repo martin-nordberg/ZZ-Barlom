@@ -6,8 +6,7 @@
 package org.katydom.concretenodes.forms
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.builders.KatyDomElementContentBuilder
-import org.katydom.builders.KatyDomFlowContentBuilder
+import org.katydom.builders.KatyDomAttributesContentBuilder
 import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.types.EDirection
 
@@ -16,86 +15,36 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an input type="file" element.
  */
-internal class KatyDomInputFile : KatyDomHtmlElement {
+internal class KatyDomInputFile(
+    phrasingContent: KatyDomPhrasingContentBuilder,
+    selector: String?,
+    key: String?,
+    accept: String?,
+    accesskey: String?,
+    autofocus: Boolean?,
+    contenteditable: Boolean?,
+    dir: EDirection?,
+    disabled: Boolean?,
+    form: String?,
+    hidden: Boolean?,
+    lang: String?,
+    multiple: Boolean?,
+    name: String?,
+    required: Boolean?,
+    spellcheck: Boolean?,
+    style: String?,
+    tabindex: Int?,
+    title: String?,
+    translate: Boolean?,
+    value: String?,
+    defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    constructor(
-        flowContent: KatyDomFlowContentBuilder,
-        selector: String?,
-        key: String?,
-        accept: String?,
-        accesskey: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        multiple: Boolean?,
-        name: String?,
-        required: Boolean?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-        flowContent.contentRestrictions.confirmInteractiveContentAllowed()
-
-        setAttributes(accept, autofocus, disabled, form, multiple, name, required, value)
-
-        flowContent.attributesContent(this).defineAttributes()
-        this.freeze()
-    }
-
-    constructor(
-        phrasingContent: KatyDomPhrasingContentBuilder,
-        selector: String?,
-        key: String?,
-        accept: String?,
-        accesskey: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        multiple: Boolean?,
-        name: String?,
-        required: Boolean?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+    init {
 
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
 
-        setAttributes(accept, autofocus, disabled, form, multiple, name, required, value)
-
-        phrasingContent.attributesContent(this).defineAttributes()
-        this.freeze()
-    }
-
-    override val nodeName = "INPUT"
-
-    private fun setAttributes(
-        accept: String?,
-        autofocus: Boolean?,
-        disabled: Boolean?,
-        form: String?,
-        multiple: Boolean?,
-        name: String?,
-        required: Boolean?,
-        value: String?
-    ) {
         setAttribute("accept", accept)
         setBooleanAttribute("autofocus", autofocus)
         setBooleanAttribute("disabled", disabled)
@@ -106,7 +55,12 @@ internal class KatyDomInputFile : KatyDomHtmlElement {
         setAttribute("value", value)
 
         setAttribute("type", "file")
+
+        phrasingContent.attributesContent(this).defineAttributes()
+        this.freeze()
     }
+
+    override val nodeName = "INPUT"
 
 }
 

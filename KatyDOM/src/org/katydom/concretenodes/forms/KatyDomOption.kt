@@ -35,7 +35,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
         title: String?,
         translate: Boolean?,
         value: String,
-        defineAttributes: KatyDomElementContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
         setAttributes(disabled, label, selected)

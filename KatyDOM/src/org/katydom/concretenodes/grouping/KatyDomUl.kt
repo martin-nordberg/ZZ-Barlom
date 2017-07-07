@@ -30,14 +30,15 @@ internal class KatyDomUl(
         title: String?,
         translate: Boolean?,
         defineContent: KatyDomListItemContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "UL"
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         KatyDomListItemContentBuilder(flowContent, false, this).defineContent()
         this.freeze()
     }
+
+    override val nodeName = "UL"
 
 }
 

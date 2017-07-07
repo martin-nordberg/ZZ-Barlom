@@ -6,14 +6,7 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.concretenodes.forms.*
-import org.katydom.concretenodes.grouping.*
-import org.katydom.concretenodes.sections.*
-import org.katydom.concretenodes.text.KatyDomA
-import org.katydom.concretenodes.text.KatyDomBr
-import org.katydom.concretenodes.text.KatyDomSpan
 import org.katydom.concretenodes.text.KatyDomText
-import org.katydom.types.*
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,9 +17,9 @@ import org.katydom.types.*
 class KatyDomTextContentBuilder(
 
     /** The element whose content is being built. */
-    private val element: KatyDomHtmlElement
+    element: KatyDomHtmlElement
 
-) : KatyDomElementContentBuilder(element) {
+) : KatyDomAttributesContentBuilder(element) {
 
     /**
      * Adds a text node as the next child of the element under construction.

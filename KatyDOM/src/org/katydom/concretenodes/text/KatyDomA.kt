@@ -6,7 +6,6 @@
 package org.katydom.concretenodes.text
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.types.EAnchorHtmlLinkType
 import org.katydom.types.EDirection
@@ -16,89 +15,36 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an anchor <a> element.
  */
-internal class KatyDomA : KatyDomHtmlElement {
+internal class KatyDomA(
+    phrasingContent: KatyDomPhrasingContentBuilder,
+    selector: String?,
+    key: String?,
+    accesskey: String?,
+    contenteditable: Boolean?,
+    dir: EDirection?,
+    download: String?,
+    hidden: Boolean?,
+    href: String?,
+    hreflang: String?,
+    lang: String?,
+    rel: Iterable<EAnchorHtmlLinkType>?,
+    rev: Iterable<EAnchorHtmlLinkType>?,
+    spellcheck: Boolean?,
+    style: String?,
+    tabindex: Int?,
+    target: String?,
+    title: String?,
+    translate: Boolean?,
+    type: String?,
+    defineContent: KatyDomPhrasingContentBuilder.() -> Unit
+) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
+                       hidden, lang, spellcheck, style, tabindex, title, translate) {
 
-    constructor(
-        flowContent: KatyDomFlowContentBuilder,
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        download: String?,
-        hidden: Boolean?,
-        href: String?,
-        hreflang: String?,
-        lang: String?,
-        rel: Iterable<EAnchorHtmlLinkType>?,
-        rev: Iterable<EAnchorHtmlLinkType>?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        target: String?,
-        title: String?,
-        translate: Boolean?,
-        type: String?,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
-    ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-        flowContent.contentRestrictions.confirmAnchorAllowed()
-        if ( href!=null ) {
-            flowContent.contentRestrictions.confirmInteractiveContentAllowed()
-        }
-
-        setAttributes(download, href, hreflang, rel, rev, target, type)
-
-        flowContent.withNoAddedRestrictions(this).defineContent()
-        this.freeze()
-    }
-
-    constructor(
-        phrasingContent: KatyDomPhrasingContentBuilder,
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        download: String?,
-        hidden: Boolean?,
-        href: String?,
-        hreflang: String?,
-        lang: String?,
-        rel: Iterable<EAnchorHtmlLinkType>?,
-        rev: Iterable<EAnchorHtmlLinkType>?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        target: String?,
-        title: String?,
-        translate: Boolean?,
-        type: String?,
-        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-    ) : super(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
-
+    init {
         phrasingContent.contentRestrictions.confirmAnchorAllowed()
         if( href!=null ) {
             phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
         }
-
-        setAttributes(download, href, hreflang, rel, rev, target, type)
-
-        phrasingContent.withNoAddedRestrictions(this).defineContent()
-        this.freeze()
-    }
-
-    override val nodeName = "A"
-
-    private fun setAttributes(
-        download: String?,
-        href: String?,
-        hreflang: String?,
-        rel: Iterable<EAnchorHtmlLinkType>?,
-        rev: Iterable<EAnchorHtmlLinkType>?,
-        target: String?,
-        type: String?
-    ) {
 
         this.setAttribute("download", download)
         this.setAttribute("href", href)
@@ -115,7 +61,11 @@ internal class KatyDomA : KatyDomHtmlElement {
         this.setAttribute("target", target)
         this.setAttribute("type", type)
 
+        phrasingContent.withNoAddedRestrictions(this).defineContent()
+        this.freeze()
     }
+
+    override val nodeName = "A"
 
 }
 
