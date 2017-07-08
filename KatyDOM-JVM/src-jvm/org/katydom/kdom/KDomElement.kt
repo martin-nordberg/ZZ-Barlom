@@ -18,7 +18,7 @@ open class KDomElement(
     private val _nodeName: String
 ) : KDomNode(), Element {
 
-    private val _attributes: MutableMap<String, String> = mutableMapOf()
+    private val _attributes: MutableMap<String, String> = sortedMapOf()
 
     override fun getNodeName(): String {
         return _nodeName

@@ -264,7 +264,7 @@ abstract class KatyDomElement : KatyDomNode {
             if (attrClasses != null) {
                 classList.addAll(attrClasses.split(" "))
             }
-            attributes.put("class", classList.joinToString(" "))
+            attributes.put("class", classList.sorted().joinToString(" "))
 
         }
 
@@ -279,13 +279,13 @@ abstract class KatyDomElement : KatyDomNode {
 ////
 
     /** The attributes of this element, mapped from name to value. */
-    private val attributes: MutableMap<String, String> = sortedMapOf()
+    private val attributes: MutableMap<String, String> = mutableMapOf()
 
     /** A list of classes for this element. */
-    private var classList: MutableSet<String> = sortedSetOf()
+    private var classList: MutableSet<String> = mutableSetOf()
 
     /** A list of the data-* properties of this element, keyed without the "data-" prefix. */
-    private var dataset: MutableMap<String, String> = sortedMapOf()
+    private var dataset: MutableMap<String, String> = mutableMapOf()
 
     /** Static placeholders to replace attributes under construction when no longer needed. */
     private object Unused {
