@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Barlom.iml" filepath="$PROJECT_DIR$/Barlom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Barlom-Client/Barlom-Client.iml" filepath="$PROJECT_DIR$/Barlom-Client/Barlom-Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Barlom-Domain-JS/Barlom-Domain-JS.iml" filepath="$PROJECT_DIR$/Barlom-Domain-JS/Barlom-Domain-JS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Barlom-Domain-JVM/Barlom-Domain-JVM.iml" filepath="$PROJECT_DIR$/Barlom-Domain-JVM/Barlom-Domain-JVM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Barlom-Server/Barlom-Server.iml" filepath="$PROJECT_DIR$/Barlom-Server/Barlom-Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/SampleApps/Experiment/Experiment.iml" filepath="$PROJECT_DIR$/SampleApps/Experiment/Experiment.iml" />
       <module fileurl="file://$PROJECT_DIR$/KatyDOM/KatyDOM.iml" filepath="$PROJECT_DIR$/KatyDOM/KatyDOM.iml" />
-      <module fileurl="file://$PROJECT_DIR$/KatyDOM-JVM/KatyDOM-JVM.iml" filepath="$PROJECT_DIR$/KatyDOM-JVM/KatyDOM-JVM.iml" />
-      <module fileurl="file://$PROJECT_DIR$/KatyDOMLib.iml" filepath="$PROJECT_DIR$/KatyDOMLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KatyDOM-Tests/KatyDOM-Tests.iml" filepath="$PROJECT_DIR$/KatyDOM-Tests/KatyDOM-Tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KotlGen/KotlGen.iml" filepath="$PROJECT_DIR$/KotlGen/KotlGen.iml" />
     </modules>
   </component>
 </project>
