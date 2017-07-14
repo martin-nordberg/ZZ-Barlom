@@ -5,7 +5,9 @@
 
 package org.barlom.presentation.server.main
 
+import org.apache.logging.log4j.LogManager
 import spark.kotlin.get
+import spark.kotlin.staticFiles
 import spark.kotlin.stop
 
 /**
@@ -13,7 +15,11 @@ import spark.kotlin.stop
  */
 fun main(args: Array<String>) {
 
-    println("Server starting ...")
+    val userDir = System.getProperty("user.dir")
+    logger.info("User Directory = " + userDir)
+    staticFiles.externalLocation(userDir + "/out/production");
+
+    logger.info("Server starting ...")
 
     get("/hello") {
         "Hello World"
@@ -29,3 +35,5 @@ fun main(args: Array<String>) {
     }
 
 }
+
+val logger = LogManager.getLogger("main")
