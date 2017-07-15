@@ -5,54 +5,65 @@
 
 package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.types.EAbstractness
-import org.barlom.domain.metamodel.types.ECyclicity
-import org.barlom.domain.metamodel.types.EMultiEdgedness
-import org.barlom.domain.metamodel.types.ESelfLooping
+import org.barlom.domain.metamodel.api.elements.IDirectedEdgeType
+import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.domain.metamodel.api.types.ECyclicity
+import org.barlom.domain.metamodel.api.types.EMultiEdgedness
+import org.barlom.domain.metamodel.api.types.ESelfLooping
 
 /**
  * Implementation class for directed edge types.
  */
 class DirectedEdgeType(
 
-    id: String,
-    name: String,
-    parentPackage: NamedPackage,
-    abstractness: EAbstractness,
-    cyclicity: ECyclicity,
-    multiEdgedness: EMultiEdgedness,
-    selfLooping: ESelfLooping,
+    override val id: String,
+    override val name: String,
+    override val parentPackage: Package,
+    override val abstractness: EAbstractness,
+    override val cyclicity: ECyclicity,
+    override val multiEdgedness: EMultiEdgedness,
+    override val selfLooping: ESelfLooping,
 
     /** The name of the role for the vertex at the head of edges of this type. */
-    val headRoleName: String,
+    override val headRoleName: String,
 
     /** The vertex type at the head of edges of this type. */
-    val headVertexType: VertexType,
+    override val headVertexType: VertexType,
 
     /** The maximum in-degree for the head vertex of edges of this type. */
-    val maxHeadInDegree: Int?,
+    override val maxHeadInDegree: Int?,
 
     /** The maximum out-degree for the tail vertex of edges of this type. */
-    val maxTailOutDegree: Int?,
+    override val maxTailOutDegree: Int?,
 
     /** The minimum in-degree for the head vertex of edges of this type. */
-    val minHeadInDegree: Int?,
+    override val minHeadInDegree: Int?,
 
     /** The minimum out-degree for the tail vertex of edges of this type. */
-    val minTailOutDegree: Int?,
+    override val minTailOutDegree: Int?,
 
     /** The super type of this edge type. */
-    val superType: DirectedEdgeType,
+    override val superType: DirectedEdgeType,
 
     /** The name of the role for the vertex at the tail of edges of this type. */
-    val tailRoleName: String?,
+    override val tailRoleName: String?,
 
     /** The vertex type at the tail of edges of this type. */
-    val tailVertexType: VertexType
+    override val tailVertexType: VertexType
 
-) : NamedEdgeType(id, name, parentPackage, abstractness, cyclicity, multiEdgedness, selfLooping) {
+) : IDirectedEdgeType, IEdgeTypeImpl {
 
-    fun isSubTypeOf(edgeType: DirectedEdgeType): Boolean {
+    /** The attribute declarations within this edge type. */
+    private val _attributes : MutableList<EdgeAttributeDecl> = mutableListOf()
+
+    override val attributes : List<EdgeAttributeDecl>
+        get() = _attributes
+
+    override fun addAttribute(attribute: EdgeAttributeDecl) {
+        _attributes.add( attribute );
+    }
+
+    override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {
         return this === edgeType || this.superType.isSubTypeOf(edgeType);
     }
 

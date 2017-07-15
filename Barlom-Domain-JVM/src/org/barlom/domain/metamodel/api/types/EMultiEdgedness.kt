@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.types;
+package org.barlom.domain.metamodel.api.types;
 
 /**
  * Enumeration of possible constraints for multi edges in an edge type.

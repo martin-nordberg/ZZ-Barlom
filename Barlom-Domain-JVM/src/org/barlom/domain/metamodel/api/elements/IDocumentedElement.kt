@@ -3,15 +3,15 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements
+package org.barlom.domain.metamodel.api.elements
 
 
 /**
- * Top-level class for Barlom model elements.
+ * Top-level interface for Barlom model elements.
  */
-abstract class DocumentedElement(
+interface IDocumentedElement {
 
     /** The unique ID of this element (usually a UUID). */
     val id: String
 
-)
+}

@@ -5,7 +5,8 @@
 
 package org.barlom.domain.metamodel.elements;
 
-import org.barlom.domain.metamodel.types.EAbstractness
+import org.barlom.domain.metamodel.api.elements.IVertexType
+import org.barlom.domain.metamodel.api.types.EAbstractness
 
 
 /**
@@ -13,12 +14,23 @@ import org.barlom.domain.metamodel.types.EAbstractness
  */
 class RootVertexType(
 
-    id: String,
-    override val parentPackage: RootPackage,
-    abstractness: EAbstractness,
-    superType: VertexType
+    override val id: String,
+    override val parentPackage: RootPackage
 
-) : VertexType(id, "VertexType",abstractness,superType) {
+) : IVertexType {
+
+    override val name: String
+        get() = "VertexType"
+
+    override val abstractness: EAbstractness
+        get() = EAbstractness.ABSTRACT
+
+    override val superType: IVertexType
+        get() = this
+
+    override fun isSubTypeOf(vertexType: IVertexType): Boolean {
+        return vertexType === this
+    }
 
     override val attributes: List<VertexAttributeDecl>
         get() = listOf()

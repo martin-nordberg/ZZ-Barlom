@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.types
 
+import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -21,16 +22,16 @@ class ECyclicityTests {
 
         assertTrue{ ECyclicity.ACYCLIC.isAcyclic() ?: false }
         assertFalse{ ECyclicity.POTENTIALLY_CYCLIC.isAcyclic() ?: true }
-        assertNull( ECyclicity.UNCONSTRAINED.isAcyclic() )
+        assertNull(ECyclicity.UNCONSTRAINED.isAcyclic() )
 
     }
 
     @Test
     fun `Cyclicities can be constructed from booleans`() {
 
-        assertEquals( ECyclicity.ACYCLIC, ECyclicity.fromBoolean(true))
-        assertEquals( ECyclicity.POTENTIALLY_CYCLIC, ECyclicity.fromBoolean(false))
-        assertEquals( ECyclicity.UNCONSTRAINED, ECyclicity.fromBoolean(null))
+        assertEquals(ECyclicity.ACYCLIC, ECyclicity.fromBoolean(true))
+        assertEquals(ECyclicity.POTENTIALLY_CYCLIC, ECyclicity.fromBoolean(false))
+        assertEquals(ECyclicity.UNCONSTRAINED, ECyclicity.fromBoolean(null))
 
     }
 

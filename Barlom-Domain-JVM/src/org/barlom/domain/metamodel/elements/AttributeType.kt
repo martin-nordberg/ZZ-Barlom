@@ -3,9 +3,10 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements;
+package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.types.EDataType
+import org.barlom.domain.metamodel.api.elements.IAttributeType
+import org.barlom.domain.metamodel.api.types.EDataType
 import java.time.Instant
 
 /**
@@ -13,13 +14,14 @@ import java.time.Instant
  */
 sealed class AttributeType(
 
-    id: String,
-    name: String,
+    override val id: String,
+
+    override val name: String,
 
     /** The parent package of this attribute type. */
-    override final val parentPackage: NamedPackage
+    final override val parentPackage: INamedPackageImpl
 
-) : PackagedElement(id, name) {
+) : IAttributeType {
 
     abstract val dataType: EDataType
 
@@ -37,7 +39,7 @@ class BooleanAttributeType(
 
     id: String,
     name: String,
-    parentPackage: NamedPackage,
+    parentPackage: INamedPackageImpl,
 
     /** The default value for attributes of this type. */
     val defaultValue: Boolean?
@@ -56,7 +58,7 @@ class BooleanAttributeType(
 class DateTimeAttributeType(
     id: String,
     name: String,
-    parentPackage: NamedPackage,
+    parentPackage: INamedPackageImpl,
 
     /** The maximum allowed value for attributes with this type. */
     val maxValue: Instant,
@@ -80,7 +82,7 @@ class Float64AttributeType(
 
     id: String,
     name: String,
-    parentPackage: NamedPackage,
+    parentPackage: INamedPackageImpl,
 
     /** The default value for attributes of this type. */
     val defaultValue: Double?,
@@ -106,7 +108,7 @@ class Integer32AttributeType(
 
     id: String,
     name: String,
-    parentPackage: NamedPackage,
+    parentPackage: INamedPackageImpl,
 
     /** The default value for attributes of this type. */
     val defaultValue: Int?,
@@ -132,7 +134,7 @@ class StringAttributeType(
 
     id: String,
     name: String,
-    parentPackage: NamedPackage,
+    parentPackage: INamedPackageImpl,
 
     /** The maximum length for values with this attribute type. */
     val maxLength: Int?,
@@ -164,7 +166,7 @@ class UuidAttributeType(
 
     id: String,
     name: String,
-    parentPackage: NamedPackage
+    parentPackage: INamedPackageImpl
 
 ) : AttributeType(id, name, parentPackage) {
 

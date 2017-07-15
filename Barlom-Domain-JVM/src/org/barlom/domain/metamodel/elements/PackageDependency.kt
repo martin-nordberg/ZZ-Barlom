@@ -5,18 +5,20 @@
 
 package org.barlom.domain.metamodel.elements
 
+import org.barlom.domain.metamodel.api.elements.IDocumentedElement
+
 /**
  * Implementation class for package dependencies.
  */
 class PackageDependency(
 
-    id: String,
+    override val id: String,
 
-    val clientPackage: NamedPackage,
+    val clientPackage: Package,
 
-    val supplierPackage: NamedPackage
+    val supplierPackage: Package
 
-) : DocumentedElement(id) {
+) : IDocumentedElement {
 
     init {
 

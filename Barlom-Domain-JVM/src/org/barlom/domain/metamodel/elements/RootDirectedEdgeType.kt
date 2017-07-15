@@ -3,12 +3,14 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements;
+package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.types.EAbstractness
-import org.barlom.domain.metamodel.types.ECyclicity
-import org.barlom.domain.metamodel.types.EMultiEdgedness
-import org.barlom.domain.metamodel.types.ESelfLooping
+import org.barlom.domain.metamodel.api.elements.IDirectedEdgeType
+import org.barlom.domain.metamodel.api.elements.IVertexType
+import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.domain.metamodel.api.types.ECyclicity
+import org.barlom.domain.metamodel.api.types.EMultiEdgedness
+import org.barlom.domain.metamodel.api.types.ESelfLooping
 
 
 /**
@@ -16,15 +18,58 @@ import org.barlom.domain.metamodel.types.ESelfLooping
  */
 class RootDirectedEdgeType(
 
-    id: String,
-    abstractness : EAbstractness,
-    cyclicity : ECyclicity,
-    multiEdgedness : EMultiEdgedness,
-    selfLooping : ESelfLooping,
+    override val id: String,
+    override val parentPackage : RootPackage,
 
-    override val parentPackage : RootPackage
+    private val _rootVertexType: RootVertexType
 
-) : EdgeType(id,"DirectedEdge",abstractness,cyclicity,multiEdgedness,selfLooping) {
+) : IDirectedEdgeType {
+
+    override val name: String
+        get() = "DirectedEdgeType"
+
+    override val headRoleName: String?
+        get() = null
+
+    override val headVertexType: IVertexType
+        get() = _rootVertexType
+
+    override val abstractness: EAbstractness
+        get() = EAbstractness.ABSTRACT
+
+    override val maxHeadInDegree: Int?
+        get() = null
+
+    override val cyclicity: ECyclicity
+        get() = ECyclicity.UNCONSTRAINED
+
+    override val maxTailOutDegree: Int?
+        get() = null
+
+    override val minHeadInDegree: Int?
+        get() = null
+
+    override val multiEdgedness: EMultiEdgedness
+        get() = EMultiEdgedness.UNCONSTRAINED
+
+    override val minTailOutDegree: Int?
+        get() = null
+
+    override val selfLooping: ESelfLooping
+        get() = ESelfLooping.UNCONSTRAINED
+
+    override val superType: IDirectedEdgeType
+        get() = this
+
+    override val tailRoleName: String?
+        get() = null
+
+    override val tailVertexType: IVertexType
+        get() = _rootVertexType
+
+    override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {
+        return edgeType === this
+    }
 
     override val attributes: List<EdgeAttributeDecl>
         get() = listOf()

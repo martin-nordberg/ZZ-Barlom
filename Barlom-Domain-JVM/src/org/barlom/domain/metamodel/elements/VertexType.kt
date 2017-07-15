@@ -5,28 +5,41 @@
 
 package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.types.EAbstractness
+import org.barlom.domain.metamodel.api.elements.IVertexAttributeDecl
+import org.barlom.domain.metamodel.api.elements.IVertexType
+import org.barlom.domain.metamodel.api.types.EAbstractness
 
 
 /**
- * Implementation class for vertex types.
+ * Implementation class for non-root vertex types.
  */
-abstract class VertexType(
-    id: String,
-    name: String,
+class VertexType(
 
-    /** Whether this vertex type is abstract. */
-    val abstractness: EAbstractness,
+    override val id: String,
+    override val name: String,
+    override val parentPackage: INamedPackageImpl,
+    override val abstractness: EAbstractness,
+    override val superType: VertexType
 
-    /** The super type of this vertex type. */
-    val superType: VertexType
+) : IVertexType {
 
-) : PackagedElement(id, name) {
+    override val attributes: List<IVertexAttributeDecl>
+        get() = _attributes
 
-    abstract val attributes: List<VertexAttributeDecl>
+    internal fun addAttribute(attribute: VertexAttributeDecl) {
 
-    fun isSubTypeOf(vertexType: VertexType): Boolean {
-        return this == vertexType || this.superType.isSubTypeOf(vertexType)
+        require(
+            attribute.parentVertexType === this) { "Vertex attribute type may not be added to a vertex type not its parent." }
+
+        _attributes.add(attribute)
+
     }
+
+    override fun isSubTypeOf(vertexType: IVertexType): Boolean {
+        return superType === vertexType || superType.isSubTypeOf(vertexType)
+    }
+
+    /** The attributes of this vertex type. */
+    private val _attributes: MutableList<VertexAttributeDecl> = mutableListOf()
 
 }

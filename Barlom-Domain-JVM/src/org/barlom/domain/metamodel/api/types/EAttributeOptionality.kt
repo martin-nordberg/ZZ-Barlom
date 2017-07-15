@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.types
+package org.barlom.domain.metamodel.api.types
 
 /**
  * Enumeration of possible values for whether an attribute is required or optional.

@@ -5,6 +5,8 @@
 
 package org.barlom.domain.metamodel.elements;
 
+import org.barlom.domain.metamodel.api.elements.INamedElement
+
 
 /**
  * Comparator to sort directed edge types by inheritance then name.
@@ -30,7 +32,7 @@ fun byDirectedEdgeSuperSubType(e1: DirectedEdgeType, e2: DirectedEdgeType): Int 
 /**
  * Comparator for sorting elements by name.
  */
-fun byName(n1: NamedElement, n2: NamedElement): Int {
+fun byName(n1: INamedElement, n2: INamedElement): Int {
     return n1.name.compareTo(n2.name);
 }
 

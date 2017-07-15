@@ -5,29 +5,31 @@
 
 package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.types.EAttributeOptionality
-import org.barlom.domain.metamodel.types.ELabelDefaulting
+import org.barlom.domain.metamodel.api.elements.IVertexAttributeDecl
+import org.barlom.domain.metamodel.api.types.EAttributeOptionality
+import org.barlom.domain.metamodel.api.types.ELabelDefaulting
 
 /**
  * Implementation class for vertex attribute declarations.
  */
 class VertexAttributeDecl(
 
-    id: String,
-    name: String,
+    override val id: String,
 
-    val parentVertexType: NamedVertexType,
+    override val name: String,
+
+    override val parentVertexType: VertexType,
 
     /** Whether this attribute serves as the default label for vertexes of the parent type. */
-    val labelDefaulting: ELabelDefaulting,
+    override val labelDefaulting: ELabelDefaulting,
 
     /** Whether this attribute is required for instances of the parent vertex type. */
-    val optionality: EAttributeOptionality,
+    override val optionality: EAttributeOptionality,
 
     /** The type of this attribute declaration. */
-    val type: AttributeType
+    override val type: AttributeType
 
-) : NamedElement(id, name) {
+) : IVertexAttributeDecl {
 
     init {
         parentVertexType.addAttribute(this)
