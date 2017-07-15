@@ -10,7 +10,8 @@ package org.barlom.domain.metamodel.api.elements
  */
 interface IPackagedElement : INamedElement {
 
-    val parentPackage : IPackage
+    /** The package containing this model element. */
+    val parentPackage: IPackage
 
 }
 

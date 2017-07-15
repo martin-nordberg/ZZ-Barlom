@@ -7,7 +7,8 @@ package org.barlom.domain.metamodel.api.elements
 
 
 /**
- * Top-level interface for Barlom model elements.
+ * Top-level interface for Barlom model elements. Various forms of documentation can be linked to any such
+ * model element.
  */
 interface IDocumentedElement {
 

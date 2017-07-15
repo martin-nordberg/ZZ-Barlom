@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements
+package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IDirectedEdgeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
@@ -16,17 +16,23 @@ import org.barlom.domain.metamodel.api.types.ESelfLooping
 /**
  * Implementation of the top-level root directed edge type.
  */
-class RootDirectedEdgeType(
+internal data class RootDirectedEdgeType(
 
     override val id: String,
-    override val parentPackage : RootPackage,
+    override val parentPackage: RootPackage,
 
     private val _rootVertexType: RootVertexType
 
 ) : IDirectedEdgeType {
 
-    override val name: String
-        get() = "DirectedEdgeType"
+    override val abstractness: EAbstractness
+        get() = EAbstractness.ABSTRACT
+
+    override val attributes: List<EdgeAttributeDecl>
+        get() = listOf()
+
+    override val cyclicity: ECyclicity
+        get() = ECyclicity.UNCONSTRAINED
 
     override val headRoleName: String?
         get() = null
@@ -34,14 +40,8 @@ class RootDirectedEdgeType(
     override val headVertexType: IVertexType
         get() = _rootVertexType
 
-    override val abstractness: EAbstractness
-        get() = EAbstractness.ABSTRACT
-
     override val maxHeadInDegree: Int?
         get() = null
-
-    override val cyclicity: ECyclicity
-        get() = ECyclicity.UNCONSTRAINED
 
     override val maxTailOutDegree: Int?
         get() = null
@@ -49,11 +49,14 @@ class RootDirectedEdgeType(
     override val minHeadInDegree: Int?
         get() = null
 
+    override val minTailOutDegree: Int?
+        get() = null
+
     override val multiEdgedness: EMultiEdgedness
         get() = EMultiEdgedness.UNCONSTRAINED
 
-    override val minTailOutDegree: Int?
-        get() = null
+    override val name: String
+        get() = "DirectedEdgeType"
 
     override val selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED
@@ -67,11 +70,9 @@ class RootDirectedEdgeType(
     override val tailVertexType: IVertexType
         get() = _rootVertexType
 
+
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {
         return edgeType === this
     }
-
-    override val attributes: List<EdgeAttributeDecl>
-        get() = listOf()
 
 }

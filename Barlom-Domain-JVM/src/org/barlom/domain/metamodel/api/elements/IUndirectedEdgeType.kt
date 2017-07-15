@@ -22,9 +22,8 @@ interface IUndirectedEdgeType : IEdgeType {
     /** The vertex type for edges of this type. */
     val vertexType: IVertexType
 
-    /**
-     * Whether this edge type is a direct or indirect subtype of the given [edgeType].
-     */
+
+    /** Whether this edge type is a direct or indirect subtype of the given [edgeType]. */
     fun isSubTypeOf(edgeType: IUndirectedEdgeType): Boolean
 
 }

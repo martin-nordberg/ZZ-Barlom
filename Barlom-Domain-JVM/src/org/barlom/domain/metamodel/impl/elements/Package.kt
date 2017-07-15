@@ -3,24 +3,79 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements
+package org.barlom.domain.metamodel.impl.elements
 
-import org.barlom.domain.metamodel.api.elements.*
+import org.barlom.domain.metamodel.api.elements.IPackage
+import org.barlom.domain.metamodel.api.elements.IPackageDependency
 import org.barlom.domain.metamodel.api.types.EDependencyDepth
 
 /**
  * Implementation class for Barlom non-root packages.
  */
-class Package(
+internal data class Package(
 
     override val id: String,
-
     override val name: String,
-
-    /** The parent package of this attribute type. */
     override val parentPackage: IPackageImpl
 
 ) : INamedPackageImpl {
+
+    /** The attribute types within this package. */
+    private val _attributeTypes: MutableList<AttributeType> = mutableListOf()
+
+    /** The child packages within this package. */
+    private val _childPackages: MutableList<Package> = mutableListOf()
+
+    /** Links to packages that are clients of this package. */
+    private val _clientPackageDependencies: MutableList<PackageDependency> = mutableListOf()
+
+    /** The directed edge types within this package. */
+    private val _directedEdgeTypes: MutableList<DirectedEdgeType> = mutableListOf()
+
+    /** Links to packages that are suppliers of this package. */
+    private val _supplierPackageDependencies: MutableList<PackageDependency> = mutableListOf()
+
+    /** The edge types within this package. */
+    private val _undirectedEdgeTypes: MutableList<UndirectedEdgeType> = mutableListOf()
+
+    /** The vertex types within this package. */
+    private val _vertexTypes: MutableList<VertexType> = mutableListOf()
+
+
+    override val attributeTypes: List<AttributeType>
+        get() = _attributeTypes
+
+    override val childPackages: List<Package>
+        get() = _childPackages
+
+    override val clientPackageDependencies: List<IPackageDependency>
+        get() = _clientPackageDependencies
+
+    override val directedEdgeTypes: List<DirectedEdgeType>
+        get() = _directedEdgeTypes
+
+    override val path: String
+        get() {
+            var result: String = parentPackage.path
+            if (result.isEmpty()) {
+                result = name
+            }
+            else {
+                result += "."
+                result += name
+            }
+            return result
+        }
+
+    override val supplierPackageDependencies: List<IPackageDependency>
+        get() = _supplierPackageDependencies
+
+    override val undirectedEdgeTypes: List<UndirectedEdgeType>
+        get() = _undirectedEdgeTypes
+
+    override val vertexTypes: List<VertexType>
+        get() = _vertexTypes
+
 
     override fun addAttributeType(attributeType: AttributeType) {
 
@@ -92,9 +147,6 @@ class Package(
 
     }
 
-    override val attributeTypes: List<AttributeType>
-        get() = _attributeTypes
-
     override fun getClientPackages(dependencyDepth: EDependencyDepth): List<IPackage> {
 
         val result: MutableSet<IPackage> = mutableSetOf()
@@ -112,15 +164,6 @@ class Package(
         return result.toList().sortedBy { pkg2 -> pkg2.name }
 
     }
-
-    override val childPackages: List<Package>
-        get() = _childPackages
-
-    override val directedEdgeTypes: List<DirectedEdgeType>
-        get() = _directedEdgeTypes
-
-    override val undirectedEdgeTypes: List<UndirectedEdgeType>
-        get() = _undirectedEdgeTypes
 
     override fun getSupplierPackages(dependencyDepth: EDependencyDepth): List<IPackage> {
 
@@ -191,32 +234,5 @@ class Package(
     override fun isChildOf(pkg: IPackage): Boolean {
         return pkg === this.parentPackage || this.parentPackage.isChildOf(pkg)
     }
-
-    override val path: String
-        get() = parentPackage.path + "." + name
-
-    override val vertexTypes: List<VertexType>
-        get() = _vertexTypes
-
-    /** The attribute types within this package. */
-    private val _attributeTypes: MutableList<AttributeType> = mutableListOf()
-
-    /** The child packages within this package. */
-    private val _childPackages: MutableList<Package> = mutableListOf()
-
-    /** Links to packages that are clients of this package. */
-    private val _clientPackageDependencies: MutableList<PackageDependency> = mutableListOf()
-
-    /** The directed edge types within this package. */
-    private val _directedEdgeTypes: MutableList<DirectedEdgeType> = mutableListOf()
-
-    /** Links to packages that are suppliers of this package. */
-    private val _supplierPackageDependencies: MutableList<PackageDependency> = mutableListOf()
-
-    /** The edge types within this package. */
-    private val _undirectedEdgeTypes: MutableList<UndirectedEdgeType> = mutableListOf()
-
-    /** The vertex types within this package. */
-    private val _vertexTypes: MutableList<VertexType> = mutableListOf()
 
 }

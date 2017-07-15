@@ -3,15 +3,16 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements
+package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IEdgeType
 
 /**
  * Internal interface to an edge type implementation (container of edge attributes).
  */
-interface IEdgeTypeImpl : IEdgeType {
+internal interface IEdgeTypeImpl : IEdgeType {
 
-    fun addAttribute( attribute: EdgeAttributeDecl)
+    /** Adds an attribute to this, its parent edge type's, list of attributes. */
+    fun addAttribute(attribute: EdgeAttributeDecl)
 
 }

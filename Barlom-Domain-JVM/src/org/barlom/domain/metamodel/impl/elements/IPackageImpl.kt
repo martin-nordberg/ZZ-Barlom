@@ -3,15 +3,16 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements
+package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IPackage
 
 /**
  * Internal interface to a package or root package.
  */
-interface IPackageImpl : IPackage {
+internal interface IPackageImpl : IPackage {
 
+    /** Adds a package to this, its parent package's, list of child packages. */
     fun addChildPackage(pkg: Package)
 
 }

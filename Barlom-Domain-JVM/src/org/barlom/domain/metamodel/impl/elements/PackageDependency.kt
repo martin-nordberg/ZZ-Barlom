@@ -3,22 +3,21 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.elements
+package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IDocumentedElement
+import org.barlom.domain.metamodel.api.elements.IPackageDependency
 
 /**
  * Implementation class for package dependencies.
  */
-class PackageDependency(
+internal data class PackageDependency(
 
     override val id: String,
+    override val clientPackage: Package,
+    override val supplierPackage: Package
 
-    val clientPackage: Package,
-
-    val supplierPackage: Package
-
-) : IDocumentedElement {
+) : IPackageDependency {
 
     init {
 

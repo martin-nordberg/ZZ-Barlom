@@ -22,6 +22,7 @@ interface IVertexType : IPackagedElement {
     val superType: IVertexType
 
 
+    /** Whether this vertex type is the same as or a subtype of the given [vertexType]. */
     fun isSubTypeOf(vertexType: IVertexType): Boolean
 
 }
