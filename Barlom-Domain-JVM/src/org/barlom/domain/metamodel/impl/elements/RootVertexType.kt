@@ -22,11 +22,11 @@ internal data class RootVertexType(
     override val abstractness: EAbstractness
         get() = EAbstractness.ABSTRACT
 
-    override val attributes: List<VertexAttributeDecl>
+    override val attributeTypes: List<VertexAttributeType>
         get() = listOf()
 
     override val name: String
-        get() = "VertexType"
+        get() = "Vertex"
 
     override val superType: IVertexType
         get() = this

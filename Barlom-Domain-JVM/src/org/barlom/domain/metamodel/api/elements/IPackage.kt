@@ -9,18 +9,18 @@ import org.barlom.domain.metamodel.api.types.EDependencyDepth
 
 /**
  * Interface for Barlom packages. Packages are the namespacing mechanism for containing vertex types, edge types,
- * attribute types, and child packages.
+ * constrained data types, and child packages.
  */
 interface IPackage : IPackagedElement {
-
-    /** The attribute types contained by this package. */
-    val attributeTypes: List<IAttributeType>
 
     /** The child sub-packages within this package. */
     val childPackages: List<IPackage>
 
     /** Links to packages that are clients of this package. */
     val clientPackageDependencies: List<IPackageDependency>
+
+    /** The constrained data types contained by this package. */
+    val constrainedDataTypes: List<IConstrainedDataType>
 
     /** The directed edge types defined within this package. */
     val directedEdgeTypes: List<IDirectedEdgeType>

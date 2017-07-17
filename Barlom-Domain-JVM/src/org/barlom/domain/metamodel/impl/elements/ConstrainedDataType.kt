@@ -10,25 +10,25 @@ import org.barlom.domain.metamodel.api.types.EDataType
 import java.time.Instant
 
 /**
- * Attribute type implementation.
+ * Constrained data type implementation.
  */
-internal sealed class AttributeType : IAttributeType
+internal sealed class ConstrainedDataType : IConstrainedDataType
 
 
 /**
- * Implementation of a boolean attribute type.
+ * Implementation of a boolean constrained data type.
  */
-internal data class BooleanAttributeType(
+internal data class BooleanConstrainedDataType(
 
     override val id: String,
     override val name: String,
     override val parentPackage: INamedPackageImpl,
     override val defaultValue: Boolean?
 
-) : AttributeType(), IBooleanAttributeType {
+) : ConstrainedDataType(), IBooleanConstrainedDataType {
 
     init {
-        parentPackage.addAttributeType(this)
+        parentPackage.addConstrainedDataType(this)
     }
 
     override val dataType: EDataType
@@ -38,9 +38,9 @@ internal data class BooleanAttributeType(
 
 
 /**
- * Date/time attribute type implementation.
+ * Date/time constrained data type implementation.
  */
-internal data class DateTimeAttributeType(
+internal data class DateTimeConstrainedDataType(
 
     override val id: String,
     override val name: String,
@@ -48,10 +48,10 @@ internal data class DateTimeAttributeType(
     override val maxValue: Instant,
     override val minValue: Instant
 
-) : AttributeType(), IDateTimeAttributeType {
+) : ConstrainedDataType(), IDateTimeConstrainedDataType {
 
     init {
-        parentPackage.addAttributeType(this)
+        parentPackage.addConstrainedDataType(this)
     }
 
     override val dataType: EDataType
@@ -61,9 +61,9 @@ internal data class DateTimeAttributeType(
 
 
 /**
- * Implementation for 64-bit floating point attribute types.
+ * Implementation for 64-bit floating point constrained data types.
  */
-internal data class Float64AttributeType(
+internal data class Float64ConstrainedDataType(
 
     override val id: String,
     override val name: String,
@@ -72,10 +72,10 @@ internal data class Float64AttributeType(
     override val maxValue: Double?,
     override val minValue: Double?
 
-) : AttributeType(), IFloat64AttributeType {
+) : ConstrainedDataType(), IFloat64ConstrainedDataType {
 
     init {
-        parentPackage.addAttributeType(this)
+        parentPackage.addConstrainedDataType(this)
     }
 
     override val dataType: EDataType
@@ -85,9 +85,9 @@ internal data class Float64AttributeType(
 
 
 /**
- * Implementation for 32-bit integer attribute types.
+ * Implementation for 32-bit integer constrained data types.
  */
-internal data class Integer32AttributeType(
+internal data class Integer32ConstrainedDataType(
 
     override val id: String,
     override val name: String,
@@ -96,10 +96,10 @@ internal data class Integer32AttributeType(
     override val maxValue: Int?,
     override val minValue: Int?
 
-) : AttributeType(), IInteger32AttributeType {
+) : ConstrainedDataType(), IInteger32ConstrainedDataType {
 
     init {
-        parentPackage.addAttributeType(this)
+        parentPackage.addConstrainedDataType(this)
     }
 
     override val dataType: EDataType
@@ -109,9 +109,9 @@ internal data class Integer32AttributeType(
 
 
 /**
- * Implementation for string attribute types.
+ * Implementation for string constrained data types.
  */
-internal data class StringAttributeType(
+internal data class StringConstrainedDataType(
 
     override val id: String,
     override val name: String,
@@ -120,10 +120,10 @@ internal data class StringAttributeType(
     override val minLength: Int?,
     override val regex: Regex?
 
-) : AttributeType(), IStringAttributeType {
+) : ConstrainedDataType(), IStringConstrainedDataType {
 
     init {
-        parentPackage.addAttributeType(this)
+        parentPackage.addConstrainedDataType(this)
     }
 
     override val dataType: EDataType
@@ -133,18 +133,18 @@ internal data class StringAttributeType(
 
 
 /**
- * Implementation of a UUID attribute type.
+ * Implementation of a UUID constrained data type.
  */
-internal data class UuidAttributeType(
+internal data class UuidConstrainedDataType(
 
     override val id: String,
     override val name: String,
     override val parentPackage: INamedPackageImpl
 
-) : AttributeType(), IUuidAttributeType {
+) : ConstrainedDataType(), IUuidConstrainedDataType {
 
     init {
-        parentPackage.addAttributeType(this)
+        parentPackage.addConstrainedDataType(this)
     }
 
     override val dataType: EDataType

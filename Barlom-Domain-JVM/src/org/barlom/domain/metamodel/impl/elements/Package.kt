@@ -20,14 +20,14 @@ internal data class Package(
 
 ) : INamedPackageImpl {
 
-    /** The attribute types within this package. */
-    private val _attributeTypes: MutableList<AttributeType> = mutableListOf()
-
     /** The child packages within this package. */
     private val _childPackages: MutableList<Package> = mutableListOf()
 
     /** Links to packages that are clients of this package. */
     private val _clientPackageDependencies: MutableList<PackageDependency> = mutableListOf()
+
+    /** The constrained data types within this package. */
+    private val _constrainedDataTypes: MutableList<ConstrainedDataType> = mutableListOf()
 
     /** The directed edge types within this package. */
     private val _directedEdgeTypes: MutableList<DirectedEdgeType> = mutableListOf()
@@ -42,14 +42,14 @@ internal data class Package(
     private val _vertexTypes: MutableList<VertexType> = mutableListOf()
 
 
-    override val attributeTypes: List<AttributeType>
-        get() = _attributeTypes
-
     override val childPackages: List<Package>
         get() = _childPackages
 
     override val clientPackageDependencies: List<IPackageDependency>
         get() = _clientPackageDependencies
+
+    override val constrainedDataTypes: List<ConstrainedDataType>
+        get() = _constrainedDataTypes
 
     override val directedEdgeTypes: List<DirectedEdgeType>
         get() = _directedEdgeTypes
@@ -77,13 +77,13 @@ internal data class Package(
         get() = _vertexTypes
 
 
-    override fun addAttributeType(attributeType: AttributeType) {
+    override fun addConstrainedDataType(constrainedDataType: ConstrainedDataType) {
 
-        require(attributeType.parentPackage === this) {
-            "Cannot add an attribute type to a package not its parent."
+        require(constrainedDataType.parentPackage === this) {
+            "Cannot add a constrained data type to a package not its parent."
         }
 
-        _attributeTypes.add(attributeType)
+        _constrainedDataTypes.add(constrainedDataType)
 
     }
 

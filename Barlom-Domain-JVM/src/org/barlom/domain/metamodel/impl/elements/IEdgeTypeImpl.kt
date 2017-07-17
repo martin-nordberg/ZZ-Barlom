@@ -13,6 +13,6 @@ import org.barlom.domain.metamodel.api.elements.IEdgeType
 internal interface IEdgeTypeImpl : IEdgeType {
 
     /** Adds an attribute to this, its parent edge type's, list of attributes. */
-    fun addAttribute(attribute: EdgeAttributeDecl)
+    fun addAttributeType(attributeType: EdgeAttributeType)
 
 }

@@ -16,7 +16,8 @@ interface IVertexType : IPackagedElement {
     /** Whether this vertex type is abstract. */
     val abstractness: EAbstractness
 
-    val attributes: List<IVertexAttributeDecl>
+    /** The types of attributes of vertexes of this type. */
+    val attributeTypes: List<IVertexAttributeType>
 
     /** The super type of this vertex type. */
     val superType: IVertexType

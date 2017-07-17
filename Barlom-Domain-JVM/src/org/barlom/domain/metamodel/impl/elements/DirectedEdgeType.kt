@@ -35,16 +35,16 @@ internal data class DirectedEdgeType(
 
 ) : IDirectedEdgeType, IEdgeTypeImpl {
 
-    /** The attribute declarations within this edge type. */
-    private val _attributes : MutableList<EdgeAttributeDecl> = mutableListOf()
+    /** The attribute types within this edge type. */
+    private val _attributeTypes: MutableList<EdgeAttributeType> = mutableListOf()
 
 
-    override val attributes : List<EdgeAttributeDecl>
-        get() = _attributes
+    override val attributeTypes: List<EdgeAttributeType>
+        get() = _attributeTypes
 
 
-    override fun addAttribute(attribute: EdgeAttributeDecl) {
-        _attributes.add( attribute );
+    override fun addAttributeType(attributeType: EdgeAttributeType) {
+        _attributeTypes.add(attributeType);
     }
 
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {

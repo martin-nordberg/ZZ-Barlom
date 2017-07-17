@@ -5,7 +5,7 @@
 
 package org.barlom.domain.metamodel.impl.elements
 
-import org.barlom.domain.metamodel.api.elements.IVertexAttributeDecl
+import org.barlom.domain.metamodel.api.elements.IVertexAttributeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
 import org.barlom.domain.metamodel.api.types.EAbstractness
 
@@ -23,21 +23,21 @@ internal data class VertexType(
 
 ) : IVertexType {
 
-    /** The attributes of this vertex type. */
-    private val _attributes: MutableList<VertexAttributeDecl> = mutableListOf()
+    /** The attribute types of this vertex type. */
+    private val _attributeTypes: MutableList<VertexAttributeType> = mutableListOf()
 
 
-    override val attributes: List<IVertexAttributeDecl>
-        get() = _attributes
+    override val attributeTypes: List<IVertexAttributeType>
+        get() = _attributeTypes
 
 
-    fun addAttribute(attribute: VertexAttributeDecl) {
+    fun addAttributeType(attributeType: VertexAttributeType) {
 
-        require(attribute.parentVertexType === this) {
+        require(attributeType.parentVertexType === this) {
             "Vertex attribute type may not be added to a vertex type not its parent."
         }
 
-        _attributes.add(attribute)
+        _attributeTypes.add(attributeType)
 
     }
 

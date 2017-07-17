@@ -8,18 +8,18 @@ package org.barlom.domain.metamodel.api.elements
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 
 /**
- * Interface of edge attribute declarations. An edge type attribute declaration includes the name, optionality,
- * and data type for attributes in a given parent edge type.
+ * Interface of edge attribute types. An edge attribute type includes the name, optionality, and constrained data
+ * type for attributes in a given parent edge type.
  */
-interface IEdgeAttributeDecl : INamedElement {
+interface IEdgeAttributeType : INamedElement {
 
     /** Whether this attribute is required for instances of the parent edge type. */
     val optionality: EAttributeOptionality
 
-    /** The parent edge type with this attribute. */
+    /** The parent edge type with this attribute type. */
     val parentEdgeType: IEdgeType
 
-    /** The type of this attribute declaration. */
-    val type: IAttributeType
+    /** The constrained data type of this attribute type. */
+    val type: IConstrainedDataType
 
 }

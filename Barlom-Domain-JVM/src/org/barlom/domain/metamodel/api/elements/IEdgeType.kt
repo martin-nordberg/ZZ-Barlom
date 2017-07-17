@@ -19,8 +19,8 @@ interface IEdgeType : IPackagedElement {
     /** Whether this edge type is abstract. */
     val abstractness: EAbstractness
 
-    /** The attributes of this edge type. */
-    val attributes: List<IEdgeAttributeDecl>
+    /** The attribute types of this edge type. */
+    val attributeTypes: List<IEdgeAttributeType>
 
     /** Whether this edge type is acyclic. */
     val cyclicity: ECyclicity

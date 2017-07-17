@@ -9,20 +9,21 @@ import org.barlom.domain.metamodel.api.types.EDataType
 import java.time.Instant
 
 /**
- * Attribute type interface. An attribute type defines the data type together with constraints like maximum length
- * or minimum value of a vertex or edge attribute.
+ * Constrained data type interface. An constrained data type defines the data type together with constraints like
+ * maximum length or minimum value of a vertex or edge attribute.
  */
-interface IAttributeType : IPackagedElement {
+interface IConstrainedDataType : IPackagedElement {
 
+    /** The core data type that is being constrained. */
     val dataType: EDataType
 
 }
 
 
 /**
- * Implementation of a boolean attribute type.
+ * Implementation of a boolean constrained data type.
  */
-interface IBooleanAttributeType : IAttributeType {
+interface IBooleanConstrainedDataType : IConstrainedDataType {
 
     /** The default value for attributes of this type. */
     val defaultValue: Boolean?
@@ -31,9 +32,9 @@ interface IBooleanAttributeType : IAttributeType {
 
 
 /**
- * Date/time attribute type implementation.
+ * Date/time constrained data type implementation.
  */
-interface IDateTimeAttributeType : IAttributeType {
+interface IDateTimeConstrainedDataType : IConstrainedDataType {
 
     /** The maximum allowed value for attributes with this type. */
     val maxValue: Instant
@@ -45,9 +46,9 @@ interface IDateTimeAttributeType : IAttributeType {
 
 
 /**
- * Implementation for 64-bit floating point attribute types.
+ * Implementation for 64-bit floating point constrained data types.
  */
-interface IFloat64AttributeType : IAttributeType {
+interface IFloat64ConstrainedDataType : IConstrainedDataType {
 
     /** The default value for attributes of this type. */
     val defaultValue: Double?
@@ -62,9 +63,9 @@ interface IFloat64AttributeType : IAttributeType {
 
 
 /**
- * Implementation for 32-bit integer attribute types.
+ * Implementation for 32-bit integer constrained data types.
  */
-interface IInteger32AttributeType : IAttributeType {
+interface IInteger32ConstrainedDataType : IConstrainedDataType {
 
     /** The default value for attributes of this type. */
     val defaultValue: Int?
@@ -79,9 +80,9 @@ interface IInteger32AttributeType : IAttributeType {
 
 
 /**
- * Implementation for string attribute types.
+ * Implementation for string constrained data types.
  */
-interface IStringAttributeType : IAttributeType {
+interface IStringConstrainedDataType : IConstrainedDataType {
 
     /** The maximum length for values with this attribute type. */
     val maxLength: Int?
@@ -96,7 +97,7 @@ interface IStringAttributeType : IAttributeType {
 
 
 /**
- * Implementation of a UUID attribute type.
+ * Implementation of a UUID constrained data type.
  */
-interface IUuidAttributeType : IAttributeType
+interface IUuidConstrainedDataType : IConstrainedDataType
 

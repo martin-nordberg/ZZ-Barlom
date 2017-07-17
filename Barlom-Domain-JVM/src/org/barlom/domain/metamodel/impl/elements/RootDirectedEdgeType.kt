@@ -28,7 +28,7 @@ internal data class RootDirectedEdgeType(
     override val abstractness: EAbstractness
         get() = EAbstractness.ABSTRACT
 
-    override val attributes: List<EdgeAttributeDecl>
+    override val attributeTypes: List<EdgeAttributeType>
         get() = listOf()
 
     override val cyclicity: ECyclicity
@@ -56,7 +56,7 @@ internal data class RootDirectedEdgeType(
         get() = EMultiEdgedness.UNCONSTRAINED
 
     override val name: String
-        get() = "DirectedEdgeType"
+        get() = "directedEdge"
 
     override val selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED

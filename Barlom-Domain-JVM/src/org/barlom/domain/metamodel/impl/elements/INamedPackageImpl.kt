@@ -10,11 +10,11 @@ package org.barlom.domain.metamodel.impl.elements
  */
 internal interface INamedPackageImpl : IPackageImpl {
 
-    /** Adds an attribute type to this, its parent package's, list of attribute types. */
-    fun addAttributeType(attributeType: AttributeType)
-
     /** Registers the given package dependency in this package. */
     fun addClientPackageDependency(packageDependency: PackageDependency)
+
+    /** Adds a constrained data type to this, its parent package's, list of constrained data types. */
+    fun addConstrainedDataType(constrainedDataType: ConstrainedDataType)
 
     /** Adds a directed edge type to this, its parent package's, list of directed edge types. */
     fun addDirectedEdgeType(edgeType: DirectedEdgeType)

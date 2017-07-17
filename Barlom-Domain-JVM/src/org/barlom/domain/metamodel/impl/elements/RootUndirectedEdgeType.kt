@@ -18,7 +18,7 @@ import org.barlom.domain.metamodel.api.types.ESelfLooping
 internal data class RootUndirectedEdgeType(
 
     override val id: String,
-    override val parentPackage : RootPackage,
+    override val parentPackage: RootPackage,
 
     private val _rootVertexType: RootVertexType
 
@@ -27,7 +27,7 @@ internal data class RootUndirectedEdgeType(
     override val abstractness: EAbstractness
         get() = EAbstractness.ABSTRACT
 
-    override val attributes: List<EdgeAttributeDecl>
+    override val attributeTypes: List<EdgeAttributeType>
         get() = listOf()
 
     override val cyclicity: ECyclicity
@@ -43,7 +43,7 @@ internal data class RootUndirectedEdgeType(
         get() = EMultiEdgedness.UNCONSTRAINED
 
     override val name: String
-        get() = "UndirectedEdgeType"
+        get() = "undirectedEdge"
 
     override val selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED

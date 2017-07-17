@@ -39,20 +39,22 @@ internal data class RootPackage(
     private val _rootUndirectedEdgeType = RootUndirectedEdgeType(rootUndirectedEdgeTypeId, this, _rootVertexType)
 
 
-    override val attributeTypes: List<AttributeType>
-        get() = listOf()
-
     override val childPackages: List<IPackage>
         get() = _childPackages
 
     override val clientPackageDependencies: List<IPackageDependency>
         get() = listOf()
 
+    override val constrainedDataTypes: List<ConstrainedDataType>
+        get() = listOf()
+
     override val directedEdgeTypes: List<IDirectedEdgeType>
         get() = listOf(_rootDirectedEdgeType)
 
     override val name: String
-        get() = "$"
+        get() {
+            throw UnsupportedOperationException("Root package has no name. It is a coding error to ask its name.")
+        }
 
     override val path: String
         get() = ""
