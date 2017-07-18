@@ -7,7 +7,7 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.*
 import org.barlom.domain.metamodel.api.types.EDataType
-import java.time.Instant
+import org.barlom.infrastructure.platform.DateTime
 
 /**
  * Constrained data type implementation.
@@ -45,8 +45,8 @@ internal data class DateTimeConstrainedDataType(
     override val id: String,
     override val name: String,
     override val parentPackage: INamedPackageImpl,
-    override val maxValue: Instant,
-    override val minValue: Instant
+    override val maxValue: DateTime,
+    override val minValue: DateTime
 
 ) : ConstrainedDataType(), IDateTimeConstrainedDataType {
 

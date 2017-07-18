@@ -6,7 +6,7 @@
 package org.barlom.domain.metamodel.api.elements
 
 import org.barlom.domain.metamodel.api.types.EDataType
-import java.time.Instant
+import org.barlom.infrastructure.platform.DateTime
 
 /**
  * Constrained data type interface. An constrained data type defines the data type together with constraints like
@@ -37,10 +37,10 @@ interface IBooleanConstrainedDataType : IConstrainedDataType {
 interface IDateTimeConstrainedDataType : IConstrainedDataType {
 
     /** The maximum allowed value for attributes with this type. */
-    val maxValue: Instant
+    val maxValue: DateTime
 
     /** The minimum allowed value for attributes with this type. */
-    val minValue: Instant
+    val minValue: DateTime
 
 }
 
