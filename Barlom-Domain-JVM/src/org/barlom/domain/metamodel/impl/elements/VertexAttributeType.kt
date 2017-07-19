@@ -8,13 +8,14 @@ package org.barlom.domain.metamodel.impl.elements
 import org.barlom.domain.metamodel.api.elements.IVertexAttributeType
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.types.ELabelDefaulting
+import org.barlom.domain.metamodel.api.types.Uuid
 
 /**
  * Implementation class for vertex attribute types.
  */
 internal data class VertexAttributeType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
     override val parentVertexType: VertexType,
     override val labelDefaulting: ELabelDefaulting,

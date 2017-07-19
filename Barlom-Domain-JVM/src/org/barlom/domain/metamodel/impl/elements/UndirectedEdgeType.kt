@@ -6,17 +6,14 @@
 package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IUndirectedEdgeType
-import org.barlom.domain.metamodel.api.types.EAbstractness
-import org.barlom.domain.metamodel.api.types.ECyclicity
-import org.barlom.domain.metamodel.api.types.EMultiEdgedness
-import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.domain.metamodel.api.types.*
 
 /**
  * Implementation class for undirected edge types.
  */
 internal data class UndirectedEdgeType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
     override val parentPackage: Package,
     override val abstractness: EAbstractness,
@@ -28,18 +25,33 @@ internal data class UndirectedEdgeType(
     override val superType: UndirectedEdgeType,
     override val vertexType: VertexType
 
-) : IUndirectedEdgeType, IEdgeTypeImpl {
+) : IUndirectedEdgeTypeImpl, INonRootEdgeTypeImpl {
 
     /** The attribute types within this edge type. */
     private val _attributeTypes: MutableList<EdgeAttributeType> = mutableListOf()
+
+    /** The subtypes of this undirected edge type. */
+    private val _subTypes: MutableList<UndirectedEdgeType> = mutableListOf()
+
+
+    init {
+        superType.addSubType(this)
+    }
 
 
     override val attributeTypes: List<EdgeAttributeType>
         get() = _attributeTypes
 
+    override val subTypes: List<UndirectedEdgeType>
+        get() = _subTypes
+
 
     override fun addAttributeType(attributeType: EdgeAttributeType) {
-        _attributeTypes.add(attributeType);
+        _attributeTypes.add(attributeType)
+    }
+
+    override fun addSubType(edgeType: UndirectedEdgeType) {
+        _subTypes.add(edgeType)
     }
 
     override fun isSubTypeOf(edgeType: IUndirectedEdgeType): Boolean {

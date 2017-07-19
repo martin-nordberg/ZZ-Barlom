@@ -8,7 +8,7 @@ package org.barlom.domain.metamodel.impl.elements
 /**
  * Internal interface to a package that is not a root package.
  */
-internal interface INamedPackageImpl : IPackageImpl {
+internal interface INonRootPackageImpl : IPackageImpl {
 
     /** Registers the given package dependency in this package. */
     fun addClientPackageDependency(packageDependency: PackageDependency)

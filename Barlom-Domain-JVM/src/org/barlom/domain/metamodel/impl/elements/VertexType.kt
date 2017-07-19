@@ -8,6 +8,7 @@ package org.barlom.domain.metamodel.impl.elements
 import org.barlom.domain.metamodel.api.elements.IVertexAttributeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
 import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.domain.metamodel.api.types.Uuid
 
 
 /**
@@ -15,22 +16,36 @@ import org.barlom.domain.metamodel.api.types.EAbstractness
  */
 internal data class VertexType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
-    override val parentPackage: INamedPackageImpl,
+    override val parentPackage: INonRootPackageImpl,
     override val abstractness: EAbstractness,
-    override val superType: VertexType
+    override val superType: IVertexTypeImpl
 
-) : IVertexType {
+) : IVertexTypeImpl {
 
     /** The attribute types of this vertex type. */
     private val _attributeTypes: MutableList<VertexAttributeType> = mutableListOf()
+
+    /** The subtypes of this vertex type. */
+    private val _subTypes: MutableList<VertexType> = mutableListOf()
+
+
+    init {
+        superType.addSubType(this)
+    }
 
 
     override val attributeTypes: List<IVertexAttributeType>
         get() = _attributeTypes
 
+    override val subTypes: List<VertexType>
+        get() = _subTypes
 
+
+    /**
+     * Adds the given attribute type to this vertex type.
+     */
     fun addAttributeType(attributeType: VertexAttributeType) {
 
         require(attributeType.parentVertexType === this) {
@@ -39,6 +54,10 @@ internal data class VertexType(
 
         _attributeTypes.add(attributeType)
 
+    }
+
+    override fun addSubType(vertexType: VertexType) {
+        _subTypes.add(vertexType)
     }
 
     override fun isSubTypeOf(vertexType: IVertexType): Boolean {

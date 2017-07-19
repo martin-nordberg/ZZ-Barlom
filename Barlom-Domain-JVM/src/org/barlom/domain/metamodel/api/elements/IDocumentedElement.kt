@@ -5,6 +5,8 @@
 
 package org.barlom.domain.metamodel.api.elements
 
+import org.barlom.domain.metamodel.api.types.Uuid
+
 
 /**
  * Top-level interface for Barlom model elements. Various forms of documentation can be linked to any such
@@ -13,6 +15,6 @@ package org.barlom.domain.metamodel.api.elements
 interface IDocumentedElement {
 
     /** The unique ID of this element (usually a UUID). */
-    val id: String
+    val id: Uuid
 
 }

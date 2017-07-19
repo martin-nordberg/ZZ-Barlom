@@ -10,7 +10,7 @@ import org.barlom.domain.metamodel.api.elements.IEdgeType
 /**
  * Internal interface to an edge type implementation (container of edge attributes).
  */
-internal interface IEdgeTypeImpl : IEdgeType {
+internal interface INonRootEdgeTypeImpl : IEdgeType {
 
     /** Adds an attribute to this, its parent edge type's, list of attributes. */
     fun addAttributeType(attributeType: EdgeAttributeType)

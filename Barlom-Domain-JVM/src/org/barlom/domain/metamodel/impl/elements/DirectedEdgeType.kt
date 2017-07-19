@@ -6,17 +6,14 @@
 package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IDirectedEdgeType
-import org.barlom.domain.metamodel.api.types.EAbstractness
-import org.barlom.domain.metamodel.api.types.ECyclicity
-import org.barlom.domain.metamodel.api.types.EMultiEdgedness
-import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.domain.metamodel.api.types.*
 
 /**
  * Implementation class for directed edge types.
  */
 internal data class DirectedEdgeType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
     override val parentPackage: Package,
     override val abstractness: EAbstractness,
@@ -33,18 +30,33 @@ internal data class DirectedEdgeType(
     override val tailRoleName: String?,
     override val tailVertexType: VertexType
 
-) : IDirectedEdgeType, IEdgeTypeImpl {
+) : IDirectedEdgeTypeImpl, INonRootEdgeTypeImpl {
 
     /** The attribute types within this edge type. */
     private val _attributeTypes: MutableList<EdgeAttributeType> = mutableListOf()
+
+    /** The subtypes of this directed edge type. */
+    private val _subTypes: MutableList<DirectedEdgeType> = mutableListOf()
+
+
+    init {
+        superType.addSubType(this)
+    }
 
 
     override val attributeTypes: List<EdgeAttributeType>
         get() = _attributeTypes
 
+    override val subTypes: List<DirectedEdgeType>
+        get() = _subTypes
+
 
     override fun addAttributeType(attributeType: EdgeAttributeType) {
         _attributeTypes.add(attributeType);
+    }
+
+    override fun addSubType(edgeType: DirectedEdgeType) {
+        _subTypes.add(edgeType)
     }
 
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {

@@ -19,6 +19,9 @@ interface IVertexType : IPackagedElement {
     /** The types of attributes of vertexes of this type. */
     val attributeTypes: List<IVertexAttributeType>
 
+    /** The subtypes of this vertex type. */
+    val subTypes: List<IVertexType>
+
     /** The super type of this vertex type. */
     val superType: IVertexType
 

@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.*
 import org.barlom.domain.metamodel.api.types.EDataType
+import org.barlom.domain.metamodel.api.types.Uuid
 import org.barlom.infrastructure.platform.DateTime
 
 /**
@@ -20,9 +21,9 @@ internal sealed class ConstrainedDataType : IConstrainedDataType
  */
 internal data class BooleanConstrainedDataType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
-    override val parentPackage: INamedPackageImpl,
+    override val parentPackage: INonRootPackageImpl,
     override val defaultValue: Boolean?
 
 ) : ConstrainedDataType(), IBooleanConstrainedDataType {
@@ -42,9 +43,9 @@ internal data class BooleanConstrainedDataType(
  */
 internal data class DateTimeConstrainedDataType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
-    override val parentPackage: INamedPackageImpl,
+    override val parentPackage: INonRootPackageImpl,
     override val maxValue: DateTime,
     override val minValue: DateTime
 
@@ -65,9 +66,9 @@ internal data class DateTimeConstrainedDataType(
  */
 internal data class Float64ConstrainedDataType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
-    override val parentPackage: INamedPackageImpl,
+    override val parentPackage: INonRootPackageImpl,
     override val defaultValue: Double?,
     override val maxValue: Double?,
     override val minValue: Double?
@@ -89,9 +90,9 @@ internal data class Float64ConstrainedDataType(
  */
 internal data class Integer32ConstrainedDataType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
-    override val parentPackage: INamedPackageImpl,
+    override val parentPackage: INonRootPackageImpl,
     override val defaultValue: Int?,
     override val maxValue: Int?,
     override val minValue: Int?
@@ -113,9 +114,9 @@ internal data class Integer32ConstrainedDataType(
  */
 internal data class StringConstrainedDataType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
-    override val parentPackage: INamedPackageImpl,
+    override val parentPackage: INonRootPackageImpl,
     override val maxLength: Int?,
     override val minLength: Int?,
     override val regex: Regex?
@@ -137,9 +138,9 @@ internal data class StringConstrainedDataType(
  */
 internal data class UuidConstrainedDataType(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
-    override val parentPackage: INamedPackageImpl
+    override val parentPackage: INonRootPackageImpl
 
 ) : ConstrainedDataType(), IUuidConstrainedDataType {
 

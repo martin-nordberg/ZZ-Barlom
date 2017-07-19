@@ -7,28 +7,29 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.*
 import org.barlom.domain.metamodel.api.types.EDependencyDepth
+import org.barlom.domain.metamodel.api.types.Uuid
 
 /**
  * Implementation class for Barlom root packages.
  */
 internal data class RootPackage(
 
-    override val id: String,
+    override val id: Uuid,
 
     /** The unique ID for the root vertex type within this root package. */
-    private val rootVertexTypeId: String,
+    private val rootVertexTypeId: Uuid,
 
     /** The unique ID for the root directed edge type within this root package. */
-    private val rootDirectedEdgeTypeId: String,
+    private val rootDirectedEdgeTypeId: Uuid,
 
     /** The unique ID for the root undirected edge type within this root package. */
-    private val rootUndirectedEdgeTypeId: String
+    private val rootUndirectedEdgeTypeId: Uuid
 
 ) : IPackageImpl {
 
     /** The child packages within this package. */
     private val _childPackages: MutableList<Package> = mutableListOf()
-
+    
     /** The root vertex type that will be the super type of vertex types contained in this package. */
     private val _rootVertexType = RootVertexType(rootVertexTypeId, this)
 

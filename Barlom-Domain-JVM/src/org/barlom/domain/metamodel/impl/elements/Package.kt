@@ -8,17 +8,18 @@ package org.barlom.domain.metamodel.impl.elements
 import org.barlom.domain.metamodel.api.elements.IPackage
 import org.barlom.domain.metamodel.api.elements.IPackageDependency
 import org.barlom.domain.metamodel.api.types.EDependencyDepth
+import org.barlom.domain.metamodel.api.types.Uuid
 
 /**
  * Implementation class for Barlom non-root packages.
  */
 internal data class Package(
 
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
     override val parentPackage: IPackageImpl
 
-) : INamedPackageImpl {
+) : INonRootPackageImpl {
 
     /** The child packages within this package. */
     private val _childPackages: MutableList<Package> = mutableListOf()

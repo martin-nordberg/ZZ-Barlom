@@ -7,23 +7,23 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IDirectedEdgeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
-import org.barlom.domain.metamodel.api.types.EAbstractness
-import org.barlom.domain.metamodel.api.types.ECyclicity
-import org.barlom.domain.metamodel.api.types.EMultiEdgedness
-import org.barlom.domain.metamodel.api.types.ESelfLooping
-
+import org.barlom.domain.metamodel.api.types.*
 
 /**
  * Implementation of the top-level root directed edge type.
  */
 internal data class RootDirectedEdgeType(
 
-    override val id: String,
+    override val id: Uuid,
     override val parentPackage: RootPackage,
 
     private val _rootVertexType: RootVertexType
 
-) : IDirectedEdgeType {
+) : IDirectedEdgeTypeImpl {
+
+    /** The subtypes of this directed edge type. */
+    private val _subTypes: MutableList<DirectedEdgeType> = mutableListOf()
+
 
     override val abstractness: EAbstractness
         get() = EAbstractness.ABSTRACT
@@ -61,6 +61,9 @@ internal data class RootDirectedEdgeType(
     override val selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED
 
+    override val subTypes: List<DirectedEdgeType>
+        get() = _subTypes
+
     override val superType: IDirectedEdgeType
         get() = this
 
@@ -70,6 +73,10 @@ internal data class RootDirectedEdgeType(
     override val tailVertexType: IVertexType
         get() = _rootVertexType
 
+
+    override fun addSubType(edgeType: DirectedEdgeType) {
+        _subTypes.add(edgeType)
+    }
 
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {
         return edgeType === this

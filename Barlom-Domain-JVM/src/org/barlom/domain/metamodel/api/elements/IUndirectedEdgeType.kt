@@ -16,6 +16,9 @@ interface IUndirectedEdgeType : IEdgeType {
     /** The minimum in-degree for the head vertex of edges of this type. */
     val minDegree: Int?
 
+    /** The subtypes of this undirected edge type. */
+    val subTypes: List<IUndirectedEdgeType>
+
     /** The super type of this type. */
     val superType: IUndirectedEdgeType
 
