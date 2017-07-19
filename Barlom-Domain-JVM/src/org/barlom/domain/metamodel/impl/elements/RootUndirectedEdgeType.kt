@@ -17,6 +17,7 @@ internal data class RootUndirectedEdgeType(
     override val id: Uuid,
     override val parentPackage: RootPackage,
 
+    /** The root edge type forming the end types of this root undirected edge type. */
     private val _rootVertexType: RootVertexType
 
 ) : IUndirectedEdgeTypeImpl {

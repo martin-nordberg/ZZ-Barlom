@@ -43,6 +43,11 @@ internal data class Package(
     private val _vertexTypes: MutableList<VertexType> = mutableListOf()
 
 
+    init {
+        parentPackage.addChildPackage(this)
+    }
+
+
     override val childPackages: List<Package>
         get() = _childPackages
 

@@ -14,22 +14,22 @@ import org.barlom.domain.metamodel.api.types.Uuid
  */
 internal data class RootPackage(
 
-    override val id: Uuid,
+    override val id: Uuid = Uuid.fromString("66522300-6c7d-11e7-81b7-080027b6d283"),
 
     /** The unique ID for the root vertex type within this root package. */
-    private val rootVertexTypeId: Uuid,
+    private val rootVertexTypeId: Uuid = Uuid.fromString("66522301-6c7d-11e7-81b7-080027b6d283"),
 
     /** The unique ID for the root directed edge type within this root package. */
-    private val rootDirectedEdgeTypeId: Uuid,
+    private val rootDirectedEdgeTypeId: Uuid = Uuid.fromString("66522302-6c7d-11e7-81b7-080027b6d283"),
 
     /** The unique ID for the root undirected edge type within this root package. */
-    private val rootUndirectedEdgeTypeId: Uuid
+    private val rootUndirectedEdgeTypeId: Uuid = Uuid.fromString("66522303-6c7d-11e7-81b7-080027b6d283")
 
 ) : IPackageImpl {
 
     /** The child packages within this package. */
     private val _childPackages: MutableList<Package> = mutableListOf()
-    
+
     /** The root vertex type that will be the super type of vertex types contained in this package. */
     private val _rootVertexType = RootVertexType(rootVertexTypeId, this)
 
