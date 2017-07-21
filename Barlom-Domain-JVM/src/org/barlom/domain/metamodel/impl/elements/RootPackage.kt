@@ -6,7 +6,6 @@
 package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.*
-import org.barlom.domain.metamodel.api.types.EDependencyDepth
 import org.barlom.domain.metamodel.api.types.Uuid
 
 /**
@@ -40,6 +39,12 @@ internal data class RootPackage(
     private val _rootUndirectedEdgeType = RootUndirectedEdgeType(rootUndirectedEdgeTypeId, this, _rootVertexType)
 
 
+    override val adjacentClientPackages: List<IPackage>
+        get() = listOf()
+
+    override val adjacentSupplierPackages: List<IPackage>
+        get() = listOf()
+
     override val childPackages: List<IPackage>
         get() = _childPackages
 
@@ -66,6 +71,12 @@ internal data class RootPackage(
     override val supplierPackageDependencies: List<IPackageDependency>
         get() = listOf()
 
+    override val transitiveClientPackages: List<IPackage>
+        get() = listOf()
+
+    override val transitiveSupplierPackages: List<IPackage>
+        get() = listOf()
+
     override val undirectedEdgeTypes: List<IUndirectedEdgeType>
         get() = listOf(_rootUndirectedEdgeType)
 
@@ -83,19 +94,19 @@ internal data class RootPackage(
 
     }
 
-    override fun getClientPackages(dependencyDepth: EDependencyDepth): List<IPackage> {
-        return listOf()
-    }
-
-    override fun getSupplierPackages(dependencyDepth: EDependencyDepth): List<IPackage> {
-        return listOf()
-    }
-
-    override fun hasClientPackage(pkg: IPackage, dependencyDepth: EDependencyDepth): Boolean {
+    override fun hasAdjacentClientPackage(pkg: IPackage): Boolean {
         return false
     }
 
-    override fun hasSupplierPackage(pkg: IPackage, dependencyDepth: EDependencyDepth): Boolean {
+    override fun hasAdjacentSupplierPackage(pkg: IPackage): Boolean {
+        return false
+    }
+
+    override fun hasTransitiveClientPackage(pkg: IPackage): Boolean {
+        return false
+    }
+
+    override fun hasTransitiveSupplierPackage(pkg: IPackage): Boolean {
         return false
     }
 

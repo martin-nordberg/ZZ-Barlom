@@ -5,9 +5,6 @@
 
 package org.barlom.domain.metamodel.api.elements
 
-import org.barlom.domain.metamodel.api.types.EDependencyDepth
-import org.barlom.domain.metamodel.impl.elements.Package
-
 /**
  * Interface for Barlom package dependencies.
  */

@@ -5,13 +5,17 @@
 
 package org.barlom.domain.metamodel.api.elements
 
-import org.barlom.domain.metamodel.api.types.EDependencyDepth
-
 /**
  * Interface for Barlom packages. Packages are the namespacing mechanism for containing vertex types, edge types,
  * constrained data types, and child packages.
  */
 interface IPackage : IPackagedElement {
+
+    /** Returns the client packages that directly depend upon this package. */
+    val adjacentClientPackages: List<IPackage>
+
+    /** Returns the supplier packages that this package directly depends upon. */
+    val adjacentSupplierPackages: List<IPackage>
 
     /** The child sub-packages within this package. */
     val childPackages: List<IPackage>
@@ -31,6 +35,12 @@ interface IPackage : IPackagedElement {
     /** Links to packages that are suppliers of this package. */
     val supplierPackageDependencies: List<IPackageDependency>
 
+    /** Returns the client packages that directly or indirectly depend upon this package. */
+    val transitiveClientPackages: List<IPackage>
+
+    /** Returns the supplier packages that this package directly or indirectly depends upon. */
+    val transitiveSupplierPackages: List<IPackage>
+
     /** The undirected edge types defined within this package. */
     val undirectedEdgeTypes: List<IUndirectedEdgeType>
 
@@ -38,17 +48,17 @@ interface IPackage : IPackagedElement {
     val vertexTypes: List<IVertexType>
 
 
-    /** Returns the client packages that depend upon this package, either directly or fully transitively. */
-    fun getClientPackages(dependencyDepth: EDependencyDepth): List<IPackage>
+    /** Whether a given package directly depends upon this one. */
+    fun hasAdjacentClientPackage(pkg: IPackage): Boolean
 
-    /** Returns the supplier packages that this package depends upon, either directly or fully transitively. */
-    fun getSupplierPackages(dependencyDepth: EDependencyDepth): List<IPackage>
+    /** Whether a given package is directly depended upon by this one. */
+    fun hasAdjacentSupplierPackage(pkg: IPackage): Boolean
 
-    /** Whether a given package depends upon this one. */
-    fun hasClientPackage(pkg: IPackage, dependencyDepth: EDependencyDepth): Boolean
+    /** Whether a given package directly or indirectly depends upon this one. */
+    fun hasTransitiveClientPackage(pkg: IPackage): Boolean
 
-    /** Whether a given package is depended upon by this one. */
-    fun hasSupplierPackage(pkg: IPackage, dependencyDepth: EDependencyDepth): Boolean
+    /** Whether a given package is directly or indirectly depended upon by this one. */
+    fun hasTransitiveSupplierPackage(pkg: IPackage): Boolean
 
     /** Whether this package is a direct or indirect child of the given package. */
     fun isChildOf(pkg: IPackage): Boolean

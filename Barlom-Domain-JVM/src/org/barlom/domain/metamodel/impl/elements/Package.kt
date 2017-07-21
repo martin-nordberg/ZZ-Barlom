@@ -7,7 +7,6 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IPackage
 import org.barlom.domain.metamodel.api.elements.IPackageDependency
-import org.barlom.domain.metamodel.api.types.EDependencyDepth
 import org.barlom.domain.metamodel.api.types.Uuid
 
 /**
@@ -48,6 +47,36 @@ internal data class Package(
     }
 
 
+    override val adjacentClientPackages: List<IPackage>
+        get() {
+
+            val result: MutableSet<IPackage> = mutableSetOf()
+
+            for (pkg in _clientPackageDependencies) {
+
+                result.add(pkg.clientPackage)
+
+            }
+
+            return result.toList().sortedBy { pkg2 -> pkg2.name }
+
+        }
+
+    override val adjacentSupplierPackages: List<IPackage>
+        get() {
+
+            val result: MutableSet<IPackage> = mutableSetOf()
+
+            for (pkg in _supplierPackageDependencies) {
+
+                result.add(pkg.supplierPackage)
+
+            }
+
+            return result.toList().sortedBy { pkg2 -> pkg2.name }
+
+        }
+
     override val childPackages: List<Package>
         get() = _childPackages
 
@@ -75,6 +104,60 @@ internal data class Package(
 
     override val supplierPackageDependencies: List<IPackageDependency>
         get() = _supplierPackageDependencies
+
+    override val transitiveClientPackages: List<IPackage>
+        get() {
+
+            val result: MutableSet<IPackage> = mutableSetOf()
+
+            // Helper function recursively accumulates the result
+            fun accumulateClientPackages(pkg: Package) {
+
+                for (pkgDep in pkg._clientPackageDependencies) {
+
+                    val clientPkg = pkgDep.clientPackage
+
+                    if (!result.contains(clientPkg)) {
+                        result.add(clientPkg)
+                        accumulateClientPackages(clientPkg)
+                    }
+
+                }
+
+            }
+
+            accumulateClientPackages(this)
+
+            return result.toList().sortedBy { pkg2 -> pkg2.name }
+
+        }
+
+    override val transitiveSupplierPackages: List<IPackage>
+        get() {
+
+            val result: MutableSet<IPackage> = mutableSetOf()
+
+            // Helper function recursively accumulates the result
+            fun accumulateSupplierPackages(pkg: Package) {
+
+                for (pkgDep in pkg._supplierPackageDependencies) {
+
+                    val supplierPkg = pkgDep.supplierPackage
+
+                    if (!result.contains(supplierPkg)) {
+                        result.add(supplierPkg)
+                        accumulateSupplierPackages(supplierPkg)
+                    }
+
+                }
+
+            }
+
+            accumulateSupplierPackages(this)
+
+            return result.toList().sortedBy { pkg2 -> pkg2.name }
+
+        }
 
     override val undirectedEdgeTypes: List<UndirectedEdgeType>
         get() = _undirectedEdgeTypes
@@ -153,43 +236,7 @@ internal data class Package(
 
     }
 
-    override fun getClientPackages(dependencyDepth: EDependencyDepth): List<IPackage> {
-
-        val result: MutableSet<IPackage> = mutableSetOf()
-
-        for (pkg in _clientPackageDependencies) {
-
-            result.add(pkg.clientPackage)
-
-            if (dependencyDepth.isTransitive()) {
-                result.addAll(pkg.clientPackage.getClientPackages(dependencyDepth))
-            }
-
-        }
-
-        return result.toList().sortedBy { pkg2 -> pkg2.name }
-
-    }
-
-    override fun getSupplierPackages(dependencyDepth: EDependencyDepth): List<IPackage> {
-
-        val result: MutableSet<IPackage> = mutableSetOf()
-
-        for (pkg in _supplierPackageDependencies) {
-
-            result.add(pkg.supplierPackage)
-
-            if (dependencyDepth.isTransitive()) {
-                result.addAll(pkg.supplierPackage.getSupplierPackages(dependencyDepth))
-            }
-
-        }
-
-        return result.toList().sortedBy { pkg2 -> pkg2.name }
-
-    }
-
-    override fun hasClientPackage(pkg: IPackage, dependencyDepth: EDependencyDepth): Boolean {
+    override fun hasAdjacentClientPackage(pkg: IPackage): Boolean {
 
         for (pkgdep in _clientPackageDependencies) {
 
@@ -199,21 +246,13 @@ internal data class Package(
                 return true
             }
 
-            if (dependencyDepth.isTransitive()) {
-
-                if (pkg2 !== this && pkg2.hasClientPackage(pkg, dependencyDepth)) {
-                    return true
-                }
-
-            }
-
         }
 
         return false
 
     }
 
-    override fun hasSupplierPackage(pkg: IPackage, dependencyDepth: EDependencyDepth): Boolean {
+    override fun hasAdjacentSupplierPackage(pkg: IPackage): Boolean {
 
         for (pkgdep in _supplierPackageDependencies) {
 
@@ -223,17 +262,79 @@ internal data class Package(
                 return true
             }
 
-            if (dependencyDepth.isTransitive()) {
+        }
 
-                if (pkg2 !== this && pkg2.hasSupplierPackage(pkg, dependencyDepth)) {
+        return false
+
+    }
+
+    override fun hasTransitiveClientPackage(pkg: IPackage): Boolean {
+
+        val clients: MutableSet<IPackage> = mutableSetOf()
+
+        // Helper function recursively searches while accumulating the packages searched so far
+        fun findClientPackage(supplierPkg: Package): Boolean {
+
+            for (pkgDep in supplierPkg._clientPackageDependencies) {
+
+                val clientPkg = pkgDep.clientPackage
+
+                if (clientPkg === pkg) {
                     return true
+                }
+
+                if (!clients.contains(clientPkg)) {
+
+                    clients.add(clientPkg)
+
+                    if (findClientPackage(clientPkg)) {
+                        return true
+                    }
+
                 }
 
             }
 
+            return false
+
         }
 
-        return false
+        return findClientPackage(this)
+
+    }
+
+    override fun hasTransitiveSupplierPackage(pkg: IPackage): Boolean {
+
+        val suppliers: MutableSet<IPackage> = mutableSetOf()
+
+        // Helper function recursively searches while accumulating the packages searched so far
+        fun findSupplierPackage(clientPkg: Package): Boolean {
+
+            for (pkgDep in clientPkg._supplierPackageDependencies) {
+
+                val supplierPkg = pkgDep.supplierPackage
+
+                if (supplierPkg === pkg) {
+                    return true
+                }
+
+                if (!suppliers.contains(supplierPkg)) {
+
+                    suppliers.add(supplierPkg)
+
+                    if (findSupplierPackage(supplierPkg)) {
+                        return true
+                    }
+
+                }
+
+            }
+
+            return false
+
+        }
+
+        return findSupplierPackage(this)
 
     }
 
