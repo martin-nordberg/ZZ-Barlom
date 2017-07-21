@@ -5,7 +5,6 @@
 
 package org.barlom.domain.metamodel.impl.elements
 
-import org.barlom.domain.metamodel.api.elements.IDocumentedElement
 import org.barlom.domain.metamodel.api.elements.IPackageDependency
 import org.barlom.domain.metamodel.api.types.Uuid
 

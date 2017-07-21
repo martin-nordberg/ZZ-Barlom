@@ -48,9 +48,9 @@ internal data class VertexType(
     override val transitiveSubTypes: List<VertexType>
         get() {
 
-            val result : MutableList<VertexType> = mutableListOf()
+            val result: MutableList<VertexType> = mutableListOf()
 
-            for ( subType in subTypes ) {
+            for (subType in subTypes) {
                 result.add(subType)
                 result.addAll(subType.transitiveSubTypes)
             }

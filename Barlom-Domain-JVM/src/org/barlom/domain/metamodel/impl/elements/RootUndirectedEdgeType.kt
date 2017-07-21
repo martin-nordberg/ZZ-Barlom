@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.impl.elements;
+package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IUndirectedEdgeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
@@ -62,9 +62,9 @@ internal data class RootUndirectedEdgeType(
     override val transitiveSubTypes: List<UndirectedEdgeType>
         get() {
 
-            val result : MutableList<UndirectedEdgeType> = mutableListOf()
+            val result: MutableList<UndirectedEdgeType> = mutableListOf()
 
-            for ( subType in subTypes ) {
+            for (subType in subTypes) {
                 result.add(subType)
                 result.addAll(subType.transitiveSubTypes)
             }
@@ -82,7 +82,7 @@ internal data class RootUndirectedEdgeType(
     }
 
     override fun isSubTypeOf(edgeType: IUndirectedEdgeType): Boolean {
-        return edgeType === this
+        return false
     }
 
 }

@@ -56,9 +56,9 @@ internal data class DirectedEdgeType(
     override val transitiveSubTypes: List<DirectedEdgeType>
         get() {
 
-            val result : MutableList<DirectedEdgeType> = mutableListOf()
+            val result: MutableList<DirectedEdgeType> = mutableListOf()
 
-            for ( subType in subTypes ) {
+            for (subType in subTypes) {
                 result.add(subType)
                 result.addAll(subType.transitiveSubTypes)
             }

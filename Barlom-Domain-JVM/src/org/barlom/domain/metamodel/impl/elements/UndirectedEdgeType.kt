@@ -22,7 +22,7 @@ internal data class UndirectedEdgeType(
     override val selfLooping: ESelfLooping,
     override val maxDegree: Int?,
     override val minDegree: Int?,
-    override val superType: UndirectedEdgeType,
+    override val superType: IUndirectedEdgeTypeImpl,
     override val vertexType: VertexType
 
 ) : IUndirectedEdgeTypeImpl, INonRootEdgeTypeImpl {
@@ -51,9 +51,9 @@ internal data class UndirectedEdgeType(
     override val transitiveSubTypes: List<UndirectedEdgeType>
         get() {
 
-            val result : MutableList<UndirectedEdgeType> = mutableListOf()
+            val result: MutableList<UndirectedEdgeType> = mutableListOf()
 
-            for ( subType in subTypes ) {
+            for (subType in subTypes) {
                 result.add(subType)
                 result.addAll(subType.transitiveSubTypes)
             }
