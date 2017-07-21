@@ -97,7 +97,7 @@ internal data class RootDirectedEdgeType(
     }
 
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {
-        return edgeType === this
+        return false
     }
 
 }

@@ -20,13 +20,13 @@ internal data class DirectedEdgeType(
     override val cyclicity: ECyclicity,
     override val multiEdgedness: EMultiEdgedness,
     override val selfLooping: ESelfLooping,
-    override val headRoleName: String,
+    override val headRoleName: String?,
     override val headVertexType: VertexType,
     override val maxHeadInDegree: Int?,
     override val maxTailOutDegree: Int?,
     override val minHeadInDegree: Int?,
     override val minTailOutDegree: Int?,
-    override val superType: DirectedEdgeType,
+    override val superType: IDirectedEdgeTypeImpl,
     override val tailRoleName: String?,
     override val tailVertexType: VertexType
 
@@ -69,7 +69,7 @@ internal data class DirectedEdgeType(
 
 
     override fun addAttributeType(attributeType: EdgeAttributeType) {
-        _attributeTypes.add(attributeType);
+        _attributeTypes.add(attributeType)
     }
 
     override fun addSubType(edgeType: DirectedEdgeType) {
@@ -77,7 +77,7 @@ internal data class DirectedEdgeType(
     }
 
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {
-        return this === edgeType || this.superType.isSubTypeOf(edgeType);
+        return superType === edgeType || superType.isSubTypeOf(edgeType)
     }
 
 }

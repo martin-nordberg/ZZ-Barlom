@@ -72,7 +72,7 @@ internal data class UndirectedEdgeType(
     }
 
     override fun isSubTypeOf(edgeType: IUndirectedEdgeType): Boolean {
-        return this === edgeType || this.superType.isSubTypeOf(edgeType)
+        return superType === edgeType || superType.isSubTypeOf(edgeType)
     }
 
 }
