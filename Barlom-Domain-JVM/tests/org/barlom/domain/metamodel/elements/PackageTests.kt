@@ -59,26 +59,26 @@ class PackageTests {
         PackageDependency(makeUuid(),pkg1,pkg2)
         PackageDependency(makeUuid(),pkg2,pkg3)
 
-        assertTrue(pkg1.hasAdjacentSupplierPackage(pkg2))
-        assertFalse(pkg2.hasAdjacentSupplierPackage(pkg1))
-        assertTrue(pkg2.hasAdjacentSupplierPackage(pkg3))
+        assertTrue(pkg1.hasSupplierPackage(pkg2))
+        assertFalse(pkg2.hasSupplierPackage(pkg1))
+        assertTrue(pkg2.hasSupplierPackage(pkg3))
         assertTrue(pkg1.hasTransitiveSupplierPackage(pkg3))
-        assertFalse(pkg1.hasAdjacentSupplierPackage(pkg3))
+        assertFalse(pkg1.hasSupplierPackage(pkg3))
 
-        assertTrue(pkg2.hasAdjacentClientPackage(pkg1))
-        assertTrue(pkg3.hasAdjacentClientPackage(pkg2))
+        assertTrue(pkg2.hasClientPackage(pkg1))
+        assertTrue(pkg3.hasClientPackage(pkg2))
         assertTrue(pkg3.hasTransitiveClientPackage(pkg1))
-        assertFalse(pkg3.hasAdjacentClientPackage(pkg1))
+        assertFalse(pkg3.hasClientPackage(pkg1))
 
-        assertTrue(pkg1.adjacentSupplierPackages.contains(pkg2))
+        assertTrue(pkg1.supplierPackages.contains(pkg2))
         assertTrue(pkg1.transitiveSupplierPackages.contains(pkg2))
-        assertFalse(pkg1.adjacentSupplierPackages.contains(pkg3))
+        assertFalse(pkg1.supplierPackages.contains(pkg3))
         assertTrue(pkg1.transitiveSupplierPackages.contains(pkg3))
 
-        assertTrue(pkg2.adjacentClientPackages.contains(pkg1))
+        assertTrue(pkg2.clientPackages.contains(pkg1))
         assertTrue(pkg3.transitiveClientPackages.contains(pkg1))
-        assertFalse(pkg3.adjacentClientPackages.contains(pkg1))
-        assertTrue(pkg2.adjacentClientPackages.contains(pkg1))
+        assertFalse(pkg3.clientPackages.contains(pkg1))
+        assertTrue(pkg2.clientPackages.contains(pkg1))
         assertTrue(pkg2.transitiveClientPackages.contains(pkg1))
 
     }

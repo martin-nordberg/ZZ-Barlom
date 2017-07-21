@@ -19,14 +19,17 @@ interface IVertexType : IPackagedElement {
     /** The types of attributes of vertexes of this type. */
     val attributeTypes: List<IVertexAttributeType>
 
-    /** The subtypes of this vertex type. */
+    /** The direct subtypes of this vertex type sorted by path. */
     val subTypes: List<IVertexType>
 
     /** The super type of this vertex type. */
     val superType: IVertexType
 
+    /** The direct and indirect subtypes of this vertex type sorted by path. */
+    val transitiveSubTypes: List<IVertexType>
 
-    /** Whether this vertex type is the same as or a subtype of the given [vertexType]. */
+
+    /** Whether this vertex type is a direct or indirect subtype of the given [vertexType]. */
     fun isSubTypeOf(vertexType: IVertexType): Boolean
 
 }

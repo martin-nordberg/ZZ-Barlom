@@ -11,17 +11,14 @@ package org.barlom.domain.metamodel.api.elements
  */
 interface IPackage : IPackagedElement {
 
-    /** Returns the client packages that directly depend upon this package. */
-    val adjacentClientPackages: List<IPackage>
-
-    /** Returns the supplier packages that this package directly depends upon. */
-    val adjacentSupplierPackages: List<IPackage>
-
     /** The child sub-packages within this package. */
     val childPackages: List<IPackage>
 
-    /** Links to packages that are clients of this package. */
+    /** Links to packages that are direct clients of this package. */
     val clientPackageDependencies: List<IPackageDependency>
+
+    /** Returns the client packages that directly depend upon this package. */
+    val clientPackages: List<IPackage>
 
     /** The constrained data types contained by this package. */
     val constrainedDataTypes: List<IConstrainedDataType>
@@ -29,11 +26,11 @@ interface IPackage : IPackagedElement {
     /** The directed edge types defined within this package. */
     val directedEdgeTypes: List<IDirectedEdgeType>
 
-    /** The dot-delimited path to this package. */
-    val path: String
-
-    /** Links to packages that are suppliers of this package. */
+    /** Links to packages that are direct suppliers of this package. */
     val supplierPackageDependencies: List<IPackageDependency>
+
+    /** Returns the supplier packages that this package directly depends upon. */
+    val supplierPackages: List<IPackage>
 
     /** Returns the client packages that directly or indirectly depend upon this package. */
     val transitiveClientPackages: List<IPackage>
@@ -49,10 +46,10 @@ interface IPackage : IPackagedElement {
 
 
     /** Whether a given package directly depends upon this one. */
-    fun hasAdjacentClientPackage(pkg: IPackage): Boolean
+    fun hasClientPackage(pkg: IPackage): Boolean
 
     /** Whether a given package is directly depended upon by this one. */
-    fun hasAdjacentSupplierPackage(pkg: IPackage): Boolean
+    fun hasSupplierPackage(pkg: IPackage): Boolean
 
     /** Whether a given package directly or indirectly depends upon this one. */
     fun hasTransitiveClientPackage(pkg: IPackage): Boolean

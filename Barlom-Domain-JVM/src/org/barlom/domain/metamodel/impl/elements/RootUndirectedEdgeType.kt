@@ -47,14 +47,31 @@ internal data class RootUndirectedEdgeType(
     override val name: String
         get() = "undirectedEdge"
 
+    override val path: String
+        get() = name
+
     override val selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED
 
     override val subTypes: List<UndirectedEdgeType>
-        get() = _subTypes
+        get() = _subTypes.sortedBy { et -> et.path }
 
     override val superType: IUndirectedEdgeType
         get() = this
+
+    override val transitiveSubTypes: List<UndirectedEdgeType>
+        get() {
+
+            val result : MutableList<UndirectedEdgeType> = mutableListOf()
+
+            for ( subType in subTypes ) {
+                result.add(subType)
+                result.addAll(subType.transitiveSubTypes)
+            }
+
+            return result.sortedBy { et -> et.path }
+
+        }
 
     override val vertexType: IVertexType
         get() = _rootVertexType

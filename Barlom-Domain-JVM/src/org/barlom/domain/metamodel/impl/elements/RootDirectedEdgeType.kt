@@ -59,11 +59,14 @@ internal data class RootDirectedEdgeType(
     override val name: String
         get() = "directedEdge"
 
+    override val path: String
+        get() = name
+
     override val selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED
 
     override val subTypes: List<DirectedEdgeType>
-        get() = _subTypes
+        get() = _subTypes.sortedBy { et -> et.path }
 
     override val superType: IDirectedEdgeType
         get() = this
@@ -73,6 +76,20 @@ internal data class RootDirectedEdgeType(
 
     override val tailVertexType: IVertexType
         get() = _rootVertexType
+
+    override val transitiveSubTypes: List<DirectedEdgeType>
+        get() {
+
+            val result : MutableList<DirectedEdgeType> = mutableListOf()
+
+            for ( subType in subTypes ) {
+                result.add(subType)
+                result.addAll(subType.transitiveSubTypes)
+            }
+
+            return result.sortedBy { et -> et.path }
+
+        }
 
 
     override fun addSubType(edgeType: DirectedEdgeType) {

@@ -13,5 +13,8 @@ interface IPackagedElement : INamedElement {
     /** The package containing this model element. */
     val parentPackage: IPackage
 
+    /** The dot-delimited path to this packaged element. */
+    val path: String
+
 }
 

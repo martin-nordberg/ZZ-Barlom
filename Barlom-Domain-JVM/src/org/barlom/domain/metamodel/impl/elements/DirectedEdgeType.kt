@@ -45,10 +45,27 @@ internal data class DirectedEdgeType(
 
 
     override val attributeTypes: List<EdgeAttributeType>
-        get() = _attributeTypes
+        get() = _attributeTypes.sortedBy { at -> at.name }
+
+    override val path: String
+        get() = parentPackage.path + "." + name
 
     override val subTypes: List<DirectedEdgeType>
-        get() = _subTypes
+        get() = _subTypes.sortedBy { et -> et.path }
+
+    override val transitiveSubTypes: List<DirectedEdgeType>
+        get() {
+
+            val result : MutableList<DirectedEdgeType> = mutableListOf()
+
+            for ( subType in subTypes ) {
+                result.add(subType)
+                result.addAll(subType.transitiveSubTypes)
+            }
+
+            return result.sortedBy { et -> et.path }
+
+        }
 
 
     override fun addAttributeType(attributeType: EdgeAttributeType) {

@@ -24,38 +24,26 @@ internal data class RootPackage(
     /** The unique ID for the root undirected edge type within this root package. */
     private val rootUndirectedEdgeTypeId: Uuid = Uuid.fromString("66522303-6c7d-11e7-81b7-080027b6d283")
 
-) : IPackageImpl {
+) : IPackageImpl, IRootPackage {
 
     /** The child packages within this package. */
     private val _childPackages: MutableList<Package> = mutableListOf()
 
-    /** The root vertex type that will be the super type of vertex types contained in this package. */
-    private val _rootVertexType = RootVertexType(rootVertexTypeId, this)
-
-    /** The root directed edge type that will be the super type of directed edge types contained in this package. */
-    private val _rootDirectedEdgeType = RootDirectedEdgeType(rootDirectedEdgeTypeId, this, _rootVertexType)
-
-    /** The root undirected edge type that will be the super type of undirected edge types contained in this package. */
-    private val _rootUndirectedEdgeType = RootUndirectedEdgeType(rootUndirectedEdgeTypeId, this, _rootVertexType)
-
-
-    override val adjacentClientPackages: List<IPackage>
-        get() = listOf()
-
-    override val adjacentSupplierPackages: List<IPackage>
-        get() = listOf()
 
     override val childPackages: List<IPackage>
-        get() = _childPackages
+        get() = _childPackages.sortedBy { pkg -> pkg.name }
 
     override val clientPackageDependencies: List<IPackageDependency>
+        get() = listOf()
+
+    override val clientPackages: List<IPackage>
         get() = listOf()
 
     override val constrainedDataTypes: List<ConstrainedDataType>
         get() = listOf()
 
     override val directedEdgeTypes: List<IDirectedEdgeType>
-        get() = listOf(_rootDirectedEdgeType)
+        get() = listOf(rootDirectedEdgeType)
 
     override val name: String
         get() {
@@ -68,7 +56,16 @@ internal data class RootPackage(
     override val parentPackage: RootPackage
         get() = this
 
+    override val rootVertexType = RootVertexType(rootVertexTypeId, this)
+
+    override val rootDirectedEdgeType = RootDirectedEdgeType(rootDirectedEdgeTypeId, this, rootVertexType)
+
+    override val rootUndirectedEdgeType = RootUndirectedEdgeType(rootUndirectedEdgeTypeId, this, rootVertexType)
+
     override val supplierPackageDependencies: List<IPackageDependency>
+        get() = listOf()
+
+    override val supplierPackages: List<IPackage>
         get() = listOf()
 
     override val transitiveClientPackages: List<IPackage>
@@ -78,10 +75,10 @@ internal data class RootPackage(
         get() = listOf()
 
     override val undirectedEdgeTypes: List<IUndirectedEdgeType>
-        get() = listOf(_rootUndirectedEdgeType)
+        get() = listOf(rootUndirectedEdgeType)
 
     override val vertexTypes: List<IVertexType>
-        get() = listOf(_rootVertexType)
+        get() = listOf(rootVertexType)
 
 
     override fun addChildPackage(pkg: Package) {
@@ -94,11 +91,11 @@ internal data class RootPackage(
 
     }
 
-    override fun hasAdjacentClientPackage(pkg: IPackage): Boolean {
+    override fun hasClientPackage(pkg: IPackage): Boolean {
         return false
     }
 
-    override fun hasAdjacentSupplierPackage(pkg: IPackage): Boolean {
+    override fun hasSupplierPackage(pkg: IPackage): Boolean {
         return false
     }
 

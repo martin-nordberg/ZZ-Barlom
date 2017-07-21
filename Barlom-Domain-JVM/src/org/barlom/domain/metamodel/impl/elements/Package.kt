@@ -47,7 +47,13 @@ internal data class Package(
     }
 
 
-    override val adjacentClientPackages: List<IPackage>
+    override val childPackages: List<Package>
+        get() = _childPackages.sortedBy { pkg -> pkg.name }
+
+    override val clientPackageDependencies: List<IPackageDependency>
+        get() = _clientPackageDependencies.sortedBy { pkgdep -> pkgdep.clientPackage.path }
+
+    override val clientPackages: List<IPackage>
         get() {
 
             val result: MutableSet<IPackage> = mutableSetOf()
@@ -58,30 +64,9 @@ internal data class Package(
 
             }
 
-            return result.toList().sortedBy { pkg2 -> pkg2.name }
+            return result.toList().sortedBy { pkg2 -> pkg2.path }
 
         }
-
-    override val adjacentSupplierPackages: List<IPackage>
-        get() {
-
-            val result: MutableSet<IPackage> = mutableSetOf()
-
-            for (pkg in _supplierPackageDependencies) {
-
-                result.add(pkg.supplierPackage)
-
-            }
-
-            return result.toList().sortedBy { pkg2 -> pkg2.name }
-
-        }
-
-    override val childPackages: List<Package>
-        get() = _childPackages
-
-    override val clientPackageDependencies: List<IPackageDependency>
-        get() = _clientPackageDependencies
 
     override val constrainedDataTypes: List<ConstrainedDataType>
         get() = _constrainedDataTypes
@@ -103,7 +88,22 @@ internal data class Package(
         }
 
     override val supplierPackageDependencies: List<IPackageDependency>
-        get() = _supplierPackageDependencies
+        get() = _supplierPackageDependencies.sortedBy { pkgdep -> pkgdep.supplierPackage.path }
+
+    override val supplierPackages: List<IPackage>
+        get() {
+
+            val result: MutableSet<IPackage> = mutableSetOf()
+
+            for (pkg in _supplierPackageDependencies) {
+
+                result.add(pkg.supplierPackage)
+
+            }
+
+            return result.toList().sortedBy { pkg2 -> pkg2.path }
+
+        }
 
     override val transitiveClientPackages: List<IPackage>
         get() {
@@ -128,7 +128,7 @@ internal data class Package(
 
             accumulateClientPackages(this)
 
-            return result.toList().sortedBy { pkg2 -> pkg2.name }
+            return result.toList().sortedBy { pkg2 -> pkg2.path }
 
         }
 
@@ -155,7 +155,7 @@ internal data class Package(
 
             accumulateSupplierPackages(this)
 
-            return result.toList().sortedBy { pkg2 -> pkg2.name }
+            return result.toList().sortedBy { pkg2 -> pkg2.path }
 
         }
 
@@ -236,7 +236,7 @@ internal data class Package(
 
     }
 
-    override fun hasAdjacentClientPackage(pkg: IPackage): Boolean {
+    override fun hasClientPackage(pkg: IPackage): Boolean {
 
         for (pkgdep in _clientPackageDependencies) {
 
@@ -252,7 +252,7 @@ internal data class Package(
 
     }
 
-    override fun hasAdjacentSupplierPackage(pkg: IPackage): Boolean {
+    override fun hasSupplierPackage(pkg: IPackage): Boolean {
 
         for (pkgdep in _supplierPackageDependencies) {
 

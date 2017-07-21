@@ -28,7 +28,7 @@ interface IDirectedEdgeType : IEdgeType {
     /** The minimum out-degree for the tail vertex of edges of this type. */
     val minTailOutDegree: Int?
 
-    /** The subtypes of this directed edge type. */
+    /** The direct subtypes of this directed edge type sorted by path. */
     val subTypes: List<IDirectedEdgeType>
 
     /** The super type of this edge type. */
@@ -39,6 +39,9 @@ interface IDirectedEdgeType : IEdgeType {
 
     /** The vertex type at the tail of edges of this type. */
     val tailVertexType: IVertexType
+
+    /** The direct and indirect subtypes of this directed edge type sorted by path. */
+    val transitiveSubTypes: List<IDirectedEdgeType>
 
 
     /** Whether this edge type is the same as or inherits from the given [edgeType]. */

@@ -25,8 +25,8 @@ class RootPackageTests {
         val pkg1 = RootPackage()
         val pkg2 = RootPackage()
 
-        assertNotNull( pkg1.id )
-        assertEquals( pkg1.id, pkg2.id )
+        assertNotNull(pkg1.id)
+        assertEquals(pkg1.id, pkg2.id)
     }
 
     @Test
@@ -34,7 +34,8 @@ class RootPackageTests {
 
         val pkg = RootPackage()
 
-        assertEquals( 1, pkg.vertexTypes.size )
+        assertEquals(1, pkg.vertexTypes.size)
+        assertTrue(pkg.vertexTypes.contains(pkg.rootVertexType))
 
     }
 
@@ -43,7 +44,8 @@ class RootPackageTests {
 
         val pkg = RootPackage()
 
-        assertEquals( 1, pkg.directedEdgeTypes.size )
+        assertEquals(1, pkg.directedEdgeTypes.size)
+        assertTrue(pkg.directedEdgeTypes.contains(pkg.rootDirectedEdgeType))
 
     }
 
@@ -52,7 +54,8 @@ class RootPackageTests {
 
         val pkg = RootPackage()
 
-        assertEquals( 1, pkg.undirectedEdgeTypes.size )
+        assertEquals(1, pkg.undirectedEdgeTypes.size)
+        assertTrue(pkg.undirectedEdgeTypes.contains(pkg.rootUndirectedEdgeType))
 
     }
 
@@ -72,7 +75,7 @@ class RootPackageTests {
 
         val pkg = RootPackage()
 
-        assertEquals( "", pkg.path )
+        assertEquals("", pkg.path)
 
     }
 
@@ -81,14 +84,14 @@ class RootPackageTests {
 
         val pkg = RootPackage()
 
-        val subpkg1 = Package(makeUuid(),"subpkg1",pkg)
+        val subpkg1 = Package(makeUuid(), "subpkg1", pkg)
 
-        assertEquals(1,pkg.childPackages.size)
+        assertEquals(1, pkg.childPackages.size)
         assertTrue(pkg.childPackages.contains(subpkg1))
 
-        val subpkg2 = Package(makeUuid(),"subpkg2",pkg)
+        val subpkg2 = Package(makeUuid(), "subpkg2", pkg)
 
-        assertEquals(2,pkg.childPackages.size)
+        assertEquals(2, pkg.childPackages.size)
         assertTrue(pkg.childPackages.contains(subpkg1))
         assertTrue(pkg.childPackages.contains(subpkg2))
 

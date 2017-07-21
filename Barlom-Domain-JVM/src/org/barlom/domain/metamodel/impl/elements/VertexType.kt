@@ -39,8 +39,25 @@ internal data class VertexType(
     override val attributeTypes: List<IVertexAttributeType>
         get() = _attributeTypes
 
+    override val path: String
+        get() = parentPackage.path + "." + name
+
     override val subTypes: List<VertexType>
-        get() = _subTypes
+        get() = _subTypes.sortedBy { vt -> vt.path }
+
+    override val transitiveSubTypes: List<VertexType>
+        get() {
+
+            val result : MutableList<VertexType> = mutableListOf()
+
+            for ( subType in subTypes ) {
+                result.add(subType)
+                result.addAll(subType.transitiveSubTypes)
+            }
+
+            return result.sortedBy { vt -> vt.path }
+
+        }
 
 
     /**

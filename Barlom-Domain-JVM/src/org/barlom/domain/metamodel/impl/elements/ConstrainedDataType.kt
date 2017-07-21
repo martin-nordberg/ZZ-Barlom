@@ -35,6 +35,9 @@ internal data class BooleanConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.BOOLEAN
 
+    override val path: String
+        get() = parentPackage.path + "." + name
+
 }
 
 
@@ -57,6 +60,9 @@ internal data class DateTimeConstrainedDataType(
 
     override val dataType: EDataType
         get() = EDataType.DATETIME
+
+    override val path: String
+        get() = parentPackage.path + "." + name
 
 }
 
@@ -82,6 +88,9 @@ internal data class Float64ConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.FLOAT64
 
+    override val path: String
+        get() = parentPackage.path + "." + name
+
 }
 
 
@@ -105,6 +114,9 @@ internal data class Integer32ConstrainedDataType(
 
     override val dataType: EDataType
         get() = EDataType.INTEGER32
+
+    override val path: String
+        get() = parentPackage.path + "." + name
 
 }
 
@@ -130,6 +142,9 @@ internal data class StringConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.STRING
 
+    override val path: String
+        get() = parentPackage.path + "." + name
+
 }
 
 
@@ -150,5 +165,8 @@ internal data class UuidConstrainedDataType(
 
     override val dataType: EDataType
         get() = EDataType.UUID
+
+    override val path: String
+        get() = parentPackage.path + "." + name
 
 }
