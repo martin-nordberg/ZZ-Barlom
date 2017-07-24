@@ -3,19 +3,16 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
-
-import java.util.*
-import java.util.concurrent.PriorityBlockingQueue
-import java.util.concurrent.atomic.AtomicLong
-import java.util.concurrent.atomic.AtomicReference
+package org.barlom.infrastructure.revisions
 
 /**
  * Utility class for managing in-memory transactions. The code is similar to "versioned boxes", the concept behind JVSTM
  * for software transactional memory. However, this code is much more streamlined, though very experimental.
  */
 class StmTransaction(
+
     override val writeability: ETransactionWriteability
+
 ) : IStmTransaction {
 
     /**
@@ -27,7 +24,7 @@ class StmTransaction(
     /**
      * The next transaction in a linked list of transactions awaiting clean up.
      */
-    private val _nextTransactionAwaitingCleanUp: AtomicReference<StmTransaction?>
+    private val _nextTransactionAwaitingCleanUp: RevAtomicReference<StmTransaction?>
 
     /**
      * The versioned items read by this transaction.
@@ -49,7 +46,7 @@ class StmTransaction(
      * The revision number being written by this transaction. Negative while the transaction is running; zero if the
      * transaction is aborted; positive after the transaction has been committed.
      */
-    override val targetRevisionNumber: AtomicLong
+    override val targetRevisionNumber: RevAtomicLong
 
 
     /**
@@ -71,7 +68,7 @@ class StmTransaction(
         }
 
         // Use the next negative pending revision number to mark our writes.
-        targetRevisionNumber = AtomicLong(StmTransaction.lastPendingRevisionNumber.decrementAndGet())
+        targetRevisionNumber = RevAtomicLong(StmTransaction.lastPendingRevisionNumber.decrementAndGet())
 
         // Track the versioned items read and written by this transaction.
         _versionedItemsRead = HashSet()
@@ -81,7 +78,7 @@ class StmTransaction(
         _newerRevisionSeen = false
 
         // Establish a link for putting this transaction in a linked list of completed transactions.
-        _nextTransactionAwaitingCleanUp = AtomicReference(null)
+        _nextTransactionAwaitingCleanUp = RevAtomicReference(null)
 
     }
 
@@ -92,8 +89,7 @@ class StmTransaction(
         targetRevisionNumber.set(0L)
 
         // Clean up aborted revisions ...
-        _versionedItemsWritten.forEach(
-            org.barlom.infrastructure.utilities.revisions.AbstractVersionedItem::removeAbortedRevision)
+        _versionedItemsWritten.forEach(AbstractVersionedItem::removeAbortedRevision)
 
         _versionedItemsRead.clear()
         _versionedItemsWritten.clear()
@@ -105,18 +101,12 @@ class StmTransaction(
 
     override fun addVersionedItemRead(versionedItem: AbstractVersionedItem) {
 
-        // Sanity check the input.
-        Objects.requireNonNull(versionedItem)
-
         // Track versioned items read by this transaction.
         _versionedItemsRead.add(versionedItem)
 
     }
 
     override fun addVersionedItemWritten(versionedItem: AbstractVersionedItem) {
-
-        // Sanity check the input.
-        Objects.requireNonNull(versionedItem)
 
         // Track all versioned items written by this transaction.
         _versionedItemsWritten.add(versionedItem)
@@ -277,23 +267,23 @@ class StmTransaction(
         /**
          * Head of a linked list of transactions awaiting clean up.
          */
-        private val firstTransactionAwaitingCleanUp: AtomicReference<StmTransaction?> = AtomicReference(null)
+        private val firstTransactionAwaitingCleanUp: RevAtomicReference<StmTransaction?> = RevAtomicReference(null)
 
         /**
          * Monotone increasing revision number incremented whenever a transaction is successfully committed.
          */
-        private val lastCommittedRevisionNumber: AtomicLong = AtomicLong(0L)
+        private val lastCommittedRevisionNumber: RevAtomicLong = RevAtomicLong(0L)
 
         /**
          * Monotone decreasing revision number decremented whenever a transaction is started. Negative value indicates a
          * transaction in progress.
          */
-        private val lastPendingRevisionNumber: AtomicLong = AtomicLong(0L)
+        private val lastPendingRevisionNumber: RevAtomicLong = RevAtomicLong(0L)
 
         /**
          * Priority queue of revision numbers currently in use as the source revision for some transaction.
          */
-        private val sourceRevisionsInUse: Queue<Long> = PriorityBlockingQueue()
+        private val sourceRevisionsInUse: RevQueue = RevQueueImpl()
 
 
         /**

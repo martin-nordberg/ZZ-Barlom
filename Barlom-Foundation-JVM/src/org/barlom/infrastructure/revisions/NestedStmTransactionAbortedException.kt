@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
+package org.barlom.infrastructure.revisions
 
 /**
  * Exception thrown when a nested transaction is aborted.

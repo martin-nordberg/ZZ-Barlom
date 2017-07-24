@@ -3,12 +3,18 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
+package org.barlom.infrastructure.revisions
 
 /**
  * Utility class for managing STM transactions.
  */
 object StmTransactionContext {
+
+    /**
+     * Thread-local storage for the transaction in use by the current thread (can be only one per thread).
+     */
+    private val _transactionOfCurrentThread: RevThreadLocal<IStmTransaction> = RevThreadLocal()
+
 
     /**
      * @return the status of the currently active transaction or NO_TRANSACTION if there is none.
@@ -17,7 +23,7 @@ object StmTransactionContext {
         get() {
 
             // Get the thread-local transaction.
-            val transaction = StmTransactionContext._transactionOfCurrentThread.get()
+            val transaction = _transactionOfCurrentThread.get()
 
             // Ask the transaction for its status.
             return transaction?.status ?: ETransactionStatus.NO_TRANSACTION
@@ -30,7 +36,7 @@ object StmTransactionContext {
      */
     fun abortTransaction(e: Exception?) {
 
-        val transaction = StmTransactionContext.transactionOfCurrentThread
+        val transaction = transactionOfCurrentThread
 
         try {
             // Abort the changes.
@@ -38,7 +44,7 @@ object StmTransactionContext {
         }
         finally {
             // Clear the thread's transaction.
-            StmTransactionContext._transactionOfCurrentThread.set(transaction.enclosingTransaction)
+            _transactionOfCurrentThread.set(transaction.enclosingTransaction)
         }
 
     }
@@ -48,7 +54,7 @@ object StmTransactionContext {
      * which is responsible for calling either commitTransaction or abortTransaction.
      */
     fun beginReadNestedWriteTransaction() {
-        StmTransactionContext.beginTransaction(ETransactionWriteability.READ_WITH_NESTED_WRITES)
+        beginTransaction(ETransactionWriteability.READ_WITH_NESTED_WRITES)
     }
 
     /**
@@ -56,7 +62,7 @@ object StmTransactionContext {
      * responsible for calling either commitTransaction or abortTransaction.
      */
     fun beginReadOnlyTransaction() {
-        StmTransactionContext.beginTransaction(ETransactionWriteability.READ_ONLY)
+        beginTransaction(ETransactionWriteability.READ_ONLY)
     }
 
     /**
@@ -64,7 +70,25 @@ object StmTransactionContext {
      * responsible for calling either commitTransaction or abortTransaction.
      */
     fun beginReadWriteTransaction() {
-        StmTransactionContext.beginTransaction(ETransactionWriteability.READ_WRITE)
+        beginTransaction(ETransactionWriteability.READ_WRITE)
+    }
+
+    /**
+     * Creates a new read-only transaction. The lifecycle of the transaction must be managed by the client, which is
+     * responsible for calling either commit or abort on the result.
+     */
+    private fun beginTransaction(writeability: ETransactionWriteability) {
+
+        var transaction = _transactionOfCurrentThread.get()
+        if (transaction == null) {
+            transaction = StmTransaction(writeability)
+        }
+        else {
+            transaction = NestedStmTransaction(writeability, transaction)
+        }
+
+        _transactionOfCurrentThread.set(transaction)
+
     }
 
     /**
@@ -72,7 +96,7 @@ object StmTransactionContext {
      */
     fun commitTransaction() {
 
-        val transaction = StmTransactionContext.transactionOfCurrentThread
+        val transaction = transactionOfCurrentThread
 
         try {
             // Commit the changes.
@@ -85,7 +109,7 @@ object StmTransactionContext {
         }
         finally {
             // Clear the thread's transaction.
-            StmTransactionContext._transactionOfCurrentThread.set(transaction.enclosingTransaction)
+            _transactionOfCurrentThread.set(transaction.enclosingTransaction)
         }
 
     }
@@ -101,7 +125,7 @@ object StmTransactionContext {
      */
     fun doInReadNestedWriteTransaction(maxRetries: Int, task: Runnable) {
 
-        StmTransactionContext.doInTransaction(ETransactionWriteability.READ_WITH_NESTED_WRITES, maxRetries, task)
+        doInTransaction(ETransactionWriteability.READ_WITH_NESTED_WRITES, maxRetries, task)
 
     }
 
@@ -112,7 +136,7 @@ object StmTransactionContext {
      */
     fun doInReadOnlyTransaction(task: Runnable) {
 
-        StmTransactionContext.doInTransaction(ETransactionWriteability.READ_ONLY, 0, task)
+        doInTransaction(ETransactionWriteability.READ_ONLY, 0, task)
 
     }
 
@@ -127,25 +151,7 @@ object StmTransactionContext {
      */
     fun doInReadWriteTransaction(maxRetries: Int, task: Runnable) {
 
-        StmTransactionContext.doInTransaction(ETransactionWriteability.READ_WRITE, maxRetries, task)
-
-    }
-
-    /**
-     * Creates a new read-only transaction. The lifecycle of the transaction must be managed by the client, which is
-     * responsible for calling either commit or abort on the result.
-     */
-    private fun beginTransaction(writeability: ETransactionWriteability) {
-
-        var transaction = StmTransactionContext._transactionOfCurrentThread.get()
-        if (transaction == null) {
-            transaction = StmTransaction(writeability)
-        }
-        else {
-            transaction = NestedStmTransaction(writeability, transaction)
-        }
-
-        StmTransactionContext._transactionOfCurrentThread.set(transaction)
+        doInTransaction(ETransactionWriteability.READ_WRITE, maxRetries, task)
 
     }
 
@@ -171,7 +177,7 @@ object StmTransactionContext {
             while (retry <= maxRetries) {
 
                 try {
-                    var transaction = StmTransactionContext._transactionOfCurrentThread.get()
+                    var transaction = _transactionOfCurrentThread.get()
                     if (transaction == null) {
                         transaction = StmTransaction(writeability)
                     }
@@ -180,7 +186,7 @@ object StmTransactionContext {
                     }
 
                     try {
-                        StmTransactionContext._transactionOfCurrentThread.set(transaction)
+                        _transactionOfCurrentThread.set(transaction)
 
                         // Execute the transactional task.
                         task.run()
@@ -198,12 +204,12 @@ object StmTransactionContext {
                     }
                     finally {
                         // Clear the thread's transaction.
-                        StmTransactionContext._transactionOfCurrentThread.set(transaction.enclosingTransaction)
+                        _transactionOfCurrentThread.set(transaction.enclosingTransaction)
                     }
                 }
                 catch (e: WriteConflictException) {
                     // Do not retry nested transactions
-                    if (StmTransactionContext._transactionOfCurrentThread.get() != null) {
+                    if (_transactionOfCurrentThread.get() != null) {
                         break
                     }
 
@@ -237,7 +243,7 @@ object StmTransactionContext {
         get() {
 
             // Get the thread-local transaction.
-            val result = StmTransactionContext._transactionOfCurrentThread.get()
+            val result = _transactionOfCurrentThread.get()
 
             // If there is none, then it's a programming error.
             if (result == null) {
@@ -247,10 +253,5 @@ object StmTransactionContext {
             return result
 
         }
-
-    /**
-     * Thread-local storage for the transaction in use by the current thread (can be only one per thread).
-     */
-    private val _transactionOfCurrentThread: ThreadLocal<IStmTransaction> = ThreadLocal()
 
 }

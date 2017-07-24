@@ -3,9 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
-
-import java.util.concurrent.atomic.AtomicLong
+package org.barlom.infrastructure.revisions
 
 /**
  * Utility class for managing in-memory transactions. The code is similar to "versioned boxes", the concept behind JVSTM
@@ -34,7 +32,7 @@ interface IStmTransaction {
      * @return the revision number of information written by this transaction (negative while transaction is running;
      * positive after committed.
      */
-    val targetRevisionNumber: AtomicLong
+    val targetRevisionNumber: RevAtomicLong
 
     /**
      * @return the writeability of this transaction.

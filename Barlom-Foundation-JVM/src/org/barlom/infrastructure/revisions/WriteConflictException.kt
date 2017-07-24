@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
+package org.barlom.infrastructure.revisions
 
 /**
  * Exception indicating a failed transaction due to a concurrent transaction writing values before the completion of the

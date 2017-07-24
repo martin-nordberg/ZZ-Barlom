@@ -3,9 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
-
-import java.util.concurrent.atomic.AtomicLong
+package org.barlom.infrastructure.revisions
 
 /**
  * Utility class for managing in-memory transactions. The code is similar to "versioned boxes", the concept behind JVSTM
@@ -22,7 +20,7 @@ class NestedStmTransaction(
     override val status: ETransactionStatus
         get() = enclosingTransaction.status
 
-    override val targetRevisionNumber: AtomicLong
+    override val targetRevisionNumber: RevAtomicLong
         get() = enclosingTransaction.targetRevisionNumber
 
 

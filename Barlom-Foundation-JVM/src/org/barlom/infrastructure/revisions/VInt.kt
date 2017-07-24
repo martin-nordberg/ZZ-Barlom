@@ -3,10 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
-
-import java.util.concurrent.atomic.AtomicLong
-import java.util.concurrent.atomic.AtomicReference
+package org.barlom.infrastructure.revisions
 
 /**
  * A version-managing handle to an integer value with transactional revisions.
@@ -22,7 +19,7 @@ class VInt(
      * Reference to the latest revision. Revisions are kept in a custom linked list with the newest revision at the head
      * of the list.
      */
-    private val _latestRevision: AtomicReference<Revision>
+    private val _latestRevision: RevAtomicReference<Revision>
 
 
     /**
@@ -36,7 +33,7 @@ class VInt(
         // Make sure we have a read/write transaction
         currentTransaction.ensureWriteable()
 
-        _latestRevision = AtomicReference(
+        _latestRevision = RevAtomicReference(
             Revision(value, currentTransaction.targetRevisionNumber, null)
         )
 
@@ -256,11 +253,11 @@ class VInt(
      */
     private class Revision(
         var value: Int,
-        val revisionNumber: AtomicLong,
+        val revisionNumber: RevAtomicLong,
         priorRevisionVal: Revision?
     ) {
 
-        val priorRevision: AtomicReference<Revision?> = AtomicReference(priorRevisionVal)
+        val priorRevision: RevAtomicReference<Revision?> = RevAtomicReference(priorRevisionVal)
 
     }
 

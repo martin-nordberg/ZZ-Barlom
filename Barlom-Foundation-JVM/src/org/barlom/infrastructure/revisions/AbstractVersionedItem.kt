@@ -1,11 +1,9 @@
 //
-// (C) Copyright 2014 Martin E. Nordberg III
+// (C) Copyright 2014-2017 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.revisions
-
-import java.util.concurrent.atomic.AtomicInteger
+package org.barlom.infrastructure.revisions
 
 /**
  * Interface to a versioned value that supports clean up of obsolete or aborted versions.
@@ -59,7 +57,7 @@ abstract class AbstractVersionedItem {
     companion object {
 
         /** Tracks the last hash code used. */
-        private val _lastHashCode = AtomicInteger(0)
+        private val _lastHashCode = RevAtomicInteger(0)
 
     }
 
