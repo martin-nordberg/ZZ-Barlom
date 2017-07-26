@@ -54,7 +54,7 @@ abstract class AbstractVersionedItem {
             return true
         }
 
-        if( other is AbstractVersionedItem ) {
+        if (other is AbstractVersionedItem) {
             return _hashCode == other._hashCode
         }
 

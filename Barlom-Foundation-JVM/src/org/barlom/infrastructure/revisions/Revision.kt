@@ -22,7 +22,7 @@ class Revision(
 ) {
 
     /** The revision that occurred just before this one. */
-    private val _priorRevision = RevAtomicReference<Revision?>( priorRevisionRef )
+    private val _priorRevision = RevAtomicReference<Revision?>(priorRevisionRef)
 
 
     /** Returns the revision prior to this one. */

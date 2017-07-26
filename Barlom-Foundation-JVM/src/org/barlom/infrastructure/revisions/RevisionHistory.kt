@@ -19,7 +19,7 @@ class RevisionHistory(
     private val _lastHashCode = VersionedItemHashCode(0)
 
     /** Monotone decreasing revision number decremented whenever a transaction is started.
-        (Negative revision numbers indicate transactions in progress.) */
+     *  (Negative revision numbers indicate transactions in progress.) */
     private val _lastPendingRevisionNumber: AtomicRevisionNumber = AtomicRevisionNumber(0L)
 
     /** The last revision that we have made. */
@@ -41,7 +41,7 @@ class RevisionHistory(
 
 
     /** Returns the next available hash code for a revision. */
-    internal val nextHashCode : Int
+    internal val nextHashCode: Int
         get() = _lastHashCode.incrementAndGet()
 
     /** Returns the last available completed revision. */
@@ -51,7 +51,7 @@ class RevisionHistory(
     /** Returns the revision number currently being reviewed in the current thread. */
     internal val revisionNumberInCurrentThread: Long
         get() = _revisionNumberOfCurrentThread.get() ?:
-                  throw IllegalStateException("Attempted to complete a review operation outside of revision history.")
+            throw IllegalStateException("Attempted to complete a review operation outside of revision history.")
 
 
     /**
@@ -60,7 +60,7 @@ class RevisionHistory(
      *
      * @param oldestUsableRevisionNumber the oldest revision number to be kept.
      */
-    fun collapseRevisionsBefore( oldestUsableRevisionNumber: Long ) {
+    fun collapseRevisionsBefore(oldestUsableRevisionNumber: Long) {
 
         // TODO (and note synchronization difficulties...)
 
@@ -71,9 +71,9 @@ class RevisionHistory(
      *
      * @param task the work to be done reading from the latest revision as of the start of the call.
      */
-    fun review(task: ()->Unit) {
+    fun review(task: () -> Unit) {
 
-        review( _lastRevision.get().revisionNumber, task )
+        review(_lastRevision.get().revisionNumber, task)
 
     }
 
@@ -83,17 +83,17 @@ class RevisionHistory(
      * @param revisionNumber the prior revision to read from during the task execution.
      * @param task the work to be done reading from the given revision.
      */
-    fun review(revisionNumber:Long, task: ()->Unit) {
+    fun review(revisionNumber: Long, task: () -> Unit) {
 
         // TODO: check that the revision number is in range
 
-        if ( _revisionNumberOfCurrentThread.get() != null ) {
+        if (_revisionNumberOfCurrentThread.get() != null) {
             // TODO: maybe it's useful to nest with same revision number?
-            throw IllegalStateException( "Cannot nest review operations.")
+            throw IllegalStateException("Cannot nest review operations.")
         }
 
         try {
-            _revisionNumberOfCurrentThread.set( revisionNumber )
+            _revisionNumberOfCurrentThread.set(revisionNumber)
             task()
         }
         finally {
@@ -113,24 +113,23 @@ class RevisionHistory(
      *
      * @throws MaximumRetriesExceededException if the transaction fails even after the specified number of retries.
      */
-    fun update(revisionDescription: String, maxRetries: Int, task: ()->Unit) {
-
-        // prevent recursion in the current thread
-        require( _isCurrentThreadUpdating.compareAndSet(false,true)) { "Update cannot be reentrant." }
+    fun update(revisionDescription: String, maxRetries: Int, task: () -> Unit) {
 
         // Sanity check the input.
         require(maxRetries > 0) { "Retry count must be greater than or equal to zero." }
+        require( _transactionOfCurrentThread.get() == null ) { "Update cannot be reentrant" }
 
         try {
 
-            for ( retry in 0..maxRetries ) {
+            for (retry in 0..maxRetries) {
 
                 try {
+
                     val transaction = StmTransaction(
                         this,
                         revisionDescription,
                         _lastRevision.get().revisionNumber,
-                        AtomicRevisionNumber( _lastPendingRevisionNumber.decrementAndGet() )
+                        AtomicRevisionNumber(_lastPendingRevisionNumber.decrementAndGet())
                     )
 
                     try {
@@ -147,21 +146,20 @@ class RevisionHistory(
                     }
                     catch (e: Exception) {
                         // On any error abort the transaction.
-                        transaction.abort(e)
+                        transaction.abort()
                         throw e
                     }
                     finally {
                         // Clear the thread's transaction.
                         _transactionOfCurrentThread.set(null)
                     }
+
                 }
                 catch (e: WriteConflictException) {
                     // Ignore the exception; go around the loop again....
 
                     // Increment the thread priority for a better chance on next try.
-                    if (Thread.currentThread().getPriority() < Thread.MAX_PRIORITY) {
-                        Thread.currentThread().setPriority(Thread.currentThread().getPriority() + 1)
-                    }
+                    incrementThreadPriority()
                 }
 
             }
@@ -172,10 +170,7 @@ class RevisionHistory(
         }
         finally {
             // Restore the thread priority after any retries.
-            Thread.currentThread().setPriority(Thread.NORM_PRIORITY)
-
-            // We're done updating.
-            _isCurrentThreadUpdating.set(false)
+            restoreNormalThreadPriority()
         }
 
     }
@@ -196,7 +191,8 @@ class RevisionHistory(
 
             val priorRevision = _lastRevision.get()
             val revisionNumber = priorRevision.revisionNumber + 1
-            _lastRevision.set( Revision(transaction.description,revisionNumber,transaction.versionedItemsWritten,priorRevision) )
+            _lastRevision.set(
+                Revision(transaction.description, revisionNumber, transaction.versionedItemsWritten, priorRevision))
 
             // Set the revision number to a committed value.
             transaction.targetRevisionNumber.set(revisionNumber)
@@ -207,11 +203,8 @@ class RevisionHistory(
 
     companion object {
 
-        /** Whether a call to update() is active in the current thread. */
-        private val _isCurrentThreadUpdating = RevAtomicBoolean( false )
-
         /** The currently executing transaction for the current thread. */
-        private val _transactionOfCurrentThread : RevThreadLocal<StmTransaction?> = RevThreadLocal()
+        private val _transactionOfCurrentThread: RevThreadLocal<StmTransaction?> = RevThreadLocal()
 
 
         /**
@@ -233,7 +226,8 @@ class RevisionHistory(
 
                 // Get the thread-local transaction. If there is none, then it's a programming error.
                 return _transactionOfCurrentThread.get() ?:
-                    throw IllegalStateException("Attempted to complete a transactional operation without a transaction.")
+                    throw IllegalStateException(
+                        "Attempted to complete a transactional operation without a transaction.")
 
             }
 

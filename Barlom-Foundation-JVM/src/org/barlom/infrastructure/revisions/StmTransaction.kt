@@ -66,10 +66,8 @@ internal class StmTransaction(
 
     /**
      * Aborts this transaction; abandons the revisions made by the transaction.
-     *
-     * @param e the exception that caused a client to abort. the transaction.
      */
-    fun abort(e: Exception?) {
+    fun abort() {
 
         // Revision number = 0 indicates an aborted transaction.
         targetRevisionNumber.set(0L)
