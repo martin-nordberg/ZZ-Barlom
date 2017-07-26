@@ -13,7 +13,32 @@ abstract class AbstractVersionedItem {
     /**
      * The sequential hash code of this versioned item.
      */
-    private val _hashCode: Int = _lastHashCode.incrementAndGet()
+    private val _hashCode: Int
+
+
+    /**
+     * The revision history encompassing this versioned item.
+     */
+    val revisionHistory: RevisionHistory
+
+
+    /**
+     * Constructs a new versioned integer with given starting value for the current transaction's revision.
+     */
+    init {
+
+        // Track everything through the current transaction.
+        val currentTransaction = RevisionHistory.transactionOfCurrentThread
+
+        revisionHistory = currentTransaction.revisionHistory
+
+        _hashCode = revisionHistory.nextHashCode
+
+        // Keep track of everything we've written.
+        @Suppress("LeakingThis")
+        currentTransaction.addVersionedItemWritten(this)
+
+    }
 
 
     /**
@@ -21,7 +46,7 @@ abstract class AbstractVersionedItem {
      *
      * @throws WriteConflictException if there has been another transaction writing this item.
      */
-    abstract fun ensureNotWrittenByOtherTransaction()
+    internal abstract fun ensureNotWrittenByOtherTransaction()
 
     override fun equals(other: Any?): Boolean {
 
@@ -29,11 +54,11 @@ abstract class AbstractVersionedItem {
             return true
         }
 
-        if (other == null || javaClass != other.javaClass) {
-            return false
+        if( other is AbstractVersionedItem ) {
+            return _hashCode == other._hashCode
         }
 
-        return _hashCode == (other as AbstractVersionedItem)._hashCode
+        return false
 
     }
 
@@ -44,21 +69,13 @@ abstract class AbstractVersionedItem {
     /**
      * Removes an aborted revision from this versioned item.
      */
-    abstract fun removeAbortedRevision()
+    internal abstract fun removeAbortedVersion()
 
     /**
      * Removes any revisions older than the given one
      *
      * @param oldestUsableRevisionNumber the oldest revision number that can still be of any use.
      */
-    abstract fun removeUnusedRevisions(oldestUsableRevisionNumber: Long)
-
-
-    companion object {
-
-        /** Tracks the last hash code used. */
-        private val _lastHashCode = RevAtomicInteger(0)
-
-    }
+    internal abstract fun removeUnusedVersions(oldestUsableRevisionNumber: Long)
 
 }

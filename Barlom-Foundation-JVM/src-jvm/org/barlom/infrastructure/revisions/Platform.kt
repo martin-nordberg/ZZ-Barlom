@@ -1,20 +1,29 @@
 //
-// (C) Copyright 2014-2017 Martin E. Nordberg III
+// (C) Copyright 2017 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.barlom.infrastructure.revisions
 
 
-typealias RevAtomicInteger = java.util.concurrent.atomic.AtomicInteger
+/** Type for a revision number with atomic updates. */
+typealias AtomicRevisionNumber = java.util.concurrent.atomic.AtomicLong
 
-typealias RevAtomicLong = java.util.concurrent.atomic.AtomicLong
+/** Type for a boolean with atomic updates. */
+typealias RevAtomicBoolean = java.util.concurrent.atomic.AtomicBoolean
 
+/** Type for a reference with atomic updates. */
 typealias RevAtomicReference<T> = java.util.concurrent.atomic.AtomicReference<T>
 
+/** Type for a queue of in-progress revisions. */
 typealias RevQueueImpl = java.util.concurrent.PriorityBlockingQueue<Long>
 
+/** Type for a queue of in-progress revisions. */
 typealias RevQueue = java.util.Queue<Long>
 
+/** Synonym for a thread local value. */
 typealias RevThreadLocal<T> = java.lang.ThreadLocal<T>
+
+/** Type for the hash code of a versioned item. */
+typealias VersionedItemHashCode = java.util.concurrent.atomic.AtomicInteger
 

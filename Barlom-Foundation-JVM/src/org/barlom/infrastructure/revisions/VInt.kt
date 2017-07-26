@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2015 Martin E. Nordberg III
+// (C) Copyright 2015-2017 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -19,7 +19,7 @@ class VInt(
      * Reference to the latest revision. Revisions are kept in a custom linked list with the newest revision at the head
      * of the list.
      */
-    private val _latestRevision: RevAtomicReference<Revision>
+    private val _latestVersion: RevAtomicReference<Version>
 
 
     /**
@@ -28,17 +28,11 @@ class VInt(
     init {
 
         // Track everything through the current transaction.
-        val currentTransaction: IStmTransaction = StmTransactionContext.transactionOfCurrentThread
+        val targetRevisionNumber = RevisionHistory.transactionOfCurrentThread.targetRevisionNumber
 
-        // Make sure we have a read/write transaction
-        currentTransaction.ensureWriteable()
-
-        _latestRevision = RevAtomicReference(
-            Revision(value, currentTransaction.targetRevisionNumber, null)
+        _latestVersion = RevAtomicReference(
+            Version(value, targetRevisionNumber, null)
         )
-
-        // Keep track of everything we've written.
-        currentTransaction.addVersionedItemWritten(this)
 
     }
 
@@ -57,40 +51,40 @@ class VInt(
      */
     fun get(): Int {
 
-        // Track everything through the current transaction.
-        val currentTransaction: IStmTransaction = StmTransactionContext.transactionOfCurrentThread
+        // Track everything through the current transaction when we're doing a write.
+        val currentTransaction = RevisionHistory.maybeTransactionOfCurrentThread
 
-        // Work within the transaction of the current thread.
-        val sourceRevisionNumber = currentTransaction.sourceRevisionNumber
-        val targetRevisionNumber = currentTransaction.targetRevisionNumber.get()
+        // Work within the transaction of the current thread if defined.
+        val sourceRevisionNumber = currentTransaction?.sourceRevisionNumber ?: revisionHistory.revisionNumberInCurrentThread
+        val targetRevisionNumber = currentTransaction?.targetRevisionNumber?.get()
 
         // Loop through the revisions.
-        var revision = _latestRevision.get()
-        while (revision != null) {
+        var version = _latestVersion.get()
+        while (version != null) {
 
-            val revisionNumber = revision.revisionNumber.get()
+            val revisionNumber = version.revisionNumber.get()
 
             // If written by the current transaction, read back the written value.
             if (revisionNumber == targetRevisionNumber) {
-                return revision.value
+                return version.value
             }
 
             // If written and committed by some other transaction, note that our transaction is already poised for
             // a write conflict if it writes anything. I.e. fail early for a write conflict.
             if (revisionNumber > sourceRevisionNumber) {
-                currentTransaction.setNewerRevisionSeen()
+                currentTransaction?.setNewerRevisionSeen()
             }
 
             // If revision is committed and older or equal to our source revision, read it.
-            if (revisionNumber <= sourceRevisionNumber && revisionNumber > 0L) {
+            if (revisionNumber in 1..sourceRevisionNumber) {
                 // Keep track of everything we've read.
-                currentTransaction.addVersionedItemRead(this)
+                currentTransaction?.addVersionedItemRead(this)
 
                 // Return the value found for the source revision or earlier.
-                return revision.value
+                return version.value
             }
 
-            revision = revision.priorRevision.get()
+            version = version.priorVersion.get()
 
         }
 
@@ -113,31 +107,28 @@ class VInt(
     fun set(value: Int) {
 
         // Work within the transaction of the current thread.
-        val currentTransaction = StmTransactionContext.transactionOfCurrentThread
-
-        // Make sure we have a read/write transaction
-        currentTransaction.ensureWriteable()
+        val currentTransaction = RevisionHistory.transactionOfCurrentThread
 
         val sourceRevisionNumber = currentTransaction.sourceRevisionNumber
         val targetRevisionNumber = currentTransaction.targetRevisionNumber.get()
 
         // Loop through the revisions ...
-        var revision = _latestRevision.get()
-        while (revision != null) {
+        var version = _latestVersion.get()
+        while (version != null) {
 
-            val revisionNumber = revision.revisionNumber.get()
+            val revisionNumber = version.revisionNumber.get()
 
             // If previously written by the current transaction, just update to the newer value.
             if (revisionNumber == targetRevisionNumber) {
-                revision.value = value
+                version.value = value
                 return
             }
 
             // If revision is committed and older or equal to our source revision, need a new one.
-            if (revisionNumber <= sourceRevisionNumber && revisionNumber > 0L) {
+            if (revisionNumber in 1..sourceRevisionNumber) {
 
                 // ... except if not changed, treat as a read.
-                if (value == revision.value) {
+                if (value == version.value) {
                     currentTransaction.addVersionedItemRead(this)
                     return
                 }
@@ -146,14 +137,14 @@ class VInt(
 
             }
 
-            revision = revision.priorRevision.get()
+            version = version.priorVersion.get()
 
         }
 
         // Create the new revision at the front of the chain.
-        _latestRevision.set(
-            Revision(
-                value, currentTransaction.targetRevisionNumber, _latestRevision.get()
+        _latestVersion.set(
+            Version(
+                value, currentTransaction.targetRevisionNumber, _latestVersion.get()
             )
         )
 
@@ -165,15 +156,15 @@ class VInt(
     override fun ensureNotWrittenByOtherTransaction() {
 
         // Work within the transaction of the current thread.
-        val currentTransaction = StmTransactionContext.transactionOfCurrentThread
+        val currentTransaction = RevisionHistory.transactionOfCurrentThread
 
         val sourceRevisionNumber = currentTransaction.sourceRevisionNumber
 
         // Loop through the revisions ...
-        var revision = _latestRevision.get()
-        while (revision != null) {
+        var version = _latestVersion.get()
+        while (version != null) {
 
-            val revisionNumber = revision.revisionNumber.get()
+            val revisionNumber = version.revisionNumber.get()
 
             // If find something newer, then transaction conflicts.
             if (revisionNumber > sourceRevisionNumber) {
@@ -185,63 +176,65 @@ class VInt(
                 break
             }
 
-            revision = revision.priorRevision.get()
+            version = version.priorVersion.get()
 
         }
 
     }
 
-    override fun removeAbortedRevision() {
+    override fun removeAbortedVersion() {
 
         // First check the latest revision.
-        var revision = _latestRevision.get()
+        var version = _latestVersion.get()
 
-        while (revision.revisionNumber.get() == 0L) {
-            if (_latestRevision.compareAndSet(revision, revision.priorRevision.get())) {
+        while (version.revisionNumber.get() == 0L) {
+            if (_latestVersion.compareAndSet(version, version.priorVersion.get())) {
                 return
             }
+            version = _latestVersion.get()
         }
 
         // Loop through the revisions.
-        var priorRevision = revision.priorRevision.get()
-        while (priorRevision != null) {
+        var priorVersion = version.priorVersion.get()
+        while (priorVersion != null) {
 
-            val revisionNumber = priorRevision.revisionNumber.get()
+            val revisionNumber = priorVersion.revisionNumber.get()
 
             if (revisionNumber == 0L) {
                 // If found & removed w/o concurrent change, then done.
-                if (revision.priorRevision.compareAndSet(priorRevision, priorRevision.priorRevision.get())) {
+                if (version.priorVersion.compareAndSet(priorVersion, priorVersion.priorVersion.get())) {
                     return
                 }
 
                 // If concurrent change, abandon this call and try again from the top.
-                priorRevision = null
-                removeAbortedRevision()
+                priorVersion = null
+                removeAbortedVersion()
             }
             else {
                 // Advance through the list.
-                revision = priorRevision
-                priorRevision = revision.priorRevision.get()
+                version = priorVersion
+                priorVersion = version.priorVersion.get()
             }
+
         }
 
     }
 
-    override fun removeUnusedRevisions(oldestUsableRevisionNumber: Long) {
+    override fun removeUnusedVersions(oldestUsableRevisionNumber: Long) {
 
         // Loop through the revisions.
-        var revision = _latestRevision.get()
-        while (revision != null) {
+        var version = _latestVersion.get()
+        while (version != null) {
 
-            val revisionNumber = revision.revisionNumber.get()
+            val revisionNumber = version.revisionNumber.get()
 
             // Truncate revisions older than the oldest usable revision.
             if (revisionNumber == oldestUsableRevisionNumber) {
-                revision.priorRevision.set(null)
+                version.priorVersion.set(null)
                 break
             }
 
-            revision = revision.priorRevision.get()
+            version = version.priorVersion.get()
 
         }
 
@@ -251,13 +244,13 @@ class VInt(
     /**
      * Internal record structure for revisions in the linked list of revisions.
      */
-    private class Revision(
+    private class Version(
         var value: Int,
-        val revisionNumber: RevAtomicLong,
-        priorRevisionVal: Revision?
+        val revisionNumber: AtomicRevisionNumber,
+        priorVersionRef: Version?
     ) {
 
-        val priorRevision: RevAtomicReference<Revision?> = RevAtomicReference(priorRevisionVal)
+        val priorVersion = RevAtomicReference(priorVersionRef)
 
     }
 
