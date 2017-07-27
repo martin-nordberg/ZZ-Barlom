@@ -10,7 +10,7 @@ package org.barlom.infrastructure.revisions
  *
  * @param <T> the type of the value that is managed through its revisions.
  */
-class V<T>(
+open class V<T>(
 
     /** the initial value. */
     value: T
@@ -139,7 +139,7 @@ class V<T>(
 
     }
 
-    override fun ensureNotWrittenByOtherTransaction() {
+    override final fun ensureNotWrittenByOtherTransaction() {
 
         // Work within the transaction of the current thread.
         val currentTransaction = RevisionHistory.transactionOfCurrentThread
@@ -168,7 +168,7 @@ class V<T>(
 
     }
 
-    override fun removeAbortedVersion() {
+    override final fun removeAbortedVersion() {
 
         // First check the latest revision.
         var version = _latestVersion.get()
@@ -207,7 +207,7 @@ class V<T>(
 
     }
 
-    override fun removeUnusedVersions(oldestUsableRevisionNumber: Long) {
+    override final fun removeUnusedVersions(oldestUsableRevisionNumber: Long) {
 
         // Loop through the revisions.
         var version = _latestVersion.get()
