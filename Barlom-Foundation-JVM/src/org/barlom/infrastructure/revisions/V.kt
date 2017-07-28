@@ -54,7 +54,7 @@ open class V<T>(
         val targetRevisionNumber = currentTransaction?.targetRevisionNumber?.get()
 
         // Loop through the revisions.
-        var version = _latestVersion.get()
+        var version : Version<T>? = _latestVersion.get()
         while (version != null) {
 
             val revisionNumber = version.revisionNumber.get()
@@ -101,7 +101,7 @@ open class V<T>(
         val targetRevisionNumber = currentTransaction.targetRevisionNumber.get()
 
         // Loop through the revisions ...
-        var version = _latestVersion.get()
+        var version : Version<T>? = _latestVersion.get()
         while (version != null) {
 
             val revisionNumber = version.revisionNumber.get()
@@ -147,7 +147,7 @@ open class V<T>(
         val sourceRevisionNumber = currentTransaction.sourceRevisionNumber
 
         // Loop through the revisions ...
-        var version = _latestVersion.get()
+        var version : Version<T>? = _latestVersion.get()
         while (version != null) {
 
             val revisionNumber = version.revisionNumber.get()
@@ -174,7 +174,7 @@ open class V<T>(
         var version = _latestVersion.get()
 
         while (version.revisionNumber.get() == 0L) {
-            if (_latestVersion.compareAndSet(version, version.priorVersion.get())) {
+            if (_latestVersion.compareAndSet(version, version.priorVersion.get()!!)) {
                 return
             }
             version = _latestVersion.get()
@@ -210,7 +210,7 @@ open class V<T>(
     override final fun removeUnusedVersions(oldestUsableRevisionNumber: Long) {
 
         // Loop through the revisions.
-        var version = _latestVersion.get()
+        var version: Version<T>? = _latestVersion.get()
         while (version != null) {
 
             val revisionNumber = version.revisionNumber.get()
@@ -242,7 +242,7 @@ open class V<T>(
         /**
          * A reference to the previous revision of the versioned item.
          */
-        val priorVersion = RevAtomicReference(priorVersionRef)
+        val priorVersion : RevAtomicReference<Version<T>?> = RevAtomicReference(priorVersionRef)
 
     }
 
