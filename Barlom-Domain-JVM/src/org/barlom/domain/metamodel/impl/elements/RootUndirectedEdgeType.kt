@@ -8,6 +8,7 @@ package org.barlom.domain.metamodel.impl.elements
 import org.barlom.domain.metamodel.api.elements.IUndirectedEdgeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
 import org.barlom.domain.metamodel.api.types.*
+import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Implementation of the top-level root directed edge type.

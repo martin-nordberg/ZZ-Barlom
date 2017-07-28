@@ -7,7 +7,7 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IVertexType
 import org.barlom.domain.metamodel.api.types.EAbstractness
-import org.barlom.domain.metamodel.api.types.Uuid
+import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Implementation of the top-level root vertex type.

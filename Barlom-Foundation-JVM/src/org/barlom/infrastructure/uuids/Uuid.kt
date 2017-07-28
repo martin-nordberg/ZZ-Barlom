@@ -3,9 +3,8 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.api.types
+package org.barlom.infrastructure.uuids
 
-import org.barlom.infrastructure.platform.longToHexString
 
 /**
  * Cross-platform implementation of UUID loosely based on OpenJDK UUID.

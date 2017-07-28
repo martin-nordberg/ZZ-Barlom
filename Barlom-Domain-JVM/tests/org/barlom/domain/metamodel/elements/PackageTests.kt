@@ -8,7 +8,7 @@ package org.barlom.domain.metamodel.elements
 import org.barlom.domain.metamodel.impl.elements.Package
 import org.barlom.domain.metamodel.impl.elements.PackageDependency
 import org.barlom.domain.metamodel.impl.elements.RootPackage
-import org.barlom.infrastructure.utilities.uuids.makeUuid
+import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 

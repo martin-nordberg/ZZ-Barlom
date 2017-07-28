@@ -8,7 +8,7 @@ package org.barlom.domain.metamodel.impl.elements
 import org.barlom.domain.metamodel.api.elements.IVertexAttributeType
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.types.ELabelDefaulting
-import org.barlom.domain.metamodel.api.types.Uuid
+import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Implementation class for vertex attribute types.

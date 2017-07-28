@@ -3,11 +3,8 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.types
+package org.barlom.infrastructure.uuids
 
-import org.barlom.domain.metamodel.api.types.Uuid
-import org.barlom.infrastructure.utilities.uuids.makeUuid
-import org.barlom.infrastructure.utilities.uuids.makeUuidWithReservedBlock
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -43,7 +40,6 @@ class UuidTests {
         val uuidStr = uuid.toString()
 
         assertTrue(uuid.matches(ReservedBlockUuidPattern))
-
 
     }
 

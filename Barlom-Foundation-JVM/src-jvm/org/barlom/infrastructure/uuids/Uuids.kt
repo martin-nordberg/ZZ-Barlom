@@ -3,9 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.uuids
-
-import org.barlom.domain.metamodel.api.types.Uuid
+package org.barlom.infrastructure.uuids
 
 
 /**

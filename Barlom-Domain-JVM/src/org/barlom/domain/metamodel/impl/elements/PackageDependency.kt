@@ -6,7 +6,7 @@
 package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IPackageDependency
-import org.barlom.domain.metamodel.api.types.Uuid
+import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Implementation class for package dependencies.

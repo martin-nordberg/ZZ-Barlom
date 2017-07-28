@@ -5,7 +5,7 @@
 
 package org.barlom.domain.metamodel.api.elements
 
-import org.barlom.domain.metamodel.api.types.Uuid
+import org.barlom.infrastructure.uuids.Uuid
 
 
 /**

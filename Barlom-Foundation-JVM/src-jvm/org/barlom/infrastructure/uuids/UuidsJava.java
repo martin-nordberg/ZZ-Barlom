@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.infrastructure.utilities.uuids;
+package org.barlom.infrastructure.uuids;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;

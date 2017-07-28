@@ -7,8 +7,8 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.*
 import org.barlom.domain.metamodel.api.types.EDataType
-import org.barlom.domain.metamodel.api.types.Uuid
 import org.barlom.infrastructure.platform.DateTime
+import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Constrained data type implementation.

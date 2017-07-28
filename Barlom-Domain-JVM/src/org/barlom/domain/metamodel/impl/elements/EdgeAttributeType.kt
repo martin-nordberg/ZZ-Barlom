@@ -7,7 +7,7 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IEdgeAttributeType
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
-import org.barlom.domain.metamodel.api.types.Uuid
+import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Implementation class for edge attribute types.

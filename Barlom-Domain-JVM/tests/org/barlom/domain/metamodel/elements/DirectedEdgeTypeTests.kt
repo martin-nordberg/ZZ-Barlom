@@ -10,7 +10,7 @@ import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
 import org.barlom.domain.metamodel.impl.elements.*
-import org.barlom.infrastructure.utilities.uuids.makeUuid
+import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 

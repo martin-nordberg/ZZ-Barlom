@@ -8,7 +8,7 @@ package org.barlom.domain.metamodel.impl.elements
 import org.barlom.domain.metamodel.api.elements.IVertexAttributeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
 import org.barlom.domain.metamodel.api.types.EAbstractness
-import org.barlom.domain.metamodel.api.types.Uuid
+import org.barlom.infrastructure.uuids.Uuid
 
 
 /**
