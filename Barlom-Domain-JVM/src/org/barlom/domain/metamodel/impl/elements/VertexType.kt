@@ -8,27 +8,30 @@ package org.barlom.domain.metamodel.impl.elements
 import org.barlom.domain.metamodel.api.elements.IVertexAttributeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
 import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.infrastructure.revisions.V
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
 
 /**
  * Implementation class for non-root vertex types.
  */
-internal data class VertexType(
+internal class VertexType(
 
     override val id: Uuid,
-    override val name: String,
-    override val parentPackage: INonRootPackageImpl,
-    override val abstractness: EAbstractness,
-    override val superType: IVertexTypeImpl
+    name: String,
+    parentPackage: INonRootPackageImpl,
+    abstractness: EAbstractness,
+    superType: IVertexTypeImpl
 
 ) : IVertexTypeImpl {
 
-    /** The attribute types of this vertex type. */
-    private val _attributeTypes: MutableList<VertexAttributeType> = mutableListOf()
-
-    /** The subtypes of this vertex type. */
-    private val _subTypes: MutableList<VertexType> = mutableListOf()
+    private val _abstractness = V(abstractness)
+    private val _attributeTypes = VLinkedList<VertexAttributeType>()
+    private val _name = V(name)
+    private val _parentPackage = V(parentPackage)
+    private val _subTypes = VLinkedList<VertexType>()
+    private val _superType = V(superType)
 
 
     init {
@@ -36,14 +39,26 @@ internal data class VertexType(
     }
 
 
+    override val abstractness: EAbstractness
+        get() = _abstractness.get()
+
     override val attributeTypes: List<IVertexAttributeType>
-        get() = _attributeTypes
+        get() = _attributeTypes.asSortedList { at -> at.name }
+
+    override val name: String
+        get() = _name.get()
+
+    override val parentPackage: INonRootPackageImpl
+        get() = _parentPackage.get()
 
     override val path: String
         get() = parentPackage.path + "." + name
 
     override val subTypes: List<VertexType>
-        get() = _subTypes.sortedBy { vt -> vt.path }
+        get() = _subTypes.asSortedList { vt -> vt.path }
+
+    override val superType: IVertexTypeImpl
+        get() = _superType.get()
 
     override val transitiveSubTypes: List<VertexType>
         get() {

@@ -6,33 +6,45 @@
 package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IUndirectedEdgeType
-import org.barlom.domain.metamodel.api.types.*
+import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.domain.metamodel.api.types.ECyclicity
+import org.barlom.domain.metamodel.api.types.EMultiEdgedness
+import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.infrastructure.revisions.V
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Implementation class for undirected edge types.
  */
-internal data class UndirectedEdgeType(
+internal class UndirectedEdgeType(
 
     override val id: Uuid,
-    override val name: String,
-    override val parentPackage: Package,
-    override val abstractness: EAbstractness,
-    override val cyclicity: ECyclicity,
-    override val multiEdgedness: EMultiEdgedness,
-    override val selfLooping: ESelfLooping,
-    override val maxDegree: Int?,
-    override val minDegree: Int?,
-    override val superType: IUndirectedEdgeTypeImpl,
-    override val vertexType: VertexType
+    name: String,
+    parentPackage: Package,
+    abstractness: EAbstractness,
+    cyclicity: ECyclicity,
+    multiEdgedness: EMultiEdgedness,
+    selfLooping: ESelfLooping,
+    maxDegree: Int?,
+    minDegree: Int?,
+    superType: IUndirectedEdgeTypeImpl,
+    vertexType: VertexType
 
 ) : IUndirectedEdgeTypeImpl, INonRootEdgeTypeImpl {
 
-    /** The attribute types within this edge type. */
-    private val _attributeTypes: MutableList<EdgeAttributeType> = mutableListOf()
-
-    /** The subtypes of this undirected edge type. */
-    private val _subTypes: MutableList<UndirectedEdgeType> = mutableListOf()
+    private val _abstractness = V(abstractness)
+    private val _attributeTypes = VLinkedList<EdgeAttributeType>()
+    private val _cyclicity = V(cyclicity)
+    private val _maxDegree = V(maxDegree)
+    private val _minDegree = V(minDegree)
+    private val _multiEdgedness = V(multiEdgedness)
+    private val _name = V(name)
+    private val _parentPackage = V(parentPackage)
+    private val _selfLooping = V(selfLooping)
+    private val _subTypes = VLinkedList<UndirectedEdgeType>()
+    private val _superType = V(superType)
+    private val _vertexType = V(vertexType)
 
 
     init {
@@ -40,14 +52,44 @@ internal data class UndirectedEdgeType(
     }
 
 
+    override val name: String
+        get() = _name.get()
+
+    override val parentPackage: Package
+        get() = _parentPackage.get()
+
+    override val abstractness: EAbstractness
+        get() = _abstractness.get()
+
+    override val cyclicity: ECyclicity
+        get() = _cyclicity.get()
+
+    override val multiEdgedness: EMultiEdgedness
+        get() = _multiEdgedness.get()
+
+    override val selfLooping: ESelfLooping
+        get() = _selfLooping.get()
+
+    override val maxDegree: Int?
+        get() = _maxDegree.get()
+
+    override val minDegree: Int?
+        get() = _minDegree.get()
+
+    override val superType: IUndirectedEdgeTypeImpl
+        get() = _superType.get()
+
+    override val vertexType: VertexType
+        get() = _vertexType.get()
+
     override val attributeTypes: List<EdgeAttributeType>
-        get() = _attributeTypes.sortedBy { at -> at.name }
+        get() = _attributeTypes.asSortedList { at -> at.name }
 
     override val path: String
         get() = parentPackage.path + "." + name
 
     override val subTypes: List<UndirectedEdgeType>
-        get() = _subTypes.sortedBy { et -> et.path }
+        get() = _subTypes.asSortedList { et -> et.path }
 
     override val transitiveSubTypes: List<UndirectedEdgeType>
         get() {

@@ -7,7 +7,11 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IDirectedEdgeType
 import org.barlom.domain.metamodel.api.elements.IVertexType
-import org.barlom.domain.metamodel.api.types.*
+import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.domain.metamodel.api.types.ECyclicity
+import org.barlom.domain.metamodel.api.types.EMultiEdgedness
+import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
 /**
@@ -24,7 +28,7 @@ internal data class RootDirectedEdgeType(
 ) : IDirectedEdgeTypeImpl {
 
     /** The subtypes of this directed edge type. */
-    private val _subTypes: MutableList<DirectedEdgeType> = mutableListOf()
+    private val _subTypes = VLinkedList<DirectedEdgeType>()
 
 
     override val abstractness: EAbstractness
@@ -67,7 +71,7 @@ internal data class RootDirectedEdgeType(
         get() = ESelfLooping.UNCONSTRAINED
 
     override val subTypes: List<DirectedEdgeType>
-        get() = _subTypes.sortedBy { et -> et.path }
+        get() = _subTypes.asSortedList { et -> et.path }
 
     override val superType: IDirectedEdgeType
         get() = this

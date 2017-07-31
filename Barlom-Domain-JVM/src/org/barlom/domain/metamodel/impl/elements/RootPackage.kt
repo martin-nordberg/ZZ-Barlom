@@ -6,6 +6,7 @@
 package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.*
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
 /**
@@ -27,11 +28,11 @@ internal data class RootPackage(
 ) : IPackageImpl, IRootPackage {
 
     /** The child packages within this package. */
-    private val _childPackages: MutableList<Package> = mutableListOf()
+    private val _childPackages = VLinkedList<Package>()
 
 
     override val childPackages: List<IPackage>
-        get() = _childPackages.sortedBy { pkg -> pkg.name }
+        get() = _childPackages.asSortedList { pkg -> pkg.name }
 
     override val clientPackageDependencies: List<IPackageDependency>
         get() = listOf()

@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IVertexType
 import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
 /**
@@ -20,7 +21,7 @@ internal data class RootVertexType(
 ) : IVertexTypeImpl {
 
     /** The subtypes of this vertex type. */
-    private val _subTypes: MutableList<VertexType> = mutableListOf()
+    private val _subTypes = VLinkedList<VertexType>()
 
 
     override val abstractness: EAbstractness
@@ -36,7 +37,7 @@ internal data class RootVertexType(
         get() = name
 
     override val subTypes: List<VertexType>
-        get() = _subTypes.sortedBy { vt -> vt.path }
+        get() = _subTypes.asSortedList { vt -> vt.path }
 
     override val superType: IVertexType
         get() = this

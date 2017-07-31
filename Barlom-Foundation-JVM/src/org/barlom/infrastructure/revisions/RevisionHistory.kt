@@ -116,7 +116,7 @@ class RevisionHistory(
     fun update(revisionDescription: String, maxRetries: Int, task: () -> Unit) {
 
         // Sanity check the input.
-        require(maxRetries > 0) { "Retry count must be greater than or equal to zero." }
+        require(maxRetries >= 0) { "Retry count must be greater than or equal to zero." }
         require( _transactionOfCurrentThread.get() == null ) { "Update cannot be reentrant" }
 
         try {

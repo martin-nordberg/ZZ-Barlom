@@ -7,39 +7,30 @@ package org.barlom.domain.metamodel.impl.elements
 
 import org.barlom.domain.metamodel.api.elements.IPackage
 import org.barlom.domain.metamodel.api.elements.IPackageDependency
+import org.barlom.infrastructure.revisions.V
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Implementation class for Barlom non-root packages.
  */
-internal data class Package(
+internal class Package(
 
     override val id: Uuid,
-    override val name: String,
-    override val parentPackage: IPackageImpl
+    name: String,
+    parentPackage: IPackageImpl
 
 ) : INonRootPackageImpl {
 
-    /** The child packages within this package. */
-    private val _childPackages: MutableList<Package> = mutableListOf()
-
-    /** Links to packages that are clients of this package. */
-    private val _clientPackageDependencies: MutableList<PackageDependency> = mutableListOf()
-
-    /** The constrained data types within this package. */
-    private val _constrainedDataTypes: MutableList<ConstrainedDataType> = mutableListOf()
-
-    /** The directed edge types within this package. */
-    private val _directedEdgeTypes: MutableList<DirectedEdgeType> = mutableListOf()
-
-    /** Links to packages that are suppliers of this package. */
-    private val _supplierPackageDependencies: MutableList<PackageDependency> = mutableListOf()
-
-    /** The edge types within this package. */
-    private val _undirectedEdgeTypes: MutableList<UndirectedEdgeType> = mutableListOf()
-
-    /** The vertex types within this package. */
-    private val _vertexTypes: MutableList<VertexType> = mutableListOf()
+    private val _childPackages = VLinkedList<Package>()
+    private val _clientPackageDependencies = VLinkedList<PackageDependency>()
+    private val _constrainedDataTypes = VLinkedList<ConstrainedDataType>()
+    private val _directedEdgeTypes = VLinkedList<DirectedEdgeType>()
+    private val _name = V(name)
+    private val _parentPackage = V(parentPackage)
+    private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
+    private val _undirectedEdgeTypes = VLinkedList<UndirectedEdgeType>()
+    private val _vertexTypes = VLinkedList<VertexType>()
 
 
     init {
@@ -48,17 +39,17 @@ internal data class Package(
 
 
     override val childPackages: List<Package>
-        get() = _childPackages.sortedBy { pkg -> pkg.name }
+        get() = _childPackages.asSortedList { pkg -> pkg.name }
 
     override val clientPackageDependencies: List<IPackageDependency>
-        get() = _clientPackageDependencies.sortedBy { pkgdep -> pkgdep.clientPackage.path }
+        get() = _clientPackageDependencies.asSortedList { pkgdep -> pkgdep.clientPackage.path }
 
     override val clientPackages: List<IPackage>
         get() {
 
             val result: MutableSet<IPackage> = mutableSetOf()
 
-            for (pkg in _clientPackageDependencies) {
+            for (pkg in _clientPackageDependencies.asList()) {
 
                 result.add(pkg.clientPackage)
 
@@ -69,10 +60,16 @@ internal data class Package(
         }
 
     override val constrainedDataTypes: List<ConstrainedDataType>
-        get() = _constrainedDataTypes
+        get() = _constrainedDataTypes.asSortedList { dt -> dt.name }
 
     override val directedEdgeTypes: List<DirectedEdgeType>
-        get() = _directedEdgeTypes
+        get() = _directedEdgeTypes.asSortedList { e -> e.name }
+
+    override val name: String
+        get() = _name.get()
+
+    override val parentPackage: IPackageImpl
+        get() = _parentPackage.get()
 
     override val path: String
         get() {
@@ -88,14 +85,14 @@ internal data class Package(
         }
 
     override val supplierPackageDependencies: List<IPackageDependency>
-        get() = _supplierPackageDependencies.sortedBy { pkgdep -> pkgdep.supplierPackage.path }
+        get() = _supplierPackageDependencies.asSortedList { pkgdep -> pkgdep.supplierPackage.path }
 
     override val supplierPackages: List<IPackage>
         get() {
 
             val result: MutableSet<IPackage> = mutableSetOf()
 
-            for (pkg in _supplierPackageDependencies) {
+            for (pkg in _supplierPackageDependencies.asList()) {
 
                 result.add(pkg.supplierPackage)
 
@@ -113,7 +110,7 @@ internal data class Package(
             // Helper function recursively accumulates the result
             fun accumulateClientPackages(pkg: Package) {
 
-                for (pkgDep in pkg._clientPackageDependencies) {
+                for (pkgDep in pkg._clientPackageDependencies.asList()) {
 
                     val clientPkg = pkgDep.clientPackage
 
@@ -140,7 +137,7 @@ internal data class Package(
             // Helper function recursively accumulates the result
             fun accumulateSupplierPackages(pkg: Package) {
 
-                for (pkgDep in pkg._supplierPackageDependencies) {
+                for (pkgDep in pkg._supplierPackageDependencies.asList()) {
 
                     val supplierPkg = pkgDep.supplierPackage
 
@@ -160,10 +157,10 @@ internal data class Package(
         }
 
     override val undirectedEdgeTypes: List<UndirectedEdgeType>
-        get() = _undirectedEdgeTypes
+        get() = _undirectedEdgeTypes.asSortedList { e -> e.name }
 
     override val vertexTypes: List<VertexType>
-        get() = _vertexTypes
+        get() = _vertexTypes.asSortedList { v -> v.name }
 
 
     override fun addConstrainedDataType(constrainedDataType: ConstrainedDataType) {
@@ -238,7 +235,7 @@ internal data class Package(
 
     override fun hasClientPackage(pkg: IPackage): Boolean {
 
-        for (pkgdep in _clientPackageDependencies) {
+        for (pkgdep in _clientPackageDependencies.asList()) {
 
             val pkg2 = pkgdep.clientPackage
 
@@ -254,7 +251,7 @@ internal data class Package(
 
     override fun hasSupplierPackage(pkg: IPackage): Boolean {
 
-        for (pkgdep in _supplierPackageDependencies) {
+        for (pkgdep in _supplierPackageDependencies.asList()) {
 
             val pkg2 = pkgdep.supplierPackage
 
@@ -275,7 +272,7 @@ internal data class Package(
         // Helper function recursively searches while accumulating the packages searched so far
         fun findClientPackage(supplierPkg: Package): Boolean {
 
-            for (pkgDep in supplierPkg._clientPackageDependencies) {
+            for (pkgDep in supplierPkg._clientPackageDependencies.asList()) {
 
                 val clientPkg = pkgDep.clientPackage
 
@@ -310,7 +307,7 @@ internal data class Package(
         // Helper function recursively searches while accumulating the packages searched so far
         fun findSupplierPackage(clientPkg: Package): Boolean {
 
-            for (pkgDep in clientPkg._supplierPackageDependencies) {
+            for (pkgDep in clientPkg._supplierPackageDependencies.asList()) {
 
                 val supplierPkg = pkgDep.supplierPackage
 
