@@ -32,11 +32,13 @@ internal class EdgeAttributeType(
         parentEdgeType.addAttributeType(this)
     }
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
-    override val optionality: EAttributeOptionality
+    override var optionality: EAttributeOptionality
         get() = _optionality.get()
+        set(value) = _optionality.set(value)
 
     override val parentEdgeType: INonRootEdgeTypeImpl
         get() = _parentEdgeType.get()

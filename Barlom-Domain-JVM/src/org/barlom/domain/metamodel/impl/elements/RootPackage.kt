@@ -46,10 +46,11 @@ internal data class RootPackage(
     override val directedEdgeTypes: List<IDirectedEdgeType>
         get() = listOf(rootDirectedEdgeType)
 
-    override val name: String
-        get() {
+    override var name: String
+        get() =
             throw UnsupportedOperationException("Root package has no name. It is a coding error to ask its name.")
-        }
+        set(value) =
+            throw UnsupportedOperationException("Root package has no name. It is a coding error to ask its name.")
 
     override val path: String
         get() = ""

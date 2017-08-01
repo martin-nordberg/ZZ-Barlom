@@ -37,14 +37,17 @@ internal class VertexAttributeType(
     }
 
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
-    override val labelDefaulting: ELabelDefaulting
+    override var labelDefaulting: ELabelDefaulting
         get() = _labelDefaulting.get()
+        set(value) = _labelDefaulting.set(value)
 
-    override val optionality: EAttributeOptionality
+    override var optionality: EAttributeOptionality
         get() = _optionality.get()
+        set(value) = _optionality.set(value)
 
     override val parentVertexType: VertexType
         get() = _parentVertexType.get()

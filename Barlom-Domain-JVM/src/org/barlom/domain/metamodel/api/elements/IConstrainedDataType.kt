@@ -26,7 +26,7 @@ interface IConstrainedDataType : IPackagedElement {
 interface IBooleanConstrainedDataType : IConstrainedDataType {
 
     /** The default value for attributes of this type. */
-    val defaultValue: Boolean?
+    var defaultValue: Boolean?
 
 }
 
@@ -37,10 +37,10 @@ interface IBooleanConstrainedDataType : IConstrainedDataType {
 interface IDateTimeConstrainedDataType : IConstrainedDataType {
 
     /** The maximum allowed value for attributes with this type. */
-    val maxValue: DateTime
+    var maxValue: DateTime
 
     /** The minimum allowed value for attributes with this type. */
-    val minValue: DateTime
+    var minValue: DateTime
 
 }
 
@@ -51,13 +51,13 @@ interface IDateTimeConstrainedDataType : IConstrainedDataType {
 interface IFloat64ConstrainedDataType : IConstrainedDataType {
 
     /** The default value for attributes of this type. */
-    val defaultValue: Double?
+    var defaultValue: Double?
 
     /** The maximum allowed value for attributes with this type. */
-    val maxValue: Double?
+    var maxValue: Double?
 
     /** The minimum allowed value for attributes with this type. */
-    val minValue: Double?
+    var minValue: Double?
 
 }
 
@@ -68,13 +68,13 @@ interface IFloat64ConstrainedDataType : IConstrainedDataType {
 interface IInteger32ConstrainedDataType : IConstrainedDataType {
 
     /** The default value for attributes of this type. */
-    val defaultValue: Int?
+    var defaultValue: Int?
 
     /** The maximum allowed value for attributes with this type. */
-    val maxValue: Int?
+    var maxValue: Int?
 
     /** The minimum allowed value for attributes with this type. */
-    val minValue: Int?
+    var minValue: Int?
 
 }
 
@@ -85,13 +85,13 @@ interface IInteger32ConstrainedDataType : IConstrainedDataType {
 interface IStringConstrainedDataType : IConstrainedDataType {
 
     /** The maximum length for values with this attribute type. */
-    val maxLength: Int?
+    var maxLength: Int?
 
     /** The minimum length for attributes of this type. */
-    val minLength: Int?
+    var minLength: Int?
 
     /** The regular expression that must be matched by values with this attribute type. */
-    val regex: Regex?
+    var regex: Regex?
 
 }
 

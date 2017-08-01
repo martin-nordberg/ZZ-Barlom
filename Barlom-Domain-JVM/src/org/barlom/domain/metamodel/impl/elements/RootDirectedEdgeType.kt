@@ -31,44 +31,58 @@ internal data class RootDirectedEdgeType(
     private val _subTypes = VLinkedList<DirectedEdgeType>()
 
 
-    override val abstractness: EAbstractness
+    override var abstractness: EAbstractness
         get() = EAbstractness.ABSTRACT
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
     override val attributeTypes: List<EdgeAttributeType>
         get() = listOf()
 
-    override val cyclicity: ECyclicity
+    override var cyclicity: ECyclicity
         get() = ECyclicity.UNCONSTRAINED
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
-    override val headRoleName: String?
+    override var headRoleName: String?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
     override val headVertexType: IVertexType
         get() = _rootVertexType
 
-    override val maxHeadInDegree: Int?
+    override var maxHeadInDegree: Int?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
-    override val maxTailOutDegree: Int?
+    override var maxTailOutDegree: Int?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
-    override val minHeadInDegree: Int?
+    override var minHeadInDegree: Int?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
-    override val minTailOutDegree: Int?
+    override var minTailOutDegree: Int?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
-    override val multiEdgedness: EMultiEdgedness
+    override var multiEdgedness: EMultiEdgedness
         get() = EMultiEdgedness.UNCONSTRAINED
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
-    override val name: String
+    override var name: String
         get() = "directedEdge"
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
     override val path: String
         get() = name
 
-    override val selfLooping: ESelfLooping
+    override var reverseName: String?
+        get() = "directedEdge"
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
+
+    override var selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
     override val subTypes: List<DirectedEdgeType>
         get() = _subTypes.asSortedList { et -> et.path }
@@ -76,8 +90,9 @@ internal data class RootDirectedEdgeType(
     override val superType: IDirectedEdgeType
         get() = this
 
-    override val tailRoleName: String?
+    override var tailRoleName: String?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
     override val tailVertexType: IVertexType
         get() = _rootVertexType

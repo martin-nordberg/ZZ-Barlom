@@ -14,7 +14,7 @@ import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 interface IEdgeAttributeType : INamedElement {
 
     /** Whether this attribute is required for instances of the parent edge type. */
-    val optionality: EAttributeOptionality
+    var optionality: EAttributeOptionality
 
     /** The parent edge type with this attribute type. */
     val parentEdgeType: IEdgeType

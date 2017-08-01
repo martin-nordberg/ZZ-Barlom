@@ -15,10 +15,10 @@ import org.barlom.domain.metamodel.api.types.ELabelDefaulting
 interface IVertexAttributeType : INamedElement {
 
     /** Whether this attribute serves as the default label for vertexes of the parent type. */
-    val labelDefaulting: ELabelDefaulting
+    var labelDefaulting: ELabelDefaulting
 
     /** Whether this attribute is required for instances of the parent vertex type. */
-    val optionality: EAttributeOptionality
+    var optionality: EAttributeOptionality
 
     /** The vertex type with attributes meeting this type. */
     val parentVertexType: IVertexType

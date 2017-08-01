@@ -14,7 +14,7 @@ import org.barlom.domain.metamodel.api.types.EAbstractness
 interface IVertexType : IPackagedElement {
 
     /** Whether this vertex type is abstract. */
-    val abstractness: EAbstractness
+    var abstractness: EAbstractness
 
     /** The types of attributes of vertexes of this type. */
     val attributeTypes: List<IVertexAttributeType>

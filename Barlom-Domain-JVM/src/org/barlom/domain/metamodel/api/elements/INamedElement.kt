@@ -11,6 +11,6 @@ package org.barlom.domain.metamodel.api.elements
 interface INamedElement : IDocumentedElement {
 
     /** The name of this element. */
-    val name: String
+    var name: String
 
 }

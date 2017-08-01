@@ -31,32 +31,39 @@ internal data class RootUndirectedEdgeType(
     private val _subTypes = VLinkedList<UndirectedEdgeType>()
 
 
-    override val abstractness: EAbstractness
+    override var abstractness: EAbstractness
         get() = EAbstractness.ABSTRACT
+        set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
 
     override val attributeTypes: List<EdgeAttributeType>
         get() = listOf()
 
-    override val cyclicity: ECyclicity
+    override var cyclicity: ECyclicity
         get() = ECyclicity.UNCONSTRAINED
+        set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
 
-    override val maxDegree: Int?
+    override var maxDegree: Int?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
 
-    override val minDegree: Int?
+    override var minDegree: Int?
         get() = null
+        set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
 
-    override val multiEdgedness: EMultiEdgedness
+    override var multiEdgedness: EMultiEdgedness
         get() = EMultiEdgedness.UNCONSTRAINED
+        set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
 
-    override val name: String
+    override var name: String
         get() = "undirectedEdge"
+        set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
 
     override val path: String
         get() = name
 
-    override val selfLooping: ESelfLooping
+    override var selfLooping: ESelfLooping
         get() = ESelfLooping.UNCONSTRAINED
+        set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
 
     override val subTypes: List<UndirectedEdgeType>
         get() = _subTypes.asSortedList { et -> et.path }

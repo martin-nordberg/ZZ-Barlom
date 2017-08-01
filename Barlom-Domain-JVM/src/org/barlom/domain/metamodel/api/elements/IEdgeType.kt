@@ -17,18 +17,18 @@ import org.barlom.domain.metamodel.api.types.ESelfLooping
 interface IEdgeType : IPackagedElement {
 
     /** Whether this edge type is abstract. */
-    val abstractness: EAbstractness
+    var abstractness: EAbstractness
 
     /** The attribute types of this edge type sorted by name. */
     val attributeTypes: List<IEdgeAttributeType>
 
     /** Whether this edge type is acyclic. */
-    val cyclicity: ECyclicity
+    var cyclicity: ECyclicity
 
     /** Whether this edge type allows multiple edges between two given vertexes. */
-    val multiEdgedness: EMultiEdgedness
+    var multiEdgedness: EMultiEdgedness
 
     /** Whether this edge type allows an edge from a vertex to itself. */
-    val selfLooping: ESelfLooping
+    var selfLooping: ESelfLooping
 
 }

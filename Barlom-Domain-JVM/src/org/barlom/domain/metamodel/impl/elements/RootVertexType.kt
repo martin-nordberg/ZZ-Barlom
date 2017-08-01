@@ -24,14 +24,16 @@ internal data class RootVertexType(
     private val _subTypes = VLinkedList<VertexType>()
 
 
-    override val abstractness: EAbstractness
+    override var abstractness: EAbstractness
         get() = EAbstractness.ABSTRACT
+        set(value) = throw UnsupportedOperationException("Cannot change RootVertexType attributes.")
 
     override val attributeTypes: List<VertexAttributeType>
         get() = listOf()
 
-    override val name: String
+    override var name: String
         get() = "Vertex"
+        set(value) = throw UnsupportedOperationException("Cannot change RootVertexType attributes.")
 
     override val path: String
         get() = name

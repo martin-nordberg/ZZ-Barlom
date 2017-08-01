@@ -42,11 +42,13 @@ internal class BooleanConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.BOOLEAN
 
-    override val defaultValue: Boolean?
+    override var defaultValue: Boolean?
         get() = _defaultValue.get()
+        set(value) = _defaultValue.set(value)
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: INonRootPackageImpl
         get() = _parentPackage.get()
@@ -84,14 +86,17 @@ internal class DateTimeConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.DATETIME
 
-    override val maxValue: DateTime
+    override var maxValue: DateTime
         get() = _maxValue.get()
+        set(value) = _maxValue.set(value)
 
-    override val minValue: DateTime
+    override var minValue: DateTime
         get() = _minValue.get()
+        set(value) = _minValue.set(value)
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: INonRootPackageImpl
         get() = _parentPackage.get()
@@ -131,17 +136,21 @@ internal class Float64ConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.FLOAT64
 
-    override val defaultValue: Double?
+    override var defaultValue: Double?
         get() = _defaultValue.get()
+        set(value) = _defaultValue.set(value)
 
-    override val maxValue: Double?
+    override var maxValue: Double?
         get() = _maxValue.get()
+        set(value) = _maxValue.set(value)
 
-    override val minValue: Double?
+    override var minValue: Double?
         get() = _minValue.get()
+        set(value) = _minValue.set(value)
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: INonRootPackageImpl
         get() = _parentPackage.get()
@@ -181,17 +190,21 @@ internal class Integer32ConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.INTEGER32
 
-    override val defaultValue: Int?
+    override var defaultValue: Int?
         get() = _defaultValue.get()
+        set(value) = _defaultValue.set(value)
 
-    override val maxValue: Int?
+    override var maxValue: Int?
         get() = _maxValue.get()
+        set(value) = _maxValue.set(value)
 
-    override val minValue: Int?
+    override var minValue: Int?
         get() = _minValue.get()
+        set(value) = _minValue.set(value)
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: INonRootPackageImpl
         get() = _parentPackage.get()
@@ -231,14 +244,17 @@ internal class StringConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.STRING
 
-    override val maxLength: Int?
+    override var maxLength: Int?
         get() = _maxLength.get()
+        set(value) = _maxLength.set(value)
 
-    override val minLength: Int?
+    override var minLength: Int?
         get() = _minLength.get()
+        set(value) = _minLength.set(value)
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: INonRootPackageImpl
         get() = _parentPackage.get()
@@ -246,8 +262,9 @@ internal class StringConstrainedDataType(
     override val path: String
         get() = parentPackage.path + "." + name
 
-    override val regex: Regex?
+    override var regex: Regex?
         get() = _regex.get()
+        set(value) = _regex.set(value)
 
 }
 
@@ -275,8 +292,9 @@ internal class UuidConstrainedDataType(
     override val dataType: EDataType
         get() = EDataType.UUID
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: INonRootPackageImpl
         get() = _parentPackage.get()

@@ -65,8 +65,9 @@ internal class Package(
     override val directedEdgeTypes: List<DirectedEdgeType>
         get() = _directedEdgeTypes.asSortedList { e -> e.name }
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: IPackageImpl
         get() = _parentPackage.get()

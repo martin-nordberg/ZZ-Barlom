@@ -39,14 +39,16 @@ internal class VertexType(
     }
 
 
-    override val abstractness: EAbstractness
+    override var abstractness: EAbstractness
         get() = _abstractness.get()
+        set(value) = _abstractness.set(value)
 
     override val attributeTypes: List<IVertexAttributeType>
         get() = _attributeTypes.asSortedList { at -> at.name }
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: INonRootPackageImpl
         get() = _parentPackage.get()

@@ -32,6 +32,7 @@ internal class DirectedEdgeType(
     maxTailOutDegree: Int?,
     minHeadInDegree: Int?,
     minTailOutDegree: Int?,
+    reverseName: String?,
     superType: IDirectedEdgeTypeImpl,
     tailRoleName: String?,
     tailVertexType: VertexType
@@ -50,6 +51,7 @@ internal class DirectedEdgeType(
     private val _multiEdgedness = V(multiEdgedness)
     private val _name = V(name)
     private val _parentPackage = V(parentPackage)
+    private val _reverseName = V(reverseName)
     private val _selfLooping = V(selfLooping)
     private val _subTypes = VLinkedList<DirectedEdgeType>()
     private val _superType = V(superType)
@@ -62,38 +64,47 @@ internal class DirectedEdgeType(
     }
 
 
-    override val abstractness: EAbstractness
+    override var abstractness: EAbstractness
         get() = _abstractness.get()
+        set(value) = _abstractness.set(value)
 
     override val attributeTypes: List<EdgeAttributeType>
         get() = _attributeTypes.asSortedList { at -> at.name }
 
-    override val cyclicity: ECyclicity
+    override var cyclicity: ECyclicity
         get() = _cyclicity.get()
+        set(value) = _cyclicity.set(value)
 
-    override val headRoleName: String?
+    override var headRoleName: String?
         get() = _headRoleName.get()
+        set(value) = _headRoleName.set(value)
 
     override val headVertexType: VertexType
         get() = _headVertexType.get()
 
-    override val maxHeadInDegree: Int?
+    override var maxHeadInDegree: Int?
         get() = _maxHeadInDegree.get()
+        set(value) = _maxHeadInDegree.set(value)
 
-    override val maxTailOutDegree: Int?
+    override var maxTailOutDegree: Int?
         get() = _maxTailOutDegree.get()
+        set(value) = _maxTailOutDegree.set(value)
 
-    override val minHeadInDegree: Int?
+    override var minHeadInDegree: Int?
         get() = _minHeadInDegree.get()
+        set(value) = _minHeadInDegree.set(value)
 
-    override val minTailOutDegree: Int?
+    override var minTailOutDegree: Int?
         get() = _minTailOutDegree.get()
+        set(value) = _minTailOutDegree.set(value)
 
-    override val multiEdgedness: EMultiEdgedness
+    override var multiEdgedness: EMultiEdgedness
         get() = _multiEdgedness.get()
+        set(value) = _multiEdgedness.set(value)
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: Package
         get() = _parentPackage.get()
@@ -101,8 +112,13 @@ internal class DirectedEdgeType(
     override val path: String
         get() = parentPackage.path + "." + name
 
-    override val selfLooping: ESelfLooping
+    override var reverseName: String?
+        get() = _reverseName.get()
+        set(value) = _reverseName.set(value)
+
+    override var selfLooping: ESelfLooping
         get() = _selfLooping.get()
+        set(value) = _selfLooping.set(value)
 
     override val subTypes: List<DirectedEdgeType>
         get() = _subTypes.asSortedList { et -> et.path }
@@ -110,8 +126,9 @@ internal class DirectedEdgeType(
     override val superType: IDirectedEdgeTypeImpl
         get() = _superType.get()
 
-    override val tailRoleName: String?
+    override var tailRoleName: String?
         get() = _tailRoleName.get()
+        set(value) = _tailRoleName.set(value)
 
     override val tailVertexType: VertexType
         get() = _tailVertexType.get()

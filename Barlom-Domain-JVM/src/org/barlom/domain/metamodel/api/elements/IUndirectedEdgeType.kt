@@ -11,10 +11,10 @@ package org.barlom.domain.metamodel.api.elements
 interface IUndirectedEdgeType : IEdgeType {
 
     /** The maximum in-degree for the head vertex of edges of this type. */
-    val maxDegree: Int?
+    var maxDegree: Int?
 
     /** The minimum in-degree for the head vertex of edges of this type. */
-    val minDegree: Int?
+    var minDegree: Int?
 
     /** The subtypes of this undirected edge type sorted by path. */
     val subTypes: List<IUndirectedEdgeType>

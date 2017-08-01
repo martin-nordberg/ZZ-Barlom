@@ -52,29 +52,36 @@ internal class UndirectedEdgeType(
     }
 
 
-    override val name: String
+    override var name: String
         get() = _name.get()
+        set(value) = _name.set(value)
 
     override val parentPackage: Package
         get() = _parentPackage.get()
 
-    override val abstractness: EAbstractness
+    override var abstractness: EAbstractness
         get() = _abstractness.get()
+        set(value) = _abstractness.set(value)
 
-    override val cyclicity: ECyclicity
+    override var cyclicity: ECyclicity
         get() = _cyclicity.get()
+        set(value) = _cyclicity.set(value)
 
-    override val multiEdgedness: EMultiEdgedness
+    override var multiEdgedness: EMultiEdgedness
         get() = _multiEdgedness.get()
+        set(value) = _multiEdgedness.set(value)
 
-    override val selfLooping: ESelfLooping
+    override var selfLooping: ESelfLooping
         get() = _selfLooping.get()
+        set(value) = _selfLooping.set(value)
 
-    override val maxDegree: Int?
+    override var maxDegree: Int?
         get() = _maxDegree.get()
+        set(value) = _maxDegree.set(value)
 
-    override val minDegree: Int?
+    override var minDegree: Int?
         get() = _minDegree.get()
+        set(value) = _minDegree.set(value)
 
     override val superType: IUndirectedEdgeTypeImpl
         get() = _superType.get()
