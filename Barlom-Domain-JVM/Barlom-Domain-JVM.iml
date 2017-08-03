@@ -9,17 +9,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="KotlinJavaRuntime (3)" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../KatyDOM-Tests/lib/junit-jupiter-api-5.0.0-M4.jar!/" />
-          <root url="jar://$MODULE_DIR$/../KatyDOM-Tests/lib/opentest4j-1.0.0-M2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="Barlom-Foundation-JVM" />
+    <orderEntry type="library" name="junit-jupiter-api-5.0.0-M5" level="project" />
+    <orderEntry type="library" name="opentest4j-1.0.0-RC1" level="project" />
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
   </component>
 </module>

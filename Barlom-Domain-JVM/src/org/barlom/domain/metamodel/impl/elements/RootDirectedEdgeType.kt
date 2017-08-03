@@ -42,6 +42,10 @@ internal data class RootDirectedEdgeType(
         get() = ECyclicity.UNCONSTRAINED
         set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
 
+    override var forwardName: String?
+        get() = "directedEdge"
+        set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
+
     override var headRoleName: String?
         get() = null
         set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")

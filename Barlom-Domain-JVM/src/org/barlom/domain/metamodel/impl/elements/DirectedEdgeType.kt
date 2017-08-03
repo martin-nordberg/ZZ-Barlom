@@ -26,6 +26,7 @@ internal class DirectedEdgeType(
     cyclicity: ECyclicity,
     multiEdgedness: EMultiEdgedness,
     selfLooping: ESelfLooping,
+    forwardName: String?,
     headRoleName: String?,
     headVertexType: VertexType,
     maxHeadInDegree: Int?,
@@ -42,6 +43,7 @@ internal class DirectedEdgeType(
     private val _abstractness = V(abstractness)
     private val _attributeTypes = VLinkedList<EdgeAttributeType>()
     private val _cyclicity = V(cyclicity)
+    private val _forwardName = V(forwardName)
     private val _headRoleName = V(headRoleName)
     private val _headVertexType = V(headVertexType)
     private val _maxHeadInDegree = V(maxHeadInDegree)
@@ -74,6 +76,10 @@ internal class DirectedEdgeType(
     override var cyclicity: ECyclicity
         get() = _cyclicity.get()
         set(value) = _cyclicity.set(value)
+
+    override var forwardName: String?
+        get() = _forwardName.get()
+        set(value) = _forwardName.set(value)
 
     override var headRoleName: String?
         get() = _headRoleName.get()

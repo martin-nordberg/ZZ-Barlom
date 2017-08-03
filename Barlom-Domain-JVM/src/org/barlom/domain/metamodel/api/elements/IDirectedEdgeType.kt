@@ -10,6 +10,9 @@ package org.barlom.domain.metamodel.api.elements
  */
 interface IDirectedEdgeType : IEdgeType {
 
+    /** The name of this edge type when considered from tail to head. */
+    var forwardName: String?
+
     /** The name of the role for the vertex at the head of edges of this type. */
     var headRoleName: String?
 
@@ -28,7 +31,7 @@ interface IDirectedEdgeType : IEdgeType {
     /** The minimum out-degree for the tail vertex of edges of this type. */
     var minTailOutDegree: Int?
 
-    /** The name of this edge type when considered from head to tail (vs. the primary name from tail to head). */
+    /** The name of this edge type when considered from head to tail (vs. the forward name from tail to head). */
     var reverseName: String?
 
     /** The direct subtypes of this directed edge type sorted by path. */

@@ -36,7 +36,7 @@ class DirectedEdgeTypeTests {
             val etId = makeUuid()
             val et = DirectedEdgeType(etId, "et", pkg, EAbstractness.CONCRETE, ECyclicity.ACYCLIC,
                                       EMultiEdgedness.UNCONSTRAINED, ESelfLooping.SELF_LOOPS_NOT_ALLOWED,
-                                      "head", vt1,
+                                      "et", "head", vt1,
                                       11, 9, 7, 5,
                                       "te", root.rootDirectedEdgeType, "tail", vt2)
 
@@ -79,13 +79,13 @@ class DirectedEdgeTypeTests {
             val s = ESelfLooping.SELF_LOOPS_NOT_ALLOWED
 
             val et0 = root.rootDirectedEdgeType
-            val et1 = DirectedEdgeType(makeUuid(), "et1", pkg, a, c, m, s, null, vt1, null, null, null, null, "te0", et0, null,
+            val et1 = DirectedEdgeType(makeUuid(), "et1", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te0", et0, null,
                                        vt2)
-            val et2 = DirectedEdgeType(makeUuid(), "et2", pkg, a, c, m, s, null, vt1, null, null, null, null, "te1", et1, null,
+            val et2 = DirectedEdgeType(makeUuid(), "et2", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te1", et1, null,
                                        vt2)
-            val et3 = DirectedEdgeType(makeUuid(), "et3", pkg, a, c, m, s, null, vt1, null, null, null, null, "te2", et2, null,
+            val et3 = DirectedEdgeType(makeUuid(), "et3", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te2", et2, null,
                                        vt2)
-            val et4 = DirectedEdgeType(makeUuid(), "et4", pkg, a, c, m, s, null, vt1, null, null, null, null, "te3", et3, null,
+            val et4 = DirectedEdgeType(makeUuid(), "et4", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te3", et3, null,
                                        vt2)
 
             assertEquals(et0, et1.superType)
