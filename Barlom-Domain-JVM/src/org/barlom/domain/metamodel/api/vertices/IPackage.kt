@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.api.vertices
 
 import org.barlom.domain.metamodel.api.edges.IPackageContainment
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
+import org.barlom.domain.metamodel.api.edges.IUndirectedEdgeTypeContainment
 
 /**
  * Interface for Barlom packages. Packages are the namespacing mechanism for containing vertex types, edge types,
@@ -49,6 +50,9 @@ interface IPackage : IPackagedElement {
 
     /** The undirected edge types defined within this package. */
     val undirectedEdgeTypes: List<IUndirectedEdgeType>
+
+    /** The undirected edge type containmentss linked to this package. */
+    val undirectedEdgeTypeContainments: List<IUndirectedEdgeTypeContainment>
 
     /** The vertex types contains by this package. */
     val vertexTypes: List<IVertexType>

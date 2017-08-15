@@ -5,14 +5,16 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
-import org.barlom.domain.metamodel.api.vertices.IUndirectedEdgeType
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.domain.metamodel.api.vertices.IUndirectedEdgeType
+import org.barlom.domain.metamodel.impl.edges.UndirectedEdgeTypeContainment
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
+import org.barlom.infrastructure.uuids.makeUuid
 
 /**
  * Implementation class for undirected edge types.
@@ -21,7 +23,6 @@ internal class UndirectedEdgeType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: Package,
     abstractness: EAbstractness,
     cyclicity: ECyclicity,
     multiEdgedness: EMultiEdgedness,
@@ -29,9 +30,10 @@ internal class UndirectedEdgeType(
     maxDegree: Int?,
     minDegree: Int?,
     superType: IUndirectedEdgeTypeImpl,
-    vertexType: VertexType
+    vertexType: VertexType,
+    initialize: UndirectedEdgeType.() -> Unit
 
-) : IUndirectedEdgeTypeImpl, INonRootEdgeTypeImpl {
+) : IUndirectedEdgeTypeImpl, INonRootUndirectedEdgeTypeImpl {
 
     private val _abstractness = V(abstractness)
     private val _attributeTypes = VLinkedList<EdgeAttributeType>()
@@ -40,7 +42,7 @@ internal class UndirectedEdgeType(
     private val _minDegree = V(minDegree)
     private val _multiEdgedness = V(multiEdgedness)
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
+    private val _parentUndirectedEdgeTypeContainments = VLinkedList<UndirectedEdgeTypeContainment>()
     private val _selfLooping = V(selfLooping)
     private val _subTypes = VLinkedList<UndirectedEdgeType>()
     private val _superType = V(superType)
@@ -49,6 +51,7 @@ internal class UndirectedEdgeType(
 
     init {
         superType.addSubType(this)
+        initialize()
     }
 
 
@@ -56,8 +59,8 @@ internal class UndirectedEdgeType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<Package>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _parentUndirectedEdgeTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override var abstractness: EAbstractness
         get() = _abstractness.get()
@@ -119,6 +122,20 @@ internal class UndirectedEdgeType(
 
     override fun addSubType(edgeType: UndirectedEdgeType) {
         _subTypes.add(edgeType)
+    }
+
+    override fun addUndirectedEdgeTypeContainment(edgeTypeContainment: UndirectedEdgeTypeContainment) {
+
+        require(edgeTypeContainment.child === this) {
+            "Parent package containment can only be added to its child."
+        }
+
+        _parentUndirectedEdgeTypeContainments.add(edgeTypeContainment)
+
+    }
+
+    override fun containedBy(pkg: INonRootPackageImpl) {
+        UndirectedEdgeTypeContainment(makeUuid(), pkg, this)
     }
 
     override fun isSubTypeOf(edgeType: IUndirectedEdgeType): Boolean {

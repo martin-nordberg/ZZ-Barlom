@@ -15,4 +15,7 @@ internal interface INonRootEdgeTypeImpl : IEdgeType {
     /** Adds an attribute to this, its parent edge type's, list of attributes. */
     fun addAttributeType(attributeType: EdgeAttributeType)
 
+    /** Establishes the parent container of this undirected edge type. */
+    fun containedBy(pkg: INonRootPackageImpl): Unit
+
 }

@@ -6,7 +6,6 @@
 package org.barlom.domain.metamodel.impl.vertices
 
 import org.barlom.domain.metamodel.api.vertices.IUndirectedEdgeType
-import org.barlom.domain.metamodel.impl.vertices.UndirectedEdgeType
 
 /**
  * Internal interface to an undirected edge type implementation (container of subtypes).

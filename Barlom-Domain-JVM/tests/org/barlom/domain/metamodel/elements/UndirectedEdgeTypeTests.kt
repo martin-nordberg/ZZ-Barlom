@@ -33,13 +33,17 @@ class UndirectedEdgeTypeTests {
             val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val vt1 = VertexType(makeUuid(), "vt1", EAbstractness.CONCRETE, root.rootVertexType) { containedBy(pkg) }
             val etId = makeUuid()
-            val et = UndirectedEdgeType(etId, "et", pkg,
-                                                                                  EAbstractness.CONCRETE,
-                                                                                  ECyclicity.ACYCLIC,
-                                                                                  EMultiEdgedness.UNCONSTRAINED,
-                                                                                  ESelfLooping.SELF_LOOPS_NOT_ALLOWED,
-                                                                                  11, 5, root.rootUndirectedEdgeType,
-                                                                                  vt1)
+            val et = UndirectedEdgeType(
+                etId, "et",
+                EAbstractness.CONCRETE,
+                ECyclicity.ACYCLIC,
+                EMultiEdgedness.UNCONSTRAINED,
+                ESelfLooping.SELF_LOOPS_NOT_ALLOWED,
+                11, 5, root.rootUndirectedEdgeType,
+                vt1
+            ) {
+                containedBy(pkg)
+            }
 
             assertEquals(etId, et.id)
             assertEquals("et", et.name)
@@ -74,14 +78,14 @@ class UndirectedEdgeTypeTests {
             val s = ESelfLooping.SELF_LOOPS_NOT_ALLOWED
 
             val et0 = root.rootUndirectedEdgeType
-            val et1 = UndirectedEdgeType(makeUuid(), "et1", pkg, a, c, m, s,
-                                                                                   null, null, et0, vt2)
-            val et2 = UndirectedEdgeType(makeUuid(), "et2", pkg, a, c, m, s,
-                                                                                   null, null, et1, vt2)
-            val et3 = UndirectedEdgeType(makeUuid(), "et3", pkg, a, c, m, s,
-                                                                                   null, null, et2, vt2)
-            val et4 = UndirectedEdgeType(makeUuid(), "et4", pkg, a, c, m, s,
-                                                                                   null, null, et3, vt2)
+            val et1 = UndirectedEdgeType(makeUuid(), "et1", a, c, m, s,
+                                         null, null, et0, vt2) { containedBy(pkg) }
+            val et2 = UndirectedEdgeType(makeUuid(), "et2", a, c, m, s,
+                                         null, null, et1, vt2) { containedBy(pkg) }
+            val et3 = UndirectedEdgeType(makeUuid(), "et3", a, c, m, s,
+                                         null, null, et2, vt2) { containedBy(pkg) }
+            val et4 = UndirectedEdgeType(makeUuid(), "et4", a, c, m, s,
+                                         null, null, et3, vt2) { containedBy(pkg) }
 
             assertEquals(et0, et1.superType)
             assertEquals(et1, et2.superType)

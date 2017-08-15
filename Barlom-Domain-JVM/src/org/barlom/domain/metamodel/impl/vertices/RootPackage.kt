@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.impl.vertices
 
 import org.barlom.domain.metamodel.api.edges.IPackageContainment
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
+import org.barlom.domain.metamodel.api.edges.IUndirectedEdgeTypeContainment
 import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.domain.metamodel.impl.edges.PackageContainment
 import org.barlom.infrastructure.revisions.VLinkedList
@@ -35,7 +36,7 @@ internal data class RootPackage(
 
 
     override val childPackages: List<Package>
-        get() = _childPackageContainments.map{ c->c.child }.sortedBy { pkg -> pkg.name }
+        get() = _childPackageContainments.map { c -> c.child }.sortedBy { pkg -> pkg.name }
 
     override val childPackageContainments: List<IPackageContainment>
         get() = _childPackageContainments.sortedBy { pkgdep -> pkgdep.child.path }
@@ -54,9 +55,9 @@ internal data class RootPackage(
 
     override var name: String
         get() =
-            throw UnsupportedOperationException("Root package has no name. It is a coding error to ask its name.")
+        throw UnsupportedOperationException("Root package has no name. It is a coding error to ask its name.")
         set(value) =
-            throw UnsupportedOperationException("Root package has no name. It is a coding error to ask its name.")
+        throw UnsupportedOperationException("Root package has no name. It is a coding error to ask its name.")
 
     override val path: String
         get() = ""
@@ -66,7 +67,8 @@ internal data class RootPackage(
 
     override val parentPackageContainments: List<IPackageContainment>
         get() =
-            throw UnsupportedOperationException("Root package has no parent package. It is a coding error to ask its parent package.")
+        throw UnsupportedOperationException(
+            "Root package has no parent package. It is a coding error to ask its parent package.")
 
     override val rootVertexType = RootVertexType(rootVertexTypeId, this)
 
@@ -90,6 +92,9 @@ internal data class RootPackage(
 
     override val undirectedEdgeTypes: List<IUndirectedEdgeType>
         get() = listOf(rootUndirectedEdgeType)
+
+    override val undirectedEdgeTypeContainments: List<IUndirectedEdgeTypeContainment>
+        get() = listOf()  // TODO
 
     override val vertexTypes: List<IVertexType>
         get() = listOf(rootVertexType)

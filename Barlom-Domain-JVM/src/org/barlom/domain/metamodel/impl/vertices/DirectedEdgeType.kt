@@ -5,11 +5,11 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
-import org.barlom.domain.metamodel.api.vertices.IDirectedEdgeType
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.domain.metamodel.api.vertices.IDirectedEdgeType
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
@@ -160,6 +160,10 @@ internal class DirectedEdgeType(
 
     override fun addSubType(edgeType: DirectedEdgeType) {
         _subTypes.add(edgeType)
+    }
+
+    override fun containedBy(pkg: INonRootPackageImpl) {
+        // TODO
     }
 
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {

@@ -7,7 +7,6 @@ package org.barlom.domain.metamodel.impl.vertices
 
 import org.barlom.domain.metamodel.api.vertices.IPackage
 import org.barlom.domain.metamodel.impl.edges.PackageContainment
-import org.barlom.domain.metamodel.impl.vertices.Package
 
 /**
  * Internal interface to a package or root package.

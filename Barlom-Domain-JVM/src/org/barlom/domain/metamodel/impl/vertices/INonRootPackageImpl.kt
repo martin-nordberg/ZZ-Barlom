@@ -5,9 +5,9 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
-import org.barlom.domain.metamodel.api.vertices.IPackage
 import org.barlom.domain.metamodel.impl.edges.PackageContainment
 import org.barlom.domain.metamodel.impl.edges.PackageDependency
+import org.barlom.domain.metamodel.impl.edges.UndirectedEdgeTypeContainment
 import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
 
 /**
@@ -31,12 +31,12 @@ internal interface INonRootPackageImpl : IPackageImpl {
     fun addSupplierPackageDependency(packageDependency: PackageDependency)
 
     /** Adds an undirected edge type to this, its parent package's, list of undirected edge types. */
-    fun addUndirectedEdgeType(edgeType: UndirectedEdgeType)
+    fun addUndirectedEdgeTypeContainment(edgeTypeContainment: UndirectedEdgeTypeContainment)
 
     /** Adds a vertex type to this, its parent package's, list of vertex type containments. */
     fun addVertexTypeContainment(vertexTypeContainment: VertexTypeContainment)
 
     /** Establishes the parent container of this package. */
-    fun containedBy(pkg: IPackageImpl) : Unit
+    fun containedBy(pkg: IPackageImpl): Unit
 
 }
