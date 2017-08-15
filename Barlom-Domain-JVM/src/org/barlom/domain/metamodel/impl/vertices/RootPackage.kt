@@ -61,12 +61,12 @@ internal data class RootPackage(
     override val path: String
         get() = ""
 
-    override val parentPackage: RootPackage
-        get() = this
+    override val parentPackages: List<RootPackage>
+        get() = listOf(this)
 
-    override val parentPackageContainment: IPackageContainment?
+    override val parentPackageContainments: List<IPackageContainment>
         get() =
-        throw UnsupportedOperationException("Root package has no parent package. It is a coding error to ask its parent package.")
+            throw UnsupportedOperationException("Root package has no parent package. It is a coding error to ask its parent package.")
 
     override val rootVertexType = RootVertexType(rootVertexTypeId, this)
 

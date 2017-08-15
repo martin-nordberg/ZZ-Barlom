@@ -20,7 +20,7 @@ import org.barlom.infrastructure.uuids.Uuid
 internal data class RootDirectedEdgeType(
 
     override val id: Uuid,
-    override val parentPackage: RootPackage,
+    val parentPackage: RootPackage,
 
     /** The root edge type forming the head and tail types of this root directed edge type. */
     private val _rootVertexType: RootVertexType
@@ -76,6 +76,9 @@ internal data class RootDirectedEdgeType(
     override var name: String
         get() = "directedEdge"
         set(value) = throw UnsupportedOperationException("Cannot change RootDirectedEdgeType attributes.")
+
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf()
 
     override val path: String
         get() = name

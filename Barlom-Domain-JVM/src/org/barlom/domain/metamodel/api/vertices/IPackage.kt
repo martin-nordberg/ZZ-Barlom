@@ -32,8 +32,8 @@ interface IPackage : IPackagedElement {
     /** The directed edge types defined within this package. */
     val directedEdgeTypes: List<IDirectedEdgeType>
 
-    /** The package containment link this package to its parent. */
-    val parentPackageContainment: IPackageContainment?
+    /** The package containment linking this package to its parent. */
+    val parentPackageContainments: List<IPackageContainment>
 
     /** Links to packages that are direct suppliers of this package. */
     val supplierPackageDependencies: List<IPackageDependency>

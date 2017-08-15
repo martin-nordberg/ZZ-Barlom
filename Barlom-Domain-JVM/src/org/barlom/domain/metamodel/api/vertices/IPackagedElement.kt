@@ -14,7 +14,7 @@ import org.barlom.domain.metamodel.api.vertices.IPackage
 interface IPackagedElement : INamedElement {
 
     /** The package containing this model element. */
-    val parentPackage: IPackage?
+    val parentPackages: List<IPackage>
 
     /** The dot-delimited path to this packaged element. */
     val path: String

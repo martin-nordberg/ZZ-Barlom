@@ -16,7 +16,7 @@ import org.barlom.infrastructure.uuids.Uuid
 internal data class RootVertexType(
 
     override val id: Uuid,
-    override val parentPackage: RootPackage
+    val parentPackage: RootPackage
 
 ) : IVertexTypeImpl {
 
@@ -34,6 +34,9 @@ internal data class RootVertexType(
     override var name: String
         get() = "Vertex"
         set(value) = throw UnsupportedOperationException("Cannot change RootVertexType attributes.")
+
+    override val parentPackages: List<RootPackage>
+        get() = listOf(parentPackage)
 
     override val path: String
         get() = name

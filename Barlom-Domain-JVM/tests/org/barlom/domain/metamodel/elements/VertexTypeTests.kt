@@ -33,7 +33,7 @@ class VertexTypeTests {
             assertEquals(vtId, vt.id)
             assertEquals("vt", vt.name)
             assertEquals(EAbstractness.CONCRETE, vt.abstractness)
-            assertEquals(pkg, vt.parentPackage)
+            assertEquals(pkg, vt.parentPackages[0])
         }
 
     }

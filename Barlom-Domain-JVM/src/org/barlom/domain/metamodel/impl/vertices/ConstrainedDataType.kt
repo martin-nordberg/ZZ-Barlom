@@ -50,11 +50,11 @@ internal class BooleanConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: INonRootPackageImpl
-        get() = _parentPackage.get()
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf(_parentPackage.get())
 
     override val path: String
-        get() = parentPackage.path + "" + name
+        get() = parentPackages[0].path + "" + name
 
 }
 
@@ -98,11 +98,11 @@ internal class DateTimeConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: INonRootPackageImpl
-        get() = _parentPackage.get()
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf(_parentPackage.get())
 
     override val path: String
-        get() = parentPackage.path + "" + name
+        get() = parentPackages[0].path + "" + name
 
 }
 
@@ -152,11 +152,11 @@ internal class Float64ConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: INonRootPackageImpl
-        get() = _parentPackage.get()
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf(_parentPackage.get())
 
     override val path: String
-        get() = parentPackage.path + "" + name
+        get() = parentPackages[0].path + "" + name
 
 }
 
@@ -206,11 +206,11 @@ internal class Integer32ConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: INonRootPackageImpl
-        get() = _parentPackage.get()
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf(_parentPackage.get())
 
     override val path: String
-        get() = parentPackage.path + "" + name
+        get() = parentPackages[0].path + "" + name
 
 }
 
@@ -256,11 +256,11 @@ internal class StringConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: INonRootPackageImpl
-        get() = _parentPackage.get()
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf(_parentPackage.get())
 
     override val path: String
-        get() = parentPackage.path + "" + name
+        get() = parentPackages[0].path + "" + name
 
     override var regex: Regex?
         get() = _regex.get()
@@ -296,10 +296,10 @@ internal class UuidConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: INonRootPackageImpl
-        get() = _parentPackage.get()
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf(_parentPackage.get())
 
     override val path: String
-        get() = parentPackage.path + "" + name
+        get() = parentPackages[0].path + "" + name
 
 }

@@ -11,6 +11,7 @@ import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.domain.metamodel.api.vertices.IRootPackage
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
@@ -20,7 +21,7 @@ import org.barlom.infrastructure.uuids.Uuid
 internal data class RootUndirectedEdgeType(
 
     override val id: Uuid,
-    override val parentPackage: RootPackage,
+    val parentPackage: RootPackage,
 
     /** The root edge type forming the end types of this root undirected edge type. */
     private val _rootVertexType: RootVertexType
@@ -57,6 +58,9 @@ internal data class RootUndirectedEdgeType(
     override var name: String
         get() = "undirectedEdge"
         set(value) = throw UnsupportedOperationException("Cannot change RootUndirectedEdgeType attributes.")
+
+    override val parentPackages: List<IRootPackage>
+        get() = listOf(parentPackage)
 
     override val path: String
         get() = name

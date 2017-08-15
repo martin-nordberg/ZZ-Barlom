@@ -56,8 +56,8 @@ internal class UndirectedEdgeType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: Package
-        get() = _parentPackage.get()
+    override val parentPackages: List<Package>
+        get() = listOf(_parentPackage.get())
 
     override var abstractness: EAbstractness
         get() = _abstractness.get()
@@ -93,7 +93,7 @@ internal class UndirectedEdgeType(
         get() = _attributeTypes.sortedBy { at -> at.name }
 
     override val path: String
-        get() = parentPackage.path + "." + name
+        get() = parentPackages[0].path + "." + name
 
     override val subTypes: List<UndirectedEdgeType>
         get() = _subTypes.sortedBy { et -> et.path }

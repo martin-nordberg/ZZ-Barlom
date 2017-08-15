@@ -6,8 +6,8 @@
 package org.barlom.domain.metamodel.impl.vertices
 
 import org.barlom.domain.metamodel.api.edges.IPackageContainment
-import org.barlom.domain.metamodel.api.vertices.IPackage
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
+import org.barlom.domain.metamodel.api.vertices.IPackage
 import org.barlom.domain.metamodel.impl.edges.PackageContainment
 import org.barlom.domain.metamodel.impl.edges.PackageDependency
 import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
@@ -23,7 +23,7 @@ internal class Package(
 
     override val id: Uuid,
     name: String,
-    initialize: Package.()->Unit
+    initialize: Package.() -> Unit
 
 ) : INonRootPackageImpl {
 
@@ -32,7 +32,7 @@ internal class Package(
     private val _constrainedDataTypes = VLinkedList<ConstrainedDataType>()
     private val _directedEdgeTypes = VLinkedList<DirectedEdgeType>()
     private val _name = V(name)
-    private val _parentPackageContainment = V<PackageContainment?>(null)
+    private val _parentPackageContainments = VLinkedList<PackageContainment>()
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
     private val _undirectedEdgeTypes = VLinkedList<UndirectedEdgeType>()
     private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
@@ -43,7 +43,7 @@ internal class Package(
     }
 
     override val childPackages: List<Package>
-        get() = _childPackageContainments.map{ c->c.child }.sortedBy { pkg -> pkg.name }
+        get() = _childPackageContainments.map { c -> c.child }.sortedBy { pkg -> pkg.name }
 
     override val childPackageContainments: List<IPackageContainment>
         get() = _childPackageContainments.sortedBy { pkgdep -> pkgdep.child.path }
@@ -64,18 +64,22 @@ internal class Package(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: IPackageImpl?
-        get() = _parentPackageContainment.get()?.parent
+    override val parentPackages: List<IPackageImpl>
+        get() = _parentPackageContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
-    override val parentPackageContainment: IPackageContainment?
-        get() = _parentPackageContainment.get()
+    override val parentPackageContainments: List<IPackageContainment>
+        get() = _parentPackageContainments.sortedBy { pkgdep -> pkgdep.child.path }
 
     override val path: String
         get() {
 
-            val parentPath: String = parentPackage?.path ?: ""
+            if (_parentPackageContainments.isEmpty) {
+                return name
+            }
 
-            if (parentPath.isEmpty()) {
+            val parentPath = parentPackages[0].path
+
+            if ( parentPath.isEmpty() ) {
                 return name
             }
 
@@ -152,9 +156,9 @@ internal class Package(
 
     override fun addConstrainedDataType(constrainedDataType: ConstrainedDataType) {
 
-        require(constrainedDataType.parentPackage === this) {
-            "Cannot add a constrained data type to a package not its parent."
-        }
+//        require(constrainedDataType.parentPackage === this) {
+//            "Cannot add a constrained data type to a package not its parent."
+//        }
 
         _constrainedDataTypes.add(constrainedDataType)
 
@@ -182,9 +186,9 @@ internal class Package(
 
     override fun addDirectedEdgeType(edgeType: DirectedEdgeType) {
 
-        require(edgeType.parentPackage === this) {
-            "Cannot add a directed edge type to a package not its parent."
-        }
+//        require(edgeType.parentPackage === this) {
+//            "Cannot add a directed edge type to a package not its parent."
+//        }
 
         _directedEdgeTypes.add(edgeType)
 
@@ -196,7 +200,7 @@ internal class Package(
             "Parent package containment can only be added to its child."
         }
 
-        _parentPackageContainment.set(packageContainment)
+        _parentPackageContainments.add(packageContainment)
 
     }
 
@@ -212,9 +216,9 @@ internal class Package(
 
     override fun addUndirectedEdgeType(edgeType: UndirectedEdgeType) {
 
-        require(edgeType.parentPackage === this) {
-            "Cannot add an undirected edge type to a package not its parent."
-        }
+//        require(edgeType.parentPackage === this) {
+//            "Cannot add an undirected edge type to a package not its parent."
+//        }
 
         _undirectedEdgeTypes.add(edgeType)
 
@@ -335,7 +339,11 @@ internal class Package(
     }
 
     override fun isChildOf(pkg: IPackage): Boolean {
-        return pkg === this.parentPackage || this.parentPackage?.isChildOf(pkg) ?: false
+        if ( _parentPackageContainments.isEmpty || this === pkg ) {
+            return false
+        }
+        val parentPackage = this.parentPackageContainments[0].parent
+        return pkg === parentPackage || parentPackage.isChildOf(pkg)
     }
 
 }

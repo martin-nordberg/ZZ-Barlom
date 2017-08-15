@@ -5,8 +5,8 @@
 
 package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.impl.vertices.Package
 import org.barlom.domain.metamodel.impl.edges.PackageDependency
+import org.barlom.domain.metamodel.impl.vertices.Package
 import org.barlom.domain.metamodel.impl.vertices.RootPackage
 import org.barlom.domain.metamodel.withRevHistory
 import org.barlom.infrastructure.uuids.makeUuid
@@ -42,8 +42,8 @@ class PackageTests {
             val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val subpkg = Package(makeUuid(), "subpkg") { containedBy(pkg) }
 
-            assertEquals(root, pkg.parentPackage)
-            assertEquals(pkg, subpkg.parentPackage)
+            assertEquals(root, pkg.parentPackageContainments[0].parent)
+            assertEquals(pkg, subpkg.parentPackageContainments[0].parent)
 
             assertTrue(root.childPackages.contains(pkg))
             assertTrue(pkg.childPackages.contains(subpkg))

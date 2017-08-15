@@ -112,11 +112,11 @@ internal class DirectedEdgeType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: Package
-        get() = _parentPackage.get()
+    override val parentPackages: List<INonRootPackageImpl>
+        get() = listOf(_parentPackage.get())
 
     override val path: String
-        get() = parentPackage.path + "." + name
+        get() = parentPackages[0].path + "." + name
 
     override var reverseName: String?
         get() = _reverseName.get()

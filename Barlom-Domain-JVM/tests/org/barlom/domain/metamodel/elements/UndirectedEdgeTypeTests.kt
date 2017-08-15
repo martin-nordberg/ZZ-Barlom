@@ -43,7 +43,7 @@ class UndirectedEdgeTypeTests {
 
             assertEquals(etId, et.id)
             assertEquals("et", et.name)
-            assertEquals(pkg, et.parentPackage)
+            assertEquals(pkg, et.parentPackages[0])
             assertEquals(EAbstractness.CONCRETE, et.abstractness)
             assertEquals(ECyclicity.ACYCLIC, et.cyclicity)
             assertEquals(EMultiEdgedness.UNCONSTRAINED, et.multiEdgedness)
