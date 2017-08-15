@@ -5,7 +5,7 @@
 
 package org.barlom.domain.metamodel.impl.elements;
 
-import org.barlom.domain.metamodel.api.elements.*
+import org.barlom.domain.metamodel.api.vertices.*
 
 
 /**

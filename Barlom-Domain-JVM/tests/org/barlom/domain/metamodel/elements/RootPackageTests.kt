@@ -5,8 +5,8 @@
 
 package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.impl.elements.Package
-import org.barlom.domain.metamodel.impl.elements.RootPackage
+import org.barlom.domain.metamodel.impl.vertices.Package
+import org.barlom.domain.metamodel.impl.vertices.RootPackage
 import org.barlom.domain.metamodel.withRevHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
@@ -99,12 +99,12 @@ class RootPackageTests {
         withRevHistory {
             val pkg = RootPackage()
 
-            val subpkg1 = Package(makeUuid(), "subpkg1", pkg)
+            val subpkg1 = Package(makeUuid(), "subpkg1") { containedBy(pkg) }
 
             assertEquals(1, pkg.childPackages.size)
             assertTrue(pkg.childPackages.contains(subpkg1))
 
-            val subpkg2 = Package(makeUuid(), "subpkg2", pkg)
+            val subpkg2 = Package(makeUuid(), "subpkg2") { containedBy(pkg) }
 
             assertEquals(2, pkg.childPackages.size)
             assertTrue(pkg.childPackages.contains(subpkg1))

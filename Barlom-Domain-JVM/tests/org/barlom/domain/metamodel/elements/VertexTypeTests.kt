@@ -6,9 +6,9 @@
 package org.barlom.domain.metamodel.elements
 
 import org.barlom.domain.metamodel.api.types.EAbstractness
-import org.barlom.domain.metamodel.impl.elements.Package
-import org.barlom.domain.metamodel.impl.elements.RootPackage
-import org.barlom.domain.metamodel.impl.elements.VertexType
+import org.barlom.domain.metamodel.impl.vertices.Package
+import org.barlom.domain.metamodel.impl.vertices.RootPackage
+import org.barlom.domain.metamodel.impl.vertices.VertexType
 import org.barlom.domain.metamodel.withRevHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
@@ -26,9 +26,10 @@ class VertexTypeTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg = Package(makeUuid(), "pkg", root)
+            val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val vtId = makeUuid()
-            val vt = VertexType(vtId, "vt", pkg, EAbstractness.CONCRETE, root.rootVertexType)
+            val vt = VertexType(vtId, "vt", pkg, EAbstractness.CONCRETE,
+                                                                          root.rootVertexType)
 
             assertEquals(vtId, vt.id)
             assertEquals("vt", vt.name)
@@ -43,8 +44,9 @@ class VertexTypeTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg = Package(makeUuid(), "pkg", root)
-            val vt = VertexType(makeUuid(), "vt", pkg, EAbstractness.CONCRETE, root.rootVertexType)
+            val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
+            val vt = VertexType(makeUuid(), "vt", pkg, EAbstractness.CONCRETE,
+                                                                          root.rootVertexType)
 
             assertEquals("pkg.vt", vt.path)
         }
@@ -56,12 +58,16 @@ class VertexTypeTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg = Package(makeUuid(), "pkg", root)
+            val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val vt0 = root.rootVertexType
-            val vt1 = VertexType(makeUuid(), "vt1", pkg, EAbstractness.ABSTRACT, vt0)
-            val vt2 = VertexType(makeUuid(), "vt2", pkg, EAbstractness.ABSTRACT, vt1)
-            val vt3 = VertexType(makeUuid(), "vt3", pkg, EAbstractness.ABSTRACT, vt2)
-            val vt4 = VertexType(makeUuid(), "vt4", pkg, EAbstractness.CONCRETE, vt3)
+            val vt1 = VertexType(makeUuid(), "vt1", pkg,
+                                                                           EAbstractness.ABSTRACT, vt0)
+            val vt2 = VertexType(makeUuid(), "vt2", pkg,
+                                                                           EAbstractness.ABSTRACT, vt1)
+            val vt3 = VertexType(makeUuid(), "vt3", pkg,
+                                                                           EAbstractness.ABSTRACT, vt2)
+            val vt4 = VertexType(makeUuid(), "vt4", pkg,
+                                                                           EAbstractness.CONCRETE, vt3)
 
             assertEquals(vt0, vt1.superType)
             assertEquals(vt1, vt2.superType)

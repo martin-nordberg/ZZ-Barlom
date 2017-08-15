@@ -76,15 +76,6 @@ open class VLinkedList<T> {
     }
 
     /**
-     * Makes a snapshot copy of the linked list sorted by the given criteria. Copying is O(n)
-     */
-    fun <R : Comparable<R>> asSortedList(selector: (T) -> R?): List<T> {
-        val result = asMutableList()
-        result.sortBy(selector)
-        return result
-    }
-
-    /**
      * Tests whether the list contains a given value. Search is O(n).
      */
     fun contains(value:T) : Boolean {
@@ -143,6 +134,29 @@ open class VLinkedList<T> {
     }
 
     /**
+     * Returns a list containing the results of applying the given [transform] function
+     * to each element in this linked list.
+     */
+    fun <R> map(transform: (T) -> R): List<R> {
+
+        val result = ArrayList<R>(size)
+
+        var link = _firstLink.get()
+        while ( link != null ) {
+
+            if ( !link.isDeleted.get() ) {
+                result.add(transform(link.value))
+            }
+
+            link = link.nextLink
+
+        }
+
+        return result
+
+    }
+
+    /**
      * Removes an item (the first matching the input) from the list. Removal is O(n).
      */
     fun remove(value:T) : Boolean {
@@ -162,6 +176,15 @@ open class VLinkedList<T> {
 
         return false
 
+    }
+
+    /**
+     * Makes a snapshot copy of the linked list sorted by the given criteria. Copying is O(n)
+     */
+    fun <R : Comparable<R>> sortedBy(selector: (T) -> R?): List<T> {
+        val result = asMutableList()
+        result.sortBy(selector)
+        return result
     }
 
 

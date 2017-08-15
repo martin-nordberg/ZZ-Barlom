@@ -134,7 +134,7 @@ class VLinkedListTests {
             assertEquals(30, list2[1])
             assertEquals(10, list2[2])
 
-            val slist = list!!.asSortedList { item -> item }
+            val slist = list!!.sortedBy { item -> item }
 
             assertEquals(3, slist.size )
             assertEquals(10, slist[0])

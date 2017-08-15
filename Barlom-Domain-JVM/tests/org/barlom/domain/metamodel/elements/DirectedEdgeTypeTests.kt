@@ -9,10 +9,10 @@ import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
-import org.barlom.domain.metamodel.impl.elements.DirectedEdgeType
-import org.barlom.domain.metamodel.impl.elements.Package
-import org.barlom.domain.metamodel.impl.elements.RootPackage
-import org.barlom.domain.metamodel.impl.elements.VertexType
+import org.barlom.domain.metamodel.impl.vertices.DirectedEdgeType
+import org.barlom.domain.metamodel.impl.vertices.Package
+import org.barlom.domain.metamodel.impl.vertices.RootPackage
+import org.barlom.domain.metamodel.impl.vertices.VertexType
 import org.barlom.domain.metamodel.withRevHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
@@ -30,15 +30,20 @@ class DirectedEdgeTypeTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg = Package(makeUuid(), "pkg", root)
-            val vt1 = VertexType(makeUuid(), "vt1", pkg, EAbstractness.CONCRETE, root.rootVertexType)
-            val vt2 = VertexType(makeUuid(), "vt2", pkg, EAbstractness.CONCRETE, vt1)
+            val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
+            val vt1 = VertexType(makeUuid(), "vt1", pkg,
+                                                                           EAbstractness.CONCRETE, root.rootVertexType)
+            val vt2 = VertexType(makeUuid(), "vt2", pkg,
+                                                                           EAbstractness.CONCRETE, vt1)
             val etId = makeUuid()
-            val et = DirectedEdgeType(etId, "et", pkg, EAbstractness.CONCRETE, ECyclicity.ACYCLIC,
-                                      EMultiEdgedness.UNCONSTRAINED, ESelfLooping.SELF_LOOPS_NOT_ALLOWED,
-                                      "et", "head", vt1,
-                                      11, 9, 7, 5,
-                                      "te", root.rootDirectedEdgeType, "tail", vt2)
+            val et = DirectedEdgeType(etId, "et", pkg, EAbstractness.CONCRETE,
+                                                                                ECyclicity.ACYCLIC,
+                                                                                EMultiEdgedness.UNCONSTRAINED,
+                                                                                ESelfLooping.SELF_LOOPS_NOT_ALLOWED,
+                                                                                "et", "head", vt1,
+                                                                                11, 9, 7, 5,
+                                                                                "te", root.rootDirectedEdgeType, "tail",
+                                                                                vt2)
 
             assertEquals(etId, et.id)
             assertEquals("et", et.name)
@@ -68,10 +73,12 @@ class DirectedEdgeTypeTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg = Package(makeUuid(), "pkg", root)
+            val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val vt0 = root.rootVertexType
-            val vt1 = VertexType(makeUuid(), "vt1", pkg, EAbstractness.ABSTRACT, vt0)
-            val vt2 = VertexType(makeUuid(), "vt2", pkg, EAbstractness.ABSTRACT, vt1)
+            val vt1 = VertexType(makeUuid(), "vt1", pkg,
+                                                                           EAbstractness.ABSTRACT, vt0)
+            val vt2 = VertexType(makeUuid(), "vt2", pkg,
+                                                                           EAbstractness.ABSTRACT, vt1)
 
             val a = EAbstractness.ABSTRACT
             val c = ECyclicity.ACYCLIC
@@ -79,14 +86,22 @@ class DirectedEdgeTypeTests {
             val s = ESelfLooping.SELF_LOOPS_NOT_ALLOWED
 
             val et0 = root.rootDirectedEdgeType
-            val et1 = DirectedEdgeType(makeUuid(), "et1", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te0", et0, null,
-                                       vt2)
-            val et2 = DirectedEdgeType(makeUuid(), "et2", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te1", et1, null,
-                                       vt2)
-            val et3 = DirectedEdgeType(makeUuid(), "et3", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te2", et2, null,
-                                       vt2)
-            val et4 = DirectedEdgeType(makeUuid(), "et4", pkg, a, c, m, s, null, null, vt1, null, null, null, null, "te3", et3, null,
-                                       vt2)
+            val et1 = DirectedEdgeType(makeUuid(), "et1", pkg, a, c, m, s,
+                                                                                 null, null, vt1, null, null, null,
+                                                                                 null, "te0", et0, null,
+                                                                                 vt2)
+            val et2 = DirectedEdgeType(makeUuid(), "et2", pkg, a, c, m, s,
+                                                                                 null, null, vt1, null, null, null,
+                                                                                 null, "te1", et1, null,
+                                                                                 vt2)
+            val et3 = DirectedEdgeType(makeUuid(), "et3", pkg, a, c, m, s,
+                                                                                 null, null, vt1, null, null, null,
+                                                                                 null, "te2", et2, null,
+                                                                                 vt2)
+            val et4 = DirectedEdgeType(makeUuid(), "et4", pkg, a, c, m, s,
+                                                                                 null, null, vt1, null, null, null,
+                                                                                 null, "te3", et3, null,
+                                                                                 vt2)
 
             assertEquals(et0, et1.superType)
             assertEquals(et1, et2.superType)

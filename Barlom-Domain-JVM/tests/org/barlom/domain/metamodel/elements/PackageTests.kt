@@ -5,9 +5,9 @@
 
 package org.barlom.domain.metamodel.elements
 
-import org.barlom.domain.metamodel.impl.elements.Package
-import org.barlom.domain.metamodel.impl.elements.PackageDependency
-import org.barlom.domain.metamodel.impl.elements.RootPackage
+import org.barlom.domain.metamodel.impl.vertices.Package
+import org.barlom.domain.metamodel.impl.edges.PackageDependency
+import org.barlom.domain.metamodel.impl.vertices.RootPackage
 import org.barlom.domain.metamodel.withRevHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
@@ -25,8 +25,8 @@ class PackageTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg = Package(makeUuid(), "pkg", root)
-            val subpkg = Package(makeUuid(), "subpkg", pkg)
+            val pkg = Package(makeUuid(), "pkg") { containedBy( root ) }
+            val subpkg = Package(makeUuid(), "subpkg") { containedBy( pkg ) }
 
             assertEquals("pkg", pkg.path)
             assertEquals("pkg.subpkg", subpkg.path)
@@ -39,8 +39,8 @@ class PackageTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg = Package(makeUuid(), "pkg", root)
-            val subpkg = Package(makeUuid(), "subpkg", pkg)
+            val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
+            val subpkg = Package(makeUuid(), "subpkg") { containedBy(pkg) }
 
             assertEquals(root, pkg.parentPackage)
             assertEquals(pkg, subpkg.parentPackage)
@@ -61,9 +61,9 @@ class PackageTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg1 = Package(makeUuid(), "pkg1", root)
-            val pkg2 = Package(makeUuid(), "pkg2", root)
-            val pkg3 = Package(makeUuid(), "pkg3", root)
+            val pkg1 = Package(makeUuid(), "pkg1") { containedBy(root) }
+            val pkg2 = Package(makeUuid(), "pkg2") { containedBy(root) }
+            val pkg3 = Package(makeUuid(), "pkg3") { containedBy(root) }
 
             PackageDependency(makeUuid(), pkg1, pkg2)
             PackageDependency(makeUuid(), pkg2, pkg3)
@@ -98,8 +98,8 @@ class PackageTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg1 = Package(makeUuid(), "pkg1", root)
-            val pkg2 = Package(makeUuid(), "pkg2", root)
+            val pkg1 = Package(makeUuid(), "pkg1") { containedBy(root) }
+            val pkg2 = Package(makeUuid(), "pkg2") { containedBy(root) }
 
             PackageDependency(makeUuid(), pkg1, pkg2)
             PackageDependency(makeUuid(), pkg2, pkg1)
@@ -124,9 +124,9 @@ class PackageTests {
 
         withRevHistory {
             val root = RootPackage()
-            val pkg1 = Package(makeUuid(), "pkg1", root)
-            val pkg2 = Package(makeUuid(), "pkg2", root)
-            val pkg3 = Package(makeUuid(), "pkg3", root)
+            val pkg1 = Package(makeUuid(), "pkg1") { containedBy(root) }
+            val pkg2 = Package(makeUuid(), "pkg2") { containedBy(root) }
+            val pkg3 = Package(makeUuid(), "pkg3") { containedBy(root) }
 
             PackageDependency(makeUuid(), pkg1, pkg2)
             PackageDependency(makeUuid(), pkg2, pkg3)
