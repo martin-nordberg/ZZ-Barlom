@@ -6,6 +6,8 @@
 package org.barlom.domain.metamodel.impl.vertices
 
 import org.barlom.domain.metamodel.api.vertices.IVertexType
+import org.barlom.domain.metamodel.impl.edges.PackageContainment
+import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
 import org.barlom.domain.metamodel.impl.vertices.VertexType
 
 /**
@@ -17,6 +19,5 @@ internal interface IVertexTypeImpl : IVertexType {
      * Adds the given vertex type as a sub type of this one.
      */
     fun addSubType(vertexType: VertexType)
-
 
 }

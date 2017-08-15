@@ -31,10 +31,8 @@ class DirectedEdgeTypeTests {
         withRevHistory {
             val root = RootPackage()
             val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
-            val vt1 = VertexType(makeUuid(), "vt1", pkg,
-                                                                           EAbstractness.CONCRETE, root.rootVertexType)
-            val vt2 = VertexType(makeUuid(), "vt2", pkg,
-                                                                           EAbstractness.CONCRETE, vt1)
+            val vt1 = VertexType(makeUuid(), "vt1", EAbstractness.CONCRETE, root.rootVertexType) { containedBy(pkg) }
+            val vt2 = VertexType(makeUuid(), "vt2", EAbstractness.CONCRETE, vt1) { containedBy(pkg) }
             val etId = makeUuid()
             val et = DirectedEdgeType(etId, "et", pkg, EAbstractness.CONCRETE,
                                                                                 ECyclicity.ACYCLIC,
@@ -75,10 +73,8 @@ class DirectedEdgeTypeTests {
             val root = RootPackage()
             val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val vt0 = root.rootVertexType
-            val vt1 = VertexType(makeUuid(), "vt1", pkg,
-                                                                           EAbstractness.ABSTRACT, vt0)
-            val vt2 = VertexType(makeUuid(), "vt2", pkg,
-                                                                           EAbstractness.ABSTRACT, vt1)
+            val vt1 = VertexType(makeUuid(), "vt1", EAbstractness.ABSTRACT, vt0) { containedBy(pkg) }
+            val vt2 = VertexType(makeUuid(), "vt2", EAbstractness.ABSTRACT, vt1) { containedBy(pkg) }
 
             val a = EAbstractness.ABSTRACT
             val c = ECyclicity.ACYCLIC

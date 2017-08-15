@@ -5,12 +5,14 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
+import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.vertices.IVertexAttributeType
 import org.barlom.domain.metamodel.api.vertices.IVertexType
-import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
+import org.barlom.infrastructure.uuids.makeUuid
 
 
 /**
@@ -20,22 +22,23 @@ internal class VertexType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: INonRootPackageImpl,
     abstractness: EAbstractness,
-    superType: IVertexTypeImpl
+    superType: IVertexTypeImpl,
+    initialize: VertexType.()->Unit
 
-) : IVertexTypeImpl {
+) : INonRootVertexTypeImpl {
 
     private val _abstractness = V(abstractness)
     private val _attributeTypes = VLinkedList<VertexAttributeType>()
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
+    private val _parentPackageContainment = V<VertexTypeContainment?>(null)
     private val _subTypes = VLinkedList<VertexType>()
     private val _superType = V(superType)
 
 
     init {
         superType.addSubType(this)
+        initialize()
     }
 
 
@@ -50,11 +53,21 @@ internal class VertexType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackage: INonRootPackageImpl
-        get() = _parentPackage.get()
+    override val parentPackage: IPackageImpl?
+        get() = _parentPackageContainment.get()?.parent
 
     override val path: String
-        get() = parentPackage.path + "." + name
+        get() {
+
+            val parentPath: String = parentPackage?.path ?: ""
+
+            if (parentPath.isEmpty()) {
+                return name
+            }
+
+            return parentPath + "." + name
+
+        }
 
     override val subTypes: List<VertexType>
         get() = _subTypes.sortedBy { vt -> vt.path }
@@ -90,8 +103,22 @@ internal class VertexType(
 
     }
 
+    override fun addParentVertexTypeContainment(vertexTypeContainment: VertexTypeContainment) {
+
+        require(vertexTypeContainment.child === this) {
+            "Parent package containment can only be added to its child."
+        }
+
+        _parentPackageContainment.set(vertexTypeContainment)
+
+    }
+
     override fun addSubType(vertexType: VertexType) {
         _subTypes.add(vertexType)
+    }
+
+    override fun containedBy(pkg: INonRootPackageImpl) {
+        VertexTypeContainment(makeUuid(), pkg, this)
     }
 
     override fun isSubTypeOf(vertexType: IVertexType): Boolean {

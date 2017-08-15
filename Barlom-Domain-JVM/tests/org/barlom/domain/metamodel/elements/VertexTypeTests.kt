@@ -28,8 +28,7 @@ class VertexTypeTests {
             val root = RootPackage()
             val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val vtId = makeUuid()
-            val vt = VertexType(vtId, "vt", pkg, EAbstractness.CONCRETE,
-                                                                          root.rootVertexType)
+            val vt = VertexType(vtId, "vt", EAbstractness.CONCRETE, root.rootVertexType) { containedBy(pkg) }
 
             assertEquals(vtId, vt.id)
             assertEquals("vt", vt.name)
@@ -45,8 +44,7 @@ class VertexTypeTests {
         withRevHistory {
             val root = RootPackage()
             val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
-            val vt = VertexType(makeUuid(), "vt", pkg, EAbstractness.CONCRETE,
-                                                                          root.rootVertexType)
+            val vt = VertexType(makeUuid(), "vt", EAbstractness.CONCRETE, root.rootVertexType) { containedBy(pkg) }
 
             assertEquals("pkg.vt", vt.path)
         }
@@ -60,14 +58,10 @@ class VertexTypeTests {
             val root = RootPackage()
             val pkg = Package(makeUuid(), "pkg") { containedBy(root) }
             val vt0 = root.rootVertexType
-            val vt1 = VertexType(makeUuid(), "vt1", pkg,
-                                                                           EAbstractness.ABSTRACT, vt0)
-            val vt2 = VertexType(makeUuid(), "vt2", pkg,
-                                                                           EAbstractness.ABSTRACT, vt1)
-            val vt3 = VertexType(makeUuid(), "vt3", pkg,
-                                                                           EAbstractness.ABSTRACT, vt2)
-            val vt4 = VertexType(makeUuid(), "vt4", pkg,
-                                                                           EAbstractness.CONCRETE, vt3)
+            val vt1 = VertexType(makeUuid(), "vt1", EAbstractness.ABSTRACT, vt0) { containedBy(pkg) }
+            val vt2 = VertexType(makeUuid(), "vt2", EAbstractness.ABSTRACT, vt1) { containedBy(pkg) }
+            val vt3 = VertexType(makeUuid(), "vt3", EAbstractness.ABSTRACT, vt2) { containedBy(pkg) }
+            val vt4 = VertexType(makeUuid(), "vt4", EAbstractness.CONCRETE, vt3) { containedBy(pkg) }
 
             assertEquals(vt0, vt1.superType)
             assertEquals(vt1, vt2.superType)

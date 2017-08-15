@@ -10,6 +10,7 @@ import org.barlom.domain.metamodel.api.vertices.IPackage
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
 import org.barlom.domain.metamodel.impl.edges.PackageContainment
 import org.barlom.domain.metamodel.impl.edges.PackageDependency
+import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
@@ -34,11 +35,11 @@ internal class Package(
     private val _parentPackageContainment = V<PackageContainment?>(null)
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
     private val _undirectedEdgeTypes = VLinkedList<UndirectedEdgeType>()
-    private val _vertexTypes = VLinkedList<VertexType>()
+    private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
 
 
     init {
-        this.initialize()
+        initialize()
     }
 
     override val childPackages: List<Package>
@@ -71,15 +72,15 @@ internal class Package(
 
     override val path: String
         get() {
-            var result: String = parentPackage?.path ?: ""
-            if (result.isEmpty()) {
-                result = name
+
+            val parentPath: String = parentPackage?.path ?: ""
+
+            if (parentPath.isEmpty()) {
+                return name
             }
-            else {
-                result += "."
-                result += name
-            }
-            return result
+
+            return parentPath + "." + name
+
         }
 
     override val supplierPackageDependencies: List<IPackageDependency>
@@ -146,7 +147,7 @@ internal class Package(
         get() = _undirectedEdgeTypes.sortedBy { e -> e.name }
 
     override val vertexTypes: List<VertexType>
-        get() = _vertexTypes.sortedBy { v -> v.name }
+        get() = _vertexTypeContainments.map { c -> c.child }.sortedBy { v -> v.name }
 
 
     override fun addConstrainedDataType(constrainedDataType: ConstrainedDataType) {
@@ -219,13 +220,13 @@ internal class Package(
 
     }
 
-    override fun addVertexType(vertexType: VertexType) {
+    override fun addVertexTypeContainment(vertexTypeContainment: VertexTypeContainment) {
 
-        require(vertexType.parentPackage === this) {
+        require(vertexTypeContainment.parent === this) {
             "Cannot add a vertex type to a package not its parent."
         }
 
-        _vertexTypes.add(vertexType)
+        _vertexTypeContainments.add(vertexTypeContainment)
 
     }
 
