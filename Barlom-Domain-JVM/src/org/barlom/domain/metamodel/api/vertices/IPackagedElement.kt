@@ -5,9 +5,6 @@
 
 package org.barlom.domain.metamodel.api.vertices
 
-import org.barlom.domain.metamodel.api.vertices.INamedElement
-import org.barlom.domain.metamodel.api.vertices.IPackage
-
 /**
  * Interface for an abstract packaged element.
  */

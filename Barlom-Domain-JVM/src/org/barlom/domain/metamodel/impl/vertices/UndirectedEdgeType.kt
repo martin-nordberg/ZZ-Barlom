@@ -33,7 +33,7 @@ internal class UndirectedEdgeType(
     vertexType: VertexType,
     initialize: UndirectedEdgeType.() -> Unit
 
-) : IUndirectedEdgeTypeImpl, INonRootUndirectedEdgeTypeImpl {
+) : INonRootUndirectedEdgeTypeImpl, IUndirectedEdgeTypeImpl {
 
     private val _abstractness = V(abstractness)
     private val _attributeTypes = VLinkedList<EdgeAttributeType>()

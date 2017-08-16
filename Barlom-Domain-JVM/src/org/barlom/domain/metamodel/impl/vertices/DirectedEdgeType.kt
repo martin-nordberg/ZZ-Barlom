@@ -10,9 +10,11 @@ import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
 import org.barlom.domain.metamodel.api.vertices.IDirectedEdgeType
+import org.barlom.domain.metamodel.impl.edges.DirectedEdgeTypeContainment
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
+import org.barlom.infrastructure.uuids.makeUuid
 
 /**
  * Implementation class for directed edge types.
@@ -21,7 +23,6 @@ internal class DirectedEdgeType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: Package,
     abstractness: EAbstractness,
     cyclicity: ECyclicity,
     multiEdgedness: EMultiEdgedness,
@@ -36,9 +37,10 @@ internal class DirectedEdgeType(
     reverseName: String?,
     superType: IDirectedEdgeTypeImpl,
     tailRoleName: String?,
-    tailVertexType: VertexType
+    tailVertexType: VertexType,
+    initialize: DirectedEdgeType.() -> Unit
 
-) : IDirectedEdgeTypeImpl, INonRootEdgeTypeImpl {
+) : INonRootDirectedEdgeTypeImpl, IDirectedEdgeTypeImpl {
 
     private val _abstractness = V(abstractness)
     private val _attributeTypes = VLinkedList<EdgeAttributeType>()
@@ -52,7 +54,7 @@ internal class DirectedEdgeType(
     private val _minTailOutDegree = V(minTailOutDegree)
     private val _multiEdgedness = V(multiEdgedness)
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
+    private val _parentDirectedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _reverseName = V(reverseName)
     private val _selfLooping = V(selfLooping)
     private val _subTypes = VLinkedList<DirectedEdgeType>()
@@ -63,6 +65,7 @@ internal class DirectedEdgeType(
 
     init {
         superType.addSubType(this)
+        initialize()
     }
 
 
@@ -112,8 +115,8 @@ internal class DirectedEdgeType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<INonRootPackageImpl>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _parentDirectedEdgeTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
         get() = parentPackages[0].path + "." + name
@@ -158,12 +161,22 @@ internal class DirectedEdgeType(
         _attributeTypes.add(attributeType)
     }
 
+    override fun addDirectedEdgeTypeContainment(edgeTypeContainment: DirectedEdgeTypeContainment) {
+
+        require(edgeTypeContainment.child === this) {
+            "Parent package containment can only be added to its child."
+        }
+
+        _parentDirectedEdgeTypeContainments.add(edgeTypeContainment)
+
+    }
+
     override fun addSubType(edgeType: DirectedEdgeType) {
         _subTypes.add(edgeType)
     }
 
     override fun containedBy(pkg: INonRootPackageImpl) {
-        // TODO
+        DirectedEdgeTypeContainment(makeUuid(), pkg, this)
     }
 
     override fun isSubTypeOf(edgeType: IDirectedEdgeType): Boolean {

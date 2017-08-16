@@ -5,10 +5,7 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
-import org.barlom.domain.metamodel.impl.edges.PackageContainment
-import org.barlom.domain.metamodel.impl.edges.PackageDependency
-import org.barlom.domain.metamodel.impl.edges.UndirectedEdgeTypeContainment
-import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
+import org.barlom.domain.metamodel.impl.edges.*
 
 /**
  * Internal interface to a package that is not a root package.
@@ -22,7 +19,7 @@ internal interface INonRootPackageImpl : IPackageImpl {
     fun addConstrainedDataType(constrainedDataType: ConstrainedDataType)
 
     /** Adds a directed edge type to this, its parent package's, list of directed edge types. */
-    fun addDirectedEdgeType(edgeType: DirectedEdgeType)
+    fun addDirectedEdgeTypeContainment(edgeTypeContainment: DirectedEdgeTypeContainment)
 
     /** Registers the given package containment in this package. */
     fun addParentPackageContainment(packageContainment: PackageContainment)

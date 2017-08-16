@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
+import org.barlom.domain.metamodel.api.edges.IDirectedEdgeTypeContainment
 import org.barlom.domain.metamodel.api.edges.IPackageContainment
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
 import org.barlom.domain.metamodel.api.edges.IUndirectedEdgeTypeContainment
@@ -52,6 +53,9 @@ internal data class RootPackage(
 
     override val directedEdgeTypes: List<IDirectedEdgeType>
         get() = listOf(rootDirectedEdgeType)
+
+    override val directedEdgeTypeContainments: List<IDirectedEdgeTypeContainment>
+        get() = listOf()  // TODO
 
     override var name: String
         get() =

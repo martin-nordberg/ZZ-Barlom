@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices
 
+import org.barlom.domain.metamodel.api.edges.IDirectedEdgeTypeContainment
 import org.barlom.domain.metamodel.api.edges.IPackageContainment
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
 import org.barlom.domain.metamodel.api.edges.IUndirectedEdgeTypeContainment
@@ -30,6 +31,9 @@ interface IPackage : IPackagedElement {
     /** The constrained data types contained by this package. */
     val constrainedDataTypes: List<IConstrainedDataType>
 
+    /** The directed edge type containments linked to this package. */
+    val directedEdgeTypeContainments: List<IDirectedEdgeTypeContainment>
+
     /** The directed edge types defined within this package. */
     val directedEdgeTypes: List<IDirectedEdgeType>
 
@@ -48,11 +52,11 @@ interface IPackage : IPackagedElement {
     /** Returns the supplier packages that this package directly or indirectly depends upon. */
     val transitiveSupplierPackages: List<IPackage>
 
+    /** The undirected edge type containments linked to this package. */
+    val undirectedEdgeTypeContainments: List<IUndirectedEdgeTypeContainment>
+
     /** The undirected edge types defined within this package. */
     val undirectedEdgeTypes: List<IUndirectedEdgeType>
-
-    /** The undirected edge type containmentss linked to this package. */
-    val undirectedEdgeTypeContainments: List<IUndirectedEdgeTypeContainment>
 
     /** The vertex types contains by this package. */
     val vertexTypes: List<IVertexType>

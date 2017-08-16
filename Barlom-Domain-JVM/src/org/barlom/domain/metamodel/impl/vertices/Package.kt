@@ -8,10 +8,7 @@ package org.barlom.domain.metamodel.impl.vertices
 import org.barlom.domain.metamodel.api.edges.IPackageContainment
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
 import org.barlom.domain.metamodel.api.vertices.IPackage
-import org.barlom.domain.metamodel.impl.edges.PackageContainment
-import org.barlom.domain.metamodel.impl.edges.PackageDependency
-import org.barlom.domain.metamodel.impl.edges.UndirectedEdgeTypeContainment
-import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
+import org.barlom.domain.metamodel.impl.edges.*
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
@@ -31,7 +28,7 @@ internal class Package(
     private val _childPackageContainments = VLinkedList<PackageContainment>()
     private val _clientPackageDependencies = VLinkedList<PackageDependency>()
     private val _constrainedDataTypes = VLinkedList<ConstrainedDataType>()
-    private val _directedEdgeTypes = VLinkedList<DirectedEdgeType>()
+    private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _name = V(name)
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
@@ -58,8 +55,11 @@ internal class Package(
     override val constrainedDataTypes: List<ConstrainedDataType>
         get() = _constrainedDataTypes.sortedBy { dt -> dt.name }
 
+    override val directedEdgeTypeContainments: List<DirectedEdgeTypeContainment>
+        get() = _directedEdgeTypeContainments.sortedBy { c -> c.child.name }
+
     override val directedEdgeTypes: List<DirectedEdgeType>
-        get() = _directedEdgeTypes.sortedBy { e -> e.name }
+        get() = _directedEdgeTypeContainments.map { c -> c.child }.sortedBy { e -> e.name }
 
     override var name: String
         get() = _name.get()
@@ -188,13 +188,13 @@ internal class Package(
 
     }
 
-    override fun addDirectedEdgeType(edgeType: DirectedEdgeType) {
+    override fun addDirectedEdgeTypeContainment(edgeTypeContainment: DirectedEdgeTypeContainment) {
 
-//        require(edgeType.parentPackage === this) {
-//            "Cannot add a directed edge type to a package not its parent."
-//        }
+        require(edgeTypeContainment.parent === this) {
+            "Cannot add a directed edge type to a package not its parent."
+        }
 
-        _directedEdgeTypes.add(edgeType)
+        _directedEdgeTypeContainments.add(edgeTypeContainment)
 
     }
 
