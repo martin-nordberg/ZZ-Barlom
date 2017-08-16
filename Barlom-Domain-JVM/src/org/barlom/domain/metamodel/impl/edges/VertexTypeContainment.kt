@@ -25,7 +25,7 @@ internal data class VertexTypeContainment(
 
         // Register both ends.
         parent.addVertexTypeContainment(this)
-        child.addParentVertexTypeContainment(this)
+        child.addVertexTypeContainment(this)
 
     }
 

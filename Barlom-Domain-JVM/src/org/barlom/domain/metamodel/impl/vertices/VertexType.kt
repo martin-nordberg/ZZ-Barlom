@@ -31,7 +31,7 @@ internal class VertexType(
     private val _abstractness = V(abstractness)
     private val _attributeTypes = VLinkedList<VertexAttributeType>()
     private val _name = V(name)
-    private val _parentVertexTypeContainments = VLinkedList<VertexTypeContainment>()
+    private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
     private val _subTypes = VLinkedList<VertexType>()
     private val _superType = V(superType)
 
@@ -54,12 +54,12 @@ internal class VertexType(
         set(value) = _name.set(value)
 
     override val parentPackages: List<IPackageImpl>
-        get() = _parentVertexTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
+        get() = _vertexTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
         get() {
 
-            if (_parentVertexTypeContainments.isEmpty) {
+            if (_vertexTypeContainments.isEmpty) {
                 return name
             }
 
@@ -107,13 +107,13 @@ internal class VertexType(
 
     }
 
-    override fun addParentVertexTypeContainment(vertexTypeContainment: VertexTypeContainment) {
+    override fun addVertexTypeContainment(vertexTypeContainment: VertexTypeContainment) {
 
         require(vertexTypeContainment.child === this) {
             "Parent package containment can only be added to its child."
         }
 
-        _parentVertexTypeContainments.add(vertexTypeContainment)
+        _vertexTypeContainments.add(vertexTypeContainment)
 
     }
 

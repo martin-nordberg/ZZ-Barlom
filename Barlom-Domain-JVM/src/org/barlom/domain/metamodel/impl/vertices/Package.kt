@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
+import org.barlom.domain.metamodel.api.edges.IConstrainedDataTypeContainment
 import org.barlom.domain.metamodel.api.edges.IPackageContainment
 import org.barlom.domain.metamodel.api.edges.IPackageDependency
 import org.barlom.domain.metamodel.api.vertices.IPackage
@@ -27,7 +28,7 @@ internal class Package(
 
     private val _childPackageContainments = VLinkedList<PackageContainment>()
     private val _clientPackageDependencies = VLinkedList<PackageDependency>()
-    private val _constrainedDataTypes = VLinkedList<ConstrainedDataType>()
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _name = V(name)
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
@@ -44,7 +45,7 @@ internal class Package(
         get() = _childPackageContainments.map { c -> c.child }.sortedBy { pkg -> pkg.name }
 
     override val childPackageContainments: List<IPackageContainment>
-        get() = _childPackageContainments.sortedBy { pkgdep -> pkgdep.child.name }
+        get() = _childPackageContainments.sortedBy { c -> c.child.name }
 
     override val clientPackageDependencies: List<IPackageDependency>
         get() = _clientPackageDependencies.sortedBy { pkgdep -> pkgdep.clientPackage.path }
@@ -52,8 +53,11 @@ internal class Package(
     override val clientPackages: List<IPackage>
         get() = _clientPackageDependencies.map { it.clientPackage }.sortedBy { pkg2 -> pkg2.path }
 
-    override val constrainedDataTypes: List<ConstrainedDataType>
-        get() = _constrainedDataTypes.sortedBy { dt -> dt.name }
+    override val constrainedDataTypeContainments: List<IConstrainedDataTypeContainment>
+        get() = _constrainedDataTypeContainments.sortedBy { c -> c.child.name }
+
+    override val constrainedDataTypes: List<IConstrainedDataTypeImpl>
+        get() = _constrainedDataTypeContainments.map { c -> c.child }.sortedBy { dt -> dt.name }
 
     override val directedEdgeTypeContainments: List<DirectedEdgeTypeContainment>
         get() = _directedEdgeTypeContainments.sortedBy { c -> c.child.name }
@@ -158,13 +162,13 @@ internal class Package(
         get() = _vertexTypeContainments.map { c -> c.child }.sortedBy { v -> v.name }
 
 
-    override fun addConstrainedDataType(constrainedDataType: ConstrainedDataType) {
+    override fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
 
-//        require(constrainedDataType.parentPackage === this) {
-//            "Cannot add a constrained data type to a package not its parent."
-//        }
+        require(constrainedDataTypeContainment.parent === this) {
+            "Cannot add a constrained data type to a package not its parent."
+        }
 
-        _constrainedDataTypes.add(constrainedDataType)
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
 
     }
 

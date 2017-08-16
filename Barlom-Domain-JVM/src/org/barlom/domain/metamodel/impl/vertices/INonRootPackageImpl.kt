@@ -16,7 +16,7 @@ internal interface INonRootPackageImpl : IPackageImpl {
     fun addClientPackageDependency(packageDependency: PackageDependency)
 
     /** Adds a constrained data type to this, its parent package's, list of constrained data types. */
-    fun addConstrainedDataType(constrainedDataType: ConstrainedDataType)
+    fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment)
 
     /** Adds a directed edge type to this, its parent package's, list of directed edge types. */
     fun addDirectedEdgeTypeContainment(edgeTypeContainment: DirectedEdgeTypeContainment)

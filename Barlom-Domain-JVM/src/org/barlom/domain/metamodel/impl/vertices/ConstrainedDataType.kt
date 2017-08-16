@@ -7,14 +7,16 @@ package org.barlom.domain.metamodel.impl.vertices
 
 import org.barlom.domain.metamodel.api.types.EDataType
 import org.barlom.domain.metamodel.api.vertices.*
+import org.barlom.domain.metamodel.impl.edges.ConstrainedDataTypeContainment
 import org.barlom.infrastructure.platform.DateTime
 import org.barlom.infrastructure.revisions.V
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Constrained data type implementation.
  */
-internal sealed class ConstrainedDataType : IConstrainedDataType
+internal sealed class ConstrainedDataType : IConstrainedDataTypeImpl
 
 
 /**
@@ -24,18 +26,18 @@ internal class BooleanConstrainedDataType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: INonRootPackageImpl,
-    defaultValue: Boolean?
+    defaultValue: Boolean?,
+    initialize: BooleanConstrainedDataType.() -> Unit
 
 ) : ConstrainedDataType(), IBooleanConstrainedDataType {
 
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _defaultValue = V(defaultValue)
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
 
 
     init {
-        parentPackage.addConstrainedDataType(this)
+        initialize()
     }
 
 
@@ -50,11 +52,36 @@ internal class BooleanConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<INonRootPackageImpl>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _constrainedDataTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
-        get() = parentPackages[0].path + "" + name
+        get() {
+
+            if (_constrainedDataTypeContainments.isEmpty) {
+                return name
+            }
+
+            val parentPath = parentPackages[0].path
+
+            if ( parentPath.isEmpty() ) {
+                return name
+            }
+
+            return parentPath + "." + name
+
+        }
+
+
+    override fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(constrainedDataTypeContainment.child === this) {
+            "Constrained data type containment can only be added to its child."
+        }
+
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
 
 }
 
@@ -66,20 +93,20 @@ internal class DateTimeConstrainedDataType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: INonRootPackageImpl,
     maxValue: DateTime,
-    minValue: DateTime
+    minValue: DateTime,
+    initialize: DateTimeConstrainedDataType.() -> Unit
 
 ) : ConstrainedDataType(), IDateTimeConstrainedDataType {
 
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _maxValue = V(maxValue)
     private val _minValue = V(minValue)
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
 
 
     init {
-        parentPackage.addConstrainedDataType(this)
+        initialize()
     }
 
 
@@ -98,11 +125,22 @@ internal class DateTimeConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<INonRootPackageImpl>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _constrainedDataTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
         get() = parentPackages[0].path + "" + name
+
+
+    override fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(constrainedDataTypeContainment.child === this) {
+            "Constrained data type containment can only be added to its child."
+        }
+
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
 
 }
 
@@ -114,22 +152,22 @@ internal class Float64ConstrainedDataType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: INonRootPackageImpl,
     defaultValue: Double?,
     maxValue: Double?,
-    minValue: Double?
+    minValue: Double?,
+    initialize: Float64ConstrainedDataType.() -> Unit
 
 ) : ConstrainedDataType(), IFloat64ConstrainedDataType {
 
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _defaultValue = V(defaultValue)
     private val _maxValue = V(maxValue)
     private val _minValue = V(minValue)
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
 
 
     init {
-        parentPackage.addConstrainedDataType(this)
+        initialize()
     }
 
 
@@ -152,11 +190,22 @@ internal class Float64ConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<INonRootPackageImpl>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _constrainedDataTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
         get() = parentPackages[0].path + "" + name
+
+
+    override fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(constrainedDataTypeContainment.child === this) {
+            "Constrained data type containment can only be added to its child."
+        }
+
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
 
 }
 
@@ -168,22 +217,22 @@ internal class Integer32ConstrainedDataType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: INonRootPackageImpl,
     defaultValue: Int?,
     maxValue: Int?,
-    minValue: Int?
+    minValue: Int?,
+    initialize: Integer32ConstrainedDataType.() -> Unit
 
 ) : ConstrainedDataType(), IInteger32ConstrainedDataType {
 
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _defaultValue = V(defaultValue)
     private val _maxValue = V(maxValue)
     private val _minValue = V(minValue)
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
 
 
     init {
-        parentPackage.addConstrainedDataType(this)
+        initialize()
     }
 
 
@@ -206,11 +255,22 @@ internal class Integer32ConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<INonRootPackageImpl>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _constrainedDataTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
         get() = parentPackages[0].path + "" + name
+
+
+    override fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(constrainedDataTypeContainment.child === this) {
+            "Constrained data type containment can only be added to its child."
+        }
+
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
 
 }
 
@@ -222,22 +282,22 @@ internal class StringConstrainedDataType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: INonRootPackageImpl,
     maxLength: Int?,
     minLength: Int?,
-    regex: Regex?
+    regex: Regex?,
+    initialize: StringConstrainedDataType.() -> Unit
 
 ) : ConstrainedDataType(), IStringConstrainedDataType {
 
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _maxLength = V(maxLength)
     private val _minLength = V(minLength)
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
     private val _regex = V(regex)
 
 
     init {
-        parentPackage.addConstrainedDataType(this)
+        initialize()
     }
 
 
@@ -256,8 +316,8 @@ internal class StringConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<INonRootPackageImpl>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _constrainedDataTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
         get() = parentPackages[0].path + "" + name
@@ -265,6 +325,17 @@ internal class StringConstrainedDataType(
     override var regex: Regex?
         get() = _regex.get()
         set(value) = _regex.set(value)
+
+
+    override fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(constrainedDataTypeContainment.child === this) {
+            "Constrained data type containment can only be added to its child."
+        }
+
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
 
 }
 
@@ -276,16 +347,16 @@ internal class UuidConstrainedDataType(
 
     override val id: Uuid,
     name: String,
-    parentPackage: INonRootPackageImpl
+    initialize: UuidConstrainedDataType.() -> Unit
 
 ) : ConstrainedDataType(), IUuidConstrainedDataType {
 
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _name = V(name)
-    private val _parentPackage = V(parentPackage)
 
 
     init {
-        parentPackage.addConstrainedDataType(this)
+        initialize()
     }
 
 
@@ -296,10 +367,21 @@ internal class UuidConstrainedDataType(
         get() = _name.get()
         set(value) = _name.set(value)
 
-    override val parentPackages: List<INonRootPackageImpl>
-        get() = listOf(_parentPackage.get())
+    override val parentPackages: List<IPackageImpl>
+        get() = _constrainedDataTypeContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     override val path: String
         get() = parentPackages[0].path + "" + name
+
+
+    override fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(constrainedDataTypeContainment.child === this) {
+            "Constrained data type containment can only be added to its child."
+        }
+
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
 
 }

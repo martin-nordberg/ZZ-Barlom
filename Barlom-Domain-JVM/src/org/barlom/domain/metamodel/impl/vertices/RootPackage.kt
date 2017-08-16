@@ -5,10 +5,7 @@
 
 package org.barlom.domain.metamodel.impl.vertices
 
-import org.barlom.domain.metamodel.api.edges.IDirectedEdgeTypeContainment
-import org.barlom.domain.metamodel.api.edges.IPackageContainment
-import org.barlom.domain.metamodel.api.edges.IPackageDependency
-import org.barlom.domain.metamodel.api.edges.IUndirectedEdgeTypeContainment
+import org.barlom.domain.metamodel.api.edges.*
 import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.domain.metamodel.impl.edges.PackageContainment
 import org.barlom.infrastructure.revisions.VLinkedList
@@ -46,6 +43,9 @@ internal data class RootPackage(
         get() = listOf()
 
     override val clientPackages: List<IPackage>
+        get() = listOf()
+
+    override val constrainedDataTypeContainments: List<IConstrainedDataTypeContainment>
         get() = listOf()
 
     override val constrainedDataTypes: List<ConstrainedDataType>

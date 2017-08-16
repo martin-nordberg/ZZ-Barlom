@@ -5,8 +5,6 @@
 
 package org.barlom.domain.metamodel.api.vertices
 
-import org.barlom.domain.metamodel.api.vertices.IDocumentedElement
-
 /**
  * Interface to a named element - any model item with a name.
  */

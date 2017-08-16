@@ -13,7 +13,7 @@ import org.barlom.domain.metamodel.impl.edges.VertexTypeContainment
 internal interface INonRootVertexTypeImpl : IVertexTypeImpl {
 
     /** Registers the given vertex type containment in this package. */
-    fun addParentVertexTypeContainment(vertexTypeContainment: VertexTypeContainment)
+    fun addVertexTypeContainment(vertexTypeContainment: VertexTypeContainment)
 
     /** Establishes the parent container of this vertex type. */
     fun containedBy(pkg: INonRootPackageImpl) : Unit

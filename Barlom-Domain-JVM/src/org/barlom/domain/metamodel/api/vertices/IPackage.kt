@@ -5,10 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices
 
-import org.barlom.domain.metamodel.api.edges.IDirectedEdgeTypeContainment
-import org.barlom.domain.metamodel.api.edges.IPackageContainment
-import org.barlom.domain.metamodel.api.edges.IPackageDependency
-import org.barlom.domain.metamodel.api.edges.IUndirectedEdgeTypeContainment
+import org.barlom.domain.metamodel.api.edges.*
 
 /**
  * Interface for Barlom packages. Packages are the namespacing mechanism for containing vertex types, edge types,
@@ -27,6 +24,9 @@ interface IPackage : IPackagedElement {
 
     /** Returns the client packages that directly depend upon this package. */
     val clientPackages: List<IPackage>
+
+    /** The constrained data types contained by this package. */
+    val constrainedDataTypeContainments: List<IConstrainedDataTypeContainment>
 
     /** The constrained data types contained by this package. */
     val constrainedDataTypes: List<IConstrainedDataType>
