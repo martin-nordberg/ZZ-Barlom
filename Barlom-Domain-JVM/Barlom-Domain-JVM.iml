@@ -10,8 +10,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Barlom-Foundation-JVM" />
-    <orderEntry type="library" name="junit-jupiter-api-5.0.0-M5" level="project" />
     <orderEntry type="library" name="opentest4j-1.0.0-RC1" level="project" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" name="junit-5.0-RC3" level="project" />
   </component>
 </module>
