@@ -107,17 +107,18 @@ class RevisionHistory(
      * will read from the latest available revision as of the start of the call or a retry. It will write to the
      * next available revision.
      *
+     * @param revisionDescription a short description of the revision.
      * @param task       the work to be done inside a transaction.
      * @param maxRetries the maximum number of times to retry the transaction if write conflicts are encountered (must
      *                   be zero or more, zero meaning try but don't retry).
      *
      * @throws MaximumRetriesExceededException if the transaction fails even after the specified number of retries.
      */
-    fun update(revisionDescription: String, maxRetries: Int, task: () -> Unit) {
+    fun update(revisionDescription: String, maxRetries: Int = 0, task: () -> Unit) {
 
         // Sanity check the input.
         require(maxRetries >= 0) { "Retry count must be greater than or equal to zero." }
-        require( _transactionOfCurrentThread.get() == null ) { "Update cannot be reentrant" }
+        require(_transactionOfCurrentThread.get() == null) { "Update cannot be reentrant" }
 
         try {
 

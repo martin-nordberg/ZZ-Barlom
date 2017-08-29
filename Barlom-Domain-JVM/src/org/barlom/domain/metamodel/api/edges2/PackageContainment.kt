@@ -21,6 +21,10 @@ class PackageContainment internal constructor(
 
     init {
 
+        check(!child.isRoot) {
+            "Root package cannot have a parent."
+        }
+
         // Register both ends.
         parent.addChildPackageContainment(this)
         child.addParentPackageContainment(this)
