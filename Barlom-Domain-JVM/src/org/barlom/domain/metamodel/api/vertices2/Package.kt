@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.api.vertices2
 
 import org.barlom.domain.metamodel.api.edges2.PackageContainment
 import org.barlom.domain.metamodel.api.edges2.PackageDependency
+import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
@@ -27,6 +28,7 @@ class Package internal constructor(
     private val _name = V(if (isRoot) "" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
+    private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
 
 
     /** The child sub-packages within this package. */
@@ -143,6 +145,14 @@ class Package internal constructor(
 
         }
 
+    /** The vertex types within this package. */
+    val vertexTypes: List<VertexType>
+        get() = _vertexTypeContainments.map { c -> c.child }.sortedBy { vt -> vt.name }
+
+    /** Links to packages that are direct children of this package. */
+    val vertexTypeContainments: List<VertexTypeContainment>
+        get() = _vertexTypeContainments.sortedBy { c -> c.child.name }
+
 
     /** Registers the given package containment in this package. */
     internal fun addChildPackageContainment(packageContainment: PackageContainment) {
@@ -189,6 +199,17 @@ class Package internal constructor(
         }
 
         _supplierPackageDependencies.add(packageDependency)
+
+    }
+
+    /** Adds a vertex type to this, its parent package's, list of vertex type containments. */
+    internal fun addVertexTypeContainment(vertexTypeContainment: VertexTypeContainment) {
+
+        require(vertexTypeContainment.parent === this) {
+            "Cannot add a vertex type to a package not its parent."
+        }
+
+        _vertexTypeContainments.add(vertexTypeContainment)
 
     }
 
