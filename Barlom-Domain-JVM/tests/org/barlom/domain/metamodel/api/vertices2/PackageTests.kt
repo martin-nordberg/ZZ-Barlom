@@ -6,7 +6,6 @@
 package org.barlom.domain.metamodel.api.vertices2
 
 import org.barlom.domain.metamodel.api.model.Model
-import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,17 +17,73 @@ import kotlin.test.assertTrue
 class PackageTests {
 
     @Test
+    fun `Packages are vertices of the graph`() {
+
+        val model = Model()
+
+        model.revHistory.update("test") {
+            val root = model.rootPackage
+            val pkg = model.makePackage { name = "pkg" }
+            val subpkg = model.makePackage { name = "subpkg" }
+
+            assertTrue(model.vertices.contains(root))
+            assertTrue(model.vertices.contains(pkg))
+            assertTrue(model.vertices.contains(subpkg))
+
+            assertEquals(3, model.vertices.size)
+        }
+
+    }
+
+    @Test
+    fun `Packages links are edges of the graph`() {
+
+        val model = Model()
+
+        model.revHistory.update("test") {
+
+            val root = model.rootPackage
+            val pkg1 = model.makePackage { name = "pkg1" }
+            val pkg2 = model.makePackage { name = "pkg2" }
+            val pkg3 = model.makePackage { name = "pkg3" }
+
+            model.makePackageContainment(root, pkg1)
+            model.makePackageContainment(root, pkg2)
+            model.makePackageContainment(root, pkg3)
+
+            model.makePackageDependency(pkg1, pkg2)
+            model.makePackageDependency(pkg2, pkg3)
+
+            for (c in root.childPackageContainments) {
+                assertTrue(model.edges.contains(c))
+            }
+
+            for (d in pkg1.supplierPackageDependencies) {
+                assertTrue(model.edges.contains(d))
+            }
+
+            for (d in pkg2.supplierPackageDependencies) {
+                assertTrue(model.edges.contains(d))
+            }
+
+            assertEquals(5, model.edges.size)
+
+        }
+
+    }
+
+    @Test
     fun `Packages have paths`() {
 
         val model = Model()
 
         model.revHistory.update("test") {
             val root = model.rootPackage
-            val pkg = model.makePackage(makeUuid(), "pkg")
-            val subpkg = model.makePackage(makeUuid(), "subpkg")
+            val pkg = model.makePackage { name = "pkg" }
+            val subpkg = model.makePackage { name = "subpkg" }
 
-            model.makePackageContainment(makeUuid(), root, pkg)
-            model.makePackageContainment(makeUuid(), pkg, subpkg)
+            model.makePackageContainment(root, pkg)
+            model.makePackageContainment(pkg, subpkg)
 
             assertEquals("pkg", pkg.path)
             assertEquals("pkg.subpkg", subpkg.path)
@@ -43,11 +98,11 @@ class PackageTests {
 
         model.revHistory.update("test") {
             val root = model.rootPackage
-            val pkg = model.makePackage(makeUuid(), "pkg")
-            val subpkg = model.makePackage(makeUuid(), "subpkg")
+            val pkg = model.makePackage { name = "pkg" }
+            val subpkg = model.makePackage { name = "subpkg" }
 
-            model.makePackageContainment(makeUuid(), root, pkg)
-            model.makePackageContainment(makeUuid(), pkg, subpkg)
+            model.makePackageContainment(root, pkg)
+            model.makePackageContainment(pkg, subpkg)
 
             assertEquals(root, pkg.parentPackageContainments[0].parent)
             assertEquals(pkg, subpkg.parentPackageContainments[0].parent)
@@ -76,16 +131,16 @@ class PackageTests {
 
         model.revHistory.update("test") {
             val root = model.rootPackage
-            val pkg1 = model.makePackage(makeUuid(), "pkg1")
-            val pkg2 = model.makePackage(makeUuid(), "pkg2")
-            val pkg3 = model.makePackage(makeUuid(), "pkg3")
+            val pkg1 = model.makePackage { name = "pkg1" }
+            val pkg2 = model.makePackage { name = "pkg2" }
+            val pkg3 = model.makePackage { name = "pkg3" }
 
-            model.makePackageContainment(makeUuid(), root, pkg1)
-            model.makePackageContainment(makeUuid(), root, pkg2)
-            model.makePackageContainment(makeUuid(), root, pkg3)
+            model.makePackageContainment(root, pkg1)
+            model.makePackageContainment(root, pkg2)
+            model.makePackageContainment(root, pkg3)
 
-            model.makePackageDependency(makeUuid(), pkg1, pkg2)
-            model.makePackageDependency(makeUuid(), pkg2, pkg3)
+            model.makePackageDependency(pkg1, pkg2)
+            model.makePackageDependency(pkg2, pkg3)
 
             assertTrue(pkg1.hasSupplierPackage(pkg2))
             assertFalse(pkg2.hasSupplierPackage(pkg1))
@@ -121,14 +176,14 @@ class PackageTests {
 
         model.revHistory.update("test") {
             val root = model.rootPackage
-            val pkg1 = model.makePackage(makeUuid(), "pkg1")
-            val pkg2 = model.makePackage(makeUuid(), "pkg2")
+            val pkg1 = model.makePackage { name = "pkg1" }
+            val pkg2 = model.makePackage { name = "pkg2" }
 
-            model.makePackageContainment(makeUuid(), root, pkg1)
-            model.makePackageContainment(makeUuid(), root, pkg2)
+            model.makePackageContainment(root, pkg1)
+            model.makePackageContainment(root, pkg2)
 
-            model.makePackageDependency(makeUuid(), pkg1, pkg2)
-            model.makePackageDependency(makeUuid(), pkg2, pkg1)
+            model.makePackageDependency(pkg1, pkg2)
+            model.makePackageDependency(pkg2, pkg1)
 
             assertTrue(pkg1.hasTransitiveConsumerPackage(pkg2))
             assertTrue(pkg1.hasTransitiveConsumerPackage(pkg1))
@@ -152,17 +207,17 @@ class PackageTests {
 
         model.revHistory.update("test") {
             val root = model.rootPackage
-            val pkg1 = model.makePackage(makeUuid(), "pkg1")
-            val pkg2 = model.makePackage(makeUuid(), "pkg2")
-            val pkg3 = model.makePackage(makeUuid(), "pkg3")
+            val pkg1 = model.makePackage { name = "pkg1" }
+            val pkg2 = model.makePackage { name = "pkg2" }
+            val pkg3 = model.makePackage { name = "pkg3" }
 
-            model.makePackageContainment(makeUuid(), root, pkg1)
-            model.makePackageContainment(makeUuid(), root, pkg2)
-            model.makePackageContainment(makeUuid(), root, pkg3)
+            model.makePackageContainment(root, pkg1)
+            model.makePackageContainment(root, pkg2)
+            model.makePackageContainment(root, pkg3)
 
-            model.makePackageDependency(makeUuid(), pkg1, pkg2)
-            model.makePackageDependency(makeUuid(), pkg2, pkg3)
-            model.makePackageDependency(makeUuid(), pkg3, pkg1)
+            model.makePackageDependency(pkg1, pkg2)
+            model.makePackageDependency(pkg2, pkg3)
+            model.makePackageDependency(pkg3, pkg1)
 
             assertTrue(pkg1.hasTransitiveConsumerPackage(pkg2))
             assertTrue(pkg1.hasTransitiveConsumerPackage(pkg3))

@@ -7,8 +7,11 @@ package org.barlom.domain.metamodel.api.model
 
 import org.barlom.domain.metamodel.api.edges2.PackageContainment
 import org.barlom.domain.metamodel.api.edges2.PackageDependency
+import org.barlom.domain.metamodel.api.vertices2.AbstractDocumentedElement
+import org.barlom.domain.metamodel.api.vertices2.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices2.Package
 import org.barlom.infrastructure.revisions.RevisionHistory
+import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
 import org.barlom.infrastructure.uuids.makeUuid
 
@@ -18,17 +21,41 @@ class Model(
 
 ) {
 
+    private val _edges: VLinkedList<AbstractDocumentedElement>
+
+    private val _vertices: VLinkedList<AbstractPackagedElement>
+
+
+    val edges: List<AbstractDocumentedElement>
+        get() = _edges.asList()
+
     val revHistory = RevisionHistory("Initial empty model.")
 
     val rootPackage: Package
 
+    val vertices: List<AbstractPackagedElement>
+        get() = _vertices.sortedBy { e -> e.path }
+
 
     init {
+
+        var edges: VLinkedList<AbstractDocumentedElement>? = null
+        var vertices: VLinkedList<AbstractPackagedElement>? = null
+
+        revHistory.update("Graph initialized.", 0) {
+            edges = VLinkedList()
+            vertices = VLinkedList()
+        }
+
+        _edges = edges!!
+        _vertices = vertices!!
+
 
         var rootPkg: Package? = null
 
         revHistory.update("Root elements added.", 0) {
             rootPkg = Package(rootPackageId, "", true) {}
+            _vertices.add(rootPkg!!)
         }
 
         rootPackage = rootPkg!!
@@ -38,26 +65,31 @@ class Model(
 
     fun makePackage(
         id: Uuid = makeUuid(),
-        name: String = "newpackage",
         initialize: Package.() -> Unit = {}
     ): Package {
-        return Package(id, name, false, initialize)
+        val result = Package(id, "newpackage", false, initialize)
+        _vertices.add(result)
+        return result
     }
 
     fun makePackageContainment(
-        id: Uuid = makeUuid(),
         parent: Package,
-        child: Package
+        child: Package,
+        id: Uuid = makeUuid()
     ): PackageContainment {
-        return PackageContainment(id, parent, child)
+        val result = PackageContainment(id, parent, child)
+        _edges.add(result)
+        return result
     }
 
     fun makePackageDependency(
-        id: Uuid = makeUuid(),
-        client: Package,
-        supplier: Package
+        consumer: Package,
+        supplier: Package,
+        id: Uuid = makeUuid()
     ): PackageDependency {
-        return PackageDependency(id, client, supplier)
+        val result = PackageDependency(id, consumer, supplier)
+        _edges.add(result)
+        return result
     }
 
 }

@@ -3,9 +3,8 @@
 // Apache 2.0 License
 //
 
-package org.barlom.domain.metamodel.types
+package org.barlom.domain.metamodel.api.types
 
-import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -20,9 +19,9 @@ class ECyclicityTests {
     @Test
     fun `Cyclicities know whether they are acyclic`() {
 
-        assertTrue{ ECyclicity.ACYCLIC.isAcyclic() ?: false }
-        assertFalse{ ECyclicity.POTENTIALLY_CYCLIC.isAcyclic() ?: true }
-        assertNull(ECyclicity.UNCONSTRAINED.isAcyclic() )
+        assertTrue { ECyclicity.ACYCLIC.isAcyclic() ?: false }
+        assertFalse { ECyclicity.POTENTIALLY_CYCLIC.isAcyclic() ?: true }
+        assertNull(ECyclicity.UNCONSTRAINED.isAcyclic())
 
     }
 
