@@ -18,22 +18,15 @@ import org.barlom.infrastructure.uuids.Uuid
 class Package internal constructor(
 
     override val id: Uuid,
-    name: String,
-    val isRoot: Boolean,
-    initialize: Package.() -> Unit
+    val isRoot: Boolean
 
 ) : AbstractPackagedElement() {
 
     private val _childPackageContainments = VLinkedList<PackageContainment>()
     private val _consumerPackageDependencies = VLinkedList<PackageDependency>()
-    private val _name = V(name)
+    private val _name = V(if (isRoot) "" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
-
-
-    init {
-        initialize()
-    }
 
 
     /** The child sub-packages within this package. */

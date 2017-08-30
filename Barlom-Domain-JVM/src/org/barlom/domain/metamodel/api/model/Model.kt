@@ -54,7 +54,7 @@ class Model(
         var rootPkg: Package? = null
 
         revHistory.update("Root elements added.", 0) {
-            rootPkg = Package(rootPackageId, "", true) {}
+            rootPkg = Package(rootPackageId, true)
             _vertices.add(rootPkg!!)
         }
 
@@ -67,7 +67,8 @@ class Model(
         id: Uuid = makeUuid(),
         initialize: Package.() -> Unit = {}
     ): Package {
-        val result = Package(id, "newpackage", false, initialize)
+        val result = Package(id, false)
+        result.initialize()
         _vertices.add(result)
         return result
     }
