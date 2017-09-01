@@ -8,6 +8,7 @@ package org.barlom.domain.metamodel.api.model
 import org.barlom.domain.metamodel.api.edges2.PackageContainment
 import org.barlom.domain.metamodel.api.edges2.PackageDependency
 import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
+import org.barlom.domain.metamodel.api.edges2.VertexTypeInheritance
 import org.barlom.domain.metamodel.api.vertices2.AbstractDocumentedElement
 import org.barlom.domain.metamodel.api.vertices2.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices2.Package
@@ -124,6 +125,16 @@ class Model(
         id: Uuid = makeUuid()
     ): VertexTypeContainment {
         val result = VertexTypeContainment(id, parent, child)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeVertexTypeInheritance(
+        superType: VertexType,
+        subType: VertexType,
+        id: Uuid = makeUuid()
+    ): VertexTypeInheritance {
+        val result = VertexTypeInheritance(id, superType, subType)
         _edges.add(result)
         return result
     }

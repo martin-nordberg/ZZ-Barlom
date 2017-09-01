@@ -30,7 +30,7 @@ class PackageTests {
             assertTrue(model.vertices.contains(pkg))
             assertTrue(model.vertices.contains(subpkg))
 
-            assertEquals(3, model.vertices.size)
+            assertEquals(4, model.vertices.size)
         }
 
     }
@@ -66,7 +66,7 @@ class PackageTests {
                 assertTrue(model.edges.contains(d))
             }
 
-            assertEquals(5, model.edges.size)
+            assertEquals(6, model.edges.size)
 
         }
 
@@ -110,16 +110,38 @@ class PackageTests {
             assertEquals(pkg, root.childPackageContainments[0].child)
             assertEquals(subpkg, pkg.childPackageContainments[0].child)
 
-            assertTrue(root.childPackages.contains(pkg))
-            assertTrue(pkg.childPackages.contains(subpkg))
-            assertFalse(root.childPackages.contains(subpkg))
+            assertTrue(root.children.contains(pkg))
+            assertTrue(pkg.children.contains(subpkg))
+            assertFalse(root.children.contains(subpkg))
 
-            assertTrue(pkg.isChildOf(root))
-            assertTrue(subpkg.isChildOf(root))
-            assertTrue(subpkg.isChildOf(pkg))
-            assertFalse(root.isChildOf(pkg))
-            assertFalse(root.isChildOf(subpkg))
-            assertFalse(pkg.isChildOf(subpkg))
+            assertTrue(root.hasChild(pkg))
+            assertFalse(root.hasChild(subpkg))
+            assertTrue(pkg.hasChild(subpkg))
+            assertFalse(pkg.hasChild(root))
+            assertFalse(subpkg.hasChild(root))
+            assertFalse(subpkg.hasChild(pkg))
+
+            assertFalse(root.hasParent(pkg))
+            assertFalse(root.hasParent(subpkg))
+            assertFalse(pkg.hasParent(subpkg))
+            assertTrue(pkg.hasParent(root))
+            assertFalse(subpkg.hasParent(root))
+            assertTrue(subpkg.hasParent(pkg))
+
+            assertTrue(root.hasTransitiveChild(pkg))
+            assertTrue(root.hasTransitiveChild(subpkg))
+            assertTrue(pkg.hasTransitiveChild(subpkg))
+            assertFalse(pkg.hasTransitiveChild(root))
+            assertFalse(subpkg.hasTransitiveChild(root))
+            assertFalse(subpkg.hasTransitiveChild(pkg))
+
+            assertFalse(root.hasTransitiveParent(pkg))
+            assertFalse(root.hasTransitiveParent(subpkg))
+            assertFalse(pkg.hasTransitiveParent(subpkg))
+            assertTrue(pkg.hasTransitiveParent(root))
+            assertTrue(subpkg.hasTransitiveParent(root))
+            assertTrue(subpkg.hasTransitiveParent(pkg))
+
         }
 
     }
@@ -142,29 +164,29 @@ class PackageTests {
             model.makePackageDependency(pkg1, pkg2)
             model.makePackageDependency(pkg2, pkg3)
 
-            assertTrue(pkg1.hasSupplierPackage(pkg2))
-            assertFalse(pkg2.hasSupplierPackage(pkg1))
-            assertTrue(pkg2.hasSupplierPackage(pkg3))
-            assertTrue(pkg1.hasTransitiveSupplierPackage(pkg3))
-            assertFalse(pkg1.hasSupplierPackage(pkg3))
+            assertTrue(pkg1.hasSupplier(pkg2))
+            assertFalse(pkg2.hasSupplier(pkg1))
+            assertTrue(pkg2.hasSupplier(pkg3))
+            assertTrue(pkg1.hasTransitiveSupplier(pkg3))
+            assertFalse(pkg1.hasSupplier(pkg3))
 
-            assertTrue(pkg2.hasConsumerPackage(pkg1))
-            assertTrue(pkg3.hasConsumerPackage(pkg2))
-            assertTrue(pkg3.hasTransitiveConsumerPackage(pkg1))
-            assertFalse(pkg3.hasConsumerPackage(pkg1))
+            assertTrue(pkg2.hasConsumer(pkg1))
+            assertTrue(pkg3.hasConsumer(pkg2))
+            assertTrue(pkg3.hasTransitiveConsumer(pkg1))
+            assertFalse(pkg3.hasConsumer(pkg1))
 
-            assertTrue(pkg1.supplierPackages.contains(pkg2))
-            assertTrue(pkg1.transitiveSupplierPackages.contains(pkg2))
+            assertTrue(pkg1.suppliers.contains(pkg2))
+            assertTrue(pkg1.transitiveSuppliers.contains(pkg2))
             assertTrue(pkg1.supplierPackageDependencies[0].supplier == pkg2)
             assertTrue(pkg2.consumerPackageDependencies[0].consumer == pkg1)
-            assertFalse(pkg1.supplierPackages.contains(pkg3))
-            assertTrue(pkg1.transitiveSupplierPackages.contains(pkg3))
+            assertFalse(pkg1.suppliers.contains(pkg3))
+            assertTrue(pkg1.transitiveSuppliers.contains(pkg3))
 
-            assertTrue(pkg2.consumerPackages.contains(pkg1))
-            assertTrue(pkg3.transitiveConsumerPackages.contains(pkg1))
-            assertFalse(pkg3.consumerPackages.contains(pkg1))
-            assertTrue(pkg2.consumerPackages.contains(pkg1))
-            assertTrue(pkg2.transitiveConsumerPackages.contains(pkg1))
+            assertTrue(pkg2.consumers.contains(pkg1))
+            assertTrue(pkg3.transitiveConsumers.contains(pkg1))
+            assertFalse(pkg3.consumers.contains(pkg1))
+            assertTrue(pkg2.consumers.contains(pkg1))
+            assertTrue(pkg2.transitiveConsumers.contains(pkg1))
         }
 
     }
@@ -185,17 +207,17 @@ class PackageTests {
             model.makePackageDependency(pkg1, pkg2)
             model.makePackageDependency(pkg2, pkg1)
 
-            assertTrue(pkg1.hasTransitiveConsumerPackage(pkg2))
-            assertTrue(pkg1.hasTransitiveConsumerPackage(pkg1))
+            assertTrue(pkg1.hasTransitiveConsumer(pkg2))
+            assertTrue(pkg1.hasTransitiveConsumer(pkg1))
 
-            assertTrue(pkg1.hasTransitiveSupplierPackage(pkg2))
-            assertTrue(pkg1.hasTransitiveSupplierPackage(pkg1))
+            assertTrue(pkg1.hasTransitiveSupplier(pkg2))
+            assertTrue(pkg1.hasTransitiveSupplier(pkg1))
 
-            assertTrue(pkg1.transitiveSupplierPackages.contains(pkg2))
-            assertTrue(pkg1.transitiveSupplierPackages.contains(pkg1))
+            assertTrue(pkg1.transitiveSuppliers.contains(pkg2))
+            assertTrue(pkg1.transitiveSuppliers.contains(pkg1))
 
-            assertTrue(pkg1.transitiveConsumerPackages.contains(pkg2))
-            assertTrue(pkg1.transitiveConsumerPackages.contains(pkg1))
+            assertTrue(pkg1.transitiveConsumers.contains(pkg2))
+            assertTrue(pkg1.transitiveConsumers.contains(pkg1))
         }
 
     }
@@ -219,21 +241,21 @@ class PackageTests {
             model.makePackageDependency(pkg2, pkg3)
             model.makePackageDependency(pkg3, pkg1)
 
-            assertTrue(pkg1.hasTransitiveConsumerPackage(pkg2))
-            assertTrue(pkg1.hasTransitiveConsumerPackage(pkg3))
-            assertTrue(pkg1.hasTransitiveConsumerPackage(pkg1))
+            assertTrue(pkg1.hasTransitiveConsumer(pkg2))
+            assertTrue(pkg1.hasTransitiveConsumer(pkg3))
+            assertTrue(pkg1.hasTransitiveConsumer(pkg1))
 
-            assertTrue(pkg1.hasTransitiveSupplierPackage(pkg2))
-            assertTrue(pkg1.hasTransitiveSupplierPackage(pkg3))
-            assertTrue(pkg1.hasTransitiveSupplierPackage(pkg1))
+            assertTrue(pkg1.hasTransitiveSupplier(pkg2))
+            assertTrue(pkg1.hasTransitiveSupplier(pkg3))
+            assertTrue(pkg1.hasTransitiveSupplier(pkg1))
 
-            assertTrue(pkg1.transitiveSupplierPackages.contains(pkg2))
-            assertTrue(pkg1.transitiveSupplierPackages.contains(pkg3))
-            assertTrue(pkg1.transitiveSupplierPackages.contains(pkg1))
+            assertTrue(pkg1.transitiveSuppliers.contains(pkg2))
+            assertTrue(pkg1.transitiveSuppliers.contains(pkg3))
+            assertTrue(pkg1.transitiveSuppliers.contains(pkg1))
 
-            assertTrue(pkg1.transitiveConsumerPackages.contains(pkg2))
-            assertTrue(pkg1.transitiveConsumerPackages.contains(pkg3))
-            assertTrue(pkg1.transitiveConsumerPackages.contains(pkg1))
+            assertTrue(pkg1.transitiveConsumers.contains(pkg2))
+            assertTrue(pkg1.transitiveConsumers.contains(pkg3))
+            assertTrue(pkg1.transitiveConsumers.contains(pkg1))
         }
 
     }

@@ -12,7 +12,7 @@ package org.barlom.domain.metamodel.api.vertices2
 abstract class AbstractPackagedElement internal constructor() : AbstractNamedElement() {
 
     /** The package containing this packaged element. */
-    abstract val parentPackages: List<Package>
+    abstract val parents: List<Package>
 
     /** The dot-delimited path to this packaged element. */
     abstract val path: String

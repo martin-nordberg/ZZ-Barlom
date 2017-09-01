@@ -32,7 +32,7 @@ class Package internal constructor(
 
 
     /** The child sub-packages within this package. */
-    val childPackages: List<Package>
+    val children: List<Package>
         get() = _childPackageContainments.map { c -> c.child }.sortedBy { pkg -> pkg.name }
 
     /** Links to packages that are direct children of this package. */
@@ -40,7 +40,7 @@ class Package internal constructor(
         get() = _childPackageContainments.sortedBy { c -> c.child.name }
 
     /** The consumer package links within this package. */
-    val consumerPackages: List<Package>
+    val consumers: List<Package>
         get() = _consumerPackageDependencies.map { c -> c.consumer }.sortedBy { pkg -> pkg.path }
 
     /** Links to packages that are direct consumers of this package. */
@@ -59,7 +59,7 @@ class Package internal constructor(
 
         }
 
-    override val parentPackages: List<Package>
+    override val parents: List<Package>
         get() = _parentPackageContainments.map { c -> c.parent }.sortedBy { pkg -> pkg.name }
 
     /** The package containment linking this package to its parent. */
@@ -73,7 +73,7 @@ class Package internal constructor(
                 return name
             }
 
-            val parentPath = parentPackages[0].path
+            val parentPath = parents[0].path
 
             if (parentPath.isEmpty()) {
                 return name
@@ -84,14 +84,14 @@ class Package internal constructor(
         }
 
     /** The supplier package links within this package. */
-    val supplierPackages: List<Package>
+    val suppliers: List<Package>
         get() = _supplierPackageDependencies.map { c -> c.supplier }.sortedBy { pkg -> pkg.path }
 
     /** Links to packages that are direct suppliers of this package. */
     val supplierPackageDependencies: List<PackageDependency>
         get() = _supplierPackageDependencies.sortedBy { c -> c.supplier.path }
 
-    val transitiveConsumerPackages: List<Package>
+    val transitiveConsumers: List<Package>
         get() {
 
             val result: MutableSet<Package> = mutableSetOf()
@@ -118,7 +118,7 @@ class Package internal constructor(
 
         }
 
-    val transitiveSupplierPackages: List<Package>
+    val transitiveSuppliers: List<Package>
         get() {
 
             val result: MutableSet<Package> = mutableSetOf()
@@ -213,13 +213,14 @@ class Package internal constructor(
 
     }
 
-    fun hasConsumerPackage(pkg: Package): Boolean {
+    /** Whether the given [pkg] is a direct child of this one. */
+    fun hasChild(pkg: Package): Boolean {
 
         var result = false
 
-        _consumerPackageDependencies.forEachWhile { pkgdep ->
+        _childPackageContainments.forEachWhile { packageContainment ->
 
-            result = pkg == pkgdep.consumer
+            result = pkg === packageContainment.child
             !result
 
         }
@@ -228,13 +229,14 @@ class Package internal constructor(
 
     }
 
-    fun hasSupplierPackage(pkg: Package): Boolean {
+    /** Whether the given [vertexType] is a direct child of this one. */
+    fun hasChild(vertexType: VertexType): Boolean {
 
         var result = false
 
-        _supplierPackageDependencies.forEachWhile { pkgdep ->
+        _vertexTypeContainments.forEachWhile { vertexTypeContainment ->
 
-            result = pkg == pkgdep.supplier
+            result = vertexType === vertexTypeContainment.child
             !result
 
         }
@@ -243,26 +245,111 @@ class Package internal constructor(
 
     }
 
-    fun hasTransitiveConsumerPackage(pkg: Package): Boolean {
+    /** Whether the given [pkg] is a direct consumer of this one. */
+    fun hasConsumer(pkg: Package): Boolean {
+
+        var result = false
+
+        _consumerPackageDependencies.forEachWhile { packageDependency ->
+
+            result = pkg === packageDependency.consumer
+            !result
+
+        }
+
+        return result
+
+    }
+
+    /** Whether the given [pkg] is a direct parent of this one. */
+    fun hasParent(pkg: Package): Boolean {
+
+        var result = false
+
+        _parentPackageContainments.forEachWhile { packageContainment ->
+
+            result = pkg === packageContainment.parent
+            !result
+
+        }
+
+        return result
+
+    }
+
+    /** Whether the given [pkg] is a direct supplier of this one. */
+    fun hasSupplier(pkg: Package): Boolean {
+
+        var result = false
+
+        _supplierPackageDependencies.forEachWhile { packageDependency ->
+
+            result = pkg === packageDependency.supplier
+            !result
+
+        }
+
+        return result
+
+    }
+
+    /** Whether the given [pkg] is a direct or indirect child of this one. */
+    fun hasTransitiveChild(pkg: Package): Boolean {
+
+        val children: MutableSet<Package> = mutableSetOf()
+
+        // Helper function recursively searches while accumulating the packages searched so far
+        fun findChild(parent: Package): Boolean {
+
+            for (packageContainment in parent._childPackageContainments.asList()) {
+
+                val child = packageContainment.child
+
+                if (child === pkg) {
+                    return true
+                }
+
+                if (!children.contains(child)) {
+
+                    children.add(child)
+
+                    if (findChild(child)) {
+                        return true
+                    }
+
+                }
+
+            }
+
+            return false
+
+        }
+
+        return findChild(this)
+
+    }
+
+    /** Whether the given [pkg] is a direct or indirect consumer of this one. */
+    fun hasTransitiveConsumer(pkg: Package): Boolean {
 
         val consumers: MutableSet<Package> = mutableSetOf()
 
         // Helper function recursively searches while accumulating the packages searched so far
-        fun findConsumerPackage(supplierPkg: Package): Boolean {
+        fun findConsumer(supplierPkg: Package): Boolean {
 
-            for (pkgDep in supplierPkg._consumerPackageDependencies.asList()) {
+            for (packageDependency in supplierPkg._consumerPackageDependencies.asList()) {
 
-                val consumerPkg = pkgDep.consumer
+                val consumer = packageDependency.consumer
 
-                if (consumerPkg === pkg) {
+                if (consumer === pkg) {
                     return true
                 }
 
-                if (!consumers.contains(consumerPkg)) {
+                if (!consumers.contains(consumer)) {
 
-                    consumers.add(consumerPkg)
+                    consumers.add(consumer)
 
-                    if (findConsumerPackage(consumerPkg)) {
+                    if (findConsumer(consumer)) {
                         return true
                     }
 
@@ -274,30 +361,67 @@ class Package internal constructor(
 
         }
 
-        return findConsumerPackage(this)
+        return findConsumer(this)
 
     }
 
-    fun hasTransitiveSupplierPackage(pkg: Package): Boolean {
+    /** Whether the given [pkg] is a direct or indirect parent of this one. */
+    fun hasTransitiveParent(pkg: Package): Boolean {
+
+        val parents: MutableSet<Package> = mutableSetOf()
+
+        // Helper function recursively searches while accumulating the packages searched so far
+        fun findParent(child: Package): Boolean {
+
+            for (packageContainment in child._parentPackageContainments.asList()) {
+
+                val parent = packageContainment.parent
+
+                if (parent === pkg) {
+                    return true
+                }
+
+                if (!parents.contains(parent)) {
+
+                    parents.add(parent)
+
+                    if (findParent(parent)) {
+                        return true
+                    }
+
+                }
+
+            }
+
+            return false
+
+        }
+
+        return findParent(this)
+
+    }
+
+    /** Whether the given [pkg] is a direct or indirect supplier of this one. */
+    fun hasTransitiveSupplier(pkg: Package): Boolean {
 
         val suppliers: MutableSet<Package> = mutableSetOf()
 
         // Helper function recursively searches while accumulating the packages searched so far
-        fun findSupplierPackage(consumerPkg: Package): Boolean {
+        fun findSupplier(consumer: Package): Boolean {
 
-            for (pkgDep in consumerPkg._supplierPackageDependencies.asList()) {
+            for (packageDependency in consumer._supplierPackageDependencies.asList()) {
 
-                val supplierPkg = pkgDep.supplier
+                val supplier = packageDependency.supplier
 
-                if (supplierPkg === pkg) {
+                if (supplier === pkg) {
                     return true
                 }
 
-                if (!suppliers.contains(supplierPkg)) {
+                if (!suppliers.contains(supplier)) {
 
-                    suppliers.add(supplierPkg)
+                    suppliers.add(supplier)
 
-                    if (findSupplierPackage(supplierPkg)) {
+                    if (findSupplier(supplier)) {
                         return true
                     }
 
@@ -309,19 +433,7 @@ class Package internal constructor(
 
         }
 
-        return findSupplierPackage(this)
-
-    }
-
-    /** Whether this package is a direct or indirect child of the given package. */
-    fun isChildOf(pkg: Package): Boolean {
-
-        if (_parentPackageContainments.isEmpty || this === pkg) {
-            return false
-        }
-
-        val parentPackage = this.parentPackageContainments[0].parent
-        return pkg === parentPackage || parentPackage.isChildOf(pkg)
+        return findSupplier(this)
 
     }
 
