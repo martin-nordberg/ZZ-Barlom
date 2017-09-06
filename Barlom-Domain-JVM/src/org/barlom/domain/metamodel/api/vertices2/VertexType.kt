@@ -20,7 +20,7 @@ class VertexType(
 ) : AbstractPackagedElement() {
 
     private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
-    private val _name = V("newvertextype")
+    private val _name = V("NewVertexType")
     private val _subTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _superTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
@@ -125,8 +125,7 @@ class VertexType(
 
     }
 
-    /** Whether the given [pkg] is a direct parent of this one. */
-    fun hasParent(pkg: Package): Boolean {
+    override fun hasParent(pkg: Package): Boolean {
 
         var result = false
 

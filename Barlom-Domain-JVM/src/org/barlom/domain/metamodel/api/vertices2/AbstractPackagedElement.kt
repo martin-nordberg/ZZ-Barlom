@@ -17,4 +17,8 @@ abstract class AbstractPackagedElement internal constructor() : AbstractNamedEle
     /** The dot-delimited path to this packaged element. */
     abstract val path: String
 
+
+    /** Whether the given [pkg] is a direct parent of this element. */
+    abstract fun hasParent(pkg: Package): Boolean
+
 }

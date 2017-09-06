@@ -5,14 +5,8 @@
 
 package org.barlom.domain.metamodel.api.model
 
-import org.barlom.domain.metamodel.api.edges2.PackageContainment
-import org.barlom.domain.metamodel.api.edges2.PackageDependency
-import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
-import org.barlom.domain.metamodel.api.edges2.VertexTypeInheritance
-import org.barlom.domain.metamodel.api.vertices2.AbstractDocumentedElement
-import org.barlom.domain.metamodel.api.vertices2.AbstractPackagedElement
-import org.barlom.domain.metamodel.api.vertices2.Package
-import org.barlom.domain.metamodel.api.vertices2.VertexType
+import org.barlom.domain.metamodel.api.edges2.*
+import org.barlom.domain.metamodel.api.vertices2.*
 import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
@@ -78,6 +72,76 @@ class Model(
 
     }
 
+
+    fun makeConstrainedBoolean(
+        id: Uuid = makeUuid(),
+        initialize: ConstrainedBoolean.() -> Unit = {}
+    ): ConstrainedBoolean {
+        val result = ConstrainedBoolean(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeConstrainedDataTypeContainment(
+        parent: Package,
+        child: ConstrainedDataType,
+        id: Uuid = makeUuid()
+    ): ConstrainedDataTypeContainment {
+        val result = ConstrainedDataTypeContainment(id, parent, child)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeConstrainedDateTime(
+        id: Uuid = makeUuid(),
+        initialize: ConstrainedDateTime.() -> Unit = {}
+    ): ConstrainedDateTime {
+        val result = ConstrainedDateTime(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeConstrainedFloat64(
+        id: Uuid = makeUuid(),
+        initialize: ConstrainedFloat64.() -> Unit = {}
+    ): ConstrainedFloat64 {
+        val result = ConstrainedFloat64(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeConstrainedInteger32(
+        id: Uuid = makeUuid(),
+        initialize: ConstrainedInteger32.() -> Unit = {}
+    ): ConstrainedInteger32 {
+        val result = ConstrainedInteger32(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeConstrainedString(
+        id: Uuid = makeUuid(),
+        initialize: ConstrainedString.() -> Unit = {}
+    ): ConstrainedString {
+        val result = ConstrainedString(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeConstrainedUuid(
+        id: Uuid = makeUuid(),
+        initialize: ConstrainedUuid.() -> Unit = {}
+    ): ConstrainedUuid {
+        val result = ConstrainedUuid(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
 
     fun makePackage(
         id: Uuid = makeUuid(),

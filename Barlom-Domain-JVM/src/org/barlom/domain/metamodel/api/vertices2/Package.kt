@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
+import org.barlom.domain.metamodel.api.edges2.ConstrainedDataTypeContainment
 import org.barlom.domain.metamodel.api.edges2.PackageContainment
 import org.barlom.domain.metamodel.api.edges2.PackageDependency
 import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
@@ -24,6 +25,7 @@ class Package internal constructor(
 ) : AbstractPackagedElement() {
 
     private val _childPackageContainments = VLinkedList<PackageContainment>()
+    private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _consumerPackageDependencies = VLinkedList<PackageDependency>()
     private val _name = V(if (isRoot) "" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
@@ -38,6 +40,14 @@ class Package internal constructor(
     /** Links to packages that are direct children of this package. */
     val childPackageContainments: List<PackageContainment>
         get() = _childPackageContainments.sortedBy { c -> c.child.name }
+
+    /** The constrained data types within this package. */
+    val constrainedDataTypes: List<ConstrainedDataType>
+        get() = _constrainedDataTypeContainments.map { c -> c.child }.sortedBy { vt -> vt.name }
+
+    /** Links to packages that are direct children of this package. */
+    val constrainedDataTypeContainments: List<ConstrainedDataTypeContainment>
+        get() = _constrainedDataTypeContainments.sortedBy { c -> c.child.name }
 
     /** The consumer package links within this package. */
     val consumers: List<Package>
@@ -165,6 +175,17 @@ class Package internal constructor(
 
     }
 
+    /** Adds a constrained date type to this, its parent package's, list of constrained data type containments. */
+    internal fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(constrainedDataTypeContainment.parent === this) {
+            "Cannot add a constrained data type to a package not its parent."
+        }
+
+        _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
+
     /** Registers the given package dependency in this package. */
     internal fun addConsumerPackageDependency(packageDependency: PackageDependency) {
 
@@ -261,8 +282,7 @@ class Package internal constructor(
 
     }
 
-    /** Whether the given [pkg] is a direct parent of this one. */
-    fun hasParent(pkg: Package): Boolean {
+    override fun hasParent(pkg: Package): Boolean {
 
         var result = false
 
