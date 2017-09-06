@@ -38,6 +38,11 @@ class VertexAttributeTypeTests {
                 optionality = EAttributeOptionality.REQUIRED
             }
             val ca = model.makeVertexAttributeTypeContainment(vt, at)
+            val dt = model.makeConstrainedInteger32 {
+                name = "dt"
+                maxValue = 100
+            }
+            val u = model.makeAttributeDataTypeUsage(at, dt)
 
             assertTrue(model.vertices.contains(at))
             assertTrue(model.edges.contains(c))
@@ -52,6 +57,9 @@ class VertexAttributeTypeTests {
 
             assertTrue(vt.attributeTypes.contains(at))
             assertTrue(vt.vertexAttributeTypeContainments.contains(ca))
+
+//            assertTrue(dt.attributeTypes.contains(at))
+//            assertTrue(at.dataTypes.contains(dt))
         }
 
     }

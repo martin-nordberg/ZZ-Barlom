@@ -73,6 +73,16 @@ class Model(
     }
 
 
+    fun makeAttributeDataTypeUsage(
+        attributeType: AbstractAttributeType,
+        dataType: ConstrainedDataType,
+        id: Uuid = makeUuid()
+    ): AttributeDataTypeUsage {
+        val result = AttributeDataTypeUsage(id, attributeType, dataType)
+        _edges.add(result)
+        return result
+    }
+
     fun makeConstrainedBoolean(
         id: Uuid = makeUuid(),
         initialize: ConstrainedBoolean.() -> Unit = {}

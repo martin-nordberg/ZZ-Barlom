@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
+import org.barlom.domain.metamodel.api.edges2.AttributeDataTypeUsage
 import org.barlom.domain.metamodel.api.edges2.ConstrainedDataTypeContainment
 import org.barlom.domain.metamodel.api.types.EDataType
 import org.barlom.infrastructure.platform.DateTime
@@ -23,8 +24,12 @@ sealed class ConstrainedDataType(
 ) : AbstractPackagedElement() {
 
     private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
+    private val _dataTypeUsages = VLinkedList<AttributeDataTypeUsage>()
     private val _name = V(name)
 
+
+    val attributeTypes: List<AbstractAttributeType>
+        get() = _dataTypeUsages.map { i -> i.attributeType }.sortedBy { at -> at.path }
 
     /** The core data type that is being constrained. */
     abstract val dataType: EDataType
@@ -54,13 +59,23 @@ sealed class ConstrainedDataType(
         }
 
 
-    fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+    internal fun addConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
 
         require(constrainedDataTypeContainment.child === this) {
             "Constrained data type containment can only be added to its child."
         }
 
         _constrainedDataTypeContainments.add(constrainedDataTypeContainment)
+
+    }
+
+    internal fun addAttributeDataTypeUsage(usage: AttributeDataTypeUsage) {
+
+        require(usage.dataType === this) {
+            "Attribute data type usage linked to wrong data type."
+        }
+
+        _dataTypeUsages.add(usage)
 
     }
 

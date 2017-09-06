@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
+import org.barlom.domain.metamodel.api.edges2.AttributeDataTypeUsage
 import org.barlom.domain.metamodel.api.edges2.VertexAttributeTypeContainment
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.types.ELabelDefaulting
@@ -16,13 +17,17 @@ class VertexAttributeType(
 
     override val id: Uuid
 
-) : AbstractNamedElement() {
+) : AbstractAttributeType() {
 
+    private val _dataTypeUsages = VLinkedList<AttributeDataTypeUsage>()
     private val _labelDefaulting = V(ELabelDefaulting.NOT_DEFAULT_LABEL)
     private val _name = V("NewAttributeType")
     private val _optionality = V(EAttributeOptionality.OPTIONAL)
     private val _vertexAttributeTypeContainments = VLinkedList<VertexAttributeTypeContainment>()
 
+
+    override val dataTypes: List<ConstrainedDataType>
+        get() = _dataTypeUsages.map { i -> i.dataType }.sortedBy { dt -> dt.path }
 
     /** Whether this attribute serves as the default label for vertexes of the parent type. */
     var labelDefaulting: ELabelDefaulting
@@ -32,6 +37,10 @@ class VertexAttributeType(
     override var name: String
         get() = _name.get()
         set(value) = _name.set(value)
+
+    override var optionality: EAttributeOptionality
+        get() = _optionality.get()
+        set(value) = _optionality.set(value)
 
     override val path: String
         get() {
@@ -50,12 +59,6 @@ class VertexAttributeType(
 
         }
 
-
-    /** Whether this attribute is required for instances of the parent vertex type. */
-    var optionality: EAttributeOptionality
-        get() = _optionality.get()
-        set(value) = _optionality.set(value)
-
     /** The vertex types of this vertex attribute type. */
     val vertexTypes: List<VertexType>
         get() = _vertexAttributeTypeContainments.map { i -> i.vertexType }.sortedBy { vt -> vt.path }
@@ -64,6 +67,16 @@ class VertexAttributeType(
     val vertexAttributeTypeContainments: List<VertexAttributeTypeContainment>
         get() = _vertexAttributeTypeContainments.sortedBy { i -> i.vertexType.path }
 
+
+    override fun addAttributeDataTypeUsage(usage: AttributeDataTypeUsage) {
+
+        require(usage.attributeType === this) {
+            "Attribute data type usage linked to wrong attribute type."
+        }
+
+        _dataTypeUsages.add(usage)
+
+    }
 
     /** Adds a vertex type to this, its child vertex attribute type's, list of vertex attribute type containments. */
     internal fun addVertexAttributeTypeContainment(vertexAttributeTypeContainment: VertexAttributeTypeContainment) {
