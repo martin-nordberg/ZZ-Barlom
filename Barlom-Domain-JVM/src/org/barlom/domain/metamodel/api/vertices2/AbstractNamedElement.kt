@@ -13,4 +13,7 @@ abstract class AbstractNamedElement internal constructor() : AbstractDocumentedE
     /** The name of this element. */
     abstract var name: String
 
+    /** The dot-delimited path to this packaged element. */
+    abstract val path: String
+
 }

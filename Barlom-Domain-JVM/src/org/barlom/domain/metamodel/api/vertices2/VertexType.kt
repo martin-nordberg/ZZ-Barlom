@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
+import org.barlom.domain.metamodel.api.edges2.VertexAttributeTypeContainment
 import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
 import org.barlom.domain.metamodel.api.edges2.VertexTypeInheritance
 import org.barlom.domain.metamodel.api.types.EAbstractness
@@ -24,6 +25,7 @@ class VertexType(
     private val _subTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _superTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
+    private val _vertexAttributeTypeContainments = VLinkedList<VertexAttributeTypeContainment>()
 
 
     /** Whether this vertex type is abstract. */
@@ -38,6 +40,10 @@ class VertexType(
             _abstractness.set(value)
 
         }
+
+    /** The vertex attributes types within this vertex type. */
+    val attributeTypes: List<VertexAttributeType>
+        get() = _vertexAttributeTypeContainments.map { c -> c.attributeType }.sortedBy { at -> at.name }
 
     override var name: String
         get() = _name.get()
@@ -91,6 +97,10 @@ class VertexType(
     val vertexTypeContainments: List<VertexTypeContainment>
         get() = _vertexTypeContainments.sortedBy { c -> c.parent.name }
 
+    /** Links to attributes of this vertex type. */
+    val vertexAttributeTypeContainments: List<VertexAttributeTypeContainment>
+        get() = _vertexAttributeTypeContainments.sortedBy { c -> c.attributeType.name }
+
 
     /** Adds a sub vertex type to this, its super type's, list of vertex type inheritances. */
     internal fun addSubTypeVertexTypeInheritance(vertexTypeInheritance: VertexTypeInheritance) {
@@ -111,6 +121,17 @@ class VertexType(
         }
 
         _superTypeVertexTypeInheritances.add(vertexTypeInheritance)
+
+    }
+
+    /** Adds a vertex attribute type to this, its parent vertex type's, list of vertex attribute type containments. */
+    internal fun addVertexAttributeTypeContainment(vertexAttributeTypeContainment: VertexAttributeTypeContainment) {
+
+        require(vertexAttributeTypeContainment.vertexType === this) {
+            "Cannot add a vertex type to a package not its parent."
+        }
+
+        _vertexAttributeTypeContainments.add(vertexAttributeTypeContainment)
 
     }
 

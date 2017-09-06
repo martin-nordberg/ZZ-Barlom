@@ -24,7 +24,7 @@ class Model(
 
     private val _edges: VLinkedList<AbstractDocumentedElement>
 
-    private val _vertices: VLinkedList<AbstractPackagedElement>
+    private val _vertices: VLinkedList<AbstractNamedElement>
 
 
     val edges: List<AbstractDocumentedElement>
@@ -36,14 +36,14 @@ class Model(
 
     val rootVertexType: VertexType
 
-    val vertices: List<AbstractPackagedElement>
+    val vertices: List<AbstractNamedElement>
         get() = _vertices.sortedBy { e -> e.path }
 
 
     init {
 
         var edges: VLinkedList<AbstractDocumentedElement>? = null
-        var vertices: VLinkedList<AbstractPackagedElement>? = null
+        var vertices: VLinkedList<AbstractNamedElement>? = null
 
         revHistory.update("Graph initialized.", 0) {
             edges = VLinkedList()
@@ -169,6 +169,26 @@ class Model(
         id: Uuid = makeUuid()
     ): PackageDependency {
         val result = PackageDependency(id, consumer, supplier)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeVertexAttributeType(
+        id: Uuid = makeUuid(),
+        initialize: VertexAttributeType.() -> Unit = {}
+    ): VertexAttributeType {
+        val result = VertexAttributeType(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeVertexAttributeTypeContainment(
+        parent: VertexType,
+        child: VertexAttributeType,
+        id: Uuid = makeUuid()
+    ): VertexAttributeTypeContainment {
+        val result = VertexAttributeTypeContainment(id, parent, child)
         _edges.add(result)
         return result
     }

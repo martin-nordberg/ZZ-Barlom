@@ -1,3 +1,8 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.barlom.domain.metamodel.api.vertices2
 
 import org.barlom.domain.metamodel.api.model.Model
@@ -33,11 +38,11 @@ class ConstrainedDataTypeTests {
             assertTrue(model.edges.contains(c))
 
             assertEquals("cb", b.name)
-            assertEquals(false,b.defaultValue)
+            assertEquals(false, b.defaultValue)
 
-            assertTrue( b.hasParent(pkg) )
-            assertTrue( pkg.constrainedDataTypes.contains(b) )
-            assertTrue( b.parents[0] === pkg)
+            assertTrue(b.hasParent(pkg))
+            assertTrue(pkg.constrainedDataTypes.contains(b))
+            assertTrue(b.parents[0] === pkg)
         }
 
     }
@@ -66,9 +71,9 @@ class ConstrainedDataTypeTests {
             assertEquals("cdt", dt.name)
             assertTrue(dt.minValue!! <= dt.maxValue)
 
-            assertTrue( dt.hasParent(pkg) )
-            assertTrue( pkg.constrainedDataTypes.contains(dt) )
-            assertTrue( dt.parents[0] === pkg)
+            assertTrue(dt.hasParent(pkg))
+            assertTrue(pkg.constrainedDataTypes.contains(dt))
+            assertTrue(dt.parents[0] === pkg)
         }
 
     }
@@ -96,13 +101,13 @@ class ConstrainedDataTypeTests {
             assertTrue(model.edges.contains(c))
 
             assertEquals("cf", f.name)
-            assertEquals(f.defaultValue,1.0)
-            assertEquals(f.minValue,0.0)
-            assertEquals(f.maxValue,100.0)
+            assertEquals(f.defaultValue, 1.0)
+            assertEquals(f.minValue, 0.0)
+            assertEquals(f.maxValue, 100.0)
 
-            assertTrue( f.hasParent(pkg) )
-            assertTrue( pkg.constrainedDataTypes.contains(f) )
-            assertTrue( f.parents[0] === pkg)
+            assertTrue(f.hasParent(pkg))
+            assertTrue(pkg.constrainedDataTypes.contains(f))
+            assertTrue(f.parents[0] === pkg)
         }
 
     }
@@ -130,13 +135,13 @@ class ConstrainedDataTypeTests {
             assertTrue(model.edges.contains(c))
 
             assertEquals("ci", i.name)
-            assertEquals(i.defaultValue,3)
-            assertEquals(i.minValue,0)
-            assertEquals(i.maxValue,10)
+            assertEquals(i.defaultValue, 3)
+            assertEquals(i.minValue, 0)
+            assertEquals(i.maxValue, 10)
 
-            assertTrue( i.hasParent(pkg) )
-            assertTrue( pkg.constrainedDataTypes.contains(i) )
-            assertTrue( i.parents[0] === pkg)
+            assertTrue(i.hasParent(pkg))
+            assertTrue(pkg.constrainedDataTypes.contains(i))
+            assertTrue(i.parents[0] === pkg)
         }
 
     }
@@ -155,6 +160,7 @@ class ConstrainedDataTypeTests {
                 defaultValue = "xx"
                 minLength = 2
                 maxLength = 30
+                regex = Regex(".*loopy")
             }
             val c = model.makeConstrainedDataTypeContainment(pkg, s)
 
@@ -164,13 +170,14 @@ class ConstrainedDataTypeTests {
             assertTrue(model.edges.contains(c))
 
             assertEquals("cs", s.name)
-            assertEquals(s.defaultValue,"xx")
-            assertEquals(s.minLength,2)
-            assertEquals(s.maxLength,30)
+            assertEquals(s.defaultValue, "xx")
+            assertEquals(s.minLength, 2)
+            assertEquals(s.maxLength, 30)
+            assertEquals(s.regex.toString(), ".*loopy")
 
-            assertTrue( s.hasParent(pkg) )
-            assertTrue( pkg.constrainedDataTypes.contains(s) )
-            assertTrue( s.parents[0] === pkg)
+            assertTrue(s.hasParent(pkg))
+            assertTrue(pkg.constrainedDataTypes.contains(s))
+            assertTrue(s.parents[0] === pkg)
         }
 
     }
@@ -196,9 +203,9 @@ class ConstrainedDataTypeTests {
 
             assertEquals("cu", s.name)
 
-            assertTrue( s.hasParent(pkg) )
-            assertTrue( pkg.constrainedDataTypes.contains(s) )
-            assertTrue( s.parents[0] === pkg)
+            assertTrue(s.hasParent(pkg))
+            assertTrue(pkg.constrainedDataTypes.contains(s))
+            assertTrue(s.parents[0] === pkg)
         }
 
     }
