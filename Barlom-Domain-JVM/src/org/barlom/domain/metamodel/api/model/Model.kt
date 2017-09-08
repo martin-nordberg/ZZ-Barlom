@@ -5,8 +5,8 @@
 
 package org.barlom.domain.metamodel.api.model
 
-import org.barlom.domain.metamodel.api.edges2.*
-import org.barlom.domain.metamodel.api.vertices2.*
+import org.barlom.domain.metamodel.api.edges.*
+import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
@@ -83,8 +83,10 @@ class Model(
             _vertices.add(rootUndEdge!!)
 
             _edges.add(VertexTypeContainment(makeUuid(), rootPkg!!, rootVT!!))
-            _edges.add(DirectedEdgeTypeContainment(makeUuid(), rootPkg!!, rootDirEdge!!))
-            _edges.add(UndirectedEdgeTypeContainment(makeUuid(), rootPkg!!, rootUndEdge!!))
+            _edges.add(
+                DirectedEdgeTypeContainment(makeUuid(), rootPkg!!, rootDirEdge!!))
+            _edges.add(UndirectedEdgeTypeContainment(makeUuid(), rootPkg!!,
+                                                     rootUndEdge!!))
         }
 
         rootPackage = rootPkg!!
@@ -190,7 +192,8 @@ class Model(
         connectedVertexType: VertexType,
         id: Uuid = makeUuid()
     ): DirectedEdgeTypeHeadConnectivity {
-        val result = DirectedEdgeTypeHeadConnectivity(id, connectingEdgeType, connectedVertexType)
+        val result = DirectedEdgeTypeHeadConnectivity(id, connectingEdgeType,
+                                                                                            connectedVertexType)
         _edges.add(result)
         return result
     }
@@ -200,7 +203,8 @@ class Model(
         connectedVertexType: VertexType,
         id: Uuid = makeUuid()
     ): DirectedEdgeTypeTailConnectivity {
-        val result = DirectedEdgeTypeTailConnectivity(id, connectingEdgeType, connectedVertexType)
+        val result = DirectedEdgeTypeTailConnectivity(id, connectingEdgeType,
+                                                                                            connectedVertexType)
         _edges.add(result)
         return result
     }
@@ -290,7 +294,8 @@ class Model(
         connectedVertexType: VertexType,
         id: Uuid = makeUuid()
     ): UndirectedEdgeTypeConnectivity {
-        val result = UndirectedEdgeTypeConnectivity(id, connectingEdgeType, connectedVertexType)
+        val result = UndirectedEdgeTypeConnectivity(id, connectingEdgeType,
+                                                                                          connectedVertexType)
         _edges.add(result)
         return result
     }
