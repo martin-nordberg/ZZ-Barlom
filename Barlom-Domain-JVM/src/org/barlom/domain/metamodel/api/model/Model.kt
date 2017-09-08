@@ -18,7 +18,10 @@ class Model(
     rootPackageId: Uuid = Uuid.fromString("66522300-6c7d-11e7-81b7-080027b6d283"),
 
     /** The unique ID for the root vertex type within this model. */
-    rootVertexTypeId: Uuid = Uuid.fromString("66522301-6c7d-11e7-81b7-080027b6d283")
+    rootVertexTypeId: Uuid = Uuid.fromString("66522301-6c7d-11e7-81b7-080027b6d283"),
+
+    /** The unique ID for the root undirected edge type within this model. */
+    rootUndirectedEdgeTypeId: Uuid = Uuid.fromString("66522302-6c7d-11e7-81b7-080027b6d283")
 
 ) {
 
@@ -33,6 +36,8 @@ class Model(
     val revHistory = RevisionHistory("Initial empty model.")
 
     val rootPackage: Package
+
+    val rootUndirectedEdgeType: UndirectedEdgeType
 
     val rootVertexType: VertexType
 
@@ -55,6 +60,7 @@ class Model(
 
 
         var rootPkg: Package? = null
+        var rootUndEdge: UndirectedEdgeType? = null
         var rootVT: VertexType? = null
 
         revHistory.update("Root elements added.", 0) {
@@ -64,11 +70,16 @@ class Model(
             rootVT = VertexType(rootVertexTypeId, true)
             _vertices.add(rootVT!!)
 
+            rootUndEdge = UndirectedEdgeType(rootUndirectedEdgeTypeId, true)
+            _vertices.add(rootUndEdge!!)
+
             _edges.add(VertexTypeContainment(makeUuid(), rootPkg!!, rootVT!!))
+            _edges.add(UndirectedEdgeTypeContainment(makeUuid(), rootPkg!!, rootUndEdge!!))
         }
 
         rootPackage = rootPkg!!
         rootVertexType = rootVT!!
+        rootUndirectedEdgeType = rootUndEdge!!
 
     }
 
@@ -179,6 +190,46 @@ class Model(
         id: Uuid = makeUuid()
     ): PackageDependency {
         val result = PackageDependency(id, consumer, supplier)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeUndirectedEdgeType(
+        id: Uuid = makeUuid(),
+        initialize: UndirectedEdgeType.() -> Unit = {}
+    ): UndirectedEdgeType {
+        val result = UndirectedEdgeType(id, false)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeUndirectedEdgeTypeConnectivity(
+        connectingEdgeType: UndirectedEdgeType,
+        connectedVertexType: VertexType,
+        id: Uuid = makeUuid()
+    ): UndirectedEdgeTypeConnectivity {
+        val result = UndirectedEdgeTypeConnectivity(id, connectingEdgeType, connectedVertexType)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeUndirectedEdgeTypeContainment(
+        parent: Package,
+        child: UndirectedEdgeType,
+        id: Uuid = makeUuid()
+    ): UndirectedEdgeTypeContainment {
+        val result = UndirectedEdgeTypeContainment(id, parent, child)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeUndirectedEdgeTypeInheritance(
+        superType: UndirectedEdgeType,
+        subType: UndirectedEdgeType,
+        id: Uuid = makeUuid()
+    ): UndirectedEdgeTypeInheritance {
+        val result = UndirectedEdgeTypeInheritance(id, superType, subType)
         _edges.add(result)
         return result
     }

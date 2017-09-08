@@ -30,7 +30,7 @@ class PackageTests {
             assertTrue(model.vertices.contains(pkg))
             assertTrue(model.vertices.contains(subpkg))
 
-            assertEquals(4, model.vertices.size)
+            assertEquals(5, model.vertices.size)
         }
 
     }
@@ -66,7 +66,7 @@ class PackageTests {
                 assertTrue(model.edges.contains(d))
             }
 
-            assertEquals(6, model.edges.size)
+            assertEquals(7, model.edges.size)
 
         }
 

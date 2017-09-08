@@ -5,10 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
-import org.barlom.domain.metamodel.api.edges2.ConstrainedDataTypeContainment
-import org.barlom.domain.metamodel.api.edges2.PackageContainment
-import org.barlom.domain.metamodel.api.edges2.PackageDependency
-import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
+import org.barlom.domain.metamodel.api.edges2.*
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
@@ -30,6 +27,7 @@ class Package internal constructor(
     private val _name = V(if (isRoot) "" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
+    private val _undirectedEdgeTypeContainments = VLinkedList<UndirectedEdgeTypeContainment>()
     private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
 
 
@@ -155,11 +153,19 @@ class Package internal constructor(
 
         }
 
+    /** The undirected edge types within this package. */
+    val undirectedEdgeTypes: List<UndirectedEdgeType>
+        get() = _undirectedEdgeTypeContainments.map { c -> c.child }.sortedBy { et -> et.name }
+
+    /** Links to undirected edge types that are children of this package. */
+    val undirectedEdgeTypeContainments: List<UndirectedEdgeTypeContainment>
+        get() = _undirectedEdgeTypeContainments.sortedBy { c -> c.child.name }
+
     /** The vertex types within this package. */
     val vertexTypes: List<VertexType>
         get() = _vertexTypeContainments.map { c -> c.child }.sortedBy { vt -> vt.name }
 
-    /** Links to packages that are direct children of this package. */
+    /** Links to vertex types that are direct children of this package. */
     val vertexTypeContainments: List<VertexTypeContainment>
         get() = _vertexTypeContainments.sortedBy { c -> c.child.name }
 
@@ -220,6 +226,17 @@ class Package internal constructor(
         }
 
         _supplierPackageDependencies.add(packageDependency)
+
+    }
+
+    /** Adds an undirected edge type to this, its parent package's, list of undirected edge type containments. */
+    internal fun addUndirectedEdgeTypeContainment(undirectedEdgeTypeContainment: UndirectedEdgeTypeContainment) {
+
+        require(undirectedEdgeTypeContainment.parent === this) {
+            "Cannot add an undirected edge type to a package not its parent."
+        }
+
+        _undirectedEdgeTypeContainments.add(undirectedEdgeTypeContainment)
 
     }
 

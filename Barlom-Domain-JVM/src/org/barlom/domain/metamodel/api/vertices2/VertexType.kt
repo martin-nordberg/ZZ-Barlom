@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
+import org.barlom.domain.metamodel.api.edges2.UndirectedEdgeTypeConnectivity
 import org.barlom.domain.metamodel.api.edges2.VertexAttributeTypeContainment
 import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
 import org.barlom.domain.metamodel.api.edges2.VertexTypeInheritance
@@ -24,6 +25,7 @@ class VertexType(
     private val _name = V("NewVertexType")
     private val _subTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _superTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
+    private val _undirectedEdgeTypeConnectivities = VLinkedList<UndirectedEdgeTypeConnectivity>()
     private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
     private val _vertexAttributeTypeContainments = VLinkedList<VertexAttributeTypeContainment>()
 
@@ -44,6 +46,10 @@ class VertexType(
     /** The vertex attributes types within this vertex type. */
     val attributeTypes: List<VertexAttributeType>
         get() = _vertexAttributeTypeContainments.map { c -> c.attributeType }.sortedBy { at -> at.name }
+
+    /** The undirected edge types connecting this vertex type. */
+    val connectingEdgeTypes: List<UndirectedEdgeType>
+        get() = _undirectedEdgeTypeConnectivities.map { c -> c.connectingEdgeType }.sortedBy { et -> et.name }
 
     override var name: String
         get() = _name.get()
@@ -121,6 +127,17 @@ class VertexType(
         }
 
         _superTypeVertexTypeInheritances.add(vertexTypeInheritance)
+
+    }
+
+    /** Adds an undirected edge type to this, its connected vertex type's, list of undirected edge type connectivities. */
+    internal fun addUndirectedEdgeTypeConnectivity(undirectedEdgeTypeConnectivity: UndirectedEdgeTypeConnectivity) {
+
+        require(undirectedEdgeTypeConnectivity.connectedVertexType === this) {
+            "Cannot link an undirected edge type to an vertex type it does not connect."
+        }
+
+        _undirectedEdgeTypeConnectivities.add(undirectedEdgeTypeConnectivity)
 
     }
 
