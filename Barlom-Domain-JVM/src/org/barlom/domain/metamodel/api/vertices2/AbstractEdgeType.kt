@@ -1,5 +1,11 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.barlom.domain.metamodel.api.vertices2
 
+import org.barlom.domain.metamodel.api.edges2.EdgeAttributeTypeContainment
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
@@ -14,8 +20,8 @@ abstract class AbstractEdgeType : AbstractPackagedElement() {
     /** Whether this edge type is abstract. */
     abstract var abstractness: EAbstractness
 
-//    /** The attribute types of this edge type sorted by name. */
-//    abstract val attributeTypes: List<IEdgeAttributeType>
+    /** The attribute types of this edge type sorted by name. */
+    abstract val attributeTypes: List<EdgeAttributeType>
 
     /** Whether this edge type is acyclic. */
     abstract var cyclicity: ECyclicity
@@ -28,5 +34,9 @@ abstract class AbstractEdgeType : AbstractPackagedElement() {
 
     /** Whether this edge type allows an edge from a vertex to itself. */
     abstract var selfLooping: ESelfLooping
+
+
+    /** Adds an edge attribute type to this, its parent edge type's, list of edge attribute type containments. */
+    abstract internal fun addEdgeAttributeTypeContainment(edgeAttributeTypeContainment: EdgeAttributeTypeContainment)
 
 }

@@ -1,8 +1,3 @@
-//
-// (C) Copyright 2017 Martin E. Nordberg III
-// Apache 2.0 License
-//
-
 package org.barlom.domain.metamodel.api.vertices2
 
 import org.barlom.domain.metamodel.api.model.Model
@@ -13,12 +8,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 /**
- * Tests of VertexAttributeType.
+ * Tests of EdgeAttributeType.
  */
-class VertexAttributeTypeTests {
+class EdgeAttributeTypeTests {
 
     @Test
-    fun `Vertex attribute types are constructed as expected`() {
+    fun `Edge attribute types are constructed as expected`() {
 
         val model = Model()
 
@@ -28,16 +23,15 @@ class VertexAttributeTypeTests {
                 name = "pkg"
             }
             model.makePackageContainment(root, pkg)
-            val vt = model.makeVertexType() {
-                name = "vt"
+            val et = model.makeUndirectedEdgeType() {
+                name = "et"
             }
-            val c = model.makeVertexTypeContainment(pkg, vt)
-            val at = model.makeVertexAttributeType {
+            val c = model.makeUndirectedEdgeTypeContainment(pkg, et)
+            val at = model.makeEdgeAttributeType {
                 name = "at"
-                labelDefaulting = ELabelDefaulting.DEFAULT_LABEL
                 optionality = EAttributeOptionality.REQUIRED
             }
-            val ca = model.makeVertexAttributeTypeContainment(vt, at)
+            val ca = model.makeEdgeAttributeTypeContainment(et, at)
             val dt = model.makeConstrainedInteger32 {
                 name = "dt"
                 maxValue = 100
@@ -48,15 +42,13 @@ class VertexAttributeTypeTests {
             assertTrue(model.edges.contains(c))
 
             assertEquals("at", at.name)
-            assertEquals("pkg.vt#at", at.path)
-            assertEquals(ELabelDefaulting.DEFAULT_LABEL, at.labelDefaulting)
+            assertEquals("pkg.et#at", at.path)
             assertEquals(EAttributeOptionality.REQUIRED, at.optionality)
 
-            assertTrue(at.vertexAttributeTypeContainments.contains(ca))
-            assertTrue(at.vertexTypes.contains(vt))
+            assertTrue(at.edgeAttributeTypeContainments.contains(ca))
+            assertTrue(at.edgeTypes.contains(et))
 
-            assertTrue(vt.attributeTypes.contains(at))
-            assertTrue(vt.vertexAttributeTypeContainments.contains(ca))
+            assertTrue(et.attributeTypes.contains(at))
 
             assertTrue(dt.attributeTypes.contains(at))
             assertTrue(at.dataTypes.contains(dt))

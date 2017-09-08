@@ -164,6 +164,26 @@ class Model(
         return result
     }
 
+    fun makeEdgeAttributeType(
+        id: Uuid = makeUuid(),
+        initialize: EdgeAttributeType.() -> Unit = {}
+    ): EdgeAttributeType {
+        val result = EdgeAttributeType(id)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeEdgeAttributeTypeContainment(
+        parent: AbstractEdgeType,
+        child: EdgeAttributeType,
+        id: Uuid = makeUuid()
+    ): EdgeAttributeTypeContainment {
+        val result = EdgeAttributeTypeContainment(id, parent, child)
+        _edges.add(result)
+        return result
+    }
+
     fun makePackage(
         id: Uuid = makeUuid(),
         initialize: Package.() -> Unit = {}

@@ -5,6 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
+import org.barlom.domain.metamodel.api.edges2.EdgeAttributeTypeContainment
 import org.barlom.domain.metamodel.api.edges2.UndirectedEdgeTypeConnectivity
 import org.barlom.domain.metamodel.api.edges2.UndirectedEdgeTypeContainment
 import org.barlom.domain.metamodel.api.edges2.UndirectedEdgeTypeInheritance
@@ -28,6 +29,7 @@ class UndirectedEdgeType(
 
     private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
     private val _cyclicity = V(ECyclicity.UNCONSTRAINED)
+    private val _edgeAttributeTypeContainments = VLinkedList<EdgeAttributeTypeContainment>()
     private val _maxDegree: V<Int?> = V(null)
     private val _minDegree: V<Int?> = V(null)
     private val _multiEdgedness = V(EMultiEdgedness.UNCONSTRAINED)
@@ -50,6 +52,10 @@ class UndirectedEdgeType(
             _abstractness.set(value)
 
         }
+
+    /** The attribute types within this edge type. */
+    override val attributeTypes: List<EdgeAttributeType>
+        get() = _edgeAttributeTypeContainments.map { c -> c.attributeType }.sortedBy { at -> at.name }
 
     /** The vertex type connected to this edge type. */
     val connectedVertexTypes: List<VertexType>
@@ -165,6 +171,17 @@ class UndirectedEdgeType(
     val superTypeVertexTypeInheritances: List<UndirectedEdgeTypeInheritance>
         get() = _superTypeUndirectedEdgeTypeInheritances.sortedBy { i -> i.superType.path }
 
+
+    /** Adds an attribute type to this, its parent edge type's, list of edge attribute type containments. */
+    override fun addEdgeAttributeTypeContainment(edgeAttributeTypeContainment: EdgeAttributeTypeContainment) {
+
+        require(edgeAttributeTypeContainment.edgeType === this) {
+            "Cannot link an edge attribute type to an edge type not its container."
+        }
+
+        _edgeAttributeTypeContainments.add(edgeAttributeTypeContainment)
+
+    }
 
     /** Adds a sub undirected edge type to this, its super type's, list of undirected edge type inheritances. */
     internal fun addSubTypeUndirectedEdgeTypeInheritance(undirectedEdgeTypeInheritance: UndirectedEdgeTypeInheritance) {
