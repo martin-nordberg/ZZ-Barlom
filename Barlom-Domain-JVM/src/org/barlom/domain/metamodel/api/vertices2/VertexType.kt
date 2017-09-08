@@ -5,10 +5,7 @@
 
 package org.barlom.domain.metamodel.api.vertices2
 
-import org.barlom.domain.metamodel.api.edges2.UndirectedEdgeTypeConnectivity
-import org.barlom.domain.metamodel.api.edges2.VertexAttributeTypeContainment
-import org.barlom.domain.metamodel.api.edges2.VertexTypeContainment
-import org.barlom.domain.metamodel.api.edges2.VertexTypeInheritance
+import org.barlom.domain.metamodel.api.edges2.*
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VLinkedList
@@ -22,6 +19,8 @@ class VertexType(
 ) : AbstractPackagedElement() {
 
     private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
+    private val _directedEdgeTypeHeadConnectivities = VLinkedList<DirectedEdgeTypeHeadConnectivity>()
+    private val _directedEdgeTypeTailConnectivities = VLinkedList<DirectedEdgeTypeTailConnectivity>()
     private val _name = V("NewVertexType")
     private val _subTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _superTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
@@ -50,6 +49,14 @@ class VertexType(
     /** The undirected edge types connecting this vertex type. */
     val connectingEdgeTypes: List<UndirectedEdgeType>
         get() = _undirectedEdgeTypeConnectivities.map { c -> c.connectingEdgeType }.sortedBy { et -> et.name }
+
+    /** The directed edge types connecting their head to this vertex type. */
+    val connectingHeadEdgeTypes: List<DirectedEdgeType>
+        get() = _directedEdgeTypeHeadConnectivities.map { c -> c.connectingEdgeType }.sortedBy { et -> et.name }
+
+    /** The directed edge types connecting their tail to this vertex type. */
+    val connectingTailEdgeTypes: List<DirectedEdgeType>
+        get() = _directedEdgeTypeTailConnectivities.map { c -> c.connectingEdgeType }.sortedBy { et -> et.name }
 
     override var name: String
         get() = _name.get()
@@ -107,6 +114,30 @@ class VertexType(
     val vertexAttributeTypeContainments: List<VertexAttributeTypeContainment>
         get() = _vertexAttributeTypeContainments.sortedBy { c -> c.attributeType.name }
 
+
+    /** Links a vertex type to this, its head-connecting edge type's, list of vertex type connectivities. */
+    internal fun addDirectedEdgeTypeHeadConnectivity(
+        directedEdgeTypeHeadConnectivity: DirectedEdgeTypeHeadConnectivity) {
+
+        require(directedEdgeTypeHeadConnectivity.connectedVertexType === this) {
+            "Cannot link an edge type to a vertext type not its head connector."
+        }
+
+        _directedEdgeTypeHeadConnectivities.add(directedEdgeTypeHeadConnectivity)
+
+    }
+
+    /** Links a vertex type to this, its tail-connecting edge type's, list of vertex type connectivities. */
+    internal fun addDirectedEdgeTypeTailConnectivity(
+        directedEdgeTypeTailConnectivity: DirectedEdgeTypeTailConnectivity) {
+
+        require(directedEdgeTypeTailConnectivity.connectedVertexType === this) {
+            "Cannot link an edge type to a vertext type not its tail connector."
+        }
+
+        _directedEdgeTypeTailConnectivities.add(directedEdgeTypeTailConnectivity)
+
+    }
 
     /** Adds a sub vertex type to this, its super type's, list of vertex type inheritances. */
     internal fun addSubTypeVertexTypeInheritance(vertexTypeInheritance: VertexTypeInheritance) {

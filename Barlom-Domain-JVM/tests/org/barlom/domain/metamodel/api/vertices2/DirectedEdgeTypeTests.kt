@@ -17,12 +17,12 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
- * Tests of UndirectedEdgeType.
+ * Tests of DirectedEdgeType.
  */
-class UndirectedEdgeTypeTests {
+class DirectedEdgeTypeTests {
 
     @Test
-    fun `Undirected edge types construct as expected`() {
+    fun `Directed edge types construct as expected`() {
 
         val model = Model()
 
@@ -34,19 +34,29 @@ class UndirectedEdgeTypeTests {
             model.makePackageContainment(root, pkg)
             val vt1 = model.makeVertexType()
             model.makeVertexTypeContainment(pkg, vt1)
+            val vt2 = model.makeVertexType()
+            model.makeVertexTypeContainment(pkg, vt2)
             val etId = makeUuid()
-            val et = model.makeUndirectedEdgeType(etId) {
+            val et = model.makeDirectedEdgeType(etId) {
                 name = "et"
                 abstractness = EAbstractness.CONCRETE
                 cyclicity = ECyclicity.ACYCLIC
                 multiEdgedness = EMultiEdgedness.UNCONSTRAINED
                 selfLooping = ESelfLooping.SELF_LOOPS_NOT_ALLOWED
-                maxDegree = 11
-                minDegree = 5
+                forwardName = "fet"
+                headRoleName = "head"
+                maxHeadInDegree = 11
+                maxTailOutDegree = 9
+                minHeadInDegree = 7
+                minTailOutDegree = 5
+                reverseName = "ret"
+                tailRoleName = "tail"
             }
-            model.makeUndirectedEdgeTypeContainment(pkg, et)
-            model.makeUndirectedEdgeTypeConnectivity(et, vt1)
-            model.makeUndirectedEdgeTypeInheritance(model.rootUndirectedEdgeType, et)
+            model.makeDirectedEdgeTypeContainment(pkg, et)
+            model.makeDirectedEdgeTypeHeadConnectivity(et, vt1)
+            model.makeDirectedEdgeTypeTailConnectivity(et, vt2)
+            model.makeDirectedEdgeTypeInheritance(model.rootDirectedEdgeType, et)
+
 
             assertEquals(etId, et.id)
             assertEquals("et", et.name)
@@ -55,11 +65,18 @@ class UndirectedEdgeTypeTests {
             assertEquals(ECyclicity.ACYCLIC, et.cyclicity)
             assertEquals(EMultiEdgedness.UNCONSTRAINED, et.multiEdgedness)
             assertEquals(ESelfLooping.SELF_LOOPS_NOT_ALLOWED, et.selfLooping)
-            assertEquals(11, et.maxDegree)
-            assertEquals(5, et.minDegree)
-            assertTrue(et.superTypes.contains(model.rootUndirectedEdgeType))
-            assertTrue(model.rootUndirectedEdgeType.subTypes.contains(et))
-            assertTrue(et.connectedVertexTypes.contains(vt1))
+            assertEquals("head", et.headRoleName)
+            assertEquals(vt1, et.connectedHeadVertexTypes[0])
+            assertEquals(vt2, et.connectedTailVertexTypes[0])
+            assertEquals(11, et.maxHeadInDegree)
+            assertEquals(9, et.maxTailOutDegree)
+            assertEquals(7, et.minHeadInDegree)
+            assertEquals(5, et.minTailOutDegree)
+            assertEquals("fet", et.forwardName)
+            assertEquals("ret", et.reverseName)
+            assertEquals(model.rootDirectedEdgeType, et.superTypes[0])
+            assertEquals(et, model.rootDirectedEdgeType.subTypes[0])
+            assertEquals("tail", et.tailRoleName)
 
             assertEquals("pkg.et", et.path)
         }
@@ -67,7 +84,7 @@ class UndirectedEdgeTypeTests {
     }
 
     @Test
-    fun `Undirected edge types track their supertype and subtypes`() {
+    fun `Directed edge types track their supertype and subtypes`() {
 
         val model = Model()
 
@@ -78,26 +95,32 @@ class UndirectedEdgeTypeTests {
             }
             model.makePackageContainment(root, pkg)
             val vt0 = model.rootVertexType
-            val vt1 = model.makeVertexType { name = "vt1" }
+            val vt1 = model.makeVertexType {
+                name = "vt1"
+                abstractness = EAbstractness.ABSTRACT
+            }
             model.makeVertexTypeContainment(pkg, vt1)
             model.makeVertexTypeInheritance(vt0, vt1)
-            val vt2 = model.makeVertexType { name = "vt2" }
+            val vt2 = model.makeVertexType {
+                name = "vt2"
+                abstractness = EAbstractness.ABSTRACT
+            }
             model.makeVertexTypeContainment(pkg, vt2)
-            model.makeVertexTypeInheritance(vt1, vt2)
+            model.makeVertexTypeInheritance(vt2, vt1)
 
-            val et0 = model.rootUndirectedEdgeType
-            val et1 = model.makeUndirectedEdgeType { name = "et1" }
-            model.makeUndirectedEdgeTypeContainment(pkg, et1)
-            model.makeUndirectedEdgeTypeInheritance(et0, et1)
-            val et2 = model.makeUndirectedEdgeType { name = "et3" }
-            model.makeUndirectedEdgeTypeContainment(pkg, et2)
-            model.makeUndirectedEdgeTypeInheritance(et1, et2)
-            val et3 = model.makeUndirectedEdgeType { name = "et3" }
-            model.makeUndirectedEdgeTypeContainment(pkg, et3)
-            model.makeUndirectedEdgeTypeInheritance(et2, et3)
-            val et4 = model.makeUndirectedEdgeType { name = "et4" }
-            model.makeUndirectedEdgeTypeContainment(pkg, et4)
-            model.makeUndirectedEdgeTypeInheritance(et3, et4)
+            val et0 = model.rootDirectedEdgeType
+            val et1 = model.makeDirectedEdgeType { name = "et1" }
+            model.makeDirectedEdgeTypeContainment(pkg, et1)
+            model.makeDirectedEdgeTypeInheritance(et0, et1)
+            val et2 = model.makeDirectedEdgeType { name = "et2" }
+            model.makeDirectedEdgeTypeContainment(pkg, et2)
+            model.makeDirectedEdgeTypeInheritance(et1, et2)
+            val et3 = model.makeDirectedEdgeType { name = "et3" }
+            model.makeDirectedEdgeTypeContainment(pkg, et3)
+            model.makeDirectedEdgeTypeInheritance(et2, et3)
+            val et4 = model.makeDirectedEdgeType { name = "et4" }
+            model.makeDirectedEdgeTypeContainment(pkg, et4)
+            model.makeDirectedEdgeTypeInheritance(et3, et4)
 
             assertEquals(et0, et1.superTypes[0])
             assertEquals(et1, et2.superTypes[0])
@@ -112,27 +135,30 @@ class UndirectedEdgeTypeTests {
             assertTrue(et3.subTypes.contains(et4))
             assertTrue(et4.subTypes.isEmpty())
 
-            assertFalse(et0.hasTransitiveSuperType(et0))
-            assertFalse(et1.hasTransitiveSuperType(et1))
-            assertFalse(et2.hasTransitiveSuperType(et2))
-            assertFalse(et3.hasTransitiveSuperType(et3))
+            assertFalse(et0.hasSuperType(et0))
+            assertFalse(et1.hasSuperType(et1))
+            assertFalse(et2.hasSuperType(et2))
+            assertFalse(et3.hasSuperType(et3))
 
-            assertTrue(et1.hasTransitiveSuperType(et0))
-            assertFalse(et0.hasTransitiveSuperType(et1))
+            assertTrue(et1.hasSuperType(et0))
+            assertFalse(et0.hasSuperType(et1))
 
+            assertFalse(et2.hasSuperType(et0))
             assertTrue(et2.hasTransitiveSuperType(et0))
-            assertTrue(et2.hasTransitiveSuperType(et1))
-            assertFalse(et1.hasTransitiveSuperType(et2))
+            assertTrue(et2.hasSuperType(et1))
+            assertFalse(et1.hasSuperType(et2))
 
             assertTrue(et3.hasTransitiveSuperType(et0))
             assertTrue(et3.hasTransitiveSuperType(et1))
+            assertTrue(et3.hasSuperType(et2))
             assertTrue(et3.hasTransitiveSuperType(et2))
 
             assertTrue(et4.hasTransitiveSuperType(et0))
             assertTrue(et4.hasTransitiveSuperType(et1))
             assertTrue(et4.hasTransitiveSuperType(et2))
-            assertTrue(et4.hasTransitiveSuperType(et3))
+            assertTrue(et4.hasSuperType(et3))
 
+            assertTrue(et0.hasSubType(et1))
             assertTrue(et0.hasTransitiveSubType(et1))
             assertTrue(et0.hasTransitiveSubType(et2))
             assertTrue(et0.hasTransitiveSubType(et3))
@@ -147,7 +173,7 @@ class UndirectedEdgeTypeTests {
 
             assertTrue(et3.hasTransitiveSubType(et4))
         }
-
     }
+
 
 }

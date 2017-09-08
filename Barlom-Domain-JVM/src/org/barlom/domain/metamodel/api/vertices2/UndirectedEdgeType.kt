@@ -53,7 +53,6 @@ class UndirectedEdgeType(
 
         }
 
-    /** The attribute types within this edge type. */
     override val attributeTypes: List<EdgeAttributeType>
         get() = _edgeAttributeTypeContainments.map { c -> c.attributeType }.sortedBy { at -> at.name }
 
@@ -85,18 +84,6 @@ class UndirectedEdgeType(
 
         }
 
-    override var name: String
-        get() = _name.get()
-        set(value) {
-
-            check(!isRoot) {
-                "Root undirected edge type name cannot be changed"
-            }
-
-            _name.set(value)
-
-        }
-
     /** The maximum degree for the vertices connected by edges of this type. */
     var maxDegree: Int?
         get() = _maxDegree.get()
@@ -120,6 +107,18 @@ class UndirectedEdgeType(
             }
 
             _minDegree.set(value)
+
+        }
+
+    override var name: String
+        get() = _name.get()
+        set(value) {
+
+            check(!isRoot) {
+                "Root undirected edge type name cannot be changed"
+            }
+
+            _name.set(value)
 
         }
 
@@ -159,16 +158,16 @@ class UndirectedEdgeType(
     val subTypes: List<UndirectedEdgeType>
         get() = _subTypeUndirectedEdgeTypeInheritances.map { i -> i.subType }.sortedBy { vt -> vt.path }
 
-    /** Link to the package containing this vertex type. */
-    val subTypeVertexTypeInheritances: List<UndirectedEdgeTypeInheritance>
+    /** Links to the sub types this edge type. */
+    val subTypeUndirectedEdgeTypeInheritances: List<UndirectedEdgeTypeInheritance>
         get() = _subTypeUndirectedEdgeTypeInheritances.sortedBy { i -> i.subType.path }
 
-    /** The super types of this vertex type. */
+    /** The super types of this edge type. */
     val superTypes: List<UndirectedEdgeType>
         get() = _superTypeUndirectedEdgeTypeInheritances.map { i -> i.superType }.sortedBy { vt -> vt.path }
 
-    /** Link to the package containing this vertex type. */
-    val superTypeVertexTypeInheritances: List<UndirectedEdgeTypeInheritance>
+    /** Link to the super type of this edge type. */
+    val superTypeUndirectedEdgeTypeInheritances: List<UndirectedEdgeTypeInheritance>
         get() = _superTypeUndirectedEdgeTypeInheritances.sortedBy { i -> i.superType.path }
 
 
@@ -243,7 +242,108 @@ class UndirectedEdgeType(
 
     }
 
-//    /** Whether this edge type is a direct or indirect subtype of the given [edgeType]. */
-//    abstract fun isSubTypeOf(edgeType: UndirectedEdgeType): Boolean
+    /** Whether the given [undirectedEdgeType] is a direct sub type of this one. */
+    fun hasSubType(undirectedEdgeType: UndirectedEdgeType): Boolean {
+
+        var result = false
+
+        _subTypeUndirectedEdgeTypeInheritances.forEachWhile { undirectedEdgeTypeInheritance ->
+
+            result = undirectedEdgeType === undirectedEdgeTypeInheritance.subType
+            !result
+
+        }
+
+        return result
+
+    }
+
+    /** Whether the given [undirectedEdgeType] is a direct super type of this one. */
+    fun hasSuperType(undirectedEdgeType: UndirectedEdgeType): Boolean {
+
+        var result = false
+
+        _superTypeUndirectedEdgeTypeInheritances.forEachWhile { undirectedEdgeTypeInheritance ->
+
+            result = undirectedEdgeType === undirectedEdgeTypeInheritance.superType
+            !result
+
+        }
+
+        return result
+
+    }
+
+    /** Whether the given [undirectedEdgeType] is a direct or indirect sub type of this one. */
+    fun hasTransitiveSubType(undirectedEdgeType: UndirectedEdgeType): Boolean {
+
+        val subTypes: MutableSet<UndirectedEdgeType> = mutableSetOf()
+
+        // Helper function recursively searches while accumulating the undirectedEdge types searched so far
+        fun findSubType(superType: UndirectedEdgeType): Boolean {
+
+            for (undirectedEdgeTypeInheritance in superType._subTypeUndirectedEdgeTypeInheritances.asList()) {
+
+                val subType = undirectedEdgeTypeInheritance.subType
+
+                if (subType === undirectedEdgeType) {
+                    return true
+                }
+
+                if (!subTypes.contains(subType)) {
+
+                    subTypes.add(subType)
+
+                    if (findSubType(subType)) {
+                        return true
+                    }
+
+                }
+
+            }
+
+            return false
+
+        }
+
+        return findSubType(this)
+
+    }
+
+    /** Whether the given [undirectedEdgeType] is a direct or indirect super type of this one. */
+    fun hasTransitiveSuperType(undirectedEdgeType: UndirectedEdgeType): Boolean {
+
+        val superTypes: MutableSet<UndirectedEdgeType> = mutableSetOf()
+
+        // Helper function recursively searches while accumulating the undirectedEdge types searched so far
+        fun findSuperType(subType: UndirectedEdgeType): Boolean {
+
+            for (undirectedEdgeTypeInheritance in subType._superTypeUndirectedEdgeTypeInheritances.asList()) {
+
+                val superType = undirectedEdgeTypeInheritance.superType
+
+                if (superType === undirectedEdgeType) {
+                    return true
+                }
+
+                if (!superTypes.contains(superType)) {
+
+                    superTypes.add(superType)
+
+                    if (findSuperType(superType)) {
+                        return true
+                    }
+
+                }
+
+            }
+
+            return false
+
+        }
+
+        return findSuperType(this)
+
+    }
 
 }

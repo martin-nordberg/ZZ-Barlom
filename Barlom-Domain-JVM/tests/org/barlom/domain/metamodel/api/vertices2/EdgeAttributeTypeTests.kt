@@ -1,8 +1,12 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.barlom.domain.metamodel.api.vertices2
 
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
-import org.barlom.domain.metamodel.api.types.ELabelDefaulting
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

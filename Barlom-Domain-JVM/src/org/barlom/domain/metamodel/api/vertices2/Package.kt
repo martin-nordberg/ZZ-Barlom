@@ -24,6 +24,7 @@ class Package internal constructor(
     private val _childPackageContainments = VLinkedList<PackageContainment>()
     private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _consumerPackageDependencies = VLinkedList<PackageDependency>()
+    private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _name = V(if (isRoot) "" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
@@ -54,6 +55,14 @@ class Package internal constructor(
     /** Links to packages that are direct consumers of this package. */
     val consumerPackageDependencies: List<PackageDependency>
         get() = _consumerPackageDependencies.sortedBy { c -> c.consumer.path }
+
+    /** The directed edge types within this package. */
+    val directedEdgeTypes: List<DirectedEdgeType>
+        get() = _directedEdgeTypeContainments.map { c -> c.child }.sortedBy { et -> et.name }
+
+    /** Links to directed edge types that are children of this package. */
+    val directedEdgeTypeContainments: List<DirectedEdgeTypeContainment>
+        get() = _directedEdgeTypeContainments.sortedBy { c -> c.child.name }
 
     override var name: String
         get() = _name.get()
@@ -200,6 +209,17 @@ class Package internal constructor(
         }
 
         _consumerPackageDependencies.add(packageDependency)
+
+    }
+
+    /** Adds a directed edge type to this, its parent package's, list of directed edge type containments. */
+    internal fun addDirectedEdgeTypeContainment(directedEdgeTypeContainment: DirectedEdgeTypeContainment) {
+
+        require(directedEdgeTypeContainment.parent === this) {
+            "Cannot add a directed edge type to a package not its parent."
+        }
+
+        _directedEdgeTypeContainments.add(directedEdgeTypeContainment)
 
     }
 

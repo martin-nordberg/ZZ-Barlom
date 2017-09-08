@@ -20,8 +20,11 @@ class Model(
     /** The unique ID for the root vertex type within this model. */
     rootVertexTypeId: Uuid = Uuid.fromString("66522301-6c7d-11e7-81b7-080027b6d283"),
 
+    /** The unique ID for the root directed edge type within this model. */
+    rootUndirectedEdgeTypeId: Uuid = Uuid.fromString("66522302-6c7d-11e7-81b7-080027b6d283"),
+
     /** The unique ID for the root undirected edge type within this model. */
-    rootUndirectedEdgeTypeId: Uuid = Uuid.fromString("66522302-6c7d-11e7-81b7-080027b6d283")
+    rootDirectedEdgeTypeId: Uuid = Uuid.fromString("66522303-6c7d-11e7-81b7-080027b6d283")
 
 ) {
 
@@ -34,6 +37,8 @@ class Model(
         get() = _edges.asList()
 
     val revHistory = RevisionHistory("Initial empty model.")
+
+    val rootDirectedEdgeType: DirectedEdgeType
 
     val rootPackage: Package
 
@@ -60,6 +65,7 @@ class Model(
 
 
         var rootPkg: Package? = null
+        var rootDirEdge: DirectedEdgeType? = null
         var rootUndEdge: UndirectedEdgeType? = null
         var rootVT: VertexType? = null
 
@@ -70,15 +76,20 @@ class Model(
             rootVT = VertexType(rootVertexTypeId, true)
             _vertices.add(rootVT!!)
 
+            rootDirEdge = DirectedEdgeType(rootDirectedEdgeTypeId, true)
+            _vertices.add(rootDirEdge!!)
+
             rootUndEdge = UndirectedEdgeType(rootUndirectedEdgeTypeId, true)
             _vertices.add(rootUndEdge!!)
 
             _edges.add(VertexTypeContainment(makeUuid(), rootPkg!!, rootVT!!))
+            _edges.add(DirectedEdgeTypeContainment(makeUuid(), rootPkg!!, rootDirEdge!!))
             _edges.add(UndirectedEdgeTypeContainment(makeUuid(), rootPkg!!, rootUndEdge!!))
         }
 
         rootPackage = rootPkg!!
         rootVertexType = rootVT!!
+        rootDirectedEdgeType = rootDirEdge!!
         rootUndirectedEdgeType = rootUndEdge!!
 
     }
@@ -161,6 +172,56 @@ class Model(
         val result = ConstrainedUuid(id)
         result.initialize()
         _vertices.add(result)
+        return result
+    }
+
+    fun makeDirectedEdgeType(
+        id: Uuid = makeUuid(),
+        initialize: DirectedEdgeType.() -> Unit = {}
+    ): DirectedEdgeType {
+        val result = DirectedEdgeType(id, false)
+        result.initialize()
+        _vertices.add(result)
+        return result
+    }
+
+    fun makeDirectedEdgeTypeHeadConnectivity(
+        connectingEdgeType: DirectedEdgeType,
+        connectedVertexType: VertexType,
+        id: Uuid = makeUuid()
+    ): DirectedEdgeTypeHeadConnectivity {
+        val result = DirectedEdgeTypeHeadConnectivity(id, connectingEdgeType, connectedVertexType)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeDirectedEdgeTypeTailConnectivity(
+        connectingEdgeType: DirectedEdgeType,
+        connectedVertexType: VertexType,
+        id: Uuid = makeUuid()
+    ): DirectedEdgeTypeTailConnectivity {
+        val result = DirectedEdgeTypeTailConnectivity(id, connectingEdgeType, connectedVertexType)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeDirectedEdgeTypeContainment(
+        parent: Package,
+        child: DirectedEdgeType,
+        id: Uuid = makeUuid()
+    ): DirectedEdgeTypeContainment {
+        val result = DirectedEdgeTypeContainment(id, parent, child)
+        _edges.add(result)
+        return result
+    }
+
+    fun makeDirectedEdgeTypeInheritance(
+        superType: DirectedEdgeType,
+        subType: DirectedEdgeType,
+        id: Uuid = makeUuid()
+    ): DirectedEdgeTypeInheritance {
+        val result = DirectedEdgeTypeInheritance(id, superType, subType)
+        _edges.add(result)
         return result
     }
 
