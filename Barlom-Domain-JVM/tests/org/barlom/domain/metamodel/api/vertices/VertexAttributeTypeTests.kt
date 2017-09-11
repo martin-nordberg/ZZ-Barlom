@@ -8,6 +8,7 @@ package org.barlom.domain.metamodel.api.vertices
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.types.ELabelDefaulting
+import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -20,7 +21,7 @@ class VertexAttributeTypeTests {
     @Test
     fun `Vertex attribute types are constructed as expected`() {
 
-        val model = Model()
+        val model = Model({ makeUuid() })
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -42,7 +43,7 @@ class VertexAttributeTypeTests {
                 name = "dt"
                 maxValue = 100
             }
-            val u = model.makeAttributeDataTypeUsage(at, dt)
+            model.makeAttributeDataTypeUsage(at, dt)
 
             assertTrue(model.vertices.contains(at))
             assertTrue(model.edges.contains(c))

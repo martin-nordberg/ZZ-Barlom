@@ -10,9 +10,11 @@ import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.revisions.VLinkedList
 import org.barlom.infrastructure.uuids.Uuid
-import org.barlom.infrastructure.uuids.makeUuid
 
 class Model(
+
+    /** Functin for creating new UUIDs */
+    private val makeUuid: ()->Uuid,
 
     /** The unique ID for the root package within this model. */
     rootPackageId: Uuid = Uuid.fromString("66522300-6c7d-11e7-81b7-080027b6d283"),

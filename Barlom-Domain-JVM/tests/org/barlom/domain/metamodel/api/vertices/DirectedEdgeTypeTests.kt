@@ -24,7 +24,7 @@ class DirectedEdgeTypeTests {
     @Test
     fun `Directed edge types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -89,7 +89,7 @@ class DirectedEdgeTypeTests {
     @Test
     fun `Directed edge types track their supertype and subtypes`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage

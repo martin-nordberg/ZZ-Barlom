@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.api.vertices
 
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
+import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -19,7 +20,7 @@ class EdgeAttributeTypeTests {
     @Test
     fun `Edge attribute types are constructed as expected`() {
 
-        val model = Model()
+        val model = Model({ makeUuid() })
 
         model.revHistory.update("test") {
             val root = model.rootPackage

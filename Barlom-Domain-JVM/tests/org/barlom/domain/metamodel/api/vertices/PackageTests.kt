@@ -6,6 +6,7 @@
 package org.barlom.domain.metamodel.api.vertices
 
 import org.barlom.domain.metamodel.api.model.Model
+import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -19,7 +20,7 @@ class PackageTests {
     @Test
     fun `Packages are vertices of the graph`() {
 
-        val model = Model()
+        val model = Model({ makeUuid() })
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -38,7 +39,7 @@ class PackageTests {
     @Test
     fun `Packages links are edges of the graph`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
 
@@ -75,7 +76,7 @@ class PackageTests {
     @Test
     fun `Packages have paths`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -94,7 +95,7 @@ class PackageTests {
     @Test
     fun `Packages track their children and their parent and grandparents`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -149,7 +150,7 @@ class PackageTests {
     @Test
     fun `Packages track their adjacent and transitive dependencies`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -194,7 +195,7 @@ class PackageTests {
     @Test
     fun `Direct circular package dependencies are handled correctly`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -225,7 +226,7 @@ class PackageTests {
     @Test
     fun `Indirect circular package dependencies are handled correctly`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage

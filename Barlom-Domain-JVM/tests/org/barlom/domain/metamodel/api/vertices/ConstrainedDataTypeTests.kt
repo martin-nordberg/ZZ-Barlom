@@ -8,6 +8,7 @@ package org.barlom.domain.metamodel.api.vertices
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EDataType
 import org.barlom.infrastructure.platform.DateTime
+import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -20,7 +21,7 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained boolean data types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -50,7 +51,7 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained date-time data types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -81,7 +82,7 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained float64 data types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -115,7 +116,7 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained int64 data types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -149,7 +150,7 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained string data types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -185,7 +186,7 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained UUID data types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage

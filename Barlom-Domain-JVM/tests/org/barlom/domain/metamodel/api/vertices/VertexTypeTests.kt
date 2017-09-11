@@ -21,7 +21,7 @@ class VertexTypeTests {
     @Test
     fun `Vertex types are vertices of the model graph`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -39,7 +39,7 @@ class VertexTypeTests {
     @Test
     fun `Vertex types construct as expected`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -66,7 +66,7 @@ class VertexTypeTests {
     @Test
     fun `Vertex types have paths`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
@@ -84,7 +84,7 @@ class VertexTypeTests {
     @Test
     fun `Vertex types track their supertype and subtypes`() {
 
-        val model = Model()
+        val model = Model({makeUuid()})
 
         model.revHistory.update("test") {
             val root = model.rootPackage
