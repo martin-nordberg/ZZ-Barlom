@@ -6,6 +6,7 @@
 package org.barlom.presentation.server.main
 
 import org.apache.logging.log4j.LogManager
+import org.barlom.presentation.server.routes.util.uuidRoute
 import spark.kotlin.get
 import spark.kotlin.staticFiles
 import spark.kotlin.stop
@@ -33,6 +34,10 @@ fun main(args: Array<String>) {
         stop()
         "Server stopped"
     }
+
+    val root = "/Barlom"
+
+    uuidRoute(root)
 
 }
 
