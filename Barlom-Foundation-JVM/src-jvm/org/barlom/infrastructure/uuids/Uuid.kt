@@ -12,10 +12,10 @@ package org.barlom.infrastructure.uuids
 class Uuid (
 
     /** The most significant 64 bits of this UUID. */
-    val mostSignificantBits: Long,
+    private val mostSignificantBits: Long,
 
     /** The least significant 64 bits of this UUID. */
-    val leastSignificantBits: Long
+    private val leastSignificantBits: Long
 
 ) : Comparable<Uuid> {
 
@@ -29,16 +29,13 @@ class Uuid (
 
         // The ordering is intentionally set up so that the UUIDs
         // can simply be numerically compared as two numbers
-        return if (this.mostSignificantBits < other.mostSignificantBits)
-                   -1
-               else if (this.mostSignificantBits > other.mostSignificantBits)
-                   1
-               else if (this.leastSignificantBits < other.leastSignificantBits)
-                   -1
-               else if (this.leastSignificantBits > other.leastSignificantBits)
-                   1
-               else
-                   0
+        return when {
+            this.mostSignificantBits < other.mostSignificantBits   -> -1
+            this.mostSignificantBits > other.mostSignificantBits   -> 1
+            this.leastSignificantBits < other.leastSignificantBits -> -1
+            this.leastSignificantBits > other.leastSignificantBits -> 1
+            else                                                   -> 0
+        }
 
     }
 
@@ -51,7 +48,7 @@ class Uuid (
      */
     override fun equals(other: Any?): Boolean {
 
-        if (null == other || !(other is Uuid) ) {
+        if (null == other || other !is Uuid) {
             return false
         }
 
@@ -109,17 +106,17 @@ class Uuid (
 
         /**
          * Creates a `UUID` from the string standard representation as described in the [.toString] method.
-         * @param name A string that specifies a `UUID`.
+         * @param uuidStr A string that specifies a `UUID`.
          * @return  A `UUID` with the specified value.
          * @throws  IllegalArgumentException If name does not conform to the string representation as
          *          described in [.toString]
          */
-        fun fromString(name: String): Uuid {
+        fun fromString(uuidStr: String): Uuid {
 
-            val components = name.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val components = uuidStr.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
             if (components.size != 5) {
-                throw IllegalArgumentException("Invalid UUID string: " + name)
+                throw IllegalArgumentException("Invalid UUID string: " + uuidStr)
             }
 
             var mostSigBits = components[0].toLong(16)

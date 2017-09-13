@@ -37,8 +37,6 @@ class UuidTests {
 
         val uuid = makeUuidWithReservedBlock().toString()
 
-        val uuidStr = uuid.toString()
-
         assertTrue(uuid.matches(ReservedBlockUuidPattern))
 
     }

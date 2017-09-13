@@ -1,8 +1,10 @@
-import org.katydom.abstractnodes.KatyDomHtmlElement
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 import org.katydom.api.katyDom
 import org.katydom.api.katyDomComponent
-import org.katydom.api.makeKatyDomLifecycle
-import kotlin.browser.document
 
 val cmp0 = katyDomComponent {
     div {
@@ -54,16 +56,3 @@ val vdomNode = katyDom {
 
 }
 
-fun main(args: Array<String> ) {
-
-    val lifecycle = makeKatyDomLifecycle()
-
-    val appElement = document.getElementById("app")
-
-    if ( appElement != null && vdomNode is KatyDomHtmlElement) {
-        lifecycle.build(appElement, vdomNode)
-    }
-
-    console.log( "DONE" )
-
-}
