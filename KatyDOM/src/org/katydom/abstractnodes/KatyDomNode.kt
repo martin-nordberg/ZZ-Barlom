@@ -8,8 +8,6 @@ package org.katydom.abstractnodes
 import org.katydom.api.EventCancellationException
 import org.katydom.api.EventHandler
 import org.katydom.api.MouseEventHandler
-import org.katydom.eventtarget.addEventListener
-import org.katydom.eventtarget.removeEventListener
 import org.katydom.types.EMouseEventType
 import org.w3c.dom.Document
 import org.w3c.dom.Node
@@ -145,7 +143,7 @@ abstract class KatyDomNode(val key: String?) {
 
         check( !priorNode.isPatchedRemoved ) { "Prior node cannot be patched after being removed." }
         check( !priorNode.isPatchedReplaced ) { "Prior node cannot be patched twice." }
-        check( priorNode.isEstablished ) { "Prior KatyDOM node must be established before patching. " + priorNode.nodeName }
+        check( priorNode.isEstablished ) { "Prior KatyDOM node must be established before patching. " + priorNode.nodeName + "." + priorNode.key }
 
         require( priorNode.nodeName == nodeName ) { "Cannot patch a difference between two KatyDOM nodes of different types." }
 
@@ -169,16 +167,15 @@ abstract class KatyDomNode(val key: String?) {
                 domNode.removeChild(domNode.firstChild!!)
             }
 
-            this.domNode = domNode
-
-            state = EState.ESTABLISHED
-
         }
         else {
 
             patchChildNodes(domNode, priorNode)
 
         }
+
+        this.domNode = domNode
+        state = EState.ESTABLISHED
 
         priorNode.state = EState.PATCHED_REPLACED
 
