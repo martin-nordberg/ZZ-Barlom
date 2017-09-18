@@ -13,10 +13,13 @@ import org.barlom.infrastructure.uuids.Uuid
 
 class Model(
 
-    /** Functin for creating new UUIDs */
+    /** Function for creating new UUIDs */
     private val makeUuid: ()->Uuid,
 
-    /** The unique ID for the root package within this model. */
+    /** The revision history for the model. */
+    val revHistory : RevisionHistory = RevisionHistory("Initial empty model."),
+
+        /** The unique ID for the root package within this model. */
     rootPackageId: Uuid = Uuid.fromString("66522300-6c7d-11e7-81b7-080027b6d283"),
 
     /** The unique ID for the root vertex type within this model. */
@@ -37,8 +40,6 @@ class Model(
 
     val edges: List<AbstractDocumentedElement>
         get() = _edges.asList()
-
-    val revHistory = RevisionHistory("Initial empty model.")
 
     val rootDirectedEdgeType: DirectedEdgeType
 

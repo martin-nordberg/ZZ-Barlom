@@ -14,6 +14,10 @@ import org.w3c.dom.Node
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
 
+// Note: these are needed in JVM but not JS:
+import org.katydom.eventtarget.addEventListener
+import org.katydom.eventtarget.removeEventListener
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
