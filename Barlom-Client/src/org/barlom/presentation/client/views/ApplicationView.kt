@@ -41,22 +41,42 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
         m.revHistory.review {
 
-            div("#BarlomMetamodelingEnvironment") {
+            main("#BarlomMetamodelingEnvironment.o-grid.o-grid--no-gutter.o-panel") {
 
-                ul("#package-list") {
+                div( ".o-grid__cell--width-100.o-panel-container") {
 
-                    for (pkg in m.rootPackage.children) {
-                        li { text(pkg.name) }
-                    }
+                    nav(".c-nav.c-nav--inline.c-nav--light") {
 
-                    li {
-
-                        onclick {
-                            revDispatchModel { AddPackage(m.rootPackage) }
-                            console.log("Clicked")
+                        span(".c-nav__item") {
+                            // TODO: i(".fa.fa-bars"){}
                         }
 
-                        text("New Package")
+                        span(".c-nav__content") {
+                            text("Barlom Metamodeling Environment")
+                        }
+
+                    }
+
+                    div(".o-panel.o-panel--nav-top") {
+
+                        ul("#package-list") {
+
+                            for (pkg in m.rootPackage.children) {
+                                li { text(pkg.name) }
+                            }
+
+                            li {
+
+                                onclick {
+                                    revDispatchModel { AddPackage(m.rootPackage) }
+                                    console.log("Clicked")
+                                }
+
+                                text("New Package")
+
+                            }
+
+                        }
 
                     }
 
@@ -69,3 +89,5 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
     } as KatyDomHtmlElement
 
 }
+
+

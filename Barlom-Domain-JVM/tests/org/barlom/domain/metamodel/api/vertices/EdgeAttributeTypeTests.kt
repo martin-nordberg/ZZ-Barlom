@@ -20,7 +20,7 @@ class EdgeAttributeTypeTests {
     @Test
     fun `Edge attribute types are constructed as expected`() {
 
-        val model = Model({ makeUuid() })
+        val model = Model( ::makeUuid )
 
         model.revHistory.update("test") {
             val root = model.rootPackage

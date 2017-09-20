@@ -11,7 +11,7 @@ import org.barlom.infrastructure.uuids.makeUuid
 
 class ApplicationState(val revHistory: RevisionHistory) {
 
-    val model = Model({ makeUuid() }, revHistory)
+    val model = Model( ::makeUuid, revHistory)
 
     val uiState = 1
 

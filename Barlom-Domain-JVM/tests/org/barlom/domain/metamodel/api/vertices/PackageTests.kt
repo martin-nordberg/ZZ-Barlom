@@ -20,7 +20,7 @@ class PackageTests {
     @Test
     fun `Packages are vertices of the graph`() {
 
-        val model = Model({ makeUuid() })
+        val model = Model(::makeUuid)
 
         model.revHistory.update("test") {
             val root = model.rootPackage

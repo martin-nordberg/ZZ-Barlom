@@ -113,7 +113,7 @@ class Uuid (
          */
         fun fromString(uuidStr: String): Uuid {
 
-            val components = uuidStr.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val components = uuidStr.split("-".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
 
             if (components.size != 5) {
                 throw IllegalArgumentException("Invalid UUID string: " + uuidStr)
