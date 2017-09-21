@@ -41,28 +41,36 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
         m.revHistory.review {
 
-            main("#BarlomMetamodelingEnvironment.o-grid.o-grid--no-gutter.o-panel") {
+            main("#BarlomMetamodelingEnvironment.o-grid.o-grid--no-gutter.o-panel.u-small") {
 
-                div( ".o-grid__cell--width-100.o-panel-container") {
+                div( ".o-grid__cell--width-20.o-panel-container") {
 
-                    nav(".c-nav.c-nav--inline.c-nav--light") {
-
-                        span(".c-nav__item") {
-                            // TODO: i(".fa.fa-bars"){}
-                        }
+                    nav(".c-nav.c-nav--inline") {
 
                         span(".c-nav__content") {
-                            text("Barlom Metamodeling Environment")
+                            text("Browse")
                         }
 
                     }
 
-                    div(".o-panel.o-panel--nav-top") {
+                    div(".o-panel.o-panel--nav-top.u-pillar-box--small.barlom-browse-panel") {
 
-                        ul("#package-list") {
+                        ul("#package-list.c-tree") {
 
                             for (pkg in m.rootPackage.children) {
-                                li { text(pkg.name) }
+
+                                li("c-tree__item.c-tree__item--expandable") {
+
+                                    data("uuid",pkg.id.toString())
+
+                                    onclick { e ->
+                                        console.log( "Clicked: ", e.offsetX );
+                                    }
+
+                                    text(pkg.name)
+
+                                }
+
                             }
 
                             li {
@@ -76,6 +84,22 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                             }
 
+                        }
+
+                    }
+
+                }
+
+                div( ".o-grid__cell--width-80.o-panel-container") {
+
+                    nav(".c-nav.c-nav--inline.c-nav--light") {
+
+                        span(".c-nav__content") {
+                            text("Barlom Metamodeling Environment")
+                        }
+
+                        span(".c-nav__item.c-nav__item--right") {
+                            // TODO: i(".fa.fa-bars"){}
                         }
 
                     }
