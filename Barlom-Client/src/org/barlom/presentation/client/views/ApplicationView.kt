@@ -99,7 +99,7 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
                         }
 
                         span(".c-nav__item.c-nav__item--right") {
-                            // TODO: i(".fa.fa-bars"){}
+                            span( ".mdi.mdi-help-circle.u-large"){}
                         }
 
                     }
