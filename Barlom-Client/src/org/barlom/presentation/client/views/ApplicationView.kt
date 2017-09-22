@@ -10,6 +10,8 @@ import org.barlom.domain.metamodel.api.actions.IModelAction
 import org.barlom.presentation.client.actions.IAction
 import org.barlom.presentation.client.actions.ModelAction
 import org.barlom.presentation.client.state.ApplicationState
+import org.barlom.presentation.client.views.listitems.viewPackageListItem
+import org.barlom.presentation.client.views.listitems.viewPackageTreeItem
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 
@@ -47,8 +49,19 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                     nav(".c-nav.c-nav--inline") {
 
-                        span(".c-nav__content") {
-                            text("Browse")
+                        span(".c-nav__item.c-nav__item--active.c-tooltip.c-tooltip--bottom") {
+                            attribute("aria-label","Browse packages")
+                            span( ".mdi.mdi-folder.u-large"){}
+                        }
+
+                        span(".c-nav__item.c-tooltip.c-tooltip--bottom") {
+                            attribute("aria-label","Show favorites")
+                            span( ".mdi.mdi-folder-star.u-large"){}
+                        }
+
+                        span(".c-nav__item.c-tooltip.c-tooltip--bottom") {
+                            attribute("aria-label","Search")
+                            span( ".mdi.mdi-magnify.u-large"){}
                         }
 
                     }
@@ -59,17 +72,7 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                             for (pkg in m.rootPackage.children) {
 
-                                li("c-tree__item.c-tree__item--expandable") {
-
-                                    data("uuid",pkg.id.toString())
-
-                                    onclick { e ->
-                                        console.log( "Clicked: ", e.offsetX );
-                                    }
-
-                                    text(pkg.name)
-
-                                }
+                                viewPackageTreeItem( pkg )()
 
                             }
 
@@ -98,7 +101,13 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
                             text("Barlom Metamodeling Environment")
                         }
 
-                        span(".c-nav__item.c-nav__item--right") {
+                        span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {
+                            attribute("aria-label","Change settings")
+                            span( ".mdi.mdi-settings.u-large"){}
+                        }
+
+                        span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {
+                            attribute("aria-label","Display help")
                             span( ".mdi.mdi-help-circle.u-large"){}
                         }
 

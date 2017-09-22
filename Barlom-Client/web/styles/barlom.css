@@ -1,6 +1,19 @@
 
+:root {
+  --icon-color--package: #ffd54f;
+  --left-panel-background-color: #fafafa;
+}
+
+
+
 .barlom-browse-panel {
 
-    background-color: #EEE;
+    background-color: var(--left-panel-background-color);
+
+}
+
+.package-icon {
+
+    color: var(--icon-color--package);
 
 }
