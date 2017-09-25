@@ -88,9 +88,12 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
                     }
 
                     when (ui.leftPanelType) {
-                        ELeftPanelType.BROWSE    -> viewBrowsePanel(m, ::revDispatchModel)()
-                        ELeftPanelType.FAVORITES -> viewFavoritesPanel(m, ::revDispatchModel)()
-                        ELeftPanelType.SEARCH    -> viewSearchPanel(m, ::revDispatchModel)()
+                        ELeftPanelType.BROWSE    ->
+                            viewBrowsePanel(m, ::revDispatchModel, ui.focusedElement, ::revDispatchUi)()
+                        ELeftPanelType.FAVORITES ->
+                            viewFavoritesPanel(m, ::revDispatchModel)()
+                        ELeftPanelType.SEARCH    ->
+                            viewSearchPanel(m, ::revDispatchModel)()
                     }
 
                 }

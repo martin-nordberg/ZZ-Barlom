@@ -8,6 +8,8 @@ package org.barlom.presentation.client.views.leftpanels
 import org.barlom.domain.metamodel.api.actions.AddPackage
 import org.barlom.domain.metamodel.api.actions.IModelAction
 import org.barlom.domain.metamodel.api.model.Model
+import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
+import org.barlom.presentation.client.actions.IUiAction
 import org.barlom.presentation.client.views.listitems.viewPackageTreeItem
 import org.katydom.api.katyDomComponent
 
@@ -16,7 +18,9 @@ import org.katydom.api.katyDomComponent
  */
 fun viewBrowsePanel(
     m: Model,
-    revDispatchModel: (makeModelAction: () -> IModelAction) -> Unit
+    revDispatchModel: (makeModelAction: () -> IModelAction) -> Unit,
+    focusedElement: AbstractDocumentedElement?,
+    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
 ) = katyDomComponent {
 
     div(".o-panel.o-panel--nav-top.u-pillar-box--small.barlom-browse-panel") {
@@ -25,7 +29,7 @@ fun viewBrowsePanel(
 
             for (pkg in m.rootPackage.children) {
 
-                viewPackageTreeItem(pkg)()
+                viewPackageTreeItem(pkg,focusedElement,revDispatchUi)()
 
             }
 

@@ -1,5 +1,6 @@
 
 :root {
+  --focused-item-background-color: #ffecb3;
   --icon-color--package: #ffd54f;
   --left-panel-background-color: #fafafa;
 }
@@ -15,5 +16,11 @@
 .package-icon {
 
     color: var(--icon-color--package);
+
+}
+
+.tree-item--focused {
+
+    background-color: var(--focused-item-background-color);
 
 }

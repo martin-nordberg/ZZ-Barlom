@@ -44,6 +44,8 @@ fun <AppState> runApplication(
 
         window.setTimeout(
             {
+                console.log( "ACTION: ", action.description)
+
                 // Update the model.
                 revHistory.update(action.description) {
                     action.apply(appState)
