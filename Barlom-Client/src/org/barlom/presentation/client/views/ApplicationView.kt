@@ -5,13 +5,17 @@
 
 package org.barlom.presentation.client.views
 
-import org.barlom.domain.metamodel.api.actions.AddPackage
 import org.barlom.domain.metamodel.api.actions.IModelAction
 import org.barlom.presentation.client.actions.IAction
+import org.barlom.presentation.client.actions.IUiAction
 import org.barlom.presentation.client.actions.ModelAction
+import org.barlom.presentation.client.actions.UiAction
+import org.barlom.presentation.client.actions.ui.ChangeLeftPanel
 import org.barlom.presentation.client.state.ApplicationState
-import org.barlom.presentation.client.views.listitems.viewPackageListItem
-import org.barlom.presentation.client.views.listitems.viewPackageTreeItem
+import org.barlom.presentation.client.state.ELeftPanelType
+import org.barlom.presentation.client.views.leftpanels.viewBrowsePanel
+import org.barlom.presentation.client.views.leftpanels.viewFavoritesPanel
+import org.barlom.presentation.client.views.leftpanels.viewSearchPanel
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 
@@ -21,21 +25,29 @@ import org.katydom.api.katyDom
 fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState>) -> Unit): KatyDomHtmlElement {
 
     val m = appState.model
+    val ui = appState.uiState
 
     /**
      * Creates and dispatches an action inside a rev history transaction.
      */
     fun revDispatch(action: IAction<ApplicationState>) {
-        m.revHistory.review {
+        appState.revHistory.review {
             dispatch(action)
         }
     }
 
     /**
-     * Creates and dispatches an action inside a rev history transaction.
+     * Creates and dispatches a model-specific action inside a rev history transaction.
      */
     fun revDispatchModel(makeModelAction: () -> IModelAction) {
         revDispatch(ModelAction(makeModelAction()))
+    }
+
+    /**
+     * Creates and dispatches a UI-specific action inside a rev history transaction.
+     */
+    fun revDispatchUi(makeUiAction: () -> IUiAction) {
+        revDispatch(UiAction(makeUiAction()))
     }
 
     // Sample view, much TBD
@@ -45,55 +57,45 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
             main("#BarlomMetamodelingEnvironment.o-grid.o-grid--no-gutter.o-panel.u-small") {
 
-                div( ".o-grid__cell--width-20.o-panel-container") {
+                div(".o-grid__cell--width-20.o-panel-container") {
 
                     nav(".c-nav.c-nav--inline") {
 
                         span(".c-nav__item.c-nav__item--active.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label","Browse packages")
-                            span( ".mdi.mdi-folder.u-large"){}
+                            attribute("aria-label", "Browse")
+                            onclick {
+                                revDispatchUi { ChangeLeftPanel(ELeftPanelType.BROWSE) }
+                            }
+                            span(".mdi.mdi-folder.u-large") {}
                         }
 
                         span(".c-nav__item.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label","Show favorites")
-                            span( ".mdi.mdi-folder-star.u-large"){}
+                            attribute("aria-label", "Favorites")
+                            onclick {
+                                revDispatchUi { ChangeLeftPanel(ELeftPanelType.FAVORITES) }
+                            }
+                            span(".mdi.mdi-folder-star.u-large") {}
                         }
 
                         span(".c-nav__item.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label","Search")
-                            span( ".mdi.mdi-magnify.u-large"){}
+                            attribute("aria-label", "Search")
+                            onclick {
+                                revDispatchUi { ChangeLeftPanel(ELeftPanelType.SEARCH) }
+                            }
+                            span(".mdi.mdi-magnify.u-large") {}
                         }
 
                     }
 
-                    div(".o-panel.o-panel--nav-top.u-pillar-box--small.barlom-browse-panel") {
-
-                        ul("#package-list.c-tree") {
-
-                            for (pkg in m.rootPackage.children) {
-
-                                viewPackageTreeItem( pkg )()
-
-                            }
-
-                            li {
-
-                                onclick {
-                                    revDispatchModel { AddPackage(m.rootPackage) }
-                                    console.log("Clicked")
-                                }
-
-                                text("New Package")
-
-                            }
-
-                        }
-
+                    when (ui.leftPanelType) {
+                        ELeftPanelType.BROWSE    -> viewBrowsePanel(m, ::revDispatchModel)()
+                        ELeftPanelType.FAVORITES -> viewFavoritesPanel(m, ::revDispatchModel)()
+                        ELeftPanelType.SEARCH    -> viewSearchPanel(m, ::revDispatchModel)()
                     }
 
                 }
 
-                div( ".o-grid__cell--width-80.o-panel-container") {
+                div(".o-grid__cell--width-80.o-panel-container") {
 
                     nav(".c-nav.c-nav--inline.c-nav--light") {
 
@@ -102,13 +104,13 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
                         }
 
                         span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label","Change settings")
-                            span( ".mdi.mdi-settings.u-large"){}
+                            attribute("aria-label", "Settings")
+                            span(".mdi.mdi-settings.u-large") {}
                         }
 
                         span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label","Display help")
-                            span( ".mdi.mdi-help-circle.u-large"){}
+                            attribute("aria-label", "Help")
+                            span(".mdi.mdi-help-circle.u-large") {}
                         }
 
                     }
