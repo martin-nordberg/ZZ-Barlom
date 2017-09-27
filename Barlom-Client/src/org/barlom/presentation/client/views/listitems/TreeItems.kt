@@ -5,26 +5,36 @@
 
 package org.barlom.presentation.client.views.listitems
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
+import org.barlom.domain.metamodel.api.actions.AddPackage
+import org.barlom.domain.metamodel.api.actions.IModelAction
+import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
 import org.barlom.presentation.client.actions.IUiAction
 import org.katydom.api.katyDomListItemComponent
+import org.katydom.builders.KatyDomListItemContentBuilder
 
 
 /** Generates a tree item for a given package [pkg]. */
+@Suppress("RedundantUnitReturnType")
 fun viewPackageTreeItem(
+    builder: KatyDomListItemContentBuilder,
     pkg: Package,
-    focusedElement: AbstractDocumentedElement?,
+    revDispatchModel: (makeModelAction: () -> IModelAction) -> Unit,
+    focusedElement: AbstractPackagedElement?,
     revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
-) = katyDomListItemComponent {
+): Unit = katyDomListItemComponent(builder) {
 
-    val cls =
-        if (pkg == focusedElement)
-            ".c-tree__item.c-tree__item--expandable.tree-item--focused"
-        else
-            ".c-tree__item.c-tree__item--expandable"
+    val hasChildren = pkg.childPackageContainments.isNotEmpty()
 
-    li(cls) {
+    li(".c-tree__item") {
+
+        classes(
+            "c-tree__item--expanded" to (hasChildren && true/*TODO*/),
+            "c-tree__item--expandable" to (hasChildren && false),
+            "c-tree__item--empty" to !hasChildren,
+            "tree-item--focused" to (pkg == focusedElement),
+            "tree-item--not-focused" to (pkg != focusedElement)
+        )
 
         data("uuid", pkg.id.toString())
 
@@ -32,10 +42,63 @@ fun viewPackageTreeItem(
             console.log("Tree node clicked: ", e.offsetX)
         }
 
-        viewPackageListItem(pkg, revDispatchUi)()
+        viewPackageListItem(this, pkg, revDispatchUi)
+
+        if (hasChildren) {
+
+            ul(".c-tree") {
+
+                for (subpkg in pkg.children) {
+                    viewPackageTreeItem(this, subpkg, revDispatchModel, focusedElement, revDispatchUi)
+                }
+
+                li(".tree-item--not-focused") {
+
+                    onclick {
+                        revDispatchModel { AddPackage(pkg) }
+                        console.log("Clicked")
+                    }
+
+                    text("New Package")
+
+                }
+
+            }
+
+        }
 
     }
 
 }
+
+/** Generates a tree item for a given package [pkg]. */
+fun viewRootPackageTreeItem(
+    builder: KatyDomListItemContentBuilder,
+    pkg: Package,
+    focusedElement: AbstractPackagedElement?,
+    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+) = katyDomListItemComponent(builder) {
+
+    require(pkg.isRoot) { "Root package expected." }
+
+    li {
+
+        classes(
+            "tree-item--focused" to (pkg == focusedElement),
+            "tree-item--not-focused" to (pkg != focusedElement)
+        )
+
+        data("uuid", pkg.id.toString())
+
+        onclick { e ->
+            console.log("Tree node clicked: ", e.offsetX)
+        }
+
+        viewRootPackageListItem(this, pkg, revDispatchUi)
+
+    }
+
+}
+
 
 

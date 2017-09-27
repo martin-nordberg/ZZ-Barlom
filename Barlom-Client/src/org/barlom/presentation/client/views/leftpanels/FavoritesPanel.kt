@@ -8,16 +8,18 @@ package org.barlom.presentation.client.views.leftpanels
 import org.barlom.domain.metamodel.api.actions.IModelAction
 import org.barlom.domain.metamodel.api.model.Model
 import org.katydom.api.katyDomComponent
+import org.katydom.builders.KatyDomFlowContentBuilder
 
 /**
  * Generates the favorites panel view from the latest application state. Wires event handlers to be dispatched as actions.
  */
 fun viewFavoritesPanel(
+    builder: KatyDomFlowContentBuilder,
     m: Model,
     revDispatchModel: (makeModelAction: () -> IModelAction) -> Unit
-) = katyDomComponent {
+) = katyDomComponent(builder) {
 
-    div(".o-panel.o-panel--nav-top.u-pillar-box--small.barlom-favorites-panel") {
+    div(".o-panel.o-panel--nav-top.u-pillar-box--small.left-panel") {
 
         text("Favorites (TBD)")
 

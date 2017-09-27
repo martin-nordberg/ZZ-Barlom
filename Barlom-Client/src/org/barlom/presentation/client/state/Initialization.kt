@@ -25,6 +25,16 @@ fun initializeAppState(revHistory: RevisionHistory): ApplicationState {
             m.makePackageContainment(root, this)
         }
 
+        val pkg1a = m.makePackage {
+            name = "pkg1a"
+            m.makePackageContainment(pkg1, this)
+        }
+
+        val pkg1b = m.makePackage {
+            name = "pkg1b"
+            m.makePackageContainment(pkg1, this)
+        }
+
         val pkg2 = m.makePackage {
             name = "pkg2"
             m.makePackageContainment(root, this)

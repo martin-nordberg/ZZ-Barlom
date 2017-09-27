@@ -1,13 +1,18 @@
 
 :root {
+
   --focused-item-background-color: #ffecb3;
+
   --icon-color--package: #ffd54f;
+  --icon-color--root-package: #f57f17;
+
   --left-panel-background-color: #fafafa;
+
 }
 
 
 
-.barlom-browse-panel {
+.left-panel {
 
     background-color: var(--left-panel-background-color);
 
@@ -19,8 +24,20 @@
 
 }
 
+.root-package-icon {
+
+    color: var(--icon-color--root-package);
+
+}
+
 .tree-item--focused {
 
     background-color: var(--focused-item-background-color);
+
+}
+
+.tree-item--not-focused {
+
+    background-color: var(--left-panel-background-color);
 
 }

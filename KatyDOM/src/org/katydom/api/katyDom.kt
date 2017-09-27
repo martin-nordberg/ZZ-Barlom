@@ -8,6 +8,7 @@ package org.katydom.api
 import org.katydom.abstractnodes.KatyDomNode
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomListItemContentBuilder
+import org.katydom.builders.KatyDomPhrasingContentBuilder
 import org.katydom.concretenodes.grouping.KatyDomDiv
 import org.katydom.lifecycle.KatyDomLifecycleImpl
 
@@ -40,9 +41,8 @@ fun katyDom(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit): KatyDomNode {
  * @param fillChildNodes function that defines the one or more nodes of the component.
  * @return a function that builds the nodes as part of a larger tree.
  */
-fun katyDomComponent(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit)
-    : KatyDomFlowContentBuilder.() -> Unit {
-    return fillChildNodes
+fun katyDomComponent(builder: KatyDomFlowContentBuilder, fillChildNodes: KatyDomFlowContentBuilder.() -> Unit) {
+    return fillChildNodes(builder)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,9 +52,21 @@ fun katyDomComponent(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit)
  * @param fillChildNodes the function defining one or more <li> elements.
  * @return a function that builds the nodes as part of a larger tree.
  */
-fun katyDomListItemComponent(fillChildNodes: KatyDomListItemContentBuilder.() -> Unit)
-    : KatyDomListItemContentBuilder.() -> Unit {
-    return fillChildNodes
+fun katyDomListItemComponent(builder: KatyDomListItemContentBuilder,
+                             fillChildNodes: KatyDomListItemContentBuilder.() -> Unit) {
+    return fillChildNodes(builder)
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Helper function for defining a component consisting of phrasing content.
+ * @param fillChildNodes the function defining one or more elements.
+ * @return a function that builds the nodes as part of a larger tree.
+ */
+fun katyDomPhrasingComponent(builder: KatyDomPhrasingContentBuilder,
+                             fillChildNodes: KatyDomPhrasingContentBuilder.() -> Unit) {
+    return fillChildNodes(builder)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

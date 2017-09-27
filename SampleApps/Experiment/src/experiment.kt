@@ -1,14 +1,14 @@
-
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 import org.katydom.api.katyDomComponent
 import org.katydom.api.makeKatyDomLifecycle
+import org.katydom.builders.KatyDomFlowContentBuilder
 import kotlin.browser.document
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-val cmp0 = katyDomComponent {
+fun cmp0(builder: KatyDomFlowContentBuilder) = katyDomComponent(builder) {
     div {
         div("#abc.cls1.cls2") {
 
@@ -33,7 +33,7 @@ val vdomNode = katyDom {
                 li { text("item 2") }
                 li {
                     onclick {
-                        console.log( "Clicked!" )
+                        console.log("Clicked!")
                     }
 
                     text("item 3")
@@ -43,8 +43,8 @@ val vdomNode = katyDom {
 
         }
 
-        div( ".some-class" ) {
-            classes( "big" to true, "small" to false, "smelly" to true)
+        div(".some-class") {
+            classes("big" to true, "small" to false, "smelly" to true)
             attribute("class", "very-classy")
             attributes("a1" to "v1", "a2" to "v2")
         }
@@ -55,7 +55,7 @@ val vdomNode = katyDom {
             attribute("id", "me")
         }
 
-        cmp0()
+        cmp0(this)
 
     }
 
@@ -64,16 +64,16 @@ val vdomNode = katyDom {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-fun main( args: Array<String> ) {
+fun main(args: Array<String>) {
 
     val lifecycle = makeKatyDomLifecycle()
 
     val appElement = document.getElementById("app")
 
-    if ( appElement != null && vdomNode is KatyDomHtmlElement ) {
+    if (appElement != null && vdomNode is KatyDomHtmlElement) {
         lifecycle.build(appElement, vdomNode)
     }
 
-    console.log( "DONE" )
+    console.log("DONE")
 
 }

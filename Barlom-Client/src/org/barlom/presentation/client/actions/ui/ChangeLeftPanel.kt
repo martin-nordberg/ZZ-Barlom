@@ -13,6 +13,7 @@ class ChangeLeftPanel(private val leftPanelType: ELeftPanelType) : IUiAction {
 
     override fun apply(uiState: ApplicationUiState) {
         uiState.leftPanelType = leftPanelType
+        uiState.focusedElement = null
     }
 
     override val description: String

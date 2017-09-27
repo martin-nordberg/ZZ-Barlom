@@ -16,6 +16,7 @@ import org.barlom.presentation.client.state.ELeftPanelType
 import org.barlom.presentation.client.views.leftpanels.viewBrowsePanel
 import org.barlom.presentation.client.views.leftpanels.viewFavoritesPanel
 import org.barlom.presentation.client.views.leftpanels.viewSearchPanel
+import org.barlom.presentation.client.views.listitems.viewFocusedElementPath
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 
@@ -89,11 +90,11 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                     when (ui.leftPanelType) {
                         ELeftPanelType.BROWSE    ->
-                            viewBrowsePanel(m, ::revDispatchModel, ui.focusedElement, ::revDispatchUi)()
+                            viewBrowsePanel(this, m, ::revDispatchModel, ui.focusedElement, ::revDispatchUi)
                         ELeftPanelType.FAVORITES ->
-                            viewFavoritesPanel(m, ::revDispatchModel)()
+                            viewFavoritesPanel(this, m, ::revDispatchModel)
                         ELeftPanelType.SEARCH    ->
-                            viewSearchPanel(m, ::revDispatchModel)()
+                            viewSearchPanel(this, m, ::revDispatchModel)
                     }
 
                 }
@@ -102,8 +103,8 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                     nav(".c-nav.c-nav--inline.c-nav--light") {
 
-                        span(".c-nav__content") {
-                            text("Barlom Metamodeling Environment")
+                        div(".c-nav__content") {
+                            viewFocusedElementPath(this, ui.focusedElement, ::revDispatchUi)
                         }
 
                         span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {

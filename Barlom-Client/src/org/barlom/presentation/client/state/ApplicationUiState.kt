@@ -5,7 +5,7 @@
 
 package org.barlom.presentation.client.state
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
+import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.revisions.V
 
@@ -14,13 +14,13 @@ import org.barlom.infrastructure.revisions.V
  */
 class ApplicationUiState(revHistory: RevisionHistory) {
 
-    private val _focusedElement: V<AbstractDocumentedElement?>
+    private val _focusedElement: V<AbstractPackagedElement?>
 
     private val _leftPanelType: V<ELeftPanelType>
 
     init {
 
-        var __focusedElement: V<AbstractDocumentedElement?>? = null
+        var __focusedElement: V<AbstractPackagedElement?>? = null
         var __leftPanelType: V<ELeftPanelType>? = null
 
         revHistory.update("Initialize UI state.") {
