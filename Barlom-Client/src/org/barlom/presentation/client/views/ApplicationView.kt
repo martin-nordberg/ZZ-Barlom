@@ -10,13 +10,16 @@ import org.barlom.presentation.client.actions.IAction
 import org.barlom.presentation.client.actions.IUiAction
 import org.barlom.presentation.client.actions.ModelAction
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.actions.ui.ChangeLeftPanel
 import org.barlom.presentation.client.state.ApplicationState
-import org.barlom.presentation.client.state.ELeftPanelType
+import org.barlom.presentation.client.state.ELeftPanelType.*
+import org.barlom.presentation.client.state.ERightPanelType.*
 import org.barlom.presentation.client.views.leftpanels.viewBrowsePanel
 import org.barlom.presentation.client.views.leftpanels.viewFavoritesPanel
+import org.barlom.presentation.client.views.leftpanels.viewLeftPanelNavItem
 import org.barlom.presentation.client.views.leftpanels.viewSearchPanel
 import org.barlom.presentation.client.views.listitems.viewFocusedElementPath
+import org.barlom.presentation.client.views.rightpanels.forms.viewPropertiesForm
+import org.barlom.presentation.client.views.rightpanels.viewRightPanelNavItem
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 
@@ -62,38 +65,18 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                     nav(".c-nav.c-nav--inline") {
 
-                        span(".c-nav__item.c-nav__item--active.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label", "Browse")
-                            onclick {
-                                revDispatchUi { ChangeLeftPanel(ELeftPanelType.BROWSE) }
-                            }
-                            span(".mdi.mdi-folder.u-large") {}
-                        }
-
-                        span(".c-nav__item.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label", "Favorites")
-                            onclick {
-                                revDispatchUi { ChangeLeftPanel(ELeftPanelType.FAVORITES) }
-                            }
-                            span(".mdi.mdi-folder-star.u-large") {}
-                        }
-
-                        span(".c-nav__item.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label", "Search")
-                            onclick {
-                                revDispatchUi { ChangeLeftPanel(ELeftPanelType.SEARCH) }
-                            }
-                            span(".mdi.mdi-magnify.u-large") {}
-                        }
+                        viewLeftPanelNavItem(this, ::revDispatchUi, BROWSE, ui.leftPanelType )
+                        viewLeftPanelNavItem(this, ::revDispatchUi, FAVORITES, ui.leftPanelType )
+                        viewLeftPanelNavItem( this, ::revDispatchUi, SEARCH, ui.leftPanelType )
 
                     }
 
                     when (ui.leftPanelType) {
-                        ELeftPanelType.BROWSE    ->
+                        BROWSE    ->
                             viewBrowsePanel(this, m, ::revDispatchModel, ui.focusedElement, ::revDispatchUi)
-                        ELeftPanelType.FAVORITES ->
+                        FAVORITES ->
                             viewFavoritesPanel(this, m, ::revDispatchModel)
-                        ELeftPanelType.SEARCH    ->
+                        SEARCH    ->
                             viewSearchPanel(this, m, ::revDispatchModel)
                     }
 
@@ -107,16 +90,13 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
                             viewFocusedElementPath(this, ui.focusedElement, ::revDispatchUi)
                         }
 
-                        span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label", "Settings")
-                            span(".mdi.mdi-settings.u-large") {}
-                        }
+                        viewRightPanelNavItem(this,::revDispatchUi,SETTINGS)
+                        viewRightPanelNavItem(this,::revDispatchUi,HELP)
 
-                        span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {
-                            attribute("aria-label", "Help")
-                            span(".mdi.mdi-help-circle.u-large") {}
-                        }
+                    }
 
+                    if ( ui.focusedElement != null ) {
+                        viewPropertiesForm(this, ::revDispatchModel, ui.focusedElement!!, ::revDispatchUi )
                     }
 
                 }
