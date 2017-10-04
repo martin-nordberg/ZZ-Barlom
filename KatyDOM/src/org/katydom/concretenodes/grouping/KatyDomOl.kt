@@ -19,7 +19,7 @@ import org.katydom.types.EOrderedListType
 internal class KatyDomOl(
         flowContent: KatyDomFlowContentBuilder,
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,

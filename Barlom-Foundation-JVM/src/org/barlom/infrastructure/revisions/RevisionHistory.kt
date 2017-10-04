@@ -71,9 +71,9 @@ class RevisionHistory(
      *
      * @param task the work to be done reading from the latest revision as of the start of the call.
      */
-    fun review(task: () -> Unit) {
+    fun <T> review(task: () -> T) : T {
 
-        review(_lastRevision.get().revisionNumber, task)
+        return review(_lastRevision.get().revisionNumber, task)
 
     }
 
@@ -83,7 +83,7 @@ class RevisionHistory(
      * @param revisionNumber the prior revision to read from during the task execution.
      * @param task the work to be done reading from the given revision.
      */
-    fun review(revisionNumber: Long, task: () -> Unit) {
+    fun <T> review(revisionNumber: Long, task: () -> T) : T {
 
         // TODO: check that the revision number is in range
 
@@ -94,7 +94,7 @@ class RevisionHistory(
 
         try {
             _revisionNumberOfCurrentThread.set(revisionNumber)
-            task()
+            return task()
         }
         finally {
             _revisionNumberOfCurrentThread.set(null)

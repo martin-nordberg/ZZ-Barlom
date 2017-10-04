@@ -19,7 +19,7 @@ abstract class KatyDomElement : KatyDomNode {
 
     private constructor(
         selectorPieces: List<String>?,
-        key: String?
+        key: Any?
     ) : super(key ?: keyFromSelector(selectorPieces)) {
 
         if (selectorPieces != null && selectorPieces.isNotEmpty()) {
@@ -50,7 +50,7 @@ abstract class KatyDomElement : KatyDomNode {
      */
     constructor(
         selector: String?,
-        key: String?,
+        key: Any?,
         style: String?,
         tabindex: Int?
     ) : this(selector?.split("."), key) {
@@ -235,6 +235,15 @@ abstract class KatyDomElement : KatyDomNode {
             domElement.setAttribute(key, value)
         }
 
+        if (true /*TODO: ...isInstrumented*/) {
+            val debugAttr = nodeCount.toString() + if (this.key != null) ";" + this.key else ""
+
+            domElement.setAttribute("data-debug", debugAttr)
+            nodeCount += 1
+        }
+
+
+
     }
 
     override final fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
@@ -304,6 +313,8 @@ abstract class KatyDomElement : KatyDomNode {
             }
             return null
         }
+
+        var nodeCount = 1
 
     }
 

@@ -61,9 +61,9 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
             main("#BarlomMetamodelingEnvironment.o-grid.o-grid--no-gutter.o-panel.u-small") {
 
-                div(".o-grid__cell--width-20.o-panel-container") {
+                div("#left-panel-container.o-grid__cell--width-20.o-panel-container") {
 
-                    nav(".c-nav.c-nav--inline") {
+                    nav("#left-navigation.c-nav.c-nav--inline") {
 
                         viewLeftPanelNavItem(this, ::revDispatchUi, BROWSE, ui.leftPanelType )
                         viewLeftPanelNavItem(this, ::revDispatchUi, FAVORITES, ui.leftPanelType )
@@ -82,11 +82,11 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                 }
 
-                div(".o-grid__cell--width-80.o-panel-container") {
+                div("#right-panel-container.o-grid__cell--width-80.o-panel-container") {
 
-                    nav(".c-nav.c-nav--inline.c-nav--light") {
+                    nav("#right-navigation.c-nav.c-nav--inline.c-nav--light") {
 
-                        div(".c-nav__content") {
+                        div("#focused-element-container.c-nav__content") {
                             viewFocusedElementPath(this, ui.focusedElement, ::revDispatchUi)
                         }
 

@@ -56,7 +56,6 @@ fun viewPackageTreeItem(
 
                     onclick {
                         revDispatchModel { AddPackage(pkg) }
-                        console.log("Clicked")
                     }
 
                     text("New Package")

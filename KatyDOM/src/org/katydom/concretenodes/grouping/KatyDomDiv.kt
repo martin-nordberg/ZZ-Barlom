@@ -17,7 +17,7 @@ import org.katydom.types.EDirection
 internal class KatyDomDiv(
     flowContent: KatyDomFlowContentBuilder? = null,
     selector: String? = null,
-    key: String? = null,
+    key: Any? = null,
     accesskey: String? = null,
     contenteditable: Boolean? = null,
     dir: EDirection? = null,

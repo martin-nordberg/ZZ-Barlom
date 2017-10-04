@@ -26,7 +26,7 @@ class KatyDomOptionContentBuilder(
      */
     fun option(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,
@@ -56,7 +56,7 @@ class KatyDomOptionContentBuilder(
      */
     fun option(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,
@@ -85,7 +85,7 @@ class KatyDomOptionContentBuilder(
      */
     fun optionGroup(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,

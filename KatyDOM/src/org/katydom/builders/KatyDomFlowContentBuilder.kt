@@ -47,7 +47,7 @@ class KatyDomFlowContentBuilder(
      */
     fun article(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -71,7 +71,7 @@ class KatyDomFlowContentBuilder(
      */
     fun aside(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -95,7 +95,7 @@ class KatyDomFlowContentBuilder(
      */
     fun div(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -119,7 +119,7 @@ class KatyDomFlowContentBuilder(
      */
     fun footer(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -143,25 +143,25 @@ class KatyDomFlowContentBuilder(
      */
     fun form(
         selector: String? = null,
-        key: String? = null,
-        acceptCharset: String?,
-        accesskey: String?,
-        action: String?,
-        autocomplete: String?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        enctype: EFormEncodingType?,
-        hidden: Boolean?,
-        lang: String?,
-        method: EFormSubmissionMethod?,
-        name: String?,
-        novalidate: Boolean?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        target: String?,
-        title: String?,
-        translate: Boolean?,
+        key: Any? = null,
+        acceptCharset: String? = null,
+        accesskey: String? = null,
+        action: String? = null,
+        autocomplete: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        enctype: EFormEncodingType? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        method: EFormSubmissionMethod? = null,
+        name: String? = null,
+        novalidate: Boolean? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        target: String? = null,
+        title: String? = null,
+        translate: Boolean? = null,
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
@@ -176,7 +176,7 @@ class KatyDomFlowContentBuilder(
      */
     fun h1(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -200,7 +200,7 @@ class KatyDomFlowContentBuilder(
      */
     fun h2(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -224,7 +224,7 @@ class KatyDomFlowContentBuilder(
      */
     fun h3(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -248,7 +248,7 @@ class KatyDomFlowContentBuilder(
      */
     fun h4(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -272,7 +272,7 @@ class KatyDomFlowContentBuilder(
      */
     fun h5(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -296,7 +296,7 @@ class KatyDomFlowContentBuilder(
      */
     fun h6(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -320,7 +320,7 @@ class KatyDomFlowContentBuilder(
      */
     fun header(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -345,7 +345,7 @@ class KatyDomFlowContentBuilder(
      */
     fun hr(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -370,7 +370,7 @@ class KatyDomFlowContentBuilder(
      */
     fun main(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -394,7 +394,7 @@ class KatyDomFlowContentBuilder(
      */
     fun nav(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -422,7 +422,7 @@ class KatyDomFlowContentBuilder(
      */
     fun ol(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -449,7 +449,7 @@ class KatyDomFlowContentBuilder(
      */
     fun p(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -473,7 +473,7 @@ class KatyDomFlowContentBuilder(
      */
     fun section(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -498,7 +498,7 @@ class KatyDomFlowContentBuilder(
      */
     fun ul(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,

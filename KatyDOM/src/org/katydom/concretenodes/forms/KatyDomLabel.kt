@@ -17,7 +17,7 @@ import org.katydom.types.EDirection
 internal class KatyDomLabel(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     contenteditable: Boolean?,
     dir: EDirection?,

@@ -6,7 +6,9 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
+import org.katydom.api.EventHandler
 import org.katydom.api.MouseEventHandler
+import org.katydom.types.EEventType
 import org.katydom.types.EMouseEventType
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +96,14 @@ open class KatyDomAttributesContentBuilder(
      */
     fun onclick( handler: MouseEventHandler ) {
         element.addMouseEventHandler( EMouseEventType.CLICK, handler )
+    }
+
+    /**
+     * Adds an event handler for blur events.
+     * @param handler the callback that listens to blur events.
+     */
+    fun onblur( handler: EventHandler ) {
+        element.addEventHandler(EEventType.BLUR, handler )
     }
 
 }

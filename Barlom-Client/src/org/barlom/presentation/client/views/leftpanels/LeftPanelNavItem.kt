@@ -18,19 +18,25 @@ fun viewLeftPanelNavItem(
     revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit,
     panelType: ELeftPanelType,
     focusedPanelType: ELeftPanelType
-) = katyDomComponent(builder) {
+) {
 
-    span(".c-nav__item.c-tooltip.c-tooltip--bottom") {
+    val toolTip = toolTip(panelType)
 
-        classes("c-nav__item--active" to (panelType==focusedPanelType))
+    katyDomComponent(builder) {
 
-        attribute("aria-label", toolTip(panelType))
+        span(".c-nav__item.c-tooltip.c-tooltip--bottom",toolTip) {
 
-        onclick {
-            revDispatchUi { ChangeLeftPanel(panelType) }
+            classes("c-nav__item--active" to (panelType==focusedPanelType))
+
+            attribute("aria-label", toolTip)
+
+            onclick {
+                revDispatchUi { ChangeLeftPanel(panelType) }
+            }
+
+            span(".u-large.mdi." + iconName(panelType), "icon") {}
+
         }
-
-        span(".u-large.mdi." + iconName(panelType)) {}
 
     }
 

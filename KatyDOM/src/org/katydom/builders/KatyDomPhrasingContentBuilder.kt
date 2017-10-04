@@ -34,7 +34,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun a(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -66,7 +66,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun br(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -91,7 +91,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun button(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autofocus: Boolean?,
         contenteditable: Boolean?,
@@ -128,7 +128,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputButton(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,
@@ -156,7 +156,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputCheckbox(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autofocus: Boolean?,
         checked: Boolean?,
@@ -190,7 +190,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputColor(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -224,7 +224,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputDate(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -262,7 +262,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputDateTimeLocal(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -300,7 +300,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputEmail(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -341,7 +341,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputFile(
         selector: String?,
-        key: String?,
+        key: Any?,
         accept: String?,
         accesskey: String?,
         autofocus: Boolean?,
@@ -374,7 +374,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputHidden(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,
@@ -402,7 +402,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputImageButton(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         alt: String?,
         contenteditable: Boolean?,
@@ -440,7 +440,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputMonth(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -478,7 +478,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun <T: Number> inputNumber(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -517,7 +517,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputPassword(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -557,7 +557,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputRadioButton(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autofocus: Boolean?,
         checked: Boolean?,
@@ -591,7 +591,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun <T:Number> inputRange(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -627,7 +627,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputResetButton(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,
@@ -655,7 +655,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputSearch(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -697,7 +697,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputSubmitButton(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,
@@ -731,7 +731,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputTelephone(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -770,34 +770,34 @@ open class KatyDomPhrasingContentBuilder(
      * Adds an input type="text" element with given attributes as the next child of the element under construction.
      */
     fun inputText(
-        selector: String?,
-        key: String?,
-        accesskey: String?,
-        autocomplete: String?,
-        autofocus: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        dirname: String?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        inputmode: EInputMode?,
-        lang: String?,
-        list: String?,
-        maxlength: Int?,
-        minlength: Int?,
-        name: String?,
-        pattern: String?,
-        placeholder: String?,
-        readonly: Boolean?,
-        required: Boolean?,
-        size: Int?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        autocomplete: String? = null,
+        autofocus: Boolean? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        dirname: String? = null,
+        disabled: Boolean? = null,
+        form: String? = null,
+        hidden: Boolean? = null,
+        inputmode: EInputMode? = null,
+        lang: String? = null,
+        list: String? = null,
+        maxlength: Int? = null,
+        minlength: Int? = null,
+        name: String? = null,
+        pattern: String? = null,
+        placeholder: String? = null,
+        readonly: Boolean? = null,
+        required: Boolean? = null,
+        size: Int? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        value: String? = null,
         defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
@@ -813,7 +813,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputTime(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -851,7 +851,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputUrl(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -891,7 +891,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun inputWeek(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,
@@ -929,7 +929,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun label(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -954,7 +954,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun select(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autofocus: Boolean?,
         contenteditable: Boolean?,
@@ -1000,7 +1000,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun span(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -1032,7 +1032,7 @@ open class KatyDomPhrasingContentBuilder(
      */
     fun textarea(
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         autocomplete: String?,
         autofocus: Boolean?,

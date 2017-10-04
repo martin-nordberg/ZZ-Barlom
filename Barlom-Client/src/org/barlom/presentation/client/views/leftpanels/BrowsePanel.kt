@@ -40,7 +40,6 @@ fun viewBrowsePanel(
 
                 onclick {
                     revDispatchModel { AddPackage(m.rootPackage) }
-                    console.log("Clicked")
                 }
 
                 text("New Package")

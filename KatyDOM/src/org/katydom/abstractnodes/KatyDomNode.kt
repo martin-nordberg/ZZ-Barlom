@@ -17,6 +17,7 @@ import org.w3c.dom.events.MouseEvent
 // Note: these are needed in JVM but not JS:
 import org.katydom.eventtarget.addEventListener
 import org.katydom.eventtarget.removeEventListener
+import org.katydom.types.EEventType
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,7 +25,7 @@ import org.katydom.eventtarget.removeEventListener
  * Topmost abstract base class for KatyDOM virtual DOM. Corresponds to DOM Node.
  * @param key a key for this KatyDOM node that is unique among all the siblings of this node.
  */
-abstract class KatyDomNode(val key: String?) {
+abstract class KatyDomNode(val key: Any?) {
 
     /** Returns the first and only child node in this node. (Exception if there is none or more than one.) */
     val soleChildNode: KatyDomNode
@@ -98,6 +99,35 @@ abstract class KatyDomNode(val key: String?) {
             { event: Event ->
                 try {
                     handler(event as MouseEvent)
+                }
+                catch (exception: EventCancellationException) {
+                    event.preventDefault()
+                }
+            }
+        )
+
+    }
+
+    /**
+     * Adds a general event handler for the given type of event.
+     * @param eventType the kind of event
+     * @param handler the callback when the vent occurs
+     */
+    internal fun addEventHandler(eventType: EEventType, handler: EventHandler) {
+
+        if (isAddingAttributes) {
+            freezeAttributes()
+            state = EState.ADDING_CHILD_NODES
+        }
+        else {
+            check( isAddingEventHandlers ) { "KatyDOM node's event handlers must be defined before its child nodes." }
+        }
+
+        eventHandlers.put(
+            eventType.domName,
+            { event: Event ->
+                try {
+                    handler(event)
                 }
                 catch (exception: EventCancellationException) {
                     event.preventDefault()
@@ -310,6 +340,10 @@ abstract class KatyDomNode(val key: String?) {
      */
     private fun matches(otherNode: KatyDomNode): Boolean {
 
+        if (otherNode == Nothing) {
+            return false
+        }
+
         if (nodeName != otherNode.nodeName) {
             return false
         }
@@ -374,7 +408,7 @@ abstract class KatyDomNode(val key: String?) {
         // First existing DOM node - moves forward as the interval shrinks in the front
         var domChild = domNode.firstChild
 
-        val document = checkNotNull(domNode.ownerDocument, { "DOM element must have an owner document." })
+        val document = checkNotNull(domNode.ownerDocument) { "DOM element must have an owner document." }
 
         while (startChild != endChild.nextSiblingNode) {
 
@@ -490,7 +524,7 @@ abstract class KatyDomNode(val key: String?) {
     }
 
     /** A map of child nodes by their key. */
-    private val childNodesByKey: MutableMap<String, KatyDomNode> = hashMapOf()
+    private val childNodesByKey: MutableMap<Any, KatyDomNode> = hashMapOf()
 
     /** The established DOM node after this node has been established or patched. */
     private var domNode: Node? = null
@@ -520,23 +554,23 @@ abstract class KatyDomNode(val key: String?) {
 
         override val nodeName: String
             get() {
-                throw UnsupportedOperationException("Cannot use Nothing")
+                throw UnsupportedOperationException("Cannot use Nothing.nodeName")
             }
 
         override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
-            throw UnsupportedOperationException("Cannot use Nothing")
+            throw UnsupportedOperationException("Cannot use Nothing.createdDomNode")
         }
 
         override fun establishAttributes(domElement: Node) {
-            throw UnsupportedOperationException("Cannot use Nothing")
+            throw UnsupportedOperationException("Cannot use Nothing.establishAttributes")
         }
 
         override fun freezeAttributes() {
-            throw UnsupportedOperationException("Cannot use Nothing")
+            throw UnsupportedOperationException("Cannot use Nothing.freezeAttributes")
         }
 
         override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
-            throw UnsupportedOperationException("Cannot use Nothing")
+            throw UnsupportedOperationException("Cannot use Nothing.patchAttributes")
         }
 
     }

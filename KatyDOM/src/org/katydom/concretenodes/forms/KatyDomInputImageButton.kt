@@ -20,7 +20,7 @@ import org.katydom.types.EFormSubmissionMethod
 internal class KatyDomInputImageButton(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     alt: String?,
     contenteditable: Boolean?,

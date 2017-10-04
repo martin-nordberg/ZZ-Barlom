@@ -18,7 +18,7 @@ import org.katydom.types.EDirection
 internal class KatyDomInputCheckbox(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     autofocus: Boolean?,
     checked: Boolean?,

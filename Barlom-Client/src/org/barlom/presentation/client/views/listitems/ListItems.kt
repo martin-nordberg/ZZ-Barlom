@@ -44,16 +44,14 @@ fun viewPackageListItem(
     revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
 ) = katyDomComponent(builder) {
 
-    span(".c-link") {
+    span(".c-link", pkg.id) {
 
-        val msg = "Package " + pkg.name + " clicked."
         onclick { e ->
             revDispatchUi { FocusElement(pkg) }
-            console.log(msg)
             e.stopPropagation()
         }
 
-        span(".mdi.mdi-folder.package-icon") {}
+        span(".mdi.mdi-folder.package-icon", "icon") {}
 
         text(" " + pkg.name)
 
@@ -69,16 +67,14 @@ fun viewRootPackageListItem(
     revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
 ) = katyDomComponent(builder) {
 
-    span(".c-link") {
+    span(".c-link",pkg.id) {
 
-        val msg = "Root package clicked."
         onclick { e ->
             revDispatchUi { FocusElement(pkg) }
-            console.log(msg)
             e.stopPropagation()
         }
 
-        span(".mdi.mdi-book-open.root-package-icon") {}
+        span(".mdi.mdi-book-open.root-package-icon","icon") {}
 
         text(" Metamodel")
 

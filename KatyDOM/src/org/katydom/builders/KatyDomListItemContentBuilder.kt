@@ -40,7 +40,7 @@ class KatyDomListItemContentBuilder(
      */
     fun li(
         selector: String? = null,
-        key: String? = null,
+        key: Any? = null,
         accesskey: String? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,

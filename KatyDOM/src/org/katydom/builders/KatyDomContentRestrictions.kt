@@ -64,7 +64,7 @@ class KatyDomContentRestrictions(
     }
 
     fun confirmLabelAllowed() {
-        check(mainAllowed) { "Element type <label> not allowed here." }
+        check(labelAllowed) { "Element type <label> not allowed here." }
     }
 
     fun confirmMainAllowed() {

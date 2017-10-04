@@ -20,7 +20,7 @@ import org.katydom.types.EFormSubmissionMethod
 internal class KatyDomButton(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     autofocus: Boolean?,
     contenteditable: Boolean?,

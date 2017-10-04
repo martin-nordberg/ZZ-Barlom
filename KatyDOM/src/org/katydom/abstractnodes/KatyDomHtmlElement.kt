@@ -7,6 +7,7 @@ package org.katydom.abstractnodes
 
 import org.katydom.types.EDirection
 import org.w3c.dom.Document
+import org.w3c.dom.Element
 import org.w3c.dom.Node
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,21 +29,22 @@ import org.w3c.dom.Node
  */
 @Suppress("unused")
 abstract class KatyDomHtmlElement(
-        selector: String?,
-        key: String?,
-        accesskey: String? = null,
-        contenteditable: Boolean? = null,
-        dir: EDirection? = null,
-        hidden: Boolean? = null,
-        lang: String? = null,
-        spellcheck: Boolean? = null,
-        style: String? = null,
-        tabindex: Int? = null,
-        title: String? = null,
-        translate: Boolean? = null
+    selector: String?,
+    key: Any?,
+    accesskey: String? = null,
+    contenteditable: Boolean? = null,
+    dir: EDirection? = null,
+    hidden: Boolean? = null,
+    lang: String? = null,
+    spellcheck: Boolean? = null,
+    style: String? = null,
+    tabindex: Int? = null,
+    title: String? = null,
+    translate: Boolean? = null
 ) : KatyDomElement(selector, key, style, tabindex) {
 
     override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+
         val childElement = document.createElement(nodeName)
         establish(childElement)
         domNode.insertBefore(childElement, domChild)

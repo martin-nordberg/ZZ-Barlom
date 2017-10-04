@@ -17,7 +17,7 @@ import org.katydom.types.EDirection
 internal class KatyDomOptionGroup(
     optionContent: KatyDomOptionContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     contenteditable: Boolean?,
     dir: EDirection?,

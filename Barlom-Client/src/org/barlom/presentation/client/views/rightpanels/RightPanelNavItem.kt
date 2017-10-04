@@ -1,8 +1,11 @@
+//
+// (C) Copyright 2017 Martin E. Nordberg III
+// Apache 2.0 License
+//
+
 package org.barlom.presentation.client.views.rightpanels
 
 import org.barlom.presentation.client.actions.IUiAction
-import org.barlom.presentation.client.actions.ui.ChangeLeftPanel
-import org.barlom.presentation.client.state.ELeftPanelType
 import org.barlom.presentation.client.state.ERightPanelType
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
@@ -14,15 +17,17 @@ fun viewRightPanelNavItem(
     panelType: ERightPanelType
 ) = katyDomComponent(builder) {
 
-    span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom") {
+    val toolTip = toolTip(panelType)
 
-        attribute("aria-label", toolTip(panelType))
+    span(".c-nav__item.c-nav__item--right.c-tooltip.c-tooltip--bottom",toolTip) {
+
+        attribute("aria-label", toolTip)
 
         onclick {
             // TODO revDispatchUi { Tbd(panelType) }
         }
 
-        span(".u-large.mdi." + iconName(panelType)) {}
+        span(".u-large.mdi." + iconName(panelType), "icon") {}
 
     }
 

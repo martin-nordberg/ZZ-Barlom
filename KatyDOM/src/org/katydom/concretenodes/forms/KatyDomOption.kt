@@ -19,7 +19,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
     constructor(
         optionContent: KatyDomOptionContentBuilder,
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,
@@ -48,7 +48,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
     constructor(
         optionContent: KatyDomOptionContentBuilder,
         selector: String?,
-        key: String?,
+        key: Any?,
         accesskey: String?,
         contenteditable: Boolean?,
         dir: EDirection?,

@@ -37,19 +37,42 @@ fun <AppState> runApplication(
         div("#application") {}
     } as KatyDomHtmlElement
 
+    val queuedActions : MutableList<IAction<AppState>> = mutableListOf()
+
     /**
      * Dispatches an action triggered by an event in the latest edition of the view.
      */
     fun dispatch(action: IAction<AppState>) {
 
+        console.log( "Dispatching...")
+
+        // Queue the action for execution when next idle.
+        queuedActions.add( action )
+
+        // If we already had something queued, then we already triggered the processing.
+        if ( queuedActions.size > 1 ) {
+            return
+        }
+
         window.setTimeout(
             {
-                console.log( "ACTION: ", action.description)
 
-                // Update the model.
-                revHistory.update(action.description) {
-                    action.apply(appState)
+                for ( queuedAction in queuedActions ) {
+                    // Describe the action
+                    val description = revHistory.review {
+                        queuedAction.description
+                    }
+
+                    // Update the model.
+                    revHistory.update(description) {
+                        console.log("ACTION: ", description)
+
+                        queuedAction.apply(appState)
+                    }
                 }
+
+                // Empty the queue.
+                queuedActions.clear()
 
                 // Compute the new view (virtual DOM).
                 val oldAppVdomNode = appVdomNode
@@ -57,6 +80,7 @@ fun <AppState> runApplication(
 
                 // Patch the new view into the real DOM.
                 lifecycle.update(appElement, oldAppVdomNode, appVdomNode)
+
             },
             0
         )
@@ -64,7 +88,7 @@ fun <AppState> runApplication(
     }
 
     // Create the initial virtual view. Establish dispatching of events for subsequent updates inside dispatch(..).
-    appVdomNode = view(appState) { action -> dispatch(action) }
+    appVdomNode = view(appState, ::dispatch)
 
     // Build the DOM to match the initial view.
     appElement = lifecycle.build(appElement, appVdomNode)

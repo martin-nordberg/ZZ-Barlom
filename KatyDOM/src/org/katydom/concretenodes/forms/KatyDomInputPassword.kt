@@ -19,7 +19,7 @@ import org.katydom.types.EInputMode
 internal class KatyDomInputPassword(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     autocomplete: String?,
     autofocus: Boolean?,

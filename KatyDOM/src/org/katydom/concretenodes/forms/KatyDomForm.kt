@@ -19,7 +19,7 @@ import org.katydom.types.EFormSubmissionMethod
 internal class KatyDomForm(
     flowContent: KatyDomFlowContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     acceptCharset: String?,
     accesskey: String?,
     action: String?,

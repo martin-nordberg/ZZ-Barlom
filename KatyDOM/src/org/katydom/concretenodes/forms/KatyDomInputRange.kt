@@ -18,7 +18,7 @@ import org.katydom.types.EDirection
 internal class KatyDomInputRange<T:Number>(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     autocomplete: String?,
     autofocus: Boolean?,

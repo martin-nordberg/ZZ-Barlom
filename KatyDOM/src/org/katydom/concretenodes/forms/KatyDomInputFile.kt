@@ -18,7 +18,7 @@ import org.katydom.types.EDirection
 internal class KatyDomInputFile(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accept: String?,
     accesskey: String?,
     autofocus: Boolean?,

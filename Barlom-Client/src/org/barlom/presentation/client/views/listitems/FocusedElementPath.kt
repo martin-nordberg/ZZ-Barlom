@@ -35,7 +35,7 @@ fun viewFocusedElementPath(
                 viewPath(builder, element.parents[0])
             }
 
-            li(".c-breadcrumbs__crumb") {
+            li(".c-breadcrumbs__crumb",element.id) {
 
                 classes("c-text--loud" to bold)
 
@@ -45,7 +45,7 @@ fun viewFocusedElementPath(
 
         }
 
-        ol(".c-breadcrumbs") {
+        ol("#focused-element-path.c-breadcrumbs") {
             viewPath(this, focusedElement, true)
         }
 

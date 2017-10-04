@@ -20,7 +20,7 @@ import org.katydom.types.EWrapType
 internal class KatyDomTextArea(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
-    key: String?,
+    key: Any?,
     accesskey: String?,
     autocomplete: String?,
     autofocus: Boolean?,
