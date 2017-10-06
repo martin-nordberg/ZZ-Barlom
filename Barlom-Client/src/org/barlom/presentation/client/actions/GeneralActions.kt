@@ -3,21 +3,21 @@
 // Apache 2.0 License
 //
 
-package org.barlom.presentation.client.actions.ui
+package org.barlom.presentation.client.actions
 
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.state.ApplicationUiState
 
 
+/**
+ * Changes the element that is focused for editing or browsing.
+ */
 fun focusElement(focusedElement: AbstractPackagedElement): UiAction {
 
-    fun result(uiState: ApplicationUiState): String {
+    return { uiState: ApplicationUiState ->
         uiState.focusedElement = focusedElement
 
-        return "Select element ${focusedElement.path} in left panel."
+        "Select element ${focusedElement.path} for review."
     }
-
-    return ::result
 
 }

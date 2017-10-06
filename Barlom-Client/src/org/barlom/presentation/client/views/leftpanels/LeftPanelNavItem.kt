@@ -6,7 +6,7 @@
 package org.barlom.presentation.client.views.leftpanels
 
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.actions.ui.changeLeftPanel
+import org.barlom.presentation.client.actions.changeLeftPanel
 import org.barlom.presentation.client.state.ELeftPanelType
 import org.barlom.presentation.client.state.ELeftPanelType.*
 import org.katydom.api.katyDomComponent

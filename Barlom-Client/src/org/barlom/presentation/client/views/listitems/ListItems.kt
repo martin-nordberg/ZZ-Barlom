@@ -8,7 +8,7 @@ package org.barlom.presentation.client.views.listitems
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.actions.ui.focusElement
+import org.barlom.presentation.client.actions.focusElement
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
@@ -23,6 +23,7 @@ fun viewListItem(
     // TODO: not sure really need different fun for each type; use a classes(...) mapping on the span & a bit of logic for roots instead\
 
     when (element) {
+
         is Package ->
             if (element.isRoot) {
                 viewRootPackageListItem(builder, element, revDispatchUi)
@@ -30,8 +31,10 @@ fun viewListItem(
             else {
                 viewPackageListItem(builder, element, revDispatchUi)
             }
+
         else       ->
             require(false) { "Unimplemented abstract packaged element variation." }
+
     }
 
 }
