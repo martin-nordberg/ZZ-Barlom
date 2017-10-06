@@ -16,7 +16,7 @@ fun initializeAppState(revHistory: RevisionHistory): ApplicationState {
 
     val m = result.model
 
-    m.revHistory.update("Initialized model") {
+    m.revHistory.update {
 
         val root = m.rootPackage
 
@@ -47,6 +47,8 @@ fun initializeAppState(revHistory: RevisionHistory): ApplicationState {
 
         m.makePackageDependency(pkg2, pkg1)
         m.makePackageDependency(pkg3, pkg1)
+
+        "Initialized model"
 
     }
 

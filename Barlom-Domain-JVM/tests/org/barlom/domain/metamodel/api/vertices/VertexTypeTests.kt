@@ -21,9 +21,9 @@ class VertexTypeTests {
     @Test
     fun `Vertex types are vertices of the model graph`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage()
             model.makePackageContainment(root, pkg)
@@ -32,6 +32,8 @@ class VertexTypeTests {
 
             assertTrue(model.vertices.contains(vt))
             assertTrue(model.edges.contains(c))
+
+            "test"
         }
 
     }
@@ -39,9 +41,9 @@ class VertexTypeTests {
     @Test
     fun `Vertex types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage { name = "pkg" }
             model.makePackageContainment(root, pkg)
@@ -59,6 +61,8 @@ class VertexTypeTests {
 
             assertTrue(vt.hasParent(pkg))
             assertTrue(pkg.hasChild(vt))
+
+            "test"
         }
 
     }
@@ -66,9 +70,9 @@ class VertexTypeTests {
     @Test
     fun `Vertex types have paths`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage { name = "pkg" }
             model.makePackageContainment(root, pkg)
@@ -77,6 +81,8 @@ class VertexTypeTests {
             model.makeVertexTypeContainment(pkg, vt)
 
             assertEquals("pkg.vt", vt.path)
+
+            "test"
         }
 
     }
@@ -84,9 +90,9 @@ class VertexTypeTests {
     @Test
     fun `Vertex types track their supertype and subtypes`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage { name = "pkg" }
             model.makePackageContainment(root, pkg)
@@ -230,6 +236,8 @@ class VertexTypeTests {
             assertTrue(vt4.hasTransitiveSuperType(vt2))
             assertTrue(vt4.hasTransitiveSuperType(vt3))
             assertFalse(vt4.hasTransitiveSuperType(vt4))
+
+            "test"
         }
 
     }

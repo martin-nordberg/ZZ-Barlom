@@ -23,13 +23,13 @@ class VertexAttributeTypeTests {
 
         val model = Model(::makeUuid)
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
-            val pkg = model.makePackage() {
+            val pkg = model.makePackage {
                 name = "pkg"
             }
             model.makePackageContainment(root, pkg)
-            val vt = model.makeVertexType() {
+            val vt = model.makeVertexType {
                 name = "vt"
             }
             val c = model.makeVertexTypeContainment(pkg, vt)
@@ -61,6 +61,8 @@ class VertexAttributeTypeTests {
 
             assertTrue(dt.attributeTypes.contains(at))
             assertTrue(at.dataTypes.contains(dt))
+
+            "test"
         }
 
     }

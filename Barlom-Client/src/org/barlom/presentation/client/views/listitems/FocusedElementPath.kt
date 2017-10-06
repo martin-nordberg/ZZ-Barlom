@@ -6,7 +6,7 @@
 package org.barlom.presentation.client.views.listitems
 
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.presentation.client.actions.IUiAction
+import org.barlom.presentation.client.actions.UiAction
 import org.katydom.api.katyDomComponent
 import org.katydom.api.katyDomListItemComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
@@ -16,7 +16,7 @@ import org.katydom.builders.KatyDomListItemContentBuilder
 fun viewFocusedElementPath(
     builder: KatyDomFlowContentBuilder,
     focusedElement: AbstractPackagedElement?,
-    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+    revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
     if (focusedElement == null) {
@@ -35,7 +35,7 @@ fun viewFocusedElementPath(
                 viewPath(builder, element.parents[0])
             }
 
-            li(".c-breadcrumbs__crumb",element.id) {
+            li(".c-breadcrumbs__crumb", element.id) {
 
                 classes("c-text--loud" to bold)
 

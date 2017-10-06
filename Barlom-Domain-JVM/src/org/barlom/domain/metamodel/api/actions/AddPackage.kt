@@ -8,18 +8,15 @@ package org.barlom.domain.metamodel.api.actions
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.vertices.Package
 
-class AddPackage(private val parentPackage: Package)
-    : IModelAction {
+fun addPackage(parentPackage: Package): ModelAction {
 
-    override fun apply(model: Model) {
+    fun result(model: Model): String {
         model.makePackage() {
             model.makePackageContainment(parentPackage, this)
         }
+        return "Add package to ${parentPackage.path}"
     }
 
-    override val description: String
-        get() = "Add package"
+    return ::result
 
 }
-
-

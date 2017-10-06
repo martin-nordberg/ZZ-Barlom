@@ -5,14 +5,13 @@
 
 package org.barlom.presentation.client.views
 
-import org.barlom.domain.metamodel.api.actions.IModelAction
-import org.barlom.presentation.client.actions.IAction
-import org.barlom.presentation.client.actions.IUiAction
-import org.barlom.presentation.client.actions.ModelAction
+import org.barlom.domain.metamodel.api.actions.ModelAction
+import org.barlom.presentation.client.actions.AppAction
 import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.state.ApplicationState
 import org.barlom.presentation.client.state.ELeftPanelType.*
-import org.barlom.presentation.client.state.ERightPanelType.*
+import org.barlom.presentation.client.state.ERightPanelType.HELP
+import org.barlom.presentation.client.state.ERightPanelType.SETTINGS
 import org.barlom.presentation.client.views.leftpanels.viewBrowsePanel
 import org.barlom.presentation.client.views.leftpanels.viewFavoritesPanel
 import org.barlom.presentation.client.views.leftpanels.viewLeftPanelNavItem
@@ -26,7 +25,7 @@ import org.katydom.api.katyDom
 /**
  * Generates the view from the latest application state. Wires event handlers to be dispatched as actions.
  */
-fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState>) -> Unit): KatyDomHtmlElement {
+fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): KatyDomHtmlElement {
 
     val m = appState.model
     val ui = appState.uiState
@@ -34,7 +33,7 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
     /**
      * Creates and dispatches an action inside a rev history transaction.
      */
-    fun revDispatch(action: IAction<ApplicationState>) {
+    fun revDispatch(action: AppAction) {
         appState.revHistory.review {
             dispatch(action)
         }
@@ -43,15 +42,15 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
     /**
      * Creates and dispatches a model-specific action inside a rev history transaction.
      */
-    fun revDispatchModel(makeModelAction: () -> IModelAction) {
-        revDispatch(ModelAction(makeModelAction()))
+    fun revDispatchModel(modelAction: ModelAction) {
+        revDispatch { appState -> modelAction(appState.model) }
     }
 
     /**
      * Creates and dispatches a UI-specific action inside a rev history transaction.
      */
-    fun revDispatchUi(makeUiAction: () -> IUiAction) {
-        revDispatch(UiAction(makeUiAction()))
+    fun revDispatchUi(uiAction: UiAction) {
+        revDispatch { appState -> uiAction(appState.uiState) }
     }
 
     // Sample view, much TBD
@@ -65,9 +64,9 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
 
                     nav("#left-navigation.c-nav.c-nav--inline") {
 
-                        viewLeftPanelNavItem(this, ::revDispatchUi, BROWSE, ui.leftPanelType )
-                        viewLeftPanelNavItem(this, ::revDispatchUi, FAVORITES, ui.leftPanelType )
-                        viewLeftPanelNavItem( this, ::revDispatchUi, SEARCH, ui.leftPanelType )
+                        viewLeftPanelNavItem(this, ::revDispatchUi, BROWSE, ui.leftPanelType)
+                        viewLeftPanelNavItem(this, ::revDispatchUi, FAVORITES, ui.leftPanelType)
+                        viewLeftPanelNavItem(this, ::revDispatchUi, SEARCH, ui.leftPanelType)
 
                     }
 
@@ -90,13 +89,13 @@ fun view(appState: ApplicationState, dispatch: (action: IAction<ApplicationState
                             viewFocusedElementPath(this, ui.focusedElement, ::revDispatchUi)
                         }
 
-                        viewRightPanelNavItem(this,::revDispatchUi,SETTINGS)
-                        viewRightPanelNavItem(this,::revDispatchUi,HELP)
+                        viewRightPanelNavItem(this, ::revDispatchUi, SETTINGS)
+                        viewRightPanelNavItem(this, ::revDispatchUi, HELP)
 
                     }
 
-                    if ( ui.focusedElement != null ) {
-                        viewPropertiesForm(this, ::revDispatchModel, ui.focusedElement!!, ::revDispatchUi )
+                    if (ui.focusedElement != null) {
+                        viewPropertiesForm(this, ::revDispatchModel, ui.focusedElement!!, ::revDispatchUi)
                     }
 
                 }

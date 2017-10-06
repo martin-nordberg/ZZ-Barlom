@@ -22,7 +22,7 @@ class PackageTests {
 
         val model = Model(::makeUuid)
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage { name = "pkg" }
             val subpkg = model.makePackage { name = "subpkg" }
@@ -32,6 +32,7 @@ class PackageTests {
             assertTrue(model.vertices.contains(subpkg))
 
             assertEquals(6, model.vertices.size)
+            "test"
         }
 
     }
@@ -39,9 +40,9 @@ class PackageTests {
     @Test
     fun `Packages links are edges of the graph`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
 
             val root = model.rootPackage
             val pkg1 = model.makePackage { name = "pkg1" }
@@ -69,6 +70,8 @@ class PackageTests {
 
             assertEquals(8, model.edges.size)
 
+            "test"
+
         }
 
     }
@@ -76,9 +79,9 @@ class PackageTests {
     @Test
     fun `Packages have paths`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage { name = "pkg" }
             val subpkg = model.makePackage { name = "subpkg" }
@@ -88,6 +91,8 @@ class PackageTests {
 
             assertEquals("pkg", pkg.path)
             assertEquals("pkg.subpkg", subpkg.path)
+
+            "test"
         }
 
     }
@@ -95,9 +100,9 @@ class PackageTests {
     @Test
     fun `Packages track their children and their parent and grandparents`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage { name = "pkg" }
             val subpkg = model.makePackage { name = "subpkg" }
@@ -143,6 +148,7 @@ class PackageTests {
             assertTrue(subpkg.hasTransitiveParent(root))
             assertTrue(subpkg.hasTransitiveParent(pkg))
 
+            "test"
         }
 
     }
@@ -150,9 +156,9 @@ class PackageTests {
     @Test
     fun `Packages track their adjacent and transitive dependencies`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg1 = model.makePackage { name = "pkg1" }
             val pkg2 = model.makePackage { name = "pkg2" }
@@ -188,6 +194,8 @@ class PackageTests {
             assertFalse(pkg3.consumers.contains(pkg1))
             assertTrue(pkg2.consumers.contains(pkg1))
             assertTrue(pkg2.transitiveConsumers.contains(pkg1))
+
+            "test"
         }
 
     }
@@ -195,9 +203,9 @@ class PackageTests {
     @Test
     fun `Direct circular package dependencies are handled correctly`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg1 = model.makePackage { name = "pkg1" }
             val pkg2 = model.makePackage { name = "pkg2" }
@@ -219,6 +227,8 @@ class PackageTests {
 
             assertTrue(pkg1.transitiveConsumers.contains(pkg2))
             assertTrue(pkg1.transitiveConsumers.contains(pkg1))
+
+            "test"
         }
 
     }
@@ -226,9 +236,9 @@ class PackageTests {
     @Test
     fun `Indirect circular package dependencies are handled correctly`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg1 = model.makePackage { name = "pkg1" }
             val pkg2 = model.makePackage { name = "pkg2" }
@@ -257,6 +267,8 @@ class PackageTests {
             assertTrue(pkg1.transitiveConsumers.contains(pkg2))
             assertTrue(pkg1.transitiveConsumers.contains(pkg3))
             assertTrue(pkg1.transitiveConsumers.contains(pkg1))
+
+            "test"
         }
 
     }

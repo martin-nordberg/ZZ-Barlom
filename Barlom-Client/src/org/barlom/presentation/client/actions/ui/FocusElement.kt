@@ -6,16 +6,18 @@
 package org.barlom.presentation.client.actions.ui
 
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.presentation.client.actions.IUiAction
+import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.state.ApplicationUiState
 
-class FocusElement(private val focusedElement: AbstractPackagedElement) : IUiAction {
 
-    override fun apply(uiState: ApplicationUiState) {
+fun focusElement(focusedElement: AbstractPackagedElement): UiAction {
+
+    fun result(uiState: ApplicationUiState): String {
         uiState.focusedElement = focusedElement
+
+        return "Select element ${focusedElement.path} in left panel."
     }
 
-    override val description: String
-        get() = "Select element in left panel."
+    return ::result
 
 }

@@ -21,9 +21,9 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained boolean data types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage()
             model.makePackageContainment(root, pkg)
@@ -44,6 +44,7 @@ class ConstrainedDataTypeTests {
             assertTrue(b.hasParent(pkg))
             assertTrue(pkg.constrainedDataTypes.contains(b))
             assertTrue(b.parents[0] === pkg)
+            "test"
         }
 
     }
@@ -51,9 +52,9 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained date-time data types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage()
             model.makePackageContainment(root, pkg)
@@ -75,6 +76,7 @@ class ConstrainedDataTypeTests {
             assertTrue(dt.hasParent(pkg))
             assertTrue(pkg.constrainedDataTypes.contains(dt))
             assertTrue(dt.parents[0] === pkg)
+            "test"
         }
 
     }
@@ -82,9 +84,9 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained float64 data types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage()
             model.makePackageContainment(root, pkg)
@@ -109,6 +111,7 @@ class ConstrainedDataTypeTests {
             assertTrue(f.hasParent(pkg))
             assertTrue(pkg.constrainedDataTypes.contains(f))
             assertTrue(f.parents[0] === pkg)
+            "test"
         }
 
     }
@@ -116,9 +119,9 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained int64 data types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage()
             model.makePackageContainment(root, pkg)
@@ -143,6 +146,7 @@ class ConstrainedDataTypeTests {
             assertTrue(i.hasParent(pkg))
             assertTrue(pkg.constrainedDataTypes.contains(i))
             assertTrue(i.parents[0] === pkg)
+            "test"
         }
 
     }
@@ -150,9 +154,9 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained string data types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage()
             model.makePackageContainment(root, pkg)
@@ -179,6 +183,7 @@ class ConstrainedDataTypeTests {
             assertTrue(s.hasParent(pkg))
             assertTrue(pkg.constrainedDataTypes.contains(s))
             assertTrue(s.parents[0] === pkg)
+            "test"
         }
 
     }
@@ -186,9 +191,9 @@ class ConstrainedDataTypeTests {
     @Test
     fun `Constrained UUID data types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage()
             model.makePackageContainment(root, pkg)
@@ -207,6 +212,7 @@ class ConstrainedDataTypeTests {
             assertTrue(s.hasParent(pkg))
             assertTrue(pkg.constrainedDataTypes.contains(s))
             assertTrue(s.parents[0] === pkg)
+            "test"
         }
 
     }

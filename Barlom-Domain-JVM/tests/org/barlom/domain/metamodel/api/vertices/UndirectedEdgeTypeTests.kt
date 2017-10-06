@@ -24,11 +24,11 @@ class UndirectedEdgeTypeTests {
     @Test
     fun `Undirected edge types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
-            val pkg = model.makePackage() {
+            val pkg = model.makePackage {
                 name = "pkg"
             }
             model.makePackageContainment(root, pkg)
@@ -64,6 +64,8 @@ class UndirectedEdgeTypeTests {
             assertTrue(vt1.connectingEdgeTypes.contains(et))
 
             assertEquals("pkg.et", et.path)
+
+            "test"
         }
 
     }
@@ -71,11 +73,11 @@ class UndirectedEdgeTypeTests {
     @Test
     fun `Undirected edge types track their supertype and subtypes`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
-            val pkg = model.makePackage() {
+            val pkg = model.makePackage {
                 name = "pkg"
             }
             model.makePackageContainment(root, pkg)
@@ -151,6 +153,8 @@ class UndirectedEdgeTypeTests {
             assertTrue(et2.hasTransitiveSubType(et4))
 
             assertTrue(et3.hasTransitiveSubType(et4))
+
+            "test"
         }
 
     }

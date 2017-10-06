@@ -6,7 +6,6 @@
 package org.barlom.presentation.client
 
 import org.barlom.infrastructure.revisions.RevisionHistory
-import org.barlom.presentation.client.actions.IAction
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
 import org.katydom.api.makeKatyDomLifecycle
@@ -14,17 +13,22 @@ import kotlin.browser.document
 import kotlin.browser.window
 
 /**
- * Runs the application through its reduxish/elmish lifecycle.
+ * Runs the application through its Redux-ish/Elm-ish lifecycle.
+ * @param appId the DOM id of the element to replace with the whole application.
+ * @param initializeAppState a function that initializes the application state.
+ * @param view a function that computes the view from the application state.
  */
 fun <AppState> runApplication(
     appId: String,
-    revHistory: RevisionHistory,
     initializeAppState: (RevisionHistory) -> AppState,
-    view: (appState: AppState, dispatch: (action: IAction<AppState>) -> Unit) -> KatyDomHtmlElement
+    view: (appState: AppState, dispatch: (action: (AppState) -> String) -> Unit) -> KatyDomHtmlElement
 ) {
 
     // Find the root application DOM element to put the app into (failing if not found).
     var appElement = document.getElementById(appId)!!
+
+    // Create the revision history for the application.
+    val revHistory = RevisionHistory("Initial model")
 
     // Initialize the model.
     val appState = initializeAppState(revHistory)
@@ -37,38 +41,39 @@ fun <AppState> runApplication(
         div("#application") {}
     } as KatyDomHtmlElement
 
-    val queuedActions : MutableList<IAction<AppState>> = mutableListOf()
+    // Keep a queue of actions to reduce view recomputation when multiple action fire in sequence.
+    val queuedActions: MutableList<(AppState) -> String> = mutableListOf()
 
     /**
-     * Dispatches an action triggered by an event in the latest edition of the view.
+     * Dispatches an [action] triggered by an event in the latest edition of the view.
      */
-    fun dispatch(action: IAction<AppState>) {
+    fun dispatch(action: (AppState) -> String) {
 
-        console.log( "Dispatching...")
+        console.log("Dispatching...")
 
         // Queue the action for execution when next idle.
-        queuedActions.add( action )
+        queuedActions.add(action)
 
         // If we already had something queued, then we already triggered the processing.
-        if ( queuedActions.size > 1 ) {
+        if (queuedActions.size > 1) {
             return
         }
 
         window.setTimeout(
             {
 
-                for ( queuedAction in queuedActions ) {
-                    // Describe the action
-                    val description = revHistory.review {
-                        queuedAction.description
-                    }
+                for (queuedAction in queuedActions) {
 
                     // Update the model.
-                    revHistory.update(description) {
+                    revHistory.update() {
+
+                        val description = queuedAction(appState)
+
                         console.log("ACTION: ", description)
 
-                        queuedAction.apply(appState)
+                        description
                     }
+
                 }
 
                 // Empty the queue.
@@ -76,7 +81,7 @@ fun <AppState> runApplication(
 
                 // Compute the new view (virtual DOM).
                 val oldAppVdomNode = appVdomNode
-                appVdomNode = view(appState, { nextAction -> dispatch(nextAction) })
+                appVdomNode = view(appState, ::dispatch)
 
                 // Patch the new view into the real DOM.
                 lifecycle.update(appElement, oldAppVdomNode, appVdomNode)

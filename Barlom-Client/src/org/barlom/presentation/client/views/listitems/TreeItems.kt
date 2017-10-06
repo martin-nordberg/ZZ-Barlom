@@ -5,11 +5,11 @@
 
 package org.barlom.presentation.client.views.listitems
 
-import org.barlom.domain.metamodel.api.actions.AddPackage
-import org.barlom.domain.metamodel.api.actions.IModelAction
+import org.barlom.domain.metamodel.api.actions.ModelAction
+import org.barlom.domain.metamodel.api.actions.addPackage
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
-import org.barlom.presentation.client.actions.IUiAction
+import org.barlom.presentation.client.actions.UiAction
 import org.katydom.api.katyDomListItemComponent
 import org.katydom.builders.KatyDomListItemContentBuilder
 
@@ -19,9 +19,9 @@ import org.katydom.builders.KatyDomListItemContentBuilder
 fun viewPackageTreeItem(
     builder: KatyDomListItemContentBuilder,
     pkg: Package,
-    revDispatchModel: (makeModelAction: () -> IModelAction) -> Unit,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
     focusedElement: AbstractPackagedElement?,
-    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+    revDispatchUi: (uiAction: UiAction) -> Unit
 ): Unit = katyDomListItemComponent(builder) {
 
     val hasChildren = pkg.childPackageContainments.isNotEmpty()
@@ -55,7 +55,7 @@ fun viewPackageTreeItem(
                 li(".tree-item--not-focused") {
 
                     onclick {
-                        revDispatchModel { AddPackage(pkg) }
+                        revDispatchModel(addPackage(pkg))
                     }
 
                     text("New Package")
@@ -75,7 +75,7 @@ fun viewRootPackageTreeItem(
     builder: KatyDomListItemContentBuilder,
     pkg: Package,
     focusedElement: AbstractPackagedElement?,
-    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+    revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomListItemComponent(builder) {
 
     require(pkg.isRoot) { "Root package expected." }

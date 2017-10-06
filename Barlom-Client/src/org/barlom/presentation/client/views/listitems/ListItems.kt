@@ -7,8 +7,8 @@ package org.barlom.presentation.client.views.listitems
 
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
-import org.barlom.presentation.client.actions.IUiAction
-import org.barlom.presentation.client.actions.ui.FocusElement
+import org.barlom.presentation.client.actions.UiAction
+import org.barlom.presentation.client.actions.ui.focusElement
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
@@ -17,7 +17,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 fun viewListItem(
     builder: KatyDomFlowContentBuilder,
     element: AbstractPackagedElement,
-    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+    revDispatchUi: (uiAction: UiAction) -> Unit
 ) {
 
     // TODO: not sure really need different fun for each type; use a classes(...) mapping on the span & a bit of logic for roots instead\
@@ -41,13 +41,13 @@ fun viewListItem(
 fun viewPackageListItem(
     builder: KatyDomFlowContentBuilder,
     pkg: Package,
-    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+    revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
     span(".c-link", pkg.id) {
 
         onclick { e ->
-            revDispatchUi { FocusElement(pkg) }
+            revDispatchUi(focusElement(pkg))
             e.stopPropagation()
         }
 
@@ -64,17 +64,17 @@ fun viewPackageListItem(
 fun viewRootPackageListItem(
     builder: KatyDomFlowContentBuilder,
     pkg: Package,
-    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+    revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
-    span(".c-link",pkg.id) {
+    span(".c-link", pkg.id) {
 
         onclick { e ->
-            revDispatchUi { FocusElement(pkg) }
+            revDispatchUi(focusElement(pkg))
             e.stopPropagation()
         }
 
-        span(".mdi.mdi-book-open.root-package-icon","icon") {}
+        span(".mdi.mdi-book-open.root-package-icon", "icon") {}
 
         text(" Metamodel")
 

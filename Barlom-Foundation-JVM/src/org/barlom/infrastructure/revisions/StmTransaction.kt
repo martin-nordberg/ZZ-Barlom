@@ -17,11 +17,6 @@ internal class StmTransaction(
     val revisionHistory: RevisionHistory,
 
     /**
-     * A description of the work of this transaction for history purposes.
-     */
-    val description: String,
-
-    /**
      * The revision number of information to be read by this transaction.
      */
     val sourceRevisionNumber: Long,
@@ -33,6 +28,11 @@ internal class StmTransaction(
     val targetRevisionNumber: AtomicRevisionNumber
 
 ) {
+
+    /**
+     * A description of the work of this transaction for history purposes.
+     */
+    private var _description: String = "In progress ..."
 
     /**
      * A newer revision number seen during reading will cause a write conflict if anything writes through this
@@ -50,6 +50,13 @@ internal class StmTransaction(
      */
     private val _versionedItemsWritten: MutableSet<AbstractVersionedItem> = mutableSetOf()
 
+
+    var description: String
+        get() = _description
+        set(value) {
+            check(_description == "In progress ...") { "Cannot change transaction description after first set." }
+            _description = value
+        }
 
     /**
      * The versioned items read by this transaction.

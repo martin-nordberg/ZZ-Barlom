@@ -24,9 +24,9 @@ class DirectedEdgeTypeTests {
     @Test
     fun `Directed edge types construct as expected`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage() {
                 name = "pkg"
@@ -82,6 +82,7 @@ class DirectedEdgeTypeTests {
             assertEquals("tail", et.tailRoleName)
 
             assertEquals("pkg.et", et.path)
+            "test"
         }
 
     }
@@ -89,9 +90,9 @@ class DirectedEdgeTypeTests {
     @Test
     fun `Directed edge types track their supertype and subtypes`() {
 
-        val model = Model({makeUuid()})
+        val model = Model({ makeUuid() })
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage() {
                 name = "pkg"
@@ -175,6 +176,7 @@ class DirectedEdgeTypeTests {
             assertTrue(et2.hasTransitiveSubType(et4))
 
             assertTrue(et3.hasTransitiveSubType(et4))
+            "test"
         }
     }
 

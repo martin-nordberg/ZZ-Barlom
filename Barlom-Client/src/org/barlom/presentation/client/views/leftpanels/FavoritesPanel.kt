@@ -5,7 +5,7 @@
 
 package org.barlom.presentation.client.views.leftpanels
 
-import org.barlom.domain.metamodel.api.actions.IModelAction
+import org.barlom.domain.metamodel.api.actions.ModelAction
 import org.barlom.domain.metamodel.api.model.Model
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
@@ -16,7 +16,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 fun viewFavoritesPanel(
     builder: KatyDomFlowContentBuilder,
     m: Model,
-    revDispatchModel: (makeModelAction: () -> IModelAction) -> Unit
+    revDispatchModel: (modelAction: ModelAction) -> Unit
 ) = katyDomComponent(builder) {
 
     div(".o-panel.o-panel--nav-top.u-pillar-box--small.left-panel") {

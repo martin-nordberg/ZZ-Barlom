@@ -5,11 +5,11 @@
 
 package org.barlom.presentation.client.views.leftpanels
 
-import org.barlom.domain.metamodel.api.actions.AddPackage
-import org.barlom.domain.metamodel.api.actions.IModelAction
+import org.barlom.domain.metamodel.api.actions.ModelAction
+import org.barlom.domain.metamodel.api.actions.addPackage
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.presentation.client.actions.IUiAction
+import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.views.listitems.viewPackageTreeItem
 import org.barlom.presentation.client.views.listitems.viewRootPackageTreeItem
 import org.katydom.api.katyDomComponent
@@ -21,9 +21,9 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 fun viewBrowsePanel(
     builder: KatyDomFlowContentBuilder,
     m: Model,
-    revDispatchModel: (makeModelAction: () -> IModelAction) -> Unit,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
     focusedElement: AbstractPackagedElement?,
-    revDispatchUi: (makeUiAction: () -> IUiAction) -> Unit
+    revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
     div(".o-panel.o-panel--nav-top.u-pillar-box--small.left-panel") {
@@ -39,7 +39,7 @@ fun viewBrowsePanel(
             li {
 
                 onclick {
-                    revDispatchModel { AddPackage(m.rootPackage) }
+                    revDispatchModel(addPackage(m.rootPackage))
                 }
 
                 text("New Package")

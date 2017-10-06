@@ -71,7 +71,7 @@ class RevisionHistory(
      *
      * @param task the work to be done reading from the latest revision as of the start of the call.
      */
-    fun <T> review(task: () -> T) : T {
+    fun <T> review(task: () -> T): T {
 
         return review(_lastRevision.get().revisionNumber, task)
 
@@ -83,7 +83,7 @@ class RevisionHistory(
      * @param revisionNumber the prior revision to read from during the task execution.
      * @param task the work to be done reading from the given revision.
      */
-    fun <T> review(revisionNumber: Long, task: () -> T) : T {
+    fun <T> review(revisionNumber: Long, task: () -> T): T {
 
         // TODO: check that the revision number is in range
 
@@ -107,14 +107,13 @@ class RevisionHistory(
      * will read from the latest available revision as of the start of the call or a retry. It will write to the
      * next available revision.
      *
-     * @param revisionDescription a short description of the revision.
-     * @param task       the work to be done inside a transaction.
+     * @param task       the work to be done inside a transaction; returns a description of that work
      * @param maxRetries the maximum number of times to retry the transaction if write conflicts are encountered (must
      *                   be zero or more, zero meaning try but don't retry).
      *
      * @throws MaximumRetriesExceededException if the transaction fails even after the specified number of retries.
      */
-    fun update(revisionDescription: String, maxRetries: Int = 0, task: () -> Unit) {
+    fun update(maxRetries: Int = 0, task: () -> String) {
 
         // Sanity check the input.
         require(maxRetries >= 0) { "Retry count must be greater than or equal to zero." }
@@ -128,7 +127,6 @@ class RevisionHistory(
 
                     val transaction = StmTransaction(
                         this,
-                        revisionDescription,
                         _lastRevision.get().revisionNumber,
                         AtomicRevisionNumber(_lastPendingRevisionNumber.decrementAndGet())
                     )
@@ -137,7 +135,7 @@ class RevisionHistory(
                         _transactionOfCurrentThread.set(transaction)
 
                         // Execute the transactional task.
-                        task()
+                        transaction.description = task()
 
                         // Commit the changes.
                         transaction.commit()

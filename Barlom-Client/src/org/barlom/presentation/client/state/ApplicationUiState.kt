@@ -23,9 +23,10 @@ class ApplicationUiState(revHistory: RevisionHistory) {
         var __focusedElement: V<AbstractPackagedElement?>? = null
         var __leftPanelType: V<ELeftPanelType>? = null
 
-        revHistory.update("Initialize UI state.") {
+        revHistory.update {
             __focusedElement = V(null)
             __leftPanelType = V(ELeftPanelType.BROWSE)
+            "Initialize UI state."
         }
 
         _focusedElement = __focusedElement!!

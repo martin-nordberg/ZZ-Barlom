@@ -23,9 +23,10 @@ class RevisionHistoryTests {
 
         var s: Sample? = null
 
-        revHistory.update("Rev #1", 2) {
+        revHistory.update(2) {
 
             s = Sample()
+            "Rev #1"
 
         }
 
@@ -39,15 +40,16 @@ class RevisionHistoryTests {
 
             assertEquals(1, s!!.value.get())
             assertEquals("one", s!!.name.get())
-            assertFalse( s!!.isEven.get())
+            assertFalse(s!!.isEven.get())
 
         }
 
-        revHistory.update("Rev #2", 2) {
+        revHistory.update(2) {
 
             s!!.value.set(2)
             s!!.name.set("two")
             s!!.isEven.set(true)
+            "Rev #2"
 
         }
 
@@ -59,7 +61,7 @@ class RevisionHistoryTests {
 
             assertEquals(2, s!!.value.get())
             assertEquals("two", s!!.name.get())
-            assertTrue( s!!.isEven.get())
+            assertTrue(s!!.isEven.get())
 
         }
 
@@ -67,15 +69,16 @@ class RevisionHistoryTests {
 
             assertEquals(1, s!!.value.get())
             assertEquals("one", s!!.name.get())
-            assertFalse( s!!.isEven.get())
+            assertFalse(s!!.isEven.get())
 
         }
 
-        revHistory.update("Rev #3", 2) {
+        revHistory.update(2) {
 
             s!!.value.increment()
             s!!.name.set("three")
             s!!.isEven.set(false)
+            "Rev #3"
 
         }
 
@@ -87,7 +90,7 @@ class RevisionHistoryTests {
 
             assertEquals(3, s!!.value.get())
             assertEquals("three", s!!.name.get())
-            assertFalse( s!!.isEven.get())
+            assertFalse(s!!.isEven.get())
 
         }
 
@@ -95,7 +98,7 @@ class RevisionHistoryTests {
 
             assertEquals(3, s!!.value.get())
             assertEquals("three", s!!.name.get())
-            assertFalse( s!!.isEven.get())
+            assertFalse(s!!.isEven.get())
 
         }
 
@@ -103,7 +106,7 @@ class RevisionHistoryTests {
 
             assertEquals(2, s!!.value.get())
             assertEquals("two", s!!.name.get())
-            assertTrue( s!!.isEven.get())
+            assertTrue(s!!.isEven.get())
 
         }
 
@@ -111,7 +114,7 @@ class RevisionHistoryTests {
 
             assertEquals(1, s!!.value.get())
             assertEquals("one", s!!.name.get())
-            assertFalse( s!!.isEven.get())
+            assertFalse(s!!.isEven.get())
 
         }
 
@@ -120,8 +123,8 @@ class RevisionHistoryTests {
     class Sample {
 
         val value = VInt(1)
-        val name = V<String>("one")
-        val isEven = V<Boolean>( false )
+        val name = V("one")
+        val isEven = V(false)
 
     }
 

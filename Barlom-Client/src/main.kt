@@ -3,7 +3,6 @@
 // Apache 2.0 License
 //
 
-import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.uuids.prefetchUuid
 import org.barlom.presentation.client.runApplication
 import org.barlom.presentation.client.state.initializeAppState
@@ -25,11 +24,8 @@ fun main(args: Array<String>) {
     // Start up the UUID machinery.
     prefetchUuid()
 
-    // Create the revision history for the application.
-    val revHistory = RevisionHistory("Initial model")
-
     // Run the application.
-    runApplication("app", revHistory, ::initializeAppState, ::view)
+    runApplication("app", ::initializeAppState, ::view)
 
 
     console.log("Lifecycle started.")

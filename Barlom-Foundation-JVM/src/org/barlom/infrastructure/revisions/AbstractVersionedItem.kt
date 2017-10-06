@@ -50,7 +50,7 @@ abstract class AbstractVersionedItem {
 
     override fun equals(other: Any?): Boolean {
 
-        if (this == other) {
+        if (this === other) {
             return true
         }
 

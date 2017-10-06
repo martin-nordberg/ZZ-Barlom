@@ -20,9 +20,9 @@ class EdgeAttributeTypeTests {
     @Test
     fun `Edge attribute types are constructed as expected`() {
 
-        val model = Model( ::makeUuid )
+        val model = Model(::makeUuid)
 
-        model.revHistory.update("test") {
+        model.revHistory.update {
             val root = model.rootPackage
             val pkg = model.makePackage() {
                 name = "pkg"
@@ -41,7 +41,7 @@ class EdgeAttributeTypeTests {
                 name = "dt"
                 maxValue = 100
             }
-            val u = model.makeAttributeDataTypeUsage(at, dt)
+            model.makeAttributeDataTypeUsage(at, dt)
 
             assertTrue(model.vertices.contains(at))
             assertTrue(model.edges.contains(c))
@@ -57,6 +57,7 @@ class EdgeAttributeTypeTests {
 
             assertTrue(dt.attributeTypes.contains(at))
             assertTrue(at.dataTypes.contains(dt))
+            "test"
         }
 
     }
