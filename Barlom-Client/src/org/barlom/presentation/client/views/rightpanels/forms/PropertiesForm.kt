@@ -6,7 +6,7 @@
 package org.barlom.presentation.client.views.rightpanels.forms
 
 import org.barlom.domain.metamodel.api.actions.ModelAction
-import org.barlom.domain.metamodel.api.actions.rename
+import org.barlom.domain.metamodel.api.actions.NamedElementActions
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.presentation.client.actions.UiAction
 import org.katydom.api.katyDomComponent
@@ -21,7 +21,9 @@ fun viewPropertiesForm(
 
     val oldName = focusedElement.name
 
-    form {
+    // TODO: form action should be to update the model & view
+
+    form( action="javascript:void(0);" ) {
 
         // TODO: treat root elements differently
 
@@ -42,7 +44,7 @@ fun viewPropertiesForm(
                     val newName: String = event.target.asDynamic().value
 
                     if (newName != oldName) {
-                        revDispatchModel(rename(focusedElement, newName))
+                        revDispatchModel(NamedElementActions.rename(focusedElement, newName))
                     }
 
                 }

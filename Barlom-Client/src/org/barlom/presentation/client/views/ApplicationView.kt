@@ -29,12 +29,13 @@ fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): Kat
 
     val m = appState.model
     val ui = appState.uiState
+    val revHistory = appState.revHistory
 
     /**
      * Creates and dispatches an action inside a rev history transaction.
      */
     fun revDispatch(action: AppAction) {
-        appState.revHistory.review {
+        revHistory.review {
             dispatch(action)
         }
     }
@@ -56,7 +57,7 @@ fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): Kat
     // Sample view, much TBD
     return katyDom {
 
-        m.revHistory.review {
+        revHistory.review {
 
             main("#BarlomMetamodelingEnvironment.o-grid.o-grid--no-gutter.o-panel.u-small") {
 

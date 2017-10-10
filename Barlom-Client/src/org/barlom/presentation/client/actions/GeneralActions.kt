@@ -9,15 +9,23 @@ import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.presentation.client.state.ApplicationUiState
 
 
-/**
- * Changes the element that is focused for editing or browsing.
- */
-fun focusElement(focusedElement: AbstractPackagedElement): UiAction {
+class GeneralActions {
 
-    return { uiState: ApplicationUiState ->
-        uiState.focusedElement = focusedElement
+    companion object {
 
-        "Select element ${focusedElement.path} for review."
+        /**
+         * Changes the element that is focused for editing or browsing.
+         */
+        fun focus(focusedElement: AbstractPackagedElement): UiAction {
+
+            return { uiState: ApplicationUiState ->
+                uiState.focusedElement = focusedElement
+
+                "Select element ${focusedElement.path} for review."
+            }
+
+        }
+
     }
 
 }

@@ -8,19 +8,29 @@ package org.barlom.domain.metamodel.api.actions
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.vertices.Package
 
-/**
- * Adds a new child package to the given [parentPackage].
- */
-fun addPackage(parentPackage: Package): ModelAction {
 
-    return { model: Model ->
+class PackageActions {
 
-        model.makePackage {
-            model.makePackageContainment(parentPackage, this)
+    companion object {
+
+        /**
+         * Adds a new child package to the given [parentPackage].
+         */
+        fun addPackage(parentPackage: Package): ModelAction {
+
+            return { model: Model ->
+
+                model.makePackage {
+                    model.makePackageContainment(parentPackage, this)
+                }
+
+                "Add package to ${parentPackage.path}"
+
+            }
+
         }
-
-        "Add package to ${parentPackage.path}"
 
     }
 
 }
+

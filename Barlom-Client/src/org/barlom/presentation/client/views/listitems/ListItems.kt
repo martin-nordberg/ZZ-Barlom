@@ -7,13 +7,15 @@ package org.barlom.presentation.client.views.listitems
 
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
+import org.barlom.presentation.client.actions.GeneralActions
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.actions.focusElement
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
 
-/** Generates the icon and clickable name for an abstract element. */
+/**
+ * Generates the icon and clickable name for an abstract [element].
+ */
 fun viewListItem(
     builder: KatyDomFlowContentBuilder,
     element: AbstractPackagedElement,
@@ -40,7 +42,9 @@ fun viewListItem(
 }
 
 
-/** Generates the icon and clickable name for a package [pkg]. */
+/**
+ * Generates the icon and clickable name for a package [pkg].
+ */
 fun viewPackageListItem(
     builder: KatyDomFlowContentBuilder,
     pkg: Package,
@@ -50,7 +54,7 @@ fun viewPackageListItem(
     span(".c-link", pkg.id) {
 
         onclick { e ->
-            revDispatchUi(focusElement(pkg))
+            revDispatchUi(GeneralActions.focus(pkg))
             e.stopPropagation()
         }
 
@@ -63,7 +67,9 @@ fun viewPackageListItem(
 }
 
 
-/** Generates the icon and clickable name for root package [pkg]. */
+/**
+ * Generates the icon and clickable name for root package [pkg].
+ */
 fun viewRootPackageListItem(
     builder: KatyDomFlowContentBuilder,
     pkg: Package,
@@ -73,7 +79,7 @@ fun viewRootPackageListItem(
     span(".c-link", pkg.id) {
 
         onclick { e ->
-            revDispatchUi(focusElement(pkg))
+            revDispatchUi(GeneralActions.focus(pkg))
             e.stopPropagation()
         }
 

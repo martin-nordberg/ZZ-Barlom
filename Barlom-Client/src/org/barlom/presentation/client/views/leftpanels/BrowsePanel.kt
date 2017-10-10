@@ -6,7 +6,7 @@
 package org.barlom.presentation.client.views.leftpanels
 
 import org.barlom.domain.metamodel.api.actions.ModelAction
-import org.barlom.domain.metamodel.api.actions.addPackage
+import org.barlom.domain.metamodel.api.actions.PackageActions
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.presentation.client.actions.UiAction
@@ -39,7 +39,8 @@ fun viewBrowsePanel(
             li {
 
                 onclick {
-                    revDispatchModel(addPackage(m.rootPackage))
+                    revDispatchModel(PackageActions.addPackage(m.rootPackage))
+                    // TODO: focus the newly created package
                 }
 
                 text("New Package")

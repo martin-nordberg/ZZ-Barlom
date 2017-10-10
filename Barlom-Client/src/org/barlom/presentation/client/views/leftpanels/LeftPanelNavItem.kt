@@ -5,8 +5,8 @@
 
 package org.barlom.presentation.client.views.leftpanels
 
+import org.barlom.presentation.client.actions.LeftPanelActions
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.actions.changeLeftPanel
 import org.barlom.presentation.client.state.ELeftPanelType
 import org.barlom.presentation.client.state.ELeftPanelType.*
 import org.katydom.api.katyDomComponent
@@ -31,7 +31,7 @@ fun viewLeftPanelNavItem(
             attribute("aria-label", toolTip)
 
             onclick {
-                revDispatchUi(changeLeftPanel(panelType))
+                revDispatchUi(LeftPanelActions.change(panelType))
             }
 
             span(".u-large.mdi." + iconName(panelType), "icon") {}

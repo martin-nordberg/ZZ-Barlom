@@ -6,7 +6,7 @@
 package org.barlom.presentation.client.views.listitems
 
 import org.barlom.domain.metamodel.api.actions.ModelAction
-import org.barlom.domain.metamodel.api.actions.addPackage
+import org.barlom.domain.metamodel.api.actions.PackageActions
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
 import org.barlom.presentation.client.actions.UiAction
@@ -55,7 +55,8 @@ fun viewPackageTreeItem(
                 li(".tree-item--not-focused") {
 
                     onclick {
-                        revDispatchModel(addPackage(pkg))
+                        revDispatchModel(PackageActions.addPackage(pkg))
+                        // TODO: focus the newly created package
                     }
 
                     text("New Package")
