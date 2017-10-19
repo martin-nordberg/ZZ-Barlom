@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="junit-5.0.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/junit-5.0.0/junit-jupiter-api-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-5.0.0/junit-jupiter-engine-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-5.0.0/junit-jupiter-migrationsupport-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-5.0.0/junit-jupiter-params-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-5.0.0/junit-platform-commons-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

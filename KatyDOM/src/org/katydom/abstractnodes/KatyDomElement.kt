@@ -235,7 +235,7 @@ abstract class KatyDomElement : KatyDomNode {
             domElement.setAttribute(key, value)
         }
 
-        if (true /*TODO: ...isInstrumented*/) {
+        if (false /*TODO: ...isInstrumented*/) {
             val debugAttr = nodeCount.toString() + if (this.key != null) ";" + this.key else ""
 
             domElement.setAttribute("data-debug", debugAttr)
