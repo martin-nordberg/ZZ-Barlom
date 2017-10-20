@@ -13,7 +13,7 @@ import org.w3c.dom.Text
  */
 open class KDomText(
     private val _ownerDocument: KDomDocument,
-    private val _data: String
+    private var _data: String
 ) : KDomNode(), Text {
 
     override fun getData(): String {
@@ -26,6 +26,10 @@ open class KDomText(
 
     override fun getNodeValue(): String {
         return _data
+    }
+
+    override fun setNodeValue(nodeValue: String?) {
+        _data = nodeValue ?: ""
     }
 
     override fun getOwnerDocument(): KDomDocument {

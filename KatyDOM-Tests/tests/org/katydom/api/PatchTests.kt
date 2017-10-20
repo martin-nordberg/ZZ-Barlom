@@ -190,4 +190,51 @@ class PatchTests {
 
     }
 
+    @Test
+    fun `Text changes patch correctly`() {
+
+        val vnode1 = katyDom {
+
+            div("#mydiv.textinside") {
+
+                span("#sometext") {
+
+                    text("before")
+
+                }
+
+            }
+
+        }
+
+        val html1 = """<div class="textinside" id="mydiv">
+                      |  <span id="sometext">
+                      |    before
+                      |  </span>
+                      |</div>""".trimMargin()
+
+        val vnode2 = katyDom {
+
+            div("#mydiv.textinside") {
+
+                span("#sometext") {
+
+                    text("after")
+
+                }
+
+            }
+
+        }
+
+        val html2 = """<div class="textinside" id="mydiv">
+                      |  <span id="sometext">
+                      |    after
+                      |  </span>
+                      |</div>""".trimMargin()
+
+        checkPatch(html2, vnode2, html1, vnode1)
+
+    }
+
 }

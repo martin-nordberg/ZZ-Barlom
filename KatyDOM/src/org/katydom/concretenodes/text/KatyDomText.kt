@@ -49,8 +49,8 @@ internal class KatyDomText(
         if (domElement !is Text) throw IllegalArgumentException("DOM node expected to be text.")
         if (priorElement !is KatyDomText) throw IllegalArgumentException("KatyDOM node expected to be KatyDOM text.")
 
-        if (domElement.nodeValue != priorElement.nodeValue) {
-            domElement.nodeValue = priorElement.nodeValue
+        if (nodeValue != priorElement.nodeValue) {
+            domElement.nodeValue = nodeValue
         }
 
     }
