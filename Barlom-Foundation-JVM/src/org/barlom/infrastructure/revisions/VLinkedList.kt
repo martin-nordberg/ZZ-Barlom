@@ -38,10 +38,10 @@ open class VLinkedList<T> {
 
 
     /**
-     * Adds an item to the list. Insertion is O(1)
+     * Adds an item to the head of the list. Insertion is O(1)
      */
     fun add( value: T ) {
-        val link = Link(value,_firstLink.get(),V(false))
+        val link = Link(value,V(_firstLink.get()))
         _firstLink.set(link)
         _size.increment()
     }
@@ -62,13 +62,8 @@ open class VLinkedList<T> {
 
         var link = _firstLink.get()
         while ( link != null ) {
-
-            if ( !link.isDeleted.get() ) {
-                result.add(link.value)
-            }
-
-            link = link.nextLink
-
+            result.add(link.value)
+            link = link.nextLink.get()
         }
 
         return result
@@ -83,11 +78,11 @@ open class VLinkedList<T> {
         var link = _firstLink.get()
         while ( link != null ) {
 
-            if ( !link.isDeleted.get() && link.value == value ) {
+            if ( link.value == value ) {
                 return true
             }
 
-            link = link.nextLink
+            link = link.nextLink.get()
 
         }
 
@@ -98,17 +93,12 @@ open class VLinkedList<T> {
     /**
      * Performs the given [action] on each item in the list.
      */
-    fun forEach(action:(T)->Unit) : Unit {
+    fun forEach(action:(T)->Unit) {
 
         var link = _firstLink.get()
         while ( link != null ) {
-
-            if ( !link.isDeleted.get() ) {
-                action(link.value)
-            }
-
-            link = link.nextLink
-
+            action(link.value)
+            link = link.nextLink.get()
         }
 
     }
@@ -116,18 +106,16 @@ open class VLinkedList<T> {
     /**
      * Performs the given [action] on each item in the list. Quits early if action() returns false.
      */
-    fun forEachWhile(action:(T)->Boolean) : Unit {
+    fun forEachWhile(action:(T)->Boolean) {
 
         var link = _firstLink.get()
         while ( link != null ) {
 
-            if ( !link.isDeleted.get() ) {
-                if ( !action(link.value) ) {
-                    break
-                }
+            if ( !action(link.value) ) {
+                break
             }
 
-            link = link.nextLink
+            link = link.nextLink.get()
 
         }
 
@@ -143,13 +131,8 @@ open class VLinkedList<T> {
 
         var link = _firstLink.get()
         while ( link != null ) {
-
-            if ( !link.isDeleted.get() ) {
-                result.add(transform(link.value))
-            }
-
-            link = link.nextLink
-
+            result.add(transform(link.value))
+            link = link.nextLink.get()
         }
 
         return result
@@ -161,16 +144,30 @@ open class VLinkedList<T> {
      */
     fun remove(value:T) : Boolean {
 
-        var link = _firstLink.get()
-        while ( link != null ) {
+        if ( size == 0 ) {
+            return false
+        }
 
-            if ( !link.isDeleted.get() && link.value == value ) {
-                link.isDeleted.set(true)
+        var link = _firstLink.get()!!
+
+        if ( link.value == value ) {
+            _firstLink.set(link.nextLink.get())
+            _size.decrement()
+            return true
+        }
+
+        var nextLink = link.nextLink.get()
+
+        while ( nextLink != null ) {
+
+            if ( nextLink.value == value ) {
+                link.nextLink.set(nextLink.nextLink.get())
                 _size.decrement()
                 return true
             }
 
-            link = link.nextLink
+            link = nextLink
+            nextLink = link.nextLink.get()
 
         }
 
@@ -179,7 +176,7 @@ open class VLinkedList<T> {
     }
 
     /**
-     * Makes a snapshot copy of the linked list sorted by the given criteria. Copying is O(n)
+     * Makes a snapshot copy of the linked list then sorts it by the given criteria. Copying is O(n); sort is ~ O(n log(n))
      */
     fun <R : Comparable<R>> sortedBy(selector: (T) -> R?): List<T> {
         val result = asMutableList()
@@ -195,8 +192,7 @@ open class VLinkedList<T> {
      */
     private class Link<T>(
         val value: T,
-        val nextLink: Link<T>?,
-        val isDeleted: V<Boolean>
+        val nextLink: V<Link<T>?>
     )
 
 }
