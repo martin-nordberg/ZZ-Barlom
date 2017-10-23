@@ -128,7 +128,7 @@ class UndirectedEdgeType(
     override val path: String
         get() {
 
-            if (_undirectedEdgeTypeContainments.isEmpty) {
+            if (_undirectedEdgeTypeContainments.isEmpty()) {
                 return name
             }
 

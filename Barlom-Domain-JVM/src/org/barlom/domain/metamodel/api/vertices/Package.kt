@@ -78,7 +78,7 @@ class Package internal constructor(
     override val path: String
         get() {
 
-            if (_parentPackageContainments.isEmpty) {
+            if (_parentPackageContainments.isEmpty()) {
                 return name
             }
 

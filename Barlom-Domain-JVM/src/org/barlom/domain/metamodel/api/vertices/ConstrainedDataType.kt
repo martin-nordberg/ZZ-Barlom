@@ -44,7 +44,7 @@ sealed class ConstrainedDataType(
     override val path: String
         get() {
 
-            if (_constrainedDataTypeContainments.isEmpty) {
+            if (_constrainedDataTypeContainments.isEmpty()) {
                 return name
             }
 

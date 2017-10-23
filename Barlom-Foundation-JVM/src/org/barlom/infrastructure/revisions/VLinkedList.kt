@@ -13,10 +13,9 @@ package org.barlom.infrastructure.revisions
 open class VLinkedList<T> {
 
     /**
-     * Reference to the latest revision. Revisions are kept in a custom linked list with the newest revision at the head
-     * of the list.
+     * Versioned reference to the head of the list. Links through the list are themselves versioned as well.
      */
-    private val _firstLink : V<Link<T>?> = V(null)
+    private val _firstLink: V<Link<T>?> = V(null)
 
     /**
      * The (versioned) size of this list.
@@ -24,24 +23,16 @@ open class VLinkedList<T> {
     private val _size = VInt(0)
 
 
-    /** Whether the list is empty. */
-    val isEmpty : Boolean
-        get() = _size.get() == 0
-
-    /** Whether the list is non-empty. */
-    val isNotEmpty : Boolean
-        get() = _size.get() > 0
-
     /** The size of this list for the active revision in review. Size is O(1). */
-    val size : Int
+    val size: Int
         get() = _size.get()
 
 
     /**
      * Adds an item to the head of the list. Insertion is O(1)
      */
-    fun add( value: T ) {
-        val link = Link(value,V(_firstLink.get()))
+    fun add(value: T) {
+        val link = Link(value, V(_firstLink.get()))
         _firstLink.set(link)
         _size.increment()
     }
@@ -49,19 +40,19 @@ open class VLinkedList<T> {
     /**
      * Makes a snapshot copy of the linked list. Copying is O(n)
      */
-    fun asList() : List<T> {
+    fun asList(): List<T> {
         return asMutableList()
     }
 
     /**
      * Makes a snapshot copy of the linked list. Copying is O(n)
      */
-    private fun asMutableList() : MutableList<T> {
+    private fun asMutableList(): MutableList<T> {
 
         val result = ArrayList<T>(size)
 
         var link = _firstLink.get()
-        while ( link != null ) {
+        while (link != null) {
             result.add(link.value)
             link = link.nextLink.get()
         }
@@ -71,14 +62,22 @@ open class VLinkedList<T> {
     }
 
     /**
+     * Empties the list. O(1).
+     */
+    fun clear() {
+        _firstLink.set(null)
+        _size.set(0)
+    }
+
+    /**
      * Tests whether the list contains a given value. Search is O(n).
      */
-    fun contains(value:T) : Boolean {
+    fun contains(value: T): Boolean {
 
         var link = _firstLink.get()
-        while ( link != null ) {
+        while (link != null) {
 
-            if ( link.value == value ) {
+            if (link.value == value) {
                 return true
             }
 
@@ -93,10 +92,10 @@ open class VLinkedList<T> {
     /**
      * Performs the given [action] on each item in the list.
      */
-    fun forEach(action:(T)->Unit) {
+    fun forEach(action: (T) -> Unit) {
 
         var link = _firstLink.get()
-        while ( link != null ) {
+        while (link != null) {
             action(link.value)
             link = link.nextLink.get()
         }
@@ -106,18 +105,96 @@ open class VLinkedList<T> {
     /**
      * Performs the given [action] on each item in the list. Quits early if action() returns false.
      */
-    fun forEachWhile(action:(T)->Boolean) {
+    fun forEachWhile(action: (T) -> Boolean) {
 
         var link = _firstLink.get()
-        while ( link != null ) {
+        while (link != null) {
 
-            if ( !action(link.value) ) {
+            if (!action(link.value)) {
                 break
             }
 
             link = link.nextLink.get()
 
         }
+
+    }
+
+    /**
+     * Returns the element at the specified [index] in the list. O(n)
+     */
+    operator fun get(index: Int): T {
+
+        var i = 0
+        var link = _firstLink.get()
+
+        while (i < index && link != null) {
+
+            i += 1
+            link = link.nextLink.get()
+
+        }
+
+        if (link == null) {
+            throw IndexOutOfBoundsException()
+        }
+
+        return link.value
+
+    }
+
+    /**
+     * Returns the index of the first occurrence of the specified element in the list, or -1 if the specified
+     * element is not contained in the list. O(n)
+     */
+    fun indexOf(value: T): Int {
+
+        var result = 0
+        var link = _firstLink.get()
+
+        while (link != null) {
+
+            if (link.value == value) {
+                return result
+            }
+
+            link = link.nextLink.get()
+            result += 1
+
+        }
+
+        return -1
+
+    }
+
+    /** Whether the list is empty. */
+    fun isEmpty(): Boolean = _size.get() == 0
+
+    /** Whether the list is non-empty. */
+    fun isNotEmpty(): Boolean = _size.get() > 0
+
+    /**
+     * Returns the index of the last occurrence of the specified element in the list, or -1 if the specified
+     * [value] is not contained in the list. O(n)
+     */
+    fun lastIndexOf(value: T): Int {
+
+        var result = -1
+        var index = 0
+        var link = _firstLink.get()
+
+        while (link != null) {
+
+            if (link.value == value) {
+                result = index
+            }
+
+            link = link.nextLink.get()
+            index += 1
+
+        }
+
+        return result
 
     }
 
@@ -130,7 +207,7 @@ open class VLinkedList<T> {
         val result = ArrayList<R>(size)
 
         var link = _firstLink.get()
-        while ( link != null ) {
+        while (link != null) {
             result.add(transform(link.value))
             link = link.nextLink.get()
         }
@@ -142,15 +219,15 @@ open class VLinkedList<T> {
     /**
      * Removes an item (the first matching the input) from the list. Removal is O(n).
      */
-    fun remove(value:T) : Boolean {
+    fun remove(value: T): Boolean {
 
-        if ( size == 0 ) {
+        if (size == 0) {
             return false
         }
 
         var link = _firstLink.get()!!
 
-        if ( link.value == value ) {
+        if (link.value == value) {
             _firstLink.set(link.nextLink.get())
             _size.decrement()
             return true
@@ -158,9 +235,9 @@ open class VLinkedList<T> {
 
         var nextLink = link.nextLink.get()
 
-        while ( nextLink != null ) {
+        while (nextLink != null) {
 
-            if ( nextLink.value == value ) {
+            if (nextLink.value == value) {
                 link.nextLink.set(nextLink.nextLink.get())
                 _size.decrement()
                 return true
@@ -172,6 +249,75 @@ open class VLinkedList<T> {
         }
 
         return false
+
+    }
+
+    /**
+     * Removes an element at the specified [index] from the list. O(n)
+     *
+     * @return the element that has been removed.
+     */
+    fun removeAt(index: Int): T {
+
+        if (index > size) {
+            throw IndexOutOfBoundsException()
+        }
+
+        var link = _firstLink.get()!!
+
+        if (index == 0) {
+            _firstLink.set(link.nextLink.get())
+            _size.decrement()
+            return link.value
+        }
+
+        var nextLink = link.nextLink.get()!!
+
+        var i = 0
+        while (i < index - 1) {
+            link = nextLink
+            nextLink = link.nextLink.get()!!
+            i += 1
+        }
+
+        link.nextLink.set(nextLink.nextLink.get())
+
+        _size.decrement()
+
+        return nextLink.value
+
+    }
+
+    /**
+     * Replaces the element at the specified position in this list with the specified element. O(n)
+     *
+     * @return the element previously at the specified position.
+     */
+    operator fun set(index: Int, value: T): T {
+
+        if (index > size) {
+            throw IndexOutOfBoundsException()
+        }
+
+        var link = _firstLink.get()!!
+
+        if (index == 0) {
+            _firstLink.set(Link(value, link.nextLink))
+            return link.value
+        }
+
+        var nextLink = link.nextLink.get()!!
+
+        var i = 0
+        while (i < index - 1) {
+            link = nextLink
+            nextLink = link.nextLink.get()!!
+            i += 1
+        }
+
+        link.nextLink.set(Link(value, nextLink.nextLink))
+
+        return nextLink.value
 
     }
 

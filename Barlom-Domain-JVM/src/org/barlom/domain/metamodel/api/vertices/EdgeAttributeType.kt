@@ -50,7 +50,7 @@ class EdgeAttributeType(
     override val path: String
         get() {
 
-            if (_edgeAttributeTypeContainments.isEmpty) {
+            if (_edgeAttributeTypeContainments.isEmpty()) {
                 return name
             }
 

@@ -45,7 +45,7 @@ class VertexAttributeType(
     override val path: String
         get() {
 
-            if (_vertexAttributeTypeContainments.isEmpty) {
+            if (_vertexAttributeTypeContainments.isEmpty()) {
                 return name
             }
 

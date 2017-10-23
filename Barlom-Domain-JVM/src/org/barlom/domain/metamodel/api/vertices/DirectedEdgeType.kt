@@ -191,7 +191,7 @@ class DirectedEdgeType(
     override val path: String
         get() {
 
-            if (_directedEdgeTypeContainments.isEmpty) {
+            if (_directedEdgeTypeContainments.isEmpty()) {
                 return name
             }
 

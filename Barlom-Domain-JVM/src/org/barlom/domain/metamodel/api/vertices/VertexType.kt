@@ -76,7 +76,7 @@ class VertexType(
     override val path: String
         get() {
 
-            if (_vertexTypeContainments.isEmpty) {
+            if (_vertexTypeContainments.isEmpty()) {
                 return name
             }
 
