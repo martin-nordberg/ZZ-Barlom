@@ -5,7 +5,7 @@
 
 package org.barlom.infrastructure.revisions
 
-class Revision(
+class Revision internal constructor(
 
     /** A description of this revision for tracking purposes. */
     val description: String,
@@ -14,7 +14,7 @@ class Revision(
     val revisionNumber: Long,
 
     /** The versioned items written during this revision. */
-    internal val versionedItemsWritten: Set<AbstractVersionedItem>,
+    internal val versionedItemsWritten: Set<IVersionedItem>,
 
     /** the immediately preceding revision in a linked history of revisions. */
     priorRevisionRef: Revision?
@@ -28,9 +28,10 @@ class Revision(
     /** Returns the revision prior to this one. */
     var priorRevision: Revision?
         get() = _priorRevision.get()
-        set(value: Revision?) {
+        set(value) {
             _priorRevision.set(value)
         }
+
 
     /**
      * Cleans up all the referenced versioned items written during this revision.

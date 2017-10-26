@@ -20,7 +20,7 @@ open class VLinkedList<T> {
     /**
      * The (versioned) size of this list.
      */
-    private val _size = VInt(0)
+    private val _size = V(0)
 
 
     /** The size of this list for the active revision in review. Size is O(1). */

@@ -6,28 +6,15 @@
 package org.barlom.infrastructure.revisions
 
 /**
- * A version-managing handle to an integer value with transactional revisions. Adds increment and decrement
- * shorthand to V<Int>.
+ * Decrement the integer value by one.
  */
-class VInt(
+fun V<Int>.decrement() {
+    set(get() - 1)
+}
 
-    /** The initial value. */
-    value: Int
-
-) : V<Int>(value) {
-
-    /**
-     * Decrement the integer value by one.
-     */
-    fun decrement() {
-        set(get() - 1)
-    }
-
-    /**
-     * Increment the integer value by one.
-     */
-    fun increment() {
-        set(get() + 1)
-    }
-
+/**
+ * Increment the integer value by one.
+ */
+fun V<Int>.increment() {
+    set(get() + 1)
 }

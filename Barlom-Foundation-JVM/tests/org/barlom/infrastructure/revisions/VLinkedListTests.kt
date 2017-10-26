@@ -24,10 +24,8 @@ class VLinkedListTests {
 
         // empty starting point
         revHistory.update(2) {
-
             list0 = VLinkedList()
             "Rev #1"
-
         }
 
         val list: VLinkedList<Int> = list0!!
@@ -35,35 +33,29 @@ class VLinkedListTests {
         assertEquals(1, revHistory.lastRevision.revisionNumber)
 
         fun checkRev1() = revHistory.review(1) {
-
             assertEquals(0, list.size)
             assertEquals(0, list.asList().size)
             assertTrue(list.isEmpty())
             assertFalse(list.isNotEmpty())
-
         }
 
         checkRev1()
 
         // add one item
         revHistory.update(2) {
-
             list.add(10)
             "Rev #2"
-
         }
 
         assertEquals(2, revHistory.lastRevision.revisionNumber)
 
         fun checkRev2() = revHistory.review(2) {
-
             assertEquals(1, list.size)
             assertEquals(1, list.asList().size)
             assertTrue(list.asList().contains(10))
             assertTrue(list.contains(10))
             assertFalse(list.isEmpty())
             assertTrue(list.isNotEmpty())
-
         }
 
         checkRev2()
@@ -71,17 +63,14 @@ class VLinkedListTests {
 
         // add two more items
         revHistory.update(2) {
-
             list.add(20)
             list.add(30)
             "Rev #3"
-
         }
 
         assertEquals(3, revHistory.lastRevision.revisionNumber)
 
         fun checkRev3() = revHistory.review(3) {
-
             assertEquals(3, list.size)
             assertEquals(3, list.asList().size)
             assertTrue(list.asList().contains(10))
@@ -92,7 +81,6 @@ class VLinkedListTests {
             assertTrue(list.contains(30))
             assertFalse(list.isEmpty())
             assertTrue(list.isNotEmpty())
-
         }
 
         checkRev3()
@@ -101,12 +89,10 @@ class VLinkedListTests {
 
         // remove one; add one new and one duplicate
         revHistory.update(2) {
-
             list.remove(20)
             list.add(30)
             list.add(40)
             "Rev #4"
-
         }
 
         assertEquals(4, revHistory.lastRevision.revisionNumber)
@@ -248,19 +234,15 @@ class VLinkedListTests {
 
         // remove everything
         revHistory.update(2) {
-
             list.clear()
             "Rev #6"
-
         }
 
         assertEquals(6, revHistory.lastRevision.revisionNumber)
 
         revHistory.review {
-
             assertEquals(0, list.size)
             assertEquals(0, list.asList().size)
-
         }
 
         checkRev5()
@@ -281,17 +263,14 @@ class VLinkedListTests {
 
         // empty starting point
         revHistory.update(2) {
-
             list0 = VLinkedList()
             "Rev #1"
-
         }
 
         val list: VLinkedList<Int> = list0!!
 
         // add several items
         revHistory.update(2) {
-
             list.add(90)
             list.add(80)
             list.add(70)
@@ -303,31 +282,25 @@ class VLinkedListTests {
             list.add(10)
             list.add(0)
             "Rev #2"
-
         }
 
         revHistory.review {
-
             assertEquals(10, list.size)
             assertEquals(0, list[0])
             assertEquals(10, list[1])
             assertEquals(90, list[9])
-
         }
 
         // remove several items
         revHistory.update(2) {
-
             assertEquals(0, list.removeAt(0))
             assertEquals(10, list.removeAt(0))
             assertEquals(40, list.removeAt(2))
             assertEquals(90, list.removeAt(6))
             "Rev #3"
-
         }
 
         revHistory.review {
-
             assertEquals(6, list.size)
             assertEquals(20, list[0])
             assertEquals(30, list[1])
@@ -335,22 +308,18 @@ class VLinkedListTests {
             assertEquals(60, list[3])
             assertEquals(70, list[4])
             assertEquals(80, list[5])
-
         }
 
         // replace several items
         revHistory.update(2) {
-
             assertEquals(20, list.set(0, 25))
             assertEquals(30, list.set(1, 35))
             assertEquals(70, list.set(4, 75))
             assertEquals(80, list.set(5, 85))
             "Rev #4"
-
         }
 
         revHistory.review {
-
             assertEquals(6, list.size)
             assertEquals(25, list[0])
             assertEquals(35, list[1])
@@ -358,8 +327,86 @@ class VLinkedListTests {
             assertEquals(60, list[3])
             assertEquals(75, list[4])
             assertEquals(85, list[5])
+        }
+
+    }
+
+
+    @Test
+    fun `A versioned linked list works when retries are needed`() {
+
+        val revHistory = RevisionHistory("Rev #0")
+
+        var list0: VLinkedList<Int>? = null
+
+        // empty starting point
+        revHistory.update(2) {
+            list0 = VLinkedList()
+            "Rev #1"
+        }
+
+        val list: VLinkedList<Int> = list0!!
+
+        assertEquals(1, revHistory.lastRevision.revisionNumber)
+
+        fun checkRev1() = revHistory.review(1) {
+            assertEquals(0, list.size)
+            assertEquals(0, list.asList().size)
+            assertTrue(list.isEmpty())
+            assertFalse(list.isNotEmpty())
+        }
+
+        checkRev1()
+
+        var retries = 2
+
+        // add some items with thread conflict
+        revHistory.update(2) {
+
+            list.add(30)
+
+            retries -= 1
+
+            if (retries > 0) {
+
+                val otherThread = Thread {
+
+                    revHistory.update(2) {
+                        list.add(10)
+                        list.add(20)
+                        "Rev #2"
+                    }
+
+                }
+
+                otherThread.start()
+                otherThread.join()
+
+            }
+
+            list.add(40)
+            "Rev #3"
 
         }
+
+        assertEquals(0, retries)
+        assertEquals(3, revHistory.lastRevision.revisionNumber)
+
+        revHistory.review(3) {
+            assertEquals(4, list.size)
+            assertEquals(40, list[0])
+            assertEquals(30, list[1])
+            assertEquals(20, list[2])
+            assertEquals(10, list[3])
+        }
+
+        revHistory.review(2) {
+            assertEquals(2, list.size)
+            assertEquals(20, list[0])
+            assertEquals(10, list[1])
+        }
+
+        checkRev1()
 
 
     }

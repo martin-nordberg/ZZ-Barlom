@@ -186,7 +186,7 @@ class RevisionHistory(
         synchronized(this) {
 
             // Check for conflicts.
-            transaction.versionedItemsRead.forEach(AbstractVersionedItem::ensureNotWrittenByOtherTransaction)
+            transaction.versionedItemsRead.forEach(IVersionedItem::ensureNotWrittenByOtherTransaction)
 
             val priorRevision = _lastRevision.get()
             val revisionNumber = priorRevision.revisionNumber + 1

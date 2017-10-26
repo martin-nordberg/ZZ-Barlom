@@ -43,12 +43,12 @@ internal class StmTransaction(
     /**
      * The versioned items read by this transaction.
      */
-    private val _versionedItemsRead: MutableSet<AbstractVersionedItem> = mutableSetOf()
+    private val _versionedItemsRead: MutableSet<IVersionedItem> = mutableSetOf()
 
     /**
      * The versioned item written by this transaction.
      */
-    private val _versionedItemsWritten: MutableSet<AbstractVersionedItem> = mutableSetOf()
+    private val _versionedItemsWritten: MutableSet<IVersionedItem> = mutableSetOf()
 
 
     var description: String
@@ -61,13 +61,13 @@ internal class StmTransaction(
     /**
      * The versioned items read by this transaction.
      */
-    val versionedItemsRead: Set<AbstractVersionedItem>
+    val versionedItemsRead: Set<IVersionedItem>
         get() = _versionedItemsRead
 
     /**
      * The versioned item written by this transaction.
      */
-    val versionedItemsWritten: Set<AbstractVersionedItem>
+    val versionedItemsWritten: Set<IVersionedItem>
         get() = _versionedItemsWritten
 
 
@@ -80,10 +80,29 @@ internal class StmTransaction(
         targetRevisionNumber.set(0L)
 
         // Clean up aborted revisions ...
-        _versionedItemsWritten.forEach(AbstractVersionedItem::removeAbortedVersion)
+        _versionedItemsWritten.forEach(IVersionedItem::removeAbortedVersion)
 
         _versionedItemsRead.clear()
         _versionedItemsWritten.clear()
+
+    }
+
+    /**
+     * Tracks all versioned items created by this transaction. The versions written by this transaction will be cleaned
+     * up after the transaction aborts. Any earlier versions will be cleaned up after all transactions using any earlier
+     * versions and their source have completed.
+     *
+     * @param versionedItem the item that has been created.
+     */
+    fun addVersionedItemCreated(versionedItem: IVersionedItem) {
+
+        // If we have already seen a write conflict, fail early.
+        if (_newerRevisionSeen) {
+            throw WriteConflictException()
+        }
+
+        // Track all versioned items written by this transaction.
+        _versionedItemsWritten.add(versionedItem)
 
     }
 
@@ -93,7 +112,7 @@ internal class StmTransaction(
      *
      * @param versionedItem the item that has been read.
      */
-    fun addVersionedItemRead(versionedItem: AbstractVersionedItem) {
+    fun addVersionedItemRead(versionedItem: IVersionedItem) {
 
         // Track versioned items read by this transaction.
         _versionedItemsRead.add(versionedItem)
@@ -107,7 +126,7 @@ internal class StmTransaction(
      *
      * @param versionedItem the item that has been written.
      */
-    fun addVersionedItemWritten(versionedItem: AbstractVersionedItem) {
+    fun addVersionedItemWritten(versionedItem: IVersionedItem) {
 
         // Track all versioned items written by this transaction.
         _versionedItemsWritten.add(versionedItem)
