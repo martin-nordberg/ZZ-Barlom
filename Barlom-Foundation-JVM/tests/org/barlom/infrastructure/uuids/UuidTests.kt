@@ -6,6 +6,7 @@
 package org.barlom.infrastructure.uuids
 
 import org.junit.jupiter.api.Test
+import java.lang.Math.min
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -64,6 +65,35 @@ class UuidTests {
 
     }
 
+    @Test
+    fun `Ensures hash codes are fairly uniformly distributed for reserved blocks`() {
+
+        val tableSize = 1021
+        val hashCodeCounts = Array<Int>(tableSize) { 0 }
+
+        for (i in 1..100) {
+
+            var uuid = makeUuidWithReservedBlock()
+            hashCodeCounts[Math.floorMod(uuid.hashCode(), tableSize)] += 1
+
+            while (uuid.hasNextInReservedBlock()) {
+                uuid = uuid.nextInReservedBlock()
+                hashCodeCounts[Math.floorMod(uuid.hashCode(), tableSize)] += 1
+            }
+
+        }
+
+        var minCount = 100 * 256
+        var maxCount = 0
+        for (h in 0 until tableSize) {
+            minCount = min(minCount, hashCodeCounts[h])
+            maxCount = min(maxCount, hashCodeCounts[h])
+        }
+
+        assertTrue(maxCount - minCount < 10, "Max=$maxCount; min=$minCount")
+
+    }
+
     companion object {
 
         val UuidPattern = Regex("^[a-f0-9]{8}-[a-f0-9]{4}-1[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$")
@@ -71,4 +101,5 @@ class UuidTests {
         val ReservedBlockUuidPattern = Regex("^[a-f0-9]{6}00-[a-f0-9]{4}-1[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$")
 
     }
+
 }

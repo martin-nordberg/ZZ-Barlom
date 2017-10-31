@@ -255,7 +255,7 @@ class VLinkedListTests {
 
 
     @Test
-    fun `A versioned linked list supports indexed operations`() {
+    fun `A versioned linked list supports indexed operations and iteration`() {
 
         val revHistory = RevisionHistory("Rev #0")
 
@@ -327,6 +327,27 @@ class VLinkedListTests {
             assertEquals(60, list[3])
             assertEquals(75, list[4])
             assertEquals(85, list[5])
+        }
+
+        revHistory.review {
+
+            val i = list.iterator()
+
+            assertTrue(i.hasNext())
+            assertEquals(25, i.next())
+            assertTrue(i.hasNext())
+            assertEquals(35, i.next())
+            assertTrue(i.hasNext())
+            assertEquals(50, i.next())
+            assertTrue(i.hasNext())
+            assertEquals(60, i.next())
+            assertTrue(i.hasNext())
+            assertEquals(75, i.next())
+            assertTrue(i.hasNext())
+            assertEquals(85, i.next())
+
+            assertFalse(i.hasNext())
+
         }
 
     }

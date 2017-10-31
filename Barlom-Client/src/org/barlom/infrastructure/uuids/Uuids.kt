@@ -13,7 +13,7 @@ import org.w3c.xhr.XMLHttpRequest
  */
 fun makeUuid(): Uuid {
 
-    if ( nextUuid == null ) {
+    if (nextUuid == null) {
 
         nextUuid = waitingUuid
         waitingUuid = null
@@ -22,9 +22,9 @@ fun makeUuid(): Uuid {
 
     }
 
-    if ( nextUuid == null ) {
+    if (nextUuid == null) {
 
-        console.log( "Retrieving nextUuid synchronously....")
+        console.log("Retrieving nextUuid synchronously....")
 
         val request = XMLHttpRequest()
         request.open("GET", "/Barlom/uuid", false)
@@ -32,15 +32,15 @@ fun makeUuid(): Uuid {
 
         if (request.status == 200.toShort()) {
             val json = request.responseText
-            nextUuid = Uuid.fromString( JSON.parse<UuidObj>(json).uuid )
-            console.log( "Retrieved nextUuid.")
+            nextUuid = Uuid.fromString(JSON.parse<UuidObj>(json).uuid)
+            console.log("Retrieved nextUuid.")
         }
 
     }
 
     val result = nextUuid!!
 
-    nextUuid = nextUuid!!.nextInBlock
+    nextUuid = if (result.hasNextInReservedBlock()) result.nextInReservedBlock() else null
 
     return result
 
@@ -49,7 +49,7 @@ fun makeUuid(): Uuid {
 /** Retrieves a UUID into waitingUuid. */
 fun prefetchUuid() {
 
-    if ( prefetchInProgress ) {
+    if (prefetchInProgress) {
         return
     }
 
@@ -66,10 +66,10 @@ fun prefetchUuid() {
         if (request.readyState == 4.toShort() && request.status == 200.toShort()) {
             val json = request.responseText
             waitingUuid = Uuid.fromString(JSON.parse<UuidObj>(json).uuid)
-            console.log( "Retrieved waitingUuid.")
+            console.log("Retrieved waitingUuid.")
         }
         else {
-            console.log( "Failed to retrieve waitingUuid.")
+            console.log("Failed to retrieve waitingUuid.")
         }
 
         prefetchInProgress = false
@@ -80,13 +80,13 @@ fun prefetchUuid() {
 }
 
 /** The next available UUID in a block. */
-private var nextUuid : Uuid? = null
+private var nextUuid: Uuid? = null
 
 /** A pre-fetched block starting UUID waiting to be used when the current block is exhausted. */
-private var waitingUuid : Uuid? = null
+private var waitingUuid: Uuid? = null
 
 /** True if waitingUuid is currently being fetched. */
-private var prefetchInProgress : Boolean = false
+private var prefetchInProgress: Boolean = false
 
 /** Type for JSON retrieved from /uuid endpoint. */
-data class UuidObj( val uuid: String )
+data class UuidObj(val uuid: String)

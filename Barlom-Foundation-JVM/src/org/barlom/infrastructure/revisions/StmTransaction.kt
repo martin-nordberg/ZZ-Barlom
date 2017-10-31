@@ -88,25 +88,6 @@ internal class StmTransaction(
     }
 
     /**
-     * Tracks all versioned items created by this transaction. The versions written by this transaction will be cleaned
-     * up after the transaction aborts. Any earlier versions will be cleaned up after all transactions using any earlier
-     * versions and their source have completed.
-     *
-     * @param versionedItem the item that has been created.
-     */
-    fun addVersionedItemCreated(versionedItem: IVersionedItem) {
-
-        // If we have already seen a write conflict, fail early.
-        if (_newerRevisionSeen) {
-            throw WriteConflictException()
-        }
-
-        // Track all versioned items written by this transaction.
-        _versionedItemsWritten.add(versionedItem)
-
-    }
-
-    /**
      * Tracks all versioned items read by this transaction. The transaction will confirm that all these items remain
      * unwritten by some other transaction before this transaction commits.
      *

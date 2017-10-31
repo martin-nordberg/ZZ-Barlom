@@ -3,7 +3,7 @@ package org.barlom.infrastructure.uuids
 /**
  * JavaScript implementation of UUID as simple string container.
  */
-class Uuid (
+class Uuid(
 
     val uuidStr: String
 
@@ -52,48 +52,58 @@ class Uuid (
         return uuidStr.hashCode()
     }
 
-    val nextInBlock : Uuid?
-        get() {
+    fun hasNextInReservedBlock(): Boolean {
+
+        val nybble7 = uuidStr[7]
+        val nybble6 = uuidStr[6]
+
+        return nybble6 != 'F' && nybble7 != 'F'
+
+    }
+
+    fun nextInReservedBlock(): Uuid {
+
+        check(hasNextInReservedBlock()) { "Reserved block exhausetd." }
 
         val nybble7 = uuidStr[7]
         when (nybble7) {
-            '0' -> return Uuid.fromString(uuidStr.substring(0,7) + '1' + uuidStr.substring(8))
-            '1' -> return Uuid.fromString(uuidStr.substring(0,7) + '2' + uuidStr.substring(8))
-            '2' -> return Uuid.fromString(uuidStr.substring(0,7) + '3' + uuidStr.substring(8))
-            '3' -> return Uuid.fromString(uuidStr.substring(0,7) + '4' + uuidStr.substring(8))
-            '4' -> return Uuid.fromString(uuidStr.substring(0,7) + '5' + uuidStr.substring(8))
-            '5' -> return Uuid.fromString(uuidStr.substring(0,7) + '6' + uuidStr.substring(8))
-            '6' -> return Uuid.fromString(uuidStr.substring(0,7) + '7' + uuidStr.substring(8))
-            '7' -> return Uuid.fromString(uuidStr.substring(0,7) + '8' + uuidStr.substring(8))
-            '8' -> return Uuid.fromString(uuidStr.substring(0,7) + '9' + uuidStr.substring(8))
-            '9' -> return Uuid.fromString(uuidStr.substring(0,7) + 'A' + uuidStr.substring(8))
-            'A' -> return Uuid.fromString(uuidStr.substring(0,7) + 'B' + uuidStr.substring(8))
-            'B' -> return Uuid.fromString(uuidStr.substring(0,7) + 'C' + uuidStr.substring(8))
-            'C' -> return Uuid.fromString(uuidStr.substring(0,7) + 'D' + uuidStr.substring(8))
-            'D' -> return Uuid.fromString(uuidStr.substring(0,7) + 'E' + uuidStr.substring(8))
-            'E' -> return Uuid.fromString(uuidStr.substring(0,7) + 'F' + uuidStr.substring(8))
+            '0' -> return Uuid.fromString(uuidStr.substring(0, 7) + '1' + uuidStr.substring(8))
+            '1' -> return Uuid.fromString(uuidStr.substring(0, 7) + '2' + uuidStr.substring(8))
+            '2' -> return Uuid.fromString(uuidStr.substring(0, 7) + '3' + uuidStr.substring(8))
+            '3' -> return Uuid.fromString(uuidStr.substring(0, 7) + '4' + uuidStr.substring(8))
+            '4' -> return Uuid.fromString(uuidStr.substring(0, 7) + '5' + uuidStr.substring(8))
+            '5' -> return Uuid.fromString(uuidStr.substring(0, 7) + '6' + uuidStr.substring(8))
+            '6' -> return Uuid.fromString(uuidStr.substring(0, 7) + '7' + uuidStr.substring(8))
+            '7' -> return Uuid.fromString(uuidStr.substring(0, 7) + '8' + uuidStr.substring(8))
+            '8' -> return Uuid.fromString(uuidStr.substring(0, 7) + '9' + uuidStr.substring(8))
+            '9' -> return Uuid.fromString(uuidStr.substring(0, 7) + 'A' + uuidStr.substring(8))
+            'A' -> return Uuid.fromString(uuidStr.substring(0, 7) + 'B' + uuidStr.substring(8))
+            'B' -> return Uuid.fromString(uuidStr.substring(0, 7) + 'C' + uuidStr.substring(8))
+            'C' -> return Uuid.fromString(uuidStr.substring(0, 7) + 'D' + uuidStr.substring(8))
+            'D' -> return Uuid.fromString(uuidStr.substring(0, 7) + 'E' + uuidStr.substring(8))
+            'E' -> return Uuid.fromString(uuidStr.substring(0, 7) + 'F' + uuidStr.substring(8))
         }
 
         val nybble6 = uuidStr[6]
         when (nybble6) {
-            '0' -> return Uuid.fromString(uuidStr.substring(0,6) + "10" + uuidStr.substring(8))
-            '1' -> return Uuid.fromString(uuidStr.substring(0,6) + "20" + uuidStr.substring(8))
-            '2' -> return Uuid.fromString(uuidStr.substring(0,6) + "30" + uuidStr.substring(8))
-            '3' -> return Uuid.fromString(uuidStr.substring(0,6) + "40" + uuidStr.substring(8))
-            '4' -> return Uuid.fromString(uuidStr.substring(0,6) + "50" + uuidStr.substring(8))
-            '5' -> return Uuid.fromString(uuidStr.substring(0,6) + "60" + uuidStr.substring(8))
-            '6' -> return Uuid.fromString(uuidStr.substring(0,6) + "70" + uuidStr.substring(8))
-            '7' -> return Uuid.fromString(uuidStr.substring(0,6) + "80" + uuidStr.substring(8))
-            '8' -> return Uuid.fromString(uuidStr.substring(0,6) + "90" + uuidStr.substring(8))
-            '9' -> return Uuid.fromString(uuidStr.substring(0,6) + "A0" + uuidStr.substring(8))
-            'A' -> return Uuid.fromString(uuidStr.substring(0,6) + "B0" + uuidStr.substring(8))
-            'B' -> return Uuid.fromString(uuidStr.substring(0,6) + "C0" + uuidStr.substring(8))
-            'C' -> return Uuid.fromString(uuidStr.substring(0,6) + "D0" + uuidStr.substring(8))
-            'D' -> return Uuid.fromString(uuidStr.substring(0,6) + "E0" + uuidStr.substring(8))
-            'E' -> return Uuid.fromString(uuidStr.substring(0,6) + "F0" + uuidStr.substring(8))
+            '0' -> return Uuid.fromString(uuidStr.substring(0, 6) + "10" + uuidStr.substring(8))
+            '1' -> return Uuid.fromString(uuidStr.substring(0, 6) + "20" + uuidStr.substring(8))
+            '2' -> return Uuid.fromString(uuidStr.substring(0, 6) + "30" + uuidStr.substring(8))
+            '3' -> return Uuid.fromString(uuidStr.substring(0, 6) + "40" + uuidStr.substring(8))
+            '4' -> return Uuid.fromString(uuidStr.substring(0, 6) + "50" + uuidStr.substring(8))
+            '5' -> return Uuid.fromString(uuidStr.substring(0, 6) + "60" + uuidStr.substring(8))
+            '6' -> return Uuid.fromString(uuidStr.substring(0, 6) + "70" + uuidStr.substring(8))
+            '7' -> return Uuid.fromString(uuidStr.substring(0, 6) + "80" + uuidStr.substring(8))
+            '8' -> return Uuid.fromString(uuidStr.substring(0, 6) + "90" + uuidStr.substring(8))
+            '9' -> return Uuid.fromString(uuidStr.substring(0, 6) + "A0" + uuidStr.substring(8))
+            'A' -> return Uuid.fromString(uuidStr.substring(0, 6) + "B0" + uuidStr.substring(8))
+            'B' -> return Uuid.fromString(uuidStr.substring(0, 6) + "C0" + uuidStr.substring(8))
+            'C' -> return Uuid.fromString(uuidStr.substring(0, 6) + "D0" + uuidStr.substring(8))
+            'D' -> return Uuid.fromString(uuidStr.substring(0, 6) + "E0" + uuidStr.substring(8))
+            'E' -> return Uuid.fromString(uuidStr.substring(0, 6) + "F0" + uuidStr.substring(8))
         }
 
-        return null
+        throw IllegalArgumentException("Reserved block exhausted.")
 
     }
 

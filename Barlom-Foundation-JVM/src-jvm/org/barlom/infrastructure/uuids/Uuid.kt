@@ -9,7 +9,7 @@ package org.barlom.infrastructure.uuids
 /**
  * Cross-platform implementation of UUID loosely based on OpenJDK UUID.
  */
-class Uuid (
+class Uuid(
 
     /** The most significant 64 bits of this UUID. */
     private val mostSignificantBits: Long,
@@ -53,6 +53,20 @@ class Uuid (
         }
 
         return mostSignificantBits == other.mostSignificantBits && leastSignificantBits == other.leastSignificantBits
+
+    }
+
+    fun hasNextInReservedBlock(): Boolean {
+
+        return this.mostSignificantBits and 0x000000FF00000000L < 0xFF00000000
+
+    }
+
+    fun nextInReservedBlock(): Uuid {
+
+        check(hasNextInReservedBlock()) { "Reserved block of UUIDs exhaused." }
+
+        return Uuid(this.mostSignificantBits + 0x100000000L, this.leastSignificantBits)
 
     }
 

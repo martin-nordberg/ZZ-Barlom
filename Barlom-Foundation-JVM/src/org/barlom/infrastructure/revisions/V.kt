@@ -52,7 +52,7 @@ class V<T>(
         )
 
         // Keep track of everything we've written so that aborted transactions can clean up.
-        currentTransaction.addVersionedItemCreated(this)
+        currentTransaction.addVersionedItemWritten(this)
 
     }
 
