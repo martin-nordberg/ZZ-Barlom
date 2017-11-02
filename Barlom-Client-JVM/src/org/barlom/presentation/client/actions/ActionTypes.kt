@@ -5,7 +5,7 @@
 
 package org.barlom.presentation.client.actions
 
-import org.barlom.presentation.client.state.ApplicationState
+import org.barlom.presentation.client.ApplicationState
 import org.barlom.presentation.client.state.ApplicationUiState
 
 /**

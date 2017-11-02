@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package org.barlom.presentation.client.state
+package org.barlom.presentation.client.state.rightpanels
 
 enum class ERightPanelType {
 

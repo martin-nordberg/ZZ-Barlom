@@ -3,10 +3,10 @@
 // Apache 2.0 License
 //
 
-package state
+package org.barlom.presentation.client.state
 
 import org.barlom.infrastructure.revisions.RevisionHistory
-import org.barlom.presentation.client.state.ApplicationState
+import org.barlom.presentation.client.ApplicationState
 
 /**
  * Creates and initializes an application state for testing.

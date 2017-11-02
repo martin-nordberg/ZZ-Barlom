@@ -6,16 +6,16 @@
 package org.barlom.presentation.client.views
 
 import org.barlom.domain.metamodel.api.actions.ModelAction
+import org.barlom.presentation.client.ApplicationState
 import org.barlom.presentation.client.actions.AppAction
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.state.ApplicationState
-import org.barlom.presentation.client.state.ELeftPanelType.*
-import org.barlom.presentation.client.state.ERightPanelType.HELP
-import org.barlom.presentation.client.state.ERightPanelType.SETTINGS
-import org.barlom.presentation.client.views.leftpanels.viewBrowsePanel
-import org.barlom.presentation.client.views.leftpanels.viewFavoritesPanel
+import org.barlom.presentation.client.state.leftpanels.ELeftPanelType.*
+import org.barlom.presentation.client.state.rightpanels.ERightPanelType.HELP
+import org.barlom.presentation.client.state.rightpanels.ERightPanelType.SETTINGS
+import org.barlom.presentation.client.views.leftpanels.browse.viewBrowsePanel
+import org.barlom.presentation.client.views.leftpanels.favorites.viewFavoritesPanel
+import org.barlom.presentation.client.views.leftpanels.search.viewSearchPanel
 import org.barlom.presentation.client.views.leftpanels.viewLeftPanelNavItem
-import org.barlom.presentation.client.views.leftpanels.viewSearchPanel
 import org.barlom.presentation.client.views.listitems.viewFocusedElementPath
 import org.barlom.presentation.client.views.rightpanels.forms.viewPropertiesForm
 import org.barlom.presentation.client.views.rightpanels.viewRightPanelNavItem
@@ -73,7 +73,7 @@ fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): Kat
 
                     when (ui.leftPanelType) {
                         BROWSE    ->
-                            viewBrowsePanel(this, m, ::revDispatchModel, ui.focusedElement, ::revDispatchUi)
+                            viewBrowsePanel(this, m, ui.browsePanelState, ::revDispatchModel, ::revDispatchUi)
                         FAVORITES ->
                             viewFavoritesPanel(this, m, ::revDispatchModel)
                         SEARCH    ->

@@ -1,9 +1,7 @@
 package org.barlom.presentation.client.actions
 
-import org.barlom.domain.metamodel.api.actions.PackageActions
 import org.barlom.infrastructure.revisions.RevisionHistory
-import org.barlom.presentation.client.state.initializeAppState
-import state.initializeAppStateForTesting
+import org.barlom.presentation.client.state.initializeAppStateForTesting
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -24,10 +22,10 @@ class GeneralActionTests {
 
             val action = GeneralActions.focus(pkg)
 
-            val msg = action.invoke( appState.uiState )
+            val msg = action.invoke(appState.uiState)
 
-            assertEquals( pkg, appState.uiState.focusedElement )
-            assertEquals( "Select element pkg1 for review.", msg )
+            assertEquals(pkg, appState.uiState.focusedElement)
+            assertEquals("Select element pkg1 for review.", msg)
 
             "update"
 

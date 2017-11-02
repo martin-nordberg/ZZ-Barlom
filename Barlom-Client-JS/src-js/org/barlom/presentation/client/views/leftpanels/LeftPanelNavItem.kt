@@ -5,10 +5,10 @@
 
 package org.barlom.presentation.client.views.leftpanels
 
-import org.barlom.presentation.client.actions.LeftPanelActions
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.state.ELeftPanelType
-import org.barlom.presentation.client.state.ELeftPanelType.*
+import org.barlom.presentation.client.actions.leftpanels.LeftPanelActions
+import org.barlom.presentation.client.state.leftpanels.ELeftPanelType
+import org.barlom.presentation.client.state.leftpanels.ELeftPanelType.*
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
@@ -42,6 +42,7 @@ fun viewLeftPanelNavItem(
 
 }
 
+/** Computes the material design icon name for the given left [panelType]. */
 private fun iconName(panelType: ELeftPanelType) =
     ".mdi-" + when (panelType) {
         BROWSE    -> "folder"
@@ -49,6 +50,7 @@ private fun iconName(panelType: ELeftPanelType) =
         SEARCH    -> "magnify"
     }
 
+/** Computes a tool tip for given left [panelType]. */
 private fun toolTip(panelType: ELeftPanelType) =
     when (panelType) {
         BROWSE    -> "Browse"

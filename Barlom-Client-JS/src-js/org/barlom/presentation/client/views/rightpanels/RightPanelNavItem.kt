@@ -6,7 +6,7 @@
 package org.barlom.presentation.client.views.rightpanels
 
 import org.barlom.presentation.client.actions.UiAction
-import org.barlom.presentation.client.state.ERightPanelType
+import org.barlom.presentation.client.state.rightpanels.ERightPanelType
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 

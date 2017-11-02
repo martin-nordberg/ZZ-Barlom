@@ -6,33 +6,23 @@
 package org.barlom.presentation.client.state
 
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.revisions.V
+import org.barlom.presentation.client.state.leftpanels.ELeftPanelType
+import org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
 
 /**
  * The UI (non-model) state of the application.
  */
-class ApplicationUiState(revHistory: RevisionHistory) {
+class ApplicationUiState() {
 
-    private val _focusedElement: V<AbstractPackagedElement?>
+    private val _focusedElement: V<AbstractPackagedElement?> = V(null)
 
-    private val _leftPanelType: V<ELeftPanelType>
+    private val _leftPanelType: V<ELeftPanelType> = V(
+        ELeftPanelType.BROWSE)
 
-    init {
 
-        var __focusedElement: V<AbstractPackagedElement?>? = null
-        var __leftPanelType: V<ELeftPanelType>? = null
+    val browsePanelState = BrowsePanelState(_focusedElement)
 
-        revHistory.update {
-            __focusedElement = V(null)
-            __leftPanelType = V(ELeftPanelType.BROWSE)
-            "Initialize UI state."
-        }
-
-        _focusedElement = __focusedElement!!
-        _leftPanelType = __leftPanelType!!
-
-    }
 
     var focusedElement
         get() = _focusedElement.get()
@@ -41,5 +31,6 @@ class ApplicationUiState(revHistory: RevisionHistory) {
     var leftPanelType
         get() = _leftPanelType.get()
         set(value) = _leftPanelType.set(value)
+
 
 }

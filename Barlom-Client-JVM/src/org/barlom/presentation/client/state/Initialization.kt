@@ -6,6 +6,7 @@
 package org.barlom.presentation.client.state
 
 import org.barlom.infrastructure.revisions.RevisionHistory
+import org.barlom.presentation.client.ApplicationState
 
 /**
  * Creates and initializes the application state.
@@ -30,9 +31,29 @@ fun initializeAppState(revHistory: RevisionHistory): ApplicationState {
             m.makePackageContainment(pkg1, this)
         }
 
+        val pkg1ai = m.makePackage {
+            name = "pkg1ai"
+            m.makePackageContainment(pkg1a, this)
+        }
+
+        val pkg1aii = m.makePackage {
+            name = "pkg1aii"
+            m.makePackageContainment(pkg1a, this)
+        }
+
         val pkg1b = m.makePackage {
             name = "pkg1b"
             m.makePackageContainment(pkg1, this)
+        }
+
+        val pkg1bi = m.makePackage {
+            name = "pkg1bi"
+            m.makePackageContainment(pkg1b, this)
+        }
+
+        val pkg1bii = m.makePackage {
+            name = "pkg1bii"
+            m.makePackageContainment(pkg1b, this)
         }
 
         val pkg2 = m.makePackage {
