@@ -3,20 +3,28 @@
 
   --focused-item-background-color: #ffecb3;
 
+  --icon-color--directed-edge-type: #00c853;
   --icon-color--package: #ffd54f;
   --icon-color--root-package: #f57f17;
+  --icon-color--undirected-edge-type: #00c853;
+  --icon-color--vertex-type: #311b92;
 
   --left-panel-background-color: #fafafa;
 
 }
 
 
+.directed-edge-type-icon {
+
+    color: var(--icon-color--directed-edge-type);
+
+}
+
 .form--properties {
 
     padding: 1em;
 
 }
-
 
 .left-panel {
 
@@ -47,3 +55,16 @@
     background-color: var(--left-panel-background-color);
 
 }
+
+.undirected-edge-type-icon {
+
+    color: var(--icon-color--undirected-edge-type);
+
+}
+
+.vertex-type-icon {
+
+    color: var(--icon-color--vertex-type);
+
+}
+

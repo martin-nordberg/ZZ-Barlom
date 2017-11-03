@@ -5,8 +5,7 @@
 
 package org.barlom.presentation.client.views.listitems
 
-import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.domain.metamodel.api.vertices.Package
+import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.GeneralActions
 import org.barlom.presentation.client.actions.UiAction
 import org.katydom.api.katyDomComponent
@@ -20,73 +19,30 @@ fun viewListItem(
     builder: KatyDomFlowContentBuilder,
     element: AbstractPackagedElement,
     revDispatchUi: (uiAction: UiAction) -> Unit
-) {
-
-    // TODO: not sure really need different fun for each type; use a classes(...) mapping on the span & a bit of logic for roots instead\
-
-    when (element) {
-
-        is Package ->
-            if (element.isRoot) {
-                viewRootPackageListItem(builder, element, revDispatchUi)
-            }
-            else {
-                viewPackageListItem(builder, element, revDispatchUi)
-            }
-
-        else       ->
-            require(false) { "Unimplemented abstract packaged element variation." }
-
-    }
-
-}
-
-
-/**
- * Generates the icon and clickable name for a package [pkg].
- */
-fun viewPackageListItem(
-    builder: KatyDomFlowContentBuilder,
-    pkg: Package,
-    revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
-    span(".c-link", pkg.id) {
+    span(".c-link", element.id) {
 
         onclick { e ->
-            revDispatchUi(GeneralActions.focus(pkg))
+            revDispatchUi(GeneralActions.focus(element))
             e.stopPropagation()
         }
 
-        span(".mdi.mdi-folder.package-icon", "icon") {}
+        span(".mdi", "icon") {
 
-        text(" " + pkg.name)
-
-    }
-
-}
-
-
-/**
- * Generates the icon and clickable name for root package [pkg].
- */
-fun viewRootPackageListItem(
-    builder: KatyDomFlowContentBuilder,
-    pkg: Package,
-    revDispatchUi: (uiAction: UiAction) -> Unit
-) = katyDomComponent(builder) {
-
-    span(".c-link", pkg.id) {
-
-        onclick { e ->
-            revDispatchUi(GeneralActions.focus(pkg))
-            e.stopPropagation()
+            classes(
+                "mdi-ray-start-arrow directed-edge-type" to (element is DirectedEdgeType),
+                "mdi-folder package-icon" to (element is Package && !element.isRoot),
+                "mdi-book-open root-package-icon" to (element is Package && element.isRoot),
+                "mdi-ray-start-end undirected-edge-type-icon" to (element is UndirectedEdgeType),
+                "mdi-ray-vertex vertex-type-icon" to (element is VertexType)
+            )
         }
 
-        span(".mdi.mdi-book-open.root-package-icon", "icon") {}
-
-        text(" Metamodel")
+        text(" " + if ( element is Package && element.isRoot ) "Metamodel" else element.name )
 
     }
 
 }
+
+

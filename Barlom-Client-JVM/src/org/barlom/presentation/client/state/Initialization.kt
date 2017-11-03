@@ -16,55 +16,79 @@ fun initializeAppState(): ApplicationState {
 
     val m = result.model
 
-    val root = m.rootPackage
+    m.apply {
 
-    val pkg1 = m.makePackage {
-        name = "pkg1"
-        m.makePackageContainment(root, this)
+        val root = rootPackage
+
+        val pkg1 = makePackage {
+            name = "pkg1"
+            makePackageContainment(root, this)
+        }
+
+        val pkg1a = makePackage {
+            name = "pkg1a"
+            makePackageContainment(pkg1, this)
+        }
+
+        val pkg1ai = makePackage {
+            name = "pkg1ai"
+            makePackageContainment(pkg1a, this)
+        }
+
+        val pkg1aii = makePackage {
+            name = "pkg1aii"
+            makePackageContainment(pkg1a, this)
+        }
+
+        val VertexTypeA = makeVertexType {
+            name = "VertexTypeA"
+            makeVertexTypeContainment(pkg1a, this)
+        }
+
+        val VertexTypeB = makeVertexType {
+            name = "VertexTypeB"
+            makeVertexTypeContainment(pkg1a, this)
+        }
+
+        val UndirectedEdgeTypeX = makeUndirectedEdgeType {
+            name = "UndirectedEdgeTypeX"
+            makeUndirectedEdgeTypeContainment(pkg1a, this)
+        }
+
+        val DirectedEdgeTypeY = makeDirectedEdgeType {
+            name = "DirectedEdgeTypeY"
+            makeDirectedEdgeTypeContainment(pkg1a, this)
+        }
+
+        val pkg1b = makePackage {
+            name = "pkg1b"
+            makePackageContainment(pkg1, this)
+        }
+
+        val pkg1bi = makePackage {
+            name = "pkg1bi"
+            makePackageContainment(pkg1b, this)
+        }
+
+        val pkg1bii = makePackage {
+            name = "pkg1bii"
+            makePackageContainment(pkg1b, this)
+        }
+
+        val pkg2 = makePackage {
+            name = "pkg2"
+            makePackageContainment(root, this)
+        }
+
+        val pkg3 = makePackage {
+            name = "pkg3"
+            makePackageContainment(root, this)
+        }
+
+        makePackageDependency(pkg2, pkg1)
+        makePackageDependency(pkg3, pkg1)
+
     }
-
-    val pkg1a = m.makePackage {
-        name = "pkg1a"
-        m.makePackageContainment(pkg1, this)
-    }
-
-    val pkg1ai = m.makePackage {
-        name = "pkg1ai"
-        m.makePackageContainment(pkg1a, this)
-    }
-
-    val pkg1aii = m.makePackage {
-        name = "pkg1aii"
-        m.makePackageContainment(pkg1a, this)
-    }
-
-    val pkg1b = m.makePackage {
-        name = "pkg1b"
-        m.makePackageContainment(pkg1, this)
-    }
-
-    val pkg1bi = m.makePackage {
-        name = "pkg1bi"
-        m.makePackageContainment(pkg1b, this)
-    }
-
-    val pkg1bii = m.makePackage {
-        name = "pkg1bii"
-        m.makePackageContainment(pkg1b, this)
-    }
-
-    val pkg2 = m.makePackage {
-        name = "pkg2"
-        m.makePackageContainment(root, this)
-    }
-
-    val pkg3 = m.makePackage {
-        name = "pkg3"
-        m.makePackageContainment(root, this)
-    }
-
-    m.makePackageDependency(pkg2, pkg1)
-    m.makePackageDependency(pkg3, pkg1)
 
     return result
 
