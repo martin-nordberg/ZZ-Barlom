@@ -8,6 +8,7 @@ package org.barlom.domain.metamodel.api.vertices
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.types.ELabelDefaulting
+import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -21,48 +22,52 @@ class VertexAttributeTypeTests {
     @Test
     fun `Vertex attribute types are constructed as expected`() {
 
-        val model = Model(::makeUuid)
+        RevisionHistory("test").update {
 
-        model.revHistory.update {
-            val root = model.rootPackage
-            val pkg = model.makePackage {
-                name = "pkg"
+            Model(::makeUuid) {
+
+                val root = rootPackage
+                val pkg = makePackage {
+                    name = "pkg"
+                }
+                makePackageContainment(root, pkg)
+                val vt = makeVertexType {
+                    name = "vt"
+                }
+                val c = makeVertexTypeContainment(pkg, vt)
+                val at = makeVertexAttributeType {
+                    name = "at"
+                    labelDefaulting = ELabelDefaulting.DEFAULT_LABEL
+                    optionality = EAttributeOptionality.REQUIRED
+                }
+                val ca = makeVertexAttributeTypeContainment(vt, at)
+                val dt = makeConstrainedInteger32 {
+                    name = "dt"
+                    maxValue = 100
+                }
+                makeAttributeDataTypeUsage(at, dt)
+
+                assertTrue(vertices.contains(at))
+                assertTrue(edges.contains(c))
+
+                assertEquals("at", at.name)
+                assertEquals("pkg.vt#at", at.path)
+                assertEquals(ELabelDefaulting.DEFAULT_LABEL, at.labelDefaulting)
+                assertEquals(EAttributeOptionality.REQUIRED, at.optionality)
+
+                assertTrue(at.vertexAttributeTypeContainments.contains(ca))
+                assertTrue(at.vertexTypes.contains(vt))
+
+                assertTrue(vt.attributeTypes.contains(at))
+                assertTrue(vt.vertexAttributeTypeContainments.contains(ca))
+
+                assertTrue(dt.attributeTypes.contains(at))
+                assertTrue(at.dataTypes.contains(dt))
+
             }
-            model.makePackageContainment(root, pkg)
-            val vt = model.makeVertexType {
-                name = "vt"
-            }
-            val c = model.makeVertexTypeContainment(pkg, vt)
-            val at = model.makeVertexAttributeType {
-                name = "at"
-                labelDefaulting = ELabelDefaulting.DEFAULT_LABEL
-                optionality = EAttributeOptionality.REQUIRED
-            }
-            val ca = model.makeVertexAttributeTypeContainment(vt, at)
-            val dt = model.makeConstrainedInteger32 {
-                name = "dt"
-                maxValue = 100
-            }
-            model.makeAttributeDataTypeUsage(at, dt)
-
-            assertTrue(model.vertices.contains(at))
-            assertTrue(model.edges.contains(c))
-
-            assertEquals("at", at.name)
-            assertEquals("pkg.vt#at", at.path)
-            assertEquals(ELabelDefaulting.DEFAULT_LABEL, at.labelDefaulting)
-            assertEquals(EAttributeOptionality.REQUIRED, at.optionality)
-
-            assertTrue(at.vertexAttributeTypeContainments.contains(ca))
-            assertTrue(at.vertexTypes.contains(vt))
-
-            assertTrue(vt.attributeTypes.contains(at))
-            assertTrue(vt.vertexAttributeTypeContainments.contains(ca))
-
-            assertTrue(dt.attributeTypes.contains(at))
-            assertTrue(at.dataTypes.contains(dt))
 
             "test"
+
         }
 
     }

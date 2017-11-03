@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.api.vertices
 
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
+import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -20,44 +21,48 @@ class EdgeAttributeTypeTests {
     @Test
     fun `Edge attribute types are constructed as expected`() {
 
-        val model = Model(::makeUuid)
+        RevisionHistory("test").update {
 
-        model.revHistory.update {
-            val root = model.rootPackage
-            val pkg = model.makePackage() {
-                name = "pkg"
+            Model(::makeUuid) {
+                val root = rootPackage
+                val pkg = makePackage() {
+                    name = "pkg"
+                }
+                makePackageContainment(root, pkg)
+                val et = makeUndirectedEdgeType() {
+                    name = "et"
+                }
+                val c = makeUndirectedEdgeTypeContainment(pkg, et)
+                val at = makeEdgeAttributeType {
+                    name = "at"
+                    optionality = EAttributeOptionality.REQUIRED
+                }
+                val ca = makeEdgeAttributeTypeContainment(et, at)
+                val dt = makeConstrainedInteger32 {
+                    name = "dt"
+                    maxValue = 100
+                }
+                makeAttributeDataTypeUsage(at, dt)
+
+                assertTrue(vertices.contains(at))
+                assertTrue(edges.contains(c))
+
+                assertEquals("at", at.name)
+                assertEquals("pkg.et#at", at.path)
+                assertEquals(EAttributeOptionality.REQUIRED, at.optionality)
+
+                assertTrue(at.edgeAttributeTypeContainments.contains(ca))
+                assertTrue(at.edgeTypes.contains(et))
+
+                assertTrue(et.attributeTypes.contains(at))
+
+                assertTrue(dt.attributeTypes.contains(at))
+                assertTrue(at.dataTypes.contains(dt))
+
             }
-            model.makePackageContainment(root, pkg)
-            val et = model.makeUndirectedEdgeType() {
-                name = "et"
-            }
-            val c = model.makeUndirectedEdgeTypeContainment(pkg, et)
-            val at = model.makeEdgeAttributeType {
-                name = "at"
-                optionality = EAttributeOptionality.REQUIRED
-            }
-            val ca = model.makeEdgeAttributeTypeContainment(et, at)
-            val dt = model.makeConstrainedInteger32 {
-                name = "dt"
-                maxValue = 100
-            }
-            model.makeAttributeDataTypeUsage(at, dt)
 
-            assertTrue(model.vertices.contains(at))
-            assertTrue(model.edges.contains(c))
-
-            assertEquals("at", at.name)
-            assertEquals("pkg.et#at", at.path)
-            assertEquals(EAttributeOptionality.REQUIRED, at.optionality)
-
-            assertTrue(at.edgeAttributeTypeContainments.contains(ca))
-            assertTrue(at.edgeTypes.contains(et))
-
-            assertTrue(et.attributeTypes.contains(at))
-
-            assertTrue(dt.attributeTypes.contains(at))
-            assertTrue(at.dataTypes.contains(dt))
             "test"
+
         }
 
     }

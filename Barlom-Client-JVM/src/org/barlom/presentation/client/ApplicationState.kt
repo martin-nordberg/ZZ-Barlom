@@ -10,22 +10,12 @@ import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.barlom.presentation.client.state.ApplicationUiState
 
-class ApplicationState(
+class ApplicationState {
 
-    val revHistory: RevisionHistory
+    val model = Model(::makeUuid)
 
-) {
+    val uiState = ApplicationUiState()
 
-    val model = Model(::makeUuid, revHistory)
+    val revHistory = RevisionHistory.currentlyInUse
 
-    lateinit var uiState: ApplicationUiState
-
-    init {
-
-        revHistory.update {
-            uiState = ApplicationUiState()
-            "Initialize UI state."
-        }
-
-    }
 }

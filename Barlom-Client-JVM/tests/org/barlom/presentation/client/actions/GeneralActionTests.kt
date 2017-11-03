@@ -13,10 +13,9 @@ class GeneralActionTests {
     @Test
     fun `The focused element can be changed`() {
 
-        val revHistory = RevisionHistory("Testing")
-        val appState = initializeAppStateForTesting(revHistory)
+        RevisionHistory("Testing").update {
 
-        revHistory.update {
+            val appState = initializeAppStateForTesting()
 
             val pkg = appState.model.rootPackage.children[0]
 

@@ -10,7 +10,7 @@ package org.barlom.infrastructure.revisions
  *
  * @param <T> the type of the value that is held in the list.
  */
-class VLinkedList<T> {
+class VLinkedList<T : Any> {
 
     /**
      * Versioned reference to the head of the list. Links through the list are themselves versioned as well.
@@ -172,9 +172,7 @@ class VLinkedList<T> {
     fun isNotEmpty(): Boolean = _size.get() > 0
 
     /** Returns an iterator over the items in the list. */
-    operator fun iterator(): Iterator<T> {
-        return VLinkedListIterator(_firstLink)
-    }
+    operator fun iterator(): Iterator<T> = VLinkedListIterator(_firstLink)
 
     /**
      * Returns the index of the last occurrence of the specified element in the list, or -1 if the specified
@@ -344,19 +342,14 @@ class VLinkedList<T> {
         val nextLink: V<Link<T>?>
     )
 
-    private class VLinkedListIterator<T>(
+    private class VLinkedListIterator<out T>(
         private var link: V<Link<T>?>
     ) : Iterator<T> {
 
-        override fun hasNext(): Boolean {
-            return link.get() != null
-        }
+        override fun hasNext(): Boolean = link.get() != null
 
         override fun next(): T {
-            val curr = link.get()
-            if (curr == null) {
-                throw IndexOutOfBoundsException()
-            }
+            val curr = link.get() ?: throw IndexOutOfBoundsException()
             val result = curr.value
             link = curr.nextLink
             return result

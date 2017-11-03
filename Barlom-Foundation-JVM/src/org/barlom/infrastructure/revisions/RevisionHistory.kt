@@ -207,6 +207,12 @@ class RevisionHistory(
 
 
         /**
+         * Returns the revision history currently undergoing an update or review.
+         */
+        val currentlyInUse: RevisionHistory
+            get() = transactionOfCurrentThread.revisionHistory
+
+        /**
          * @return The transaction that has been established for the currently running thread, if any
          */
         internal val maybeTransactionOfCurrentThread: StmTransaction?

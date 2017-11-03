@@ -16,9 +16,6 @@ class Model(
     /** Function for creating new UUIDs */
     private val makeUuid: () -> Uuid,
 
-    /** The revision history for the model. */
-    val revHistory: RevisionHistory = RevisionHistory("Initial empty model."),
-
     /** The unique ID for the root package within this model. */
     rootPackageId: Uuid = Uuid.fromString("66522300-6c7d-11e7-81b7-080027b6d283"),
 
@@ -29,25 +26,30 @@ class Model(
     rootUndirectedEdgeTypeId: Uuid = Uuid.fromString("66522302-6c7d-11e7-81b7-080027b6d283"),
 
     /** The unique ID for the root undirected edge type within this model. */
-    rootDirectedEdgeTypeId: Uuid = Uuid.fromString("66522303-6c7d-11e7-81b7-080027b6d283")
+    rootDirectedEdgeTypeId: Uuid = Uuid.fromString("66522303-6c7d-11e7-81b7-080027b6d283"),
+
+    /** First revision of the model. */
+    initialize: Model.() -> Unit = {}
 
 ) {
 
-    private val _edges: VLinkedList<AbstractDocumentedElement>
+    private val _edges: VLinkedList<AbstractDocumentedElement> = VLinkedList()
 
-    private val _vertices: VLinkedList<AbstractNamedElement>
+    private val _vertices: VLinkedList<AbstractNamedElement> = VLinkedList()
 
 
     val edges: List<AbstractDocumentedElement>
         get() = _edges.asList()
 
-    val rootDirectedEdgeType: DirectedEdgeType
+    val revHistory = RevisionHistory.currentlyInUse
 
-    val rootPackage: Package
+    val rootDirectedEdgeType = DirectedEdgeType(rootDirectedEdgeTypeId, true)
 
-    val rootUndirectedEdgeType: UndirectedEdgeType
+    val rootPackage = Package(rootPackageId, true)
 
-    val rootVertexType: VertexType
+    val rootUndirectedEdgeType = UndirectedEdgeType(rootUndirectedEdgeTypeId, true)
+
+    val rootVertexType = VertexType(rootVertexTypeId, true)
 
     val vertices: List<AbstractNamedElement>
         get() = _vertices.sortedBy { e -> e.path }
@@ -55,49 +57,16 @@ class Model(
 
     init {
 
-        var edges: VLinkedList<AbstractDocumentedElement>? = null
-        var vertices: VLinkedList<AbstractNamedElement>? = null
+        _vertices.add(rootPackage)
+        _vertices.add(rootVertexType)
+        _vertices.add(rootDirectedEdgeType)
+        _vertices.add(rootUndirectedEdgeType)
 
-        revHistory.update(0) {
-            edges = VLinkedList()
-            vertices = VLinkedList()
-            "Graph initialized."
-        }
+        _edges.add(VertexTypeContainment(makeUuid(), rootPackage, rootVertexType))
+        _edges.add(DirectedEdgeTypeContainment(makeUuid(), rootPackage, rootDirectedEdgeType))
+        _edges.add(UndirectedEdgeTypeContainment(makeUuid(), rootPackage, rootUndirectedEdgeType))
 
-        _edges = edges!!
-        _vertices = vertices!!
-
-
-        var rootPkg: Package? = null
-        var rootDirEdge: DirectedEdgeType? = null
-        var rootUndEdge: UndirectedEdgeType? = null
-        var rootVT: VertexType? = null
-
-        revHistory.update(0) {
-            rootPkg = Package(rootPackageId, true)
-            _vertices.add(rootPkg!!)
-
-            rootVT = VertexType(rootVertexTypeId, true)
-            _vertices.add(rootVT!!)
-
-            rootDirEdge = DirectedEdgeType(rootDirectedEdgeTypeId, true)
-            _vertices.add(rootDirEdge!!)
-
-            rootUndEdge = UndirectedEdgeType(rootUndirectedEdgeTypeId, true)
-            _vertices.add(rootUndEdge!!)
-
-            _edges.add(VertexTypeContainment(makeUuid(), rootPkg!!, rootVT!!))
-            _edges.add(
-                DirectedEdgeTypeContainment(makeUuid(), rootPkg!!, rootDirEdge!!))
-            _edges.add(UndirectedEdgeTypeContainment(makeUuid(), rootPkg!!,
-                                                     rootUndEdge!!))
-            "Root elements added."
-        }
-
-        rootPackage = rootPkg!!
-        rootVertexType = rootVT!!
-        rootDirectedEdgeType = rootDirEdge!!
-        rootUndirectedEdgeType = rootUndEdge!!
+        initialize()
 
     }
 

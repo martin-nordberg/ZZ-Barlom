@@ -10,7 +10,7 @@ package org.barlom.infrastructure.revisions
  *
  * @param <T> the type of the value that is held in the set - must have a viable hashCode() function.
  */
-open class VHashSet<T>(
+open class VHashSet<T : Any>(
 
     nominalTableSize: Int = 1000
 
@@ -188,6 +188,6 @@ open class VHashSet<T>(
      * Computes a table index from the hash code of given value.
      */
     private fun getTableIndex(value: T) =
-        (value!!.hashCode() % _tableSize + _tableSize) % _tableSize
+        (value.hashCode() % _tableSize + _tableSize) % _tableSize
 
 }

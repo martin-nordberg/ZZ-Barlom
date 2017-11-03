@@ -10,13 +10,19 @@ import org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
 
 
 /**
- * Function defining an action against the UI state only.
+ * Function defining an action against the browse panel state state only.
  */
 typealias BrowsePanelAction = (browsePanelState: BrowsePanelState) -> String
 
 
+/**
+ * Actions affecting the browse panel.
+ */
 object BrowsePanelActions {
 
+    /**
+     * Expands or contracts a given [element] in the browse panel.
+     */
     fun toggleExpanded(element: AbstractDocumentedElement): BrowsePanelAction {
 
         return { browsePanelState: BrowsePanelState ->

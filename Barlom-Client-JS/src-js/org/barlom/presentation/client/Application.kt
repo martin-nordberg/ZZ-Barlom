@@ -18,9 +18,9 @@ import kotlin.browser.window
  * @param initializeAppState a function that initializes the application state.
  * @param view a function that computes the view from the application state.
  */
-fun <AppState> runApplication(
+fun <AppState : Any> runApplication(
     appId: String,
-    initializeAppState: (RevisionHistory) -> AppState,
+    initializeAppState: () -> AppState,
     view: (appState: AppState, dispatch: (action: (AppState) -> String) -> Unit) -> KatyDomHtmlElement
 ) {
 
@@ -31,7 +31,11 @@ fun <AppState> runApplication(
     val revHistory = RevisionHistory("Initial model")
 
     // Initialize the model.
-    val appState = initializeAppState(revHistory)
+    lateinit var appState: AppState
+    revHistory.update {
+        appState = initializeAppState()
+        "Initialized application state."
+    }
 
     // Create the KatyDOM lifecycle for build and patching the view.
     val lifecycle = makeKatyDomLifecycle()
