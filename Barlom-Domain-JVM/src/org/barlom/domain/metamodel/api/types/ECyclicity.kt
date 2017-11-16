@@ -33,6 +33,34 @@ enum class ECyclicity {
 
     }
 
+    /**
+     * Converts this enum value to a boolean equivalent.
+     * @return true if this is potentially cyclic.
+     */
+    fun isPotentiallyCyclic(): Boolean? {
+
+        return when (this) {
+            UNCONSTRAINED      -> null
+            ACYCLIC            -> false
+            POTENTIALLY_CYCLIC -> true
+        }
+
+    }
+
+    /**
+     * Converts this enum value to a boolean equivalent.
+     * @return true if this is potentially cyclic.
+     */
+    fun isUnconstrained(): Boolean? {
+
+        return when (this) {
+            UNCONSTRAINED      -> true
+            ACYCLIC            -> false
+            POTENTIALLY_CYCLIC -> false
+        }
+
+    }
+
     companion object {
 
         /**

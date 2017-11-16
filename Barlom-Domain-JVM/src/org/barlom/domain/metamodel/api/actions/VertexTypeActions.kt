@@ -22,9 +22,8 @@ class VertexTypeActions {
             return { model: Model ->
                 val path = vertexType.path
                 vertexType.abstractness = abstractness
-                "Make vertex type ${path} ${if (abstractness.isAbstract()) "abstract" else "concrete"}."
+                "Make vertex type ${path} ${abstractness.toString().toLowerCase()}."
             }
-
 
         }
 

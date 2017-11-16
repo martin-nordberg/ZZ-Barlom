@@ -10,6 +10,7 @@ import org.barlom.domain.metamodel.api.actions.ModelAction
 import org.barlom.domain.metamodel.api.actions.NamedElementActions
 import org.barlom.domain.metamodel.api.actions.VertexTypeActions
 import org.barlom.domain.metamodel.api.types.EAbstractness
+import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.vertices.AbstractEdgeType
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
@@ -40,6 +41,7 @@ fun viewPropertiesForm(
         }
         else if (focusedElement is AbstractEdgeType) {
             viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
+            viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
         }
 
     }
@@ -181,6 +183,103 @@ private fun viewAbstractnessField(
             }
 
             text("Concrete")
+
+        }
+
+    }
+
+}
+
+private fun viewCyclicityField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    focusedElement: AbstractEdgeType,
+    isRoot: Boolean
+) = katyDomComponent(builder) {
+
+    val oldCyclicity = focusedElement.cyclicity
+
+    fieldset("#cyclicity-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
+
+        legend("#cyclicity-legend.o-fieldset__legend") {
+            text("Cyclic?")
+        }
+
+        label("#acyclic-label.c-field.c-field--choice.c-list__item") {
+
+            inputRadioButton(
+                key = "acyclic-" + focusedElement.id,
+                checked = focusedElement.cyclicity.isAcyclic(),
+                disabled = isRoot,
+                name = "cyclicity",
+                value = ECyclicity.ACYCLIC.toString()
+            ) {
+
+                onchange { event ->
+
+                    val newCyclicity = ECyclicity.valueOf(event.target.asDynamic().value)
+
+                    if (newCyclicity != oldCyclicity) {
+                        revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(focusedElement, newCyclicity))
+                    }
+
+                }
+
+            }
+
+            text("Acyclic")
+
+        }
+
+        label("#cyclic-label.c-field.c-field--choice.c-list__item") {
+
+            inputRadioButton(
+                key = "cyclic-" + focusedElement.id,
+                checked = focusedElement.cyclicity.isPotentiallyCyclic(),
+                disabled = isRoot,
+                name = "cyclicity",
+                value = ECyclicity.POTENTIALLY_CYCLIC.toString()
+            ) {
+
+                onchange { event ->
+
+                    val newCyclicity = ECyclicity.valueOf(event.target.asDynamic().value)
+
+                    if (newCyclicity != oldCyclicity) {
+                        revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(focusedElement, newCyclicity))
+                    }
+
+                }
+
+            }
+
+            text("Potentially Cyclic")
+
+        }
+
+        label("#unconstrained-label.c-field.c-field--choice.c-list__item") {
+
+            inputRadioButton(
+                key = "unconstrained-" + focusedElement.id,
+                checked = focusedElement.cyclicity.isUnconstrained(),
+                disabled = isRoot || focusedElement.abstractness.isConcrete(),
+                name = "cyclicity",
+                value = ECyclicity.UNCONSTRAINED.toString()
+            ) {
+
+                onchange { event ->
+
+                    val newCyclicity = ECyclicity.valueOf(event.target.asDynamic().value)
+
+                    if (newCyclicity != oldCyclicity) {
+                        revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(focusedElement, newCyclicity))
+                    }
+
+                }
+
+            }
+
+            text("Unconstrained (Abstract)")
 
         }
 
