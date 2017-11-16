@@ -11,6 +11,7 @@ package org.katydom.types
 enum class EEventType {
 
     BLUR,
+    CHANGE,
     FOCUS;
 
     /**
@@ -19,8 +20,9 @@ enum class EEventType {
     val domName: String
         get() {
             return when (this) {
-                BLUR  -> "blur"
-                FOCUS -> "focus"
+                BLUR   -> "blur"
+                CHANGE -> "change"
+                FOCUS  -> "focus"
             }
         }
 

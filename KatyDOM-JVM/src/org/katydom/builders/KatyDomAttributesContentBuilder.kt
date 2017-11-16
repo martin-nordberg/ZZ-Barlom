@@ -91,19 +91,27 @@ open class KatyDomAttributesContentBuilder(
     }
 
     /**
+     * Adds an event handler for change events.
+     * @param handler the callback that listens to change events.
+     */
+    fun onchange(handler: EventHandler) {
+        element.addEventHandler(EEventType.CHANGE, handler)
+    }
+
+    /**
      * Adds an event handler for mouse clicks.
      * @param handler the callback that listens to mouse clicks.
      */
-    fun onclick( handler: MouseEventHandler ) {
-        element.addMouseEventHandler( EMouseEventType.CLICK, handler )
+    fun onclick(handler: MouseEventHandler) {
+        element.addMouseEventHandler(EMouseEventType.CLICK, handler)
     }
 
     /**
      * Adds an event handler for blur events.
      * @param handler the callback that listens to blur events.
      */
-    fun onblur( handler: EventHandler ) {
-        element.addEventHandler(EEventType.BLUR, handler )
+    fun onblur(handler: EventHandler) {
+        element.addEventHandler(EEventType.BLUR, handler)
     }
 
 }

@@ -14,13 +14,14 @@ class KatyDomContentRestrictions(
     private val formAllowed: Boolean,
     private val headerAllowed: Boolean,
     private val interactiveContentAllowed: Boolean,
-    private val labelAllowed : Boolean,
-    private val mainAllowed : Boolean,
+    private val labelAllowed: Boolean,
+    private var legendAllowed: Boolean,
+    private val mainAllowed: Boolean,
     private val optionGroupAllowed: Boolean
 ) {
 
     constructor()
-        : this(true,true,true,true,true,true,true,true)
+        : this(true, true, true, true, true, true, false, true, true)
 
     constructor(
         original: KatyDomContentRestrictions,
@@ -29,8 +30,9 @@ class KatyDomContentRestrictions(
         formAllowed: Boolean = true,
         headerAllowed: Boolean = true,
         interactiveContentAllowed: Boolean = true,
-        labelAllowed : Boolean = true,
-        mainAllowed : Boolean = true,
+        labelAllowed: Boolean = true,
+        legendAllowed: Boolean = false,
+        mainAllowed: Boolean = true,
         optionGroupAllowed: Boolean = true
     ) : this(
         original.anchorAllowed && anchorAllowed,
@@ -39,6 +41,7 @@ class KatyDomContentRestrictions(
         original.headerAllowed && headerAllowed,
         original.interactiveContentAllowed && interactiveContentAllowed,
         original.labelAllowed && labelAllowed,
+        legendAllowed,
         original.mainAllowed && mainAllowed,
         original.optionGroupAllowed && optionGroupAllowed
     )
@@ -48,7 +51,7 @@ class KatyDomContentRestrictions(
     }
 
     fun confirmFooterAllowed() {
-        check(footerAllowed) { "Element type <footer> not allowed here."}
+        check(footerAllowed) { "Element type <footer> not allowed here." }
     }
 
     fun confirmFormAllowed() {
@@ -56,7 +59,7 @@ class KatyDomContentRestrictions(
     }
 
     fun confirmHeaderAllowed() {
-        check(headerAllowed) { "Element type <header> not allowed here."}
+        check(headerAllowed) { "Element type <header> not allowed here." }
     }
 
     fun confirmInteractiveContentAllowed() {
@@ -67,6 +70,11 @@ class KatyDomContentRestrictions(
         check(labelAllowed) { "Element type <label> not allowed here." }
     }
 
+    fun confirmLegendAllowed() {
+        check(legendAllowed) { "Element type <legend> not allowed here." }
+        legendAllowed = false
+    }
+
     fun confirmMainAllowed() {
         check(mainAllowed) { "Element type <main> not allowed here." }
     }
@@ -75,7 +83,7 @@ class KatyDomContentRestrictions(
         check(optionGroupAllowed) { "Element type <optgroup> not allowed here." }
     }
 
-    fun withAnchorInteractiveContentNotAllowed() : KatyDomContentRestrictions {
+    fun withAnchorInteractiveContentNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             this,
             anchorAllowed = false,
@@ -83,7 +91,7 @@ class KatyDomContentRestrictions(
         )
     }
 
-    fun withFooterHeaderMainNotAllowed() : KatyDomContentRestrictions {
+    fun withFooterHeaderMainNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             this,
             footerAllowed = false,
@@ -92,27 +100,31 @@ class KatyDomContentRestrictions(
         )
     }
 
-    fun withFormNotAllowed() : KatyDomContentRestrictions {
-        return KatyDomContentRestrictions( this, formAllowed = false )
+    fun withFormNotAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(this, formAllowed = false)
     }
 
-    fun withInteractiveContentNotAllowed() : KatyDomContentRestrictions {
+    fun withInteractiveContentNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             this,
             interactiveContentAllowed = false
         )
     }
 
-    fun withLabelNotAllowed() : KatyDomContentRestrictions {
-        return KatyDomContentRestrictions( this, labelAllowed = false )
+    fun withLabelNotAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(this, labelAllowed = false)
     }
 
-    fun withMainNotAllowed() : KatyDomContentRestrictions {
-        return KatyDomContentRestrictions( this, mainAllowed = false )
+    fun withLegendAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(this, legendAllowed = true)
     }
 
-    fun withOptionGroupNotAllowed() : KatyDomContentRestrictions {
-        return KatyDomContentRestrictions( this, optionGroupAllowed = false )
+    fun withMainNotAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(this, mainAllowed = false)
+    }
+
+    fun withOptionGroupNotAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(this, optionGroupAllowed = false)
     }
 
 }

@@ -39,7 +39,7 @@ fun viewListItem(
             )
         }
 
-        text(" " + if ( element is Package && element.isRoot ) "Metamodel" else element.name )
+        text(" " + element.name)
 
     }
 

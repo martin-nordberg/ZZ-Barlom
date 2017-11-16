@@ -21,7 +21,7 @@ class VertexType(
     private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
     private val _directedEdgeTypeHeadConnectivities = VLinkedList<DirectedEdgeTypeHeadConnectivity>()
     private val _directedEdgeTypeTailConnectivities = VLinkedList<DirectedEdgeTypeTailConnectivity>()
-    private val _name = V("NewVertexType")
+    private val _name = if (isRoot) V("RootVertexType") else V("NewVertexType")
     private val _subTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _superTypeVertexTypeInheritances = VLinkedList<VertexTypeInheritance>()
     private val _undirectedEdgeTypeConnectivities = VLinkedList<UndirectedEdgeTypeConnectivity>()

@@ -25,7 +25,7 @@ class Package internal constructor(
     private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _consumerPackageDependencies = VLinkedList<PackageDependency>()
     private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
-    private val _name = V(if (isRoot) "" else "newpackage")
+    private val _name = V(if (isRoot) "Metamodel" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
     private val _supplierPackageDependencies = VLinkedList<PackageDependency>()
     private val _undirectedEdgeTypeContainments = VLinkedList<UndirectedEdgeTypeContainment>()
@@ -77,6 +77,10 @@ class Package internal constructor(
 
     override val path: String
         get() {
+
+            if (isRoot) {
+                return ""
+            }
 
             if (_parentPackageContainments.isEmpty()) {
                 return name

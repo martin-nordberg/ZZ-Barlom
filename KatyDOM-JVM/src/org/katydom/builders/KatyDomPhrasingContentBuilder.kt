@@ -56,7 +56,7 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomA(this, selector, key, accesskey, contenteditable, dir, download, hidden, href, hreflang, lang,
-                rel, rev, spellcheck, style, tabindex, target, title, translate, type, defineContent)
+                     rel, rev, spellcheck, style, tabindex, target, title, translate, type, defineContent)
         )
     }
 
@@ -81,7 +81,7 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomBr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                tabindex, title, translate,defineAttributes)
+                      tabindex, title, translate, defineAttributes)
 
         )
     }
@@ -118,8 +118,8 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomButton(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form, formaction,
-                formenctype, formmethod, formnovalidate, formtarget, hidden, lang, menu,
-                name, spellcheck, style, tabindex, title, translate, type, value, defineContent)
+                          formenctype, formmethod, formnovalidate, formtarget, hidden, lang, menu,
+                          name, spellcheck, style, tabindex, title, translate, type, value, defineContent)
         )
     }
 
@@ -147,7 +147,7 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
-                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+                               name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
         )
     }
 
@@ -179,9 +179,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputCheckbox(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
-                disabled, form, hidden, lang, name, required,
-                spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                                 disabled, form, hidden, lang, name, required,
+                                 spellcheck, step, style, tabindex, title, translate,
+                                 value, defineAttributes)
         )
     }
 
@@ -213,9 +213,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputColor(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, name,
-                spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                              disabled, form, hidden, lang, list, name,
+                              spellcheck, step, style, tabindex, title, translate,
+                              value, defineAttributes)
         )
     }
 
@@ -251,9 +251,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputDate(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name,
-                readonly, required, spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                             disabled, form, hidden, lang, list, max, min, name,
+                             readonly, required, spellcheck, step, style, tabindex, title, translate,
+                             value, defineAttributes)
         )
     }
 
@@ -289,9 +289,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputDateTimeLocal(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name,
-                readonly, required, spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                                      disabled, form, hidden, lang, list, max, min, name,
+                                      readonly, required, spellcheck, step, style, tabindex, title, translate,
+                                      value, defineAttributes)
         )
     }
 
@@ -330,9 +330,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputEmail(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, maxlength, minlength, multiple, name, pattern,
-                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
-                value, defineAttributes)
+                              disabled, form, hidden, lang, list, maxlength, minlength, multiple, name, pattern,
+                              placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                              value, defineAttributes)
         )
     }
 
@@ -364,8 +364,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputFile(this, selector, key, accept, accesskey, autofocus, contenteditable, dir, disabled,
-                form, hidden, lang, multiple, name, required, spellcheck, style, tabindex, title, translate,
-                value, defineAttributes)
+                             form, hidden, lang, multiple, name, required, spellcheck, style, tabindex, title,
+                             translate,
+                             value, defineAttributes)
         )
     }
 
@@ -393,7 +394,7 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputHidden(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
-                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+                               name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
         )
     }
 
@@ -429,9 +430,11 @@ open class KatyDomPhrasingContentBuilder(
         defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomInputImageButton(this, selector, key, accesskey, alt, contenteditable, dir, disabled, form, formaction,
-                formenctype, formmethod, formnovalidate, formtarget, height, hidden, lang,
-                name, spellcheck, src, style, tabindex, title, translate, value, width, defineAttributes)
+            KatyDomInputImageButton(this, selector, key, accesskey, alt, contenteditable, dir, disabled, form,
+                                    formaction,
+                                    formenctype, formmethod, formnovalidate, formtarget, height, hidden, lang,
+                                    name, spellcheck, src, style, tabindex, title, translate, value, width,
+                                    defineAttributes)
         )
     }
 
@@ -467,16 +470,16 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputMonth(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name,
-                readonly, required, spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                              disabled, form, hidden, lang, list, max, min, name,
+                              readonly, required, spellcheck, step, style, tabindex, title, translate,
+                              value, defineAttributes)
         )
     }
 
     /**
      * Adds an input type="number" element with given attributes as the next child of the element under construction.
      */
-    fun <T: Number> inputNumber(
+    fun <T : Number> inputNumber(
         selector: String?,
         key: Any?,
         accesskey: String?,
@@ -506,9 +509,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputNumber(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name, placeholder,
-                readonly, required, spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                               disabled, form, hidden, lang, list, max, min, name, placeholder,
+                               readonly, required, spellcheck, step, style, tabindex, title, translate,
+                               value, defineAttributes)
         )
     }
 
@@ -546,9 +549,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputPassword(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, inputmode, lang, maxlength, minlength, name, pattern,
-                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
-                value, defineAttributes)
+                                 disabled, form, hidden, inputmode, lang, maxlength, minlength, name, pattern,
+                                 placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                                 value, defineAttributes)
         )
     }
 
@@ -556,40 +559,40 @@ open class KatyDomPhrasingContentBuilder(
      * Adds an input type="radio" element with given attributes as the next child of the element under construction.
      */
     fun inputRadioButton(
-        selector: String?,
-        key: Any?,
-        accesskey: String?,
-        autofocus: Boolean?,
-        checked: Boolean?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        disabled: Boolean?,
-        form: String?,
-        hidden: Boolean?,
-        lang: String?,
-        name: String?,
-        required: Boolean?,
-        spellcheck: Boolean?,
-        step: String?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        value: String?,
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        autofocus: Boolean? = null,
+        checked: Boolean? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        disabled: Boolean? = null,
+        form: String? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        name: String? = null,
+        required: Boolean? = null,
+        spellcheck: Boolean? = null,
+        step: String? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        value: String? = null,
         defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputRadioButton(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
-                disabled, form, hidden, lang, name, required,
-                spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                                    disabled, form, hidden, lang, name, required,
+                                    spellcheck, step, style, tabindex, title, translate,
+                                    value, defineAttributes)
         )
     }
 
     /**
      * Adds an input type="range" element with given attributes as the next child of the element under construction.
      */
-    fun <T:Number> inputRange(
+    fun <T : Number> inputRange(
         selector: String?,
         key: Any?,
         accesskey: String?,
@@ -616,9 +619,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputRange(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name,
-                spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                              disabled, form, hidden, lang, list, max, min, name,
+                              spellcheck, step, style, tabindex, title, translate,
+                              value, defineAttributes)
         )
     }
 
@@ -646,7 +649,7 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputResetButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
-                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+                                    name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
         )
     }
 
@@ -686,9 +689,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputSearch(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, dirname,
-                disabled, form, hidden, inputmode, lang, list, maxlength, minlength, name, pattern,
-                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
-                value, defineAttributes)
+                               disabled, form, hidden, inputmode, lang, list, maxlength, minlength, name, pattern,
+                               placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                               value, defineAttributes)
         )
     }
 
@@ -721,8 +724,8 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputSubmitButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, formaction,
-                formenctype, formmethod, formnovalidate, formtarget, hidden, lang,
-                name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
+                                     formenctype, formmethod, formnovalidate, formtarget, hidden, lang,
+                                     name, spellcheck, style, tabindex, title, translate, value, defineAttributes)
         )
     }
 
@@ -760,9 +763,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputTelephone(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, maxlength, minlength, name, pattern,
-                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
-                value, defineAttributes)
+                                  disabled, form, hidden, lang, list, maxlength, minlength, name, pattern,
+                                  placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                                  value, defineAttributes)
         )
     }
 
@@ -802,9 +805,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputText(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, dirname,
-                disabled, form, hidden, inputmode, lang, list, maxlength, minlength, name, pattern,
-                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
-                value, defineAttributes)
+                             disabled, form, hidden, inputmode, lang, list, maxlength, minlength, name, pattern,
+                             placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                             value, defineAttributes)
         )
     }
 
@@ -840,9 +843,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputTime(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name,
-                readonly, required, spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                             disabled, form, hidden, lang, list, max, min, name,
+                             readonly, required, spellcheck, step, style, tabindex, title, translate,
+                             value, defineAttributes)
         )
     }
 
@@ -880,9 +883,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputUrl(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, maxlength, minlength, name, pattern,
-                placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
-                value, defineAttributes)
+                            disabled, form, hidden, lang, list, maxlength, minlength, name, pattern,
+                            placeholder, readonly, required, size, spellcheck, style, tabindex, title, translate,
+                            value, defineAttributes)
         )
     }
 
@@ -918,9 +921,9 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomInputWeek(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
-                disabled, form, hidden, lang, list, max, min, name,
-                readonly, required, spellcheck, step, style, tabindex, title, translate,
-                value, defineAttributes)
+                             disabled, form, hidden, lang, list, max, min, name,
+                             readonly, required, spellcheck, step, style, tabindex, title, translate,
+                             value, defineAttributes)
         )
     }
 
@@ -945,7 +948,7 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomLabel(this, selector, key, accesskey, contenteditable, dir, `for`, hidden, lang, spellcheck,
-                style, tabindex, title, translate, defineContent)
+                         style, tabindex, title, translate, defineContent)
         )
     }
 
@@ -977,8 +980,8 @@ open class KatyDomPhrasingContentBuilder(
     ) {
         element.addChildNode(
             KatyDomSelect(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
-                hidden, lang, multiple, name, required, size, spellcheck, style,
-                tabindex, title, translate, value, defineContent)
+                          hidden, lang, multiple, name, required, size, spellcheck, style,
+                          tabindex, title, translate, value, defineContent)
         )
     }
 
@@ -1061,10 +1064,11 @@ open class KatyDomPhrasingContentBuilder(
         defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomTextArea(this, selector, key, accesskey, autocomplete, autofocus, cols, contenteditable, dir, dirname,
-                disabled, form, hidden, inputmode, lang, maxlength, minlength, name,
-                placeholder, readonly, required, rows, spellcheck, style, tabindex, title, translate,
-                wrap, defineAttributes)
+            KatyDomTextArea(this, selector, key, accesskey, autocomplete, autofocus, cols, contenteditable, dir,
+                            dirname,
+                            disabled, form, hidden, inputmode, lang, maxlength, minlength, name,
+                            placeholder, readonly, required, rows, spellcheck, style, tabindex, title, translate,
+                            wrap, defineAttributes)
         )
     }
 
@@ -1073,7 +1077,7 @@ open class KatyDomPhrasingContentBuilder(
     /**
      * Creates a new attributes content builder for the given child [element].
      */
-    internal fun attributesContent(element: KatyDomHtmlElement) : KatyDomAttributesContentBuilder {
+    internal fun attributesContent(element: KatyDomHtmlElement): KatyDomAttributesContentBuilder {
         return KatyDomAttributesContentBuilder(element)
     }
 
@@ -1081,14 +1085,14 @@ open class KatyDomPhrasingContentBuilder(
      * Creates a new option content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal fun optionContent(element: KatyDomHtmlElement) : KatyDomOptionContentBuilder {
+    internal fun optionContent(element: KatyDomHtmlElement): KatyDomOptionContentBuilder {
         return KatyDomOptionContentBuilder(element, contentRestrictions)
     }
 
     /**
      * Creates a new text content builder for the given child [element].
      */
-    internal fun textContent(element: KatyDomHtmlElement) : KatyDomTextContentBuilder {
+    internal fun textContent(element: KatyDomHtmlElement): KatyDomTextContentBuilder {
         return KatyDomTextContentBuilder(element)
     }
 
@@ -1096,7 +1100,7 @@ open class KatyDomPhrasingContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no anchor element or interactive content allowed.
      */
-    internal fun withAnchorInteractiveContentNotAllowed(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+    internal fun withAnchorInteractiveContentNotAllowed(element: KatyDomHtmlElement): KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions.withAnchorInteractiveContentNotAllowed()
@@ -1107,7 +1111,7 @@ open class KatyDomPhrasingContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no interactive content allowed.
      */
-    internal fun withInteractiveContentNotAllowed(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+    internal fun withInteractiveContentNotAllowed(element: KatyDomHtmlElement): KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions.withInteractiveContentNotAllowed()
@@ -1118,7 +1122,7 @@ open class KatyDomPhrasingContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no label element allowed.
      */
-    internal fun withLabelNotAllowed(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+    internal fun withLabelNotAllowed(element: KatyDomHtmlElement): KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(element, contentRestrictions.withLabelNotAllowed())
     }
 
@@ -1126,7 +1130,7 @@ open class KatyDomPhrasingContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal open fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+    internal open fun withNoAddedRestrictions(element: KatyDomHtmlElement): KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(element, contentRestrictions)
     }
 

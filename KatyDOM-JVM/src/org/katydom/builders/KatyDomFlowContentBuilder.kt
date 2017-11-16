@@ -6,10 +6,13 @@
 package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.katydom.concretenodes.forms.*
+import org.katydom.concretenodes.forms.KatyDomForm
 import org.katydom.concretenodes.grouping.*
 import org.katydom.concretenodes.sections.*
-import org.katydom.types.*
+import org.katydom.types.EDirection
+import org.katydom.types.EFormEncodingType
+import org.katydom.types.EFormSubmissionMethod
+import org.katydom.types.EOrderedListType
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -85,8 +88,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomAside(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                             tabindex, title, translate, defineContent)
+            KatyDomAside(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                         tabindex, title, translate, defineContent)
         )
     }
 
@@ -109,13 +112,40 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomDiv(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                           tabindex, title, translate, defineContent)
+            KatyDomDiv(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                       tabindex, title, translate, defineContent)
         )
     }
 
     /**
-     * Adds an footer element with any global attributes as the next child of the element under construction.
+     * Adds a fieldset element with any global attributes as the next child of the element under construction.
+     */
+    fun fieldset(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        disabled: Boolean? = null,
+        form: String? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        name: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomFieldSet(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
+                            name, spellcheck, style, tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds a footer element with any global attributes as the next child of the element under construction.
      */
     fun footer(
         selector: String? = null,
@@ -133,8 +163,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomFooter(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                              tabindex, title, translate, defineContent)
+            KatyDomFooter(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                          tabindex, title, translate, defineContent)
         )
     }
 
@@ -165,9 +195,9 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomForm(this, selector, key, acceptCharset, accesskey, action, autocomplete, contenteditable, dir,
-                            enctype, hidden, lang, method, name, novalidate, spellcheck, style, tabindex, title,
-                            target, translate, defineContent)
+            KatyDomForm(this, selector, key, acceptCharset, accesskey, action, autocomplete, contenteditable, dir,
+                        enctype, hidden, lang, method, name, novalidate, spellcheck, style, tabindex, title,
+                        target, translate, defineContent)
         )
     }
 
@@ -190,8 +220,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomH1(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+            KatyDomH1(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -214,8 +244,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomH2(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+            KatyDomH2(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -238,8 +268,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomH3(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+            KatyDomH3(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -262,8 +292,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomH4(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+            KatyDomH4(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -286,8 +316,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomH5(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+            KatyDomH5(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -310,8 +340,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomH6(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+            KatyDomH6(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -334,8 +364,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomHeader(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                              tabindex, title, translate, defineContent)
+            KatyDomHeader(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                          tabindex, title, translate, defineContent)
         )
     }
 
@@ -361,7 +391,31 @@ class KatyDomFlowContentBuilder(
         element.addChildNode(
             KatyDomHr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                       tabindex, title, translate, defineAttributes)
+        )
+    }
 
+    /**
+     * Adds a legend element as the next child of the element under construction.
+     * @param defineContent a DSL-style lambda that adds any inner content to the new element.
+     */
+    fun legend(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomLegend(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck,
+                          style, tabindex, title, translate, defineContent)
         )
     }
 
@@ -384,8 +438,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomMain(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                            tabindex, title, translate, defineContent)
+            KatyDomMain(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                        tabindex, title, translate, defineContent)
         )
     }
 
@@ -408,8 +462,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomNav(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                           tabindex, title, translate, defineContent)
+            KatyDomNav(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                       tabindex, title, translate, defineContent)
         )
     }
 
@@ -439,8 +493,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomListItemContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomOl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, reversed, spellcheck,
-                          start, style, tabindex, title, translate, type, defineContent)
+            KatyDomOl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, reversed, spellcheck,
+                      start, style, tabindex, title, translate, type, defineContent)
         )
     }
 
@@ -463,8 +517,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomP(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                         tabindex, title, translate, defineContent)
+            KatyDomP(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                     tabindex, title, translate, defineContent)
         )
     }
 
@@ -487,8 +541,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomFlowContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomSection(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                               tabindex, title, translate, defineContent)
+            KatyDomSection(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                           tabindex, title, translate, defineContent)
         )
     }
 
@@ -512,8 +566,8 @@ class KatyDomFlowContentBuilder(
         defineContent: KatyDomListItemContentBuilder.() -> Unit
     ) {
         element.addChildNode(
-                KatyDomUl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
-                          tabindex, title, translate, defineContent)
+            KatyDomUl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -523,7 +577,7 @@ class KatyDomFlowContentBuilder(
      * Creates a new phrasing content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal fun phrasingContent(element: KatyDomHtmlElement) : KatyDomPhrasingContentBuilder {
+    internal fun phrasingContent(element: KatyDomHtmlElement): KatyDomPhrasingContentBuilder {
         return KatyDomPhrasingContentBuilder(element, contentRestrictions)
     }
 
@@ -531,7 +585,7 @@ class KatyDomFlowContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no footer, header or main elements allowed.
      */
-    internal fun withFooterHeaderMainNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+    internal fun withFooterHeaderMainNotAllowed(element: KatyDomHtmlElement): KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions.withFooterHeaderMainNotAllowed())
     }
 
@@ -539,15 +593,23 @@ class KatyDomFlowContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no form element allowed.
      */
-    internal fun withFormNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+    internal fun withFormNotAllowed(element: KatyDomHtmlElement): KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions.withFormNotAllowed())
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder but allows one legend element.
+     */
+    internal fun withLegendAllowed(element: KatyDomHtmlElement): KatyDomFlowContentBuilder {
+        return KatyDomFlowContentBuilder(element, contentRestrictions.withLegendAllowed())
     }
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no main element allowed.
      */
-    internal fun withMainNotAllowed(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+    internal fun withMainNotAllowed(element: KatyDomHtmlElement): KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions.withMainNotAllowed())
     }
 
@@ -555,7 +617,7 @@ class KatyDomFlowContentBuilder(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    override fun withNoAddedRestrictions(element: KatyDomHtmlElement) : KatyDomFlowContentBuilder {
+    override fun withNoAddedRestrictions(element: KatyDomHtmlElement): KatyDomFlowContentBuilder {
         return KatyDomFlowContentBuilder(element, contentRestrictions)
     }
 

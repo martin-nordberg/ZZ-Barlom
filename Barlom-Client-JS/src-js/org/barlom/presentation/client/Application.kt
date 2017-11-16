@@ -53,8 +53,6 @@ fun <AppState : Any> runApplication(
      */
     fun dispatch(action: (AppState) -> String) {
 
-        console.log("Dispatching...")
-
         // Queue the action for execution when next idle.
         queuedActions.add(action)
 
@@ -70,11 +68,8 @@ fun <AppState : Any> runApplication(
 
                     // Update the model.
                     revHistory.update() {
-
                         val description = queuedAction(appState)
-
                         console.log("ACTION: ", description)
-
                         description
                     }
 

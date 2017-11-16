@@ -10,6 +10,7 @@ import org.barlom.infrastructure.revisions.RevisionHistory
 import org.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -17,6 +18,41 @@ import kotlin.test.assertTrue
  * Tests of Package.
  */
 class PackageTests {
+
+    @Test
+    fun `Root elements of the model have fixed names`() {
+
+        RevisionHistory("test").update {
+
+            Model(::makeUuid) {
+                assertEquals("Metamodel", rootPackage.name)
+                assertEquals("RootVertexType", rootVertexType.name)
+                assertEquals("RootDirectedEdgeType", rootDirectedEdgeType.name)
+                assertEquals("RootUndirectedEdgeType", rootUndirectedEdgeType.name)
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootPackage.name = "blah"
+                }
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootVertexType.name = "blah"
+                }
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootDirectedEdgeType.name = "blah"
+                }
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootUndirectedEdgeType.name = "blah"
+                }
+
+            }
+
+            "test"
+
+        }
+
+    }
 
     @Test
     fun `Packages are vertices of the graph`() {

@@ -24,6 +24,14 @@ enum class EAbstractness {
         return this == ABSTRACT
     }
 
+    /**
+     * Converts this enum value to an inverse boolean equivalent.
+     * @return true if this is abstract.
+     */
+    fun isConcrete(): Boolean {
+        return this == CONCRETE
+    }
+
     companion object {
 
         /**

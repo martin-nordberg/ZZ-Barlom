@@ -33,7 +33,7 @@ class UndirectedEdgeType(
     private val _maxDegree: V<Int?> = V(null)
     private val _minDegree: V<Int?> = V(null)
     private val _multiEdgedness = V(EMultiEdgedness.UNCONSTRAINED)
-    private val _name = V("NewUndirectedEdgeType")
+    private val _name = if (isRoot) V("RootUndirectedEdgeType") else V("NewUndirectedEdgeType")
     private val _selfLooping = V(ESelfLooping.UNCONSTRAINED)
     private val _subTypeUndirectedEdgeTypeInheritances = VLinkedList<UndirectedEdgeTypeInheritance>()
     private val _superTypeUndirectedEdgeTypeInheritances = VLinkedList<UndirectedEdgeTypeInheritance>()

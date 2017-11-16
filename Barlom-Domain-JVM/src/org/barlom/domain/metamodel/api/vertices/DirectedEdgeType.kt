@@ -37,7 +37,7 @@ class DirectedEdgeType(
     private val _minHeadInDegree: V<Int?> = V(null)
     private val _minTailOutDegree: V<Int?> = V(null)
     private val _multiEdgedness = V(EMultiEdgedness.UNCONSTRAINED)
-    private val _name = V("NewUndirectedEdgeType")
+    private val _name = if (isRoot) V("RootDirectedEdgeType") else V("NewDirectedEdgeType")
     private val _selfLooping = V(ESelfLooping.UNCONSTRAINED)
     private val _subTypeDirectedEdgeTypeInheritances = VLinkedList<DirectedEdgeTypeInheritance>()
     private val _superTypeDirectedEdgeTypeInheritances = VLinkedList<DirectedEdgeTypeInheritance>()
