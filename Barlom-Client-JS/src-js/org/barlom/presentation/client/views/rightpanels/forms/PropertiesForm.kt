@@ -5,16 +5,15 @@
 
 package org.barlom.presentation.client.views.rightpanels.forms
 
-import org.barlom.domain.metamodel.api.actions.AbstractEdgeTypeActions
-import org.barlom.domain.metamodel.api.actions.ModelAction
-import org.barlom.domain.metamodel.api.actions.NamedElementActions
-import org.barlom.domain.metamodel.api.actions.VertexTypeActions
+import org.barlom.domain.metamodel.api.actions.*
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
 import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.UiAction
+import org.barlom.presentation.client.viewcomponents.RadioConfig
+import org.barlom.presentation.client.viewcomponents.viewRadioGroup
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.w3c.dom.events.Event
@@ -32,49 +31,30 @@ fun viewPropertiesForm(
 
     form("#properties-form.form--properties", action = "javascript:void(0);") {
 
-        // Name
-        viewNameField(this, revDispatchModel, focusedElement, isRoot)
+        when (focusedElement) {
 
-        // Abstractness
-        if (focusedElement is VertexType) {
-            viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
-        }
-        else if (focusedElement is AbstractEdgeType) {
-            viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
-            viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
-            viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
-            viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
-        }
+            is VertexType -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
+            }
 
-    }
+            is UndirectedEdgeType -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
+                viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
+                viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
+                viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
+                viewMinMaxDegreeFields(this, revDispatchModel, focusedElement, isRoot)
+            }
 
-}
+            is DirectedEdgeType -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
+                viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
+                viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
+                viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
+            }
 
-private fun viewAbstractnessField(
-    builder: KatyDomFlowContentBuilder,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
-    vertexType: VertexType,
-    isRoot: Boolean
-) = katyDomComponent(builder) {
-
-    val oldAbstractness = vertexType.abstractness
-
-    viewRadioGroup(
-        this,
-        "abstractness",
-        "Abstract?",
-        vertexType.id.toString(),
-        vertexType.abstractness,
-        listOf(
-            RadioConfig(isRoot, EAbstractness.ABSTRACT, "Abstract"),
-            RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
-        )
-    ) { event: Event ->
-
-        val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
-
-        if (newAbstractness != oldAbstractness) {
-            revDispatchModel(VertexTypeActions.changeAbstractness(vertexType, newAbstractness))
         }
 
     }
@@ -94,7 +74,6 @@ private fun viewAbstractnessField(
         this,
         "abstractness",
         "Abstract?",
-        edgeType.id.toString(),
         edgeType.abstractness,
         listOf(
             RadioConfig(isRoot, EAbstractness.ABSTRACT, "Abstract"),
@@ -106,6 +85,36 @@ private fun viewAbstractnessField(
 
         if (newAbstractness != oldAbstractness) {
             revDispatchModel(AbstractEdgeTypeActions.changeAbstractness(edgeType, newAbstractness))
+        }
+
+    }
+
+}
+
+private fun viewAbstractnessField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    vertexType: VertexType,
+    isRoot: Boolean
+) = katyDomComponent(builder) {
+
+    val oldAbstractness = vertexType.abstractness
+
+    viewRadioGroup(
+        this,
+        "abstractness",
+        "Abstract?",
+        vertexType.abstractness,
+        listOf(
+            RadioConfig(isRoot, EAbstractness.ABSTRACT, "Abstract"),
+            RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
+        )
+    ) { event: Event ->
+
+        val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
+
+        if (newAbstractness != oldAbstractness) {
+            revDispatchModel(VertexTypeActions.changeAbstractness(vertexType, newAbstractness))
         }
 
     }
@@ -125,7 +134,6 @@ private fun viewCyclicityField(
         this,
         "cyclicity",
         "Cycles?",
-        edgeType.id.toString(),
         edgeType.cyclicity,
         listOf(
             RadioConfig(isRoot, ECyclicity.ACYCLIC, "Allowed"),
@@ -138,6 +146,89 @@ private fun viewCyclicityField(
 
         if (newCyclicity != oldCyclicity) {
             revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(edgeType, newCyclicity))
+        }
+
+    }
+
+}
+
+private fun viewMinMaxDegreeFields(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: UndirectedEdgeType,
+    isRoot: Boolean
+) = katyDomComponent(builder) {
+
+    val oldMinDegree = edgeType.minDegree
+    val oldMaxDegree = edgeType.maxDegree
+
+
+    fieldset("#degree-field.o-fieldset") {
+
+        legend() {
+            text("Degree")
+        }
+
+        div(
+            "#degree-block.c-input-group",
+            style = "width:20em;"
+        ) {
+
+            div(
+                "#mindegree-field.o-field"
+            ) {
+
+                inputNumber(
+                    ".c-field",
+                    key = "mindegree-" + edgeType.id,
+                    disabled = isRoot,
+                    min = 0,
+                    max = edgeType.maxDegree,
+                    placeholder = "minimum",
+                    value = edgeType.minDegree
+                ) {
+
+                    onblur { event ->
+
+                        val newMinDegree: Int = event.target.asDynamic().value
+
+                        if (newMinDegree != oldMinDegree) {
+                            revDispatchModel(UndirectedEdgeTypeActions.changeMinDegree(edgeType, newMinDegree))
+                        }
+
+                    }
+
+                }
+
+            }
+
+            div(
+                "#maxdegree-field.o-field"
+            ) {
+
+                inputNumber(
+                    ".c-field",
+                    key = "maxdegree-" + edgeType.id,
+                    disabled = isRoot,
+                    min = edgeType.minDegree ?: 0,
+                    placeholder = "maximum",
+                    value = edgeType.maxDegree
+                ) {
+
+                    onblur { event ->
+
+                        val newMaxDegree: Int = event.target.asDynamic().value
+
+                        if (newMaxDegree != oldMaxDegree) {
+                            revDispatchModel(UndirectedEdgeTypeActions.changeMaxDegree(edgeType, newMaxDegree))
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
 
     }
@@ -157,7 +248,6 @@ private fun viewMultiEdgednessField(
         this,
         "multiedgedness",
         "Multi-Edges?",
-        edgeType.id.toString(),
         edgeType.multiEdgedness,
         listOf(
             RadioConfig(isRoot, EMultiEdgedness.MULTI_EDGES_ALLOWED, "Allowed"),
@@ -170,38 +260,6 @@ private fun viewMultiEdgednessField(
 
         if (newMultiEdgedness != oldMultiEdgedness) {
             revDispatchModel(AbstractEdgeTypeActions.changeMultiEdgedness(edgeType, newMultiEdgedness))
-        }
-
-    }
-
-}
-
-private fun viewSelfLoopingField(
-    builder: KatyDomFlowContentBuilder,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
-    edgeType: AbstractEdgeType,
-    isRoot: Boolean
-) = katyDomComponent(builder) {
-
-    val oldSelfLooping = edgeType.selfLooping
-
-    viewRadioGroup(
-        this,
-        "selflooping",
-        "Self Looping?",
-        edgeType.id.toString(),
-        edgeType.selfLooping,
-        listOf(
-            RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_ALLOWED, "Allowed"),
-            RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_NOT_ALLOWED, "Not Allowed"),
-            RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ESelfLooping.UNCONSTRAINED, "Unconstrained")
-        )
-    ) { event: Event ->
-
-        val newSelfLooping = ESelfLooping.valueOf(event.target.asDynamic().value)
-
-        if (newSelfLooping != oldSelfLooping) {
-            revDispatchModel(AbstractEdgeTypeActions.changeSelfLooping(edgeType, newSelfLooping))
         }
 
     }
@@ -246,45 +304,31 @@ private fun viewNameField(
 
 }
 
-data class RadioConfig<T>(val disabled: Boolean, val value: T, val label: String)
-
-private fun <T> viewRadioGroup(
+private fun viewSelfLoopingField(
     builder: KatyDomFlowContentBuilder,
-    name: String,
-    legend: String,
-    id: String,
-    currentValue: T,
-    radios: List<RadioConfig<T>>,
-    handleChange: (Event) -> Unit
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: AbstractEdgeType,
+    isRoot: Boolean
 ) = katyDomComponent(builder) {
 
-    fieldset("#" + name + "-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
+    val oldSelfLooping = edgeType.selfLooping
 
-        legend("#" + name + "-legend.o-fieldset__legend") {
-            text(legend)
-        }
+    viewRadioGroup(
+        this,
+        "selflooping",
+        "Self Looping?",
+        edgeType.selfLooping,
+        listOf(
+            RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_ALLOWED, "Allowed"),
+            RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_NOT_ALLOWED, "Not Allowed"),
+            RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ESelfLooping.UNCONSTRAINED, "Unconstrained")
+        )
+    ) { event: Event ->
 
-        for (radio in radios) {
+        val newSelfLooping = ESelfLooping.valueOf(event.target.asDynamic().value)
 
-            val key = radio.value.toString().toLowerCase()
-            val value = radio.value.toString()
-
-            label("#" + key + "-label.c-field.c-field--choice.c-list__item") {
-
-                inputRadioButton(
-                    key = key + "-" + id,
-                    checked = radio.value == currentValue,
-                    disabled = radio.disabled,
-                    name = name,
-                    value = value
-                ) {
-                    onchange(handleChange)
-                }
-
-                text(radio.label)
-
-            }
-
+        if (newSelfLooping != oldSelfLooping) {
+            revDispatchModel(AbstractEdgeTypeActions.changeSelfLooping(edgeType, newSelfLooping))
         }
 
     }

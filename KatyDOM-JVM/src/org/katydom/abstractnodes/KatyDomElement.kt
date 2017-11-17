@@ -255,6 +255,7 @@ abstract class KatyDomElement : KatyDomNode {
         for ((key, newValue) in attributes) {
             if (newValue != priorElement.attributes[key]) {
                 domElement.setAttribute(key, newValue)
+                // TODO: need to set property for attributes like checked and value that are not synchronized
             }
         }
         for ((key, _) in priorElement.attributes) {
