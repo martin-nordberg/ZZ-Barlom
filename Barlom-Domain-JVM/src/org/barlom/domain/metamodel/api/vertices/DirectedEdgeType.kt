@@ -25,7 +25,7 @@ class DirectedEdgeType(
 ) : AbstractEdgeType() {
 
     private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
-    private val _cyclicity = V(ECyclicity.UNCONSTRAINED)
+    private val _cyclicity = V(ECyclicity.DEFAULT)
     private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _directedEdgeTypeHeadConnectivities = VLinkedList<DirectedEdgeTypeHeadConnectivity>()
     private val _directedEdgeTypeTailConnectivities = VLinkedList<DirectedEdgeTypeTailConnectivity>()
@@ -36,9 +36,9 @@ class DirectedEdgeType(
     private val _maxTailOutDegree: V<Int?> = V(null)
     private val _minHeadInDegree: V<Int?> = V(null)
     private val _minTailOutDegree: V<Int?> = V(null)
-    private val _multiEdgedness = V(EMultiEdgedness.UNCONSTRAINED)
+    private val _multiEdgedness = V(EMultiEdgedness.DEFAULT)
     private val _name = if (isRoot) V("RootDirectedEdgeType") else V("NewDirectedEdgeType")
-    private val _selfLooping = V(ESelfLooping.UNCONSTRAINED)
+    private val _selfLooping = V(ESelfLooping.DEFAULT)
     private val _subTypeDirectedEdgeTypeInheritances = VLinkedList<DirectedEdgeTypeInheritance>()
     private val _superTypeDirectedEdgeTypeInheritances = VLinkedList<DirectedEdgeTypeInheritance>()
     private val _reverseName: V<String?> = V(null)

@@ -35,6 +35,8 @@ enum class EMultiEdgedness {
 
     companion object {
 
+        val DEFAULT = MULTI_EDGES_NOT_ALLOWED
+
         /**
          * Determines the abstractness corresponding to a boolean value for is-multi-edge-allowed.
          * @param isMultiEdgeAllowed whether the item allows multi edges.

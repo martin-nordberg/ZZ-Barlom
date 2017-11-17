@@ -17,10 +17,10 @@ class NamedElementActions {
          */
         fun rename(element: AbstractNamedElement, newName: String): ModelAction {
 
-            return { model: Model ->
+            return { _: Model ->
                 val oldPath = element.path
                 element.name = newName
-                "Rename ${oldPath} to ${newName}."
+                "Rename $oldPath to $newName."
             }
 
         }

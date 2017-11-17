@@ -19,10 +19,14 @@ class VertexTypeActions {
          */
         fun changeAbstractness(vertexType: VertexType, abstractness: EAbstractness): ModelAction {
 
-            return { model: Model ->
-                val path = vertexType.path
+            return { _: Model ->
+
                 vertexType.abstractness = abstractness
-                "Make vertex type ${path} ${abstractness.toString().toLowerCase()}."
+
+                val path = vertexType.path
+                val a = if (abstractness.isAbstract()) "abstract" else "concrete"
+
+                "Make vertex type $path $a."
             }
 
         }

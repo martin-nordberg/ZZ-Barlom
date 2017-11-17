@@ -11,13 +11,13 @@ import org.barlom.domain.metamodel.api.actions.NamedElementActions
 import org.barlom.domain.metamodel.api.actions.VertexTypeActions
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.ECyclicity
-import org.barlom.domain.metamodel.api.vertices.AbstractEdgeType
-import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.domain.metamodel.api.vertices.Package
-import org.barlom.domain.metamodel.api.vertices.VertexType
+import org.barlom.domain.metamodel.api.types.EMultiEdgedness
+import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.UiAction
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
+import org.w3c.dom.events.Event
 
 fun viewPropertiesForm(
     builder: KatyDomFlowContentBuilder,
@@ -42,6 +42,8 @@ fun viewPropertiesForm(
         else if (focusedElement is AbstractEdgeType) {
             viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
             viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
+            viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
+            viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
         }
 
     }
@@ -51,68 +53,28 @@ fun viewPropertiesForm(
 private fun viewAbstractnessField(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
-    focusedElement: VertexType,
+    vertexType: VertexType,
     isRoot: Boolean
 ) = katyDomComponent(builder) {
 
-    val oldAbstractness = focusedElement.abstractness
+    val oldAbstractness = vertexType.abstractness
 
-    fieldset("#abstractness-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
+    viewRadioGroup(
+        this,
+        "abstractness",
+        "Abstract?",
+        vertexType.id.toString(),
+        vertexType.abstractness,
+        listOf(
+            RadioConfig(isRoot, EAbstractness.ABSTRACT, "Abstract"),
+            RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
+        )
+    ) { event: Event ->
 
-        legend("#abstractness-legend.o-fieldset__legend") {
-            text("Abstract?")
-        }
+        val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
 
-        label("#abstract-label.c-field.c-field--choice.c-list__item") {
-
-            inputRadioButton(
-                key = "abstract-" + focusedElement.id,
-                checked = focusedElement.abstractness.isAbstract(),
-                disabled = isRoot,
-                name = "abstractness",
-                value = EAbstractness.ABSTRACT.toString()
-            ) {
-
-                onchange { event ->
-
-                    val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
-
-                    if (newAbstractness != oldAbstractness) {
-                        revDispatchModel(VertexTypeActions.changeAbstractness(focusedElement, newAbstractness))
-                    }
-
-                }
-
-            }
-
-            text("Abstract")
-
-        }
-
-        label("#concrete-label.c-field.c-field--choice.c-list__item") {
-
-            inputRadioButton(
-                key = "concrete-" + focusedElement.id,
-                checked = focusedElement.abstractness.isConcrete(),
-                disabled = isRoot,
-                name = "abstractness",
-                value = EAbstractness.CONCRETE.toString()
-            ) {
-
-                onchange { event ->
-
-                    val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
-
-                    if (newAbstractness != oldAbstractness) {
-                        revDispatchModel(VertexTypeActions.changeAbstractness(focusedElement, newAbstractness))
-                    }
-
-                }
-
-            }
-
-            text("Concrete")
-
+        if (newAbstractness != oldAbstractness) {
+            revDispatchModel(VertexTypeActions.changeAbstractness(vertexType, newAbstractness))
         }
 
     }
@@ -122,68 +84,28 @@ private fun viewAbstractnessField(
 private fun viewAbstractnessField(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
-    focusedElement: AbstractEdgeType,
+    edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = katyDomComponent(builder) {
 
-    val oldAbstractness = focusedElement.abstractness
+    val oldAbstractness = edgeType.abstractness
 
-    fieldset("#abstractness-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
+    viewRadioGroup(
+        this,
+        "abstractness",
+        "Abstract?",
+        edgeType.id.toString(),
+        edgeType.abstractness,
+        listOf(
+            RadioConfig(isRoot, EAbstractness.ABSTRACT, "Abstract"),
+            RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
+        )
+    ) { event: Event ->
 
-        legend("#abstractness-legend.o-fieldset__legend") {
-            text("Abstract?")
-        }
+        val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
 
-        label("#abstract-label.c-field.c-field--choice.c-list__item") {
-
-            inputRadioButton(
-                key = "abstract-" + focusedElement.id,
-                checked = focusedElement.abstractness.isAbstract(),
-                disabled = isRoot,
-                name = "abstractness",
-                value = EAbstractness.ABSTRACT.toString()
-            ) {
-
-                onchange { event ->
-
-                    val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
-
-                    if (newAbstractness != oldAbstractness) {
-                        revDispatchModel(AbstractEdgeTypeActions.changeAbstractness(focusedElement, newAbstractness))
-                    }
-
-                }
-
-            }
-
-            text("Abstract")
-
-        }
-
-        label("#concrete-label.c-field.c-field--choice.c-list__item") {
-
-            inputRadioButton(
-                key = "concrete-" + focusedElement.id,
-                checked = focusedElement.abstractness.isConcrete(),
-                disabled = isRoot,
-                name = "abstractness",
-                value = EAbstractness.CONCRETE.toString()
-            ) {
-
-                onchange { event ->
-
-                    val newAbstractness = EAbstractness.valueOf(event.target.asDynamic().value)
-
-                    if (newAbstractness != oldAbstractness) {
-                        revDispatchModel(AbstractEdgeTypeActions.changeAbstractness(focusedElement, newAbstractness))
-                    }
-
-                }
-
-            }
-
-            text("Concrete")
-
+        if (newAbstractness != oldAbstractness) {
+            revDispatchModel(AbstractEdgeTypeActions.changeAbstractness(edgeType, newAbstractness))
         }
 
     }
@@ -193,94 +115,93 @@ private fun viewAbstractnessField(
 private fun viewCyclicityField(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
-    focusedElement: AbstractEdgeType,
+    edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = katyDomComponent(builder) {
 
-    val oldCyclicity = focusedElement.cyclicity
+    val oldCyclicity = edgeType.cyclicity
 
-    fieldset("#cyclicity-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
+    viewRadioGroup(
+        this,
+        "cyclicity",
+        "Cycles?",
+        edgeType.id.toString(),
+        edgeType.cyclicity,
+        listOf(
+            RadioConfig(isRoot, ECyclicity.ACYCLIC, "Allowed"),
+            RadioConfig(isRoot, ECyclicity.POTENTIALLY_CYCLIC, "Not Allowed"),
+            RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ECyclicity.UNCONSTRAINED, "Unconstrained")
+        )
+    ) { event: Event ->
 
-        legend("#cyclicity-legend.o-fieldset__legend") {
-            text("Cyclic?")
+        val newCyclicity = ECyclicity.valueOf(event.target.asDynamic().value)
+
+        if (newCyclicity != oldCyclicity) {
+            revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(edgeType, newCyclicity))
         }
 
-        label("#acyclic-label.c-field.c-field--choice.c-list__item") {
+    }
 
-            inputRadioButton(
-                key = "acyclic-" + focusedElement.id,
-                checked = focusedElement.cyclicity.isAcyclic(),
-                disabled = isRoot,
-                name = "cyclicity",
-                value = ECyclicity.ACYCLIC.toString()
-            ) {
+}
 
-                onchange { event ->
+private fun viewMultiEdgednessField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: AbstractEdgeType,
+    isRoot: Boolean
+) = katyDomComponent(builder) {
 
-                    val newCyclicity = ECyclicity.valueOf(event.target.asDynamic().value)
+    val oldMultiEdgedness = edgeType.multiEdgedness
 
-                    if (newCyclicity != oldCyclicity) {
-                        revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(focusedElement, newCyclicity))
-                    }
+    viewRadioGroup(
+        this,
+        "multiedgedness",
+        "Multi-Edges?",
+        edgeType.id.toString(),
+        edgeType.multiEdgedness,
+        listOf(
+            RadioConfig(isRoot, EMultiEdgedness.MULTI_EDGES_ALLOWED, "Allowed"),
+            RadioConfig(isRoot, EMultiEdgedness.MULTI_EDGES_NOT_ALLOWED, "Not Allowed"),
+            RadioConfig(isRoot || edgeType.abstractness.isConcrete(), EMultiEdgedness.UNCONSTRAINED, "Unconstrained")
+        )
+    ) { event: Event ->
 
-                }
+        val newMultiEdgedness = EMultiEdgedness.valueOf(event.target.asDynamic().value)
 
-            }
-
-            text("Acyclic")
-
+        if (newMultiEdgedness != oldMultiEdgedness) {
+            revDispatchModel(AbstractEdgeTypeActions.changeMultiEdgedness(edgeType, newMultiEdgedness))
         }
 
-        label("#cyclic-label.c-field.c-field--choice.c-list__item") {
+    }
 
-            inputRadioButton(
-                key = "cyclic-" + focusedElement.id,
-                checked = focusedElement.cyclicity.isPotentiallyCyclic(),
-                disabled = isRoot,
-                name = "cyclicity",
-                value = ECyclicity.POTENTIALLY_CYCLIC.toString()
-            ) {
+}
 
-                onchange { event ->
+private fun viewSelfLoopingField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: AbstractEdgeType,
+    isRoot: Boolean
+) = katyDomComponent(builder) {
 
-                    val newCyclicity = ECyclicity.valueOf(event.target.asDynamic().value)
+    val oldSelfLooping = edgeType.selfLooping
 
-                    if (newCyclicity != oldCyclicity) {
-                        revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(focusedElement, newCyclicity))
-                    }
+    viewRadioGroup(
+        this,
+        "selflooping",
+        "Self Looping?",
+        edgeType.id.toString(),
+        edgeType.selfLooping,
+        listOf(
+            RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_ALLOWED, "Allowed"),
+            RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_NOT_ALLOWED, "Not Allowed"),
+            RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ESelfLooping.UNCONSTRAINED, "Unconstrained")
+        )
+    ) { event: Event ->
 
-                }
+        val newSelfLooping = ESelfLooping.valueOf(event.target.asDynamic().value)
 
-            }
-
-            text("Potentially Cyclic")
-
-        }
-
-        label("#unconstrained-label.c-field.c-field--choice.c-list__item") {
-
-            inputRadioButton(
-                key = "unconstrained-" + focusedElement.id,
-                checked = focusedElement.cyclicity.isUnconstrained(),
-                disabled = isRoot || focusedElement.abstractness.isConcrete(),
-                name = "cyclicity",
-                value = ECyclicity.UNCONSTRAINED.toString()
-            ) {
-
-                onchange { event ->
-
-                    val newCyclicity = ECyclicity.valueOf(event.target.asDynamic().value)
-
-                    if (newCyclicity != oldCyclicity) {
-                        revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(focusedElement, newCyclicity))
-                    }
-
-                }
-
-            }
-
-            text("Unconstrained (Abstract)")
-
+        if (newSelfLooping != oldSelfLooping) {
+            revDispatchModel(AbstractEdgeTypeActions.changeSelfLooping(edgeType, newSelfLooping))
         }
 
     }
@@ -290,11 +211,11 @@ private fun viewCyclicityField(
 private fun viewNameField(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
-    focusedElement: AbstractPackagedElement,
+    namedElement: AbstractNamedElement,
     isRoot: Boolean
 ) = katyDomComponent(builder) {
 
-    val oldName = focusedElement.name
+    val oldName = namedElement.name
 
     label("#name-field.c-label.o-form-element") {
 
@@ -302,11 +223,11 @@ private fun viewNameField(
 
         inputText(
             ".c-field.c-field--label",
-            key = "name-" + focusedElement.id,
+            key = "name-" + namedElement.id,
             disabled = isRoot,
             placeholder = "enter lowercase name",
             style = "width:50em",
-            value = focusedElement.name
+            value = namedElement.name
         ) {
 
             onblur { event ->
@@ -314,7 +235,7 @@ private fun viewNameField(
                 val newName: String = event.target.asDynamic().value
 
                 if (newName != oldName) {
-                    revDispatchModel(NamedElementActions.rename(focusedElement, newName))
+                    revDispatchModel(NamedElementActions.rename(namedElement, newName))
                 }
 
             }
@@ -324,3 +245,49 @@ private fun viewNameField(
     }
 
 }
+
+data class RadioConfig<T>(val disabled: Boolean, val value: T, val label: String)
+
+private fun <T> viewRadioGroup(
+    builder: KatyDomFlowContentBuilder,
+    name: String,
+    legend: String,
+    id: String,
+    currentValue: T,
+    radios: List<RadioConfig<T>>,
+    handleChange: (Event) -> Unit
+) = katyDomComponent(builder) {
+
+    fieldset("#" + name + "-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
+
+        legend("#" + name + "-legend.o-fieldset__legend") {
+            text(legend)
+        }
+
+        for (radio in radios) {
+
+            val key = radio.value.toString().toLowerCase()
+            val value = radio.value.toString()
+
+            label("#" + key + "-label.c-field.c-field--choice.c-list__item") {
+
+                inputRadioButton(
+                    key = key + "-" + id,
+                    checked = radio.value == currentValue,
+                    disabled = radio.disabled,
+                    name = name,
+                    value = value
+                ) {
+                    onchange(handleChange)
+                }
+
+                text(radio.label)
+
+            }
+
+        }
+
+    }
+
+}
+

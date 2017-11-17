@@ -28,13 +28,13 @@ class UndirectedEdgeType(
 ) : AbstractEdgeType() {
 
     private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
-    private val _cyclicity = V(ECyclicity.UNCONSTRAINED)
+    private val _cyclicity = V(ECyclicity.DEFAULT)
     private val _edgeAttributeTypeContainments = VLinkedList<EdgeAttributeTypeContainment>()
     private val _maxDegree: V<Int?> = V(null)
     private val _minDegree: V<Int?> = V(null)
-    private val _multiEdgedness = V(EMultiEdgedness.UNCONSTRAINED)
+    private val _multiEdgedness = V(EMultiEdgedness.DEFAULT)
     private val _name = if (isRoot) V("RootUndirectedEdgeType") else V("NewUndirectedEdgeType")
-    private val _selfLooping = V(ESelfLooping.UNCONSTRAINED)
+    private val _selfLooping = V(ESelfLooping.DEFAULT)
     private val _subTypeUndirectedEdgeTypeInheritances = VLinkedList<UndirectedEdgeTypeInheritance>()
     private val _superTypeUndirectedEdgeTypeInheritances = VLinkedList<UndirectedEdgeTypeInheritance>()
     private val _undirectedEdgeTypeConnectivities = VLinkedList<UndirectedEdgeTypeConnectivity>()

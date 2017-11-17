@@ -35,6 +35,8 @@ enum class ESelfLooping {
 
     companion object {
 
+        val DEFAULT = SELF_LOOPS_NOT_ALLOWED
+
         /**
          * Determines the self looping corresponding to a boolean value for is-self-loop-allowed.
          * @param isSelfLoopAllowed whether the item is self looping.
