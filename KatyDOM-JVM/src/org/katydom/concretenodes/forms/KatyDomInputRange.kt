@@ -15,7 +15,7 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an input type="range" element.
  */
-internal class KatyDomInputRange<T:Number>(
+internal class KatyDomInputRange<T : Number>(
     phrasingContent: KatyDomPhrasingContentBuilder,
     selector: String?,
     key: Any?,
@@ -51,11 +51,11 @@ internal class KatyDomInputRange<T:Number>(
         setBooleanAttribute("disabled", disabled)
         setAttribute("form", form)
         setAttribute("list", list)
-        setAttribute("max", max.toString())
-        setAttribute("min", min.toString())
+        setNumberAttribute("max", max)
+        setNumberAttribute("min", min)
         setAttribute("name", name)
         setAttribute("step", step)
-        setAttribute("value", value.toString())
+        setNumberAttribute("value", value)
 
         setAttribute("type", "range")
 

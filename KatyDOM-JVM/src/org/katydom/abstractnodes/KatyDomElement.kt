@@ -56,7 +56,7 @@ abstract class KatyDomElement : KatyDomNode {
     ) : this(selector?.split("."), key) {
 
         setAttribute("style", style)
-        setAttribute("tabindex", tabindex?.toString())
+        setNumberAttribute("tabindex", tabindex)
 
     }
 
@@ -66,7 +66,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClass(className: String) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         classList.add(className)
 
@@ -78,7 +79,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClasses(classes: Iterable<String>) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         classList.addAll(classes)
 
@@ -92,7 +94,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttribute(name: String, value: String?) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         if (value == null) {
             attributes.remove(name)
@@ -108,7 +111,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttributes(attributes: Map<String, String>) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         for ((name, value) in attributes) {
             setAttribute(name, value)
@@ -123,7 +127,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setBooleanAttribute(name: String, value: Boolean?) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         if (value != null && value) {
             attributes.put(name, "")
@@ -141,7 +146,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(name: String, value: String) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         if (name.startsWith("data-")) {
             // TODO: Warning: "data-" prefix not required for dataset additions.
@@ -159,10 +165,30 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(dataset: Map<String, String>) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         for ((name, value) in dataset) {
             setData(name, value)
+        }
+
+    }
+
+    /**
+     * Sets one numeric attribute by name and value.
+     * @param name the name of the attribute to set.
+     * @param value the value of the attribute.
+     */
+    internal fun setNumberAttribute(name: String, value: Number?) {
+
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+
+        if (value != null) {
+            attributes.put(name, value.toString())
+        }
+        else {
+            attributes.remove(name)
         }
 
     }
@@ -172,7 +198,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setStyle(style: String?) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         setAttribute("style", style)
 
@@ -185,7 +212,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setTrueFalseAttribute(name: String, value: Boolean?) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         if (value != null) {
             if (value) {
@@ -208,7 +236,8 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setYesNoAttribute(name: String, value: Boolean?) {
 
-        check( isAddingAttributes ) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(
+            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
 
         if (value != null) {
             if (value) {
@@ -241,7 +270,6 @@ abstract class KatyDomElement : KatyDomNode {
             domElement.setAttribute("data-debug", debugAttr)
             nodeCount += 1
         }
-
 
 
     }

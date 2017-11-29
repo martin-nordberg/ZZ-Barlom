@@ -53,25 +53,25 @@ internal class KatyDomTextArea(
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
 
-        require( cols == null || cols > 0 ) { "Attribute cols must be greater than zero." }
-        require( maxlength == null || maxlength >= 0 ) { "Attribute maxlength must be non-negative." }
-        require( minlength == null || minlength >= 0 ) { "Attribute minlength must be non-negative." }
-        require( rows == null || rows > 0 ) { "Attribute rows must be greater than zero." }
+        require(cols == null || cols > 0) { "Attribute cols must be greater than zero." }
+        require(maxlength == null || maxlength >= 0) { "Attribute maxlength must be non-negative." }
+        require(minlength == null || minlength >= 0) { "Attribute minlength must be non-negative." }
+        require(rows == null || rows > 0) { "Attribute rows must be greater than zero." }
 
         setAttribute("autocomplete", autocomplete)
         setBooleanAttribute("autofocus", autofocus)
-        setAttribute("cols", cols?.toString())
+        setNumberAttribute("cols", cols)
         setAttribute("dirname", dirname)
         setBooleanAttribute("disabled", disabled)
         setAttribute("form", form)
         setAttribute("inputmode", inputmode?.toHtmlString())
-        setAttribute("maxlength", maxlength?.toString())
-        setAttribute("minlength", minlength?.toString())
+        setNumberAttribute("maxlength", maxlength)
+        setNumberAttribute("minlength", minlength)
         setAttribute("name", name)
         setAttribute("placeholder", placeholder)
         setBooleanAttribute("readonly", readonly)
         setBooleanAttribute("required", required)
-        setAttribute("rows", rows?.toString())
+        setNumberAttribute("rows", rows)
         setAttribute("wrap", wrap?.toHtmlString())
 
         phrasingContent.textContent(this).defineContent()

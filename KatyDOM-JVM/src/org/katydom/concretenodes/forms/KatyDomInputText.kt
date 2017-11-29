@@ -53,9 +53,9 @@ internal class KatyDomInputText(
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
 
-        require( maxlength == null || maxlength >= 0 ) { "Attribute maxlength must be non-negative." }
-        require( minlength == null || minlength >= 0 ) { "Attribute minlength must be non-negative." }
-        require( size == null || size >= 0 ) { "Attribute size must be non-negative." }
+        require(maxlength == null || maxlength >= 0) { "Attribute maxlength must be non-negative." }
+        require(minlength == null || minlength >= 0) { "Attribute minlength must be non-negative." }
+        require(size == null || size >= 0) { "Attribute size must be non-negative." }
 
         setAttribute("autocomplete", autocomplete)
         setBooleanAttribute("autofocus", autofocus)
@@ -64,14 +64,14 @@ internal class KatyDomInputText(
         setAttribute("form", form)
         setAttribute("inputmode", inputmode?.toHtmlString())
         setAttribute("list", list)
-        setAttribute("maxlength", maxlength?.toString())
-        setAttribute("minlength", minlength?.toString())
+        setNumberAttribute("maxlength", maxlength)
+        setNumberAttribute("minlength", minlength)
         setAttribute("name", name)
         setAttribute("pattern", pattern)
         setAttribute("placeholder", placeholder)
         setBooleanAttribute("readonly", readonly)
         setBooleanAttribute("required", required)
-        setAttribute("size", size?.toString())
+        setNumberAttribute("size", size)
         setAttribute("value", value)
 
         setAttribute("type", "text")

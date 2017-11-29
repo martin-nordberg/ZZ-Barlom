@@ -59,11 +59,11 @@ internal class KatyDomInputImageButton(
         setAttribute("formmethod", formmethod?.toHtmlString())
         setBooleanAttribute("formnovalidate", formnovalidate)
         setAttribute("formtarget", formtarget)
-        setAttribute("height", height?.toString())
+        setNumberAttribute("height", height)
         setAttribute("name", name)
         setAttribute("src", src)
         setAttribute("value", value)
-        setAttribute("width", width?.toString())
+        setNumberAttribute("width", width)
 
         setAttribute("type", "image")
 

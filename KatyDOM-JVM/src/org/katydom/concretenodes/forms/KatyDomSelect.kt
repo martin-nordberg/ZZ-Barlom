@@ -52,7 +52,7 @@ internal class KatyDomSelect(
         setBooleanAttribute("multiple", multiple)
         setAttribute("name", name)
         setBooleanAttribute("required", required)
-        setAttribute("size", size?.toString())
+        setNumberAttribute("size", size)
         setAttribute("value", value)
 
         phrasingContent.optionContent(this).defineContent()

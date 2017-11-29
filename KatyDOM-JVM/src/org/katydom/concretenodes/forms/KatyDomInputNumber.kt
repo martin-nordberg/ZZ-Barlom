@@ -54,14 +54,14 @@ internal class KatyDomInputNumber<T : Number>(
         setBooleanAttribute("disabled", disabled)
         setAttribute("form", form)
         setAttribute("list", list)
-        setAttribute("max", max.toString())
-        setAttribute("min", min.toString())
+        setNumberAttribute("max", max)
+        setNumberAttribute("min", min)
         setAttribute("name", name)
         setAttribute("placeholder", placeholder)
         setBooleanAttribute("readonly", readonly)
         setBooleanAttribute("required", required)
         setAttribute("step", step)
-        setAttribute("value", value.toString())
+        setNumberAttribute("value", value)
 
         setAttribute("type", "number")
 

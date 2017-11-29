@@ -38,7 +38,7 @@ internal class KatyDomLi(
 
         if (value != null) {
             check(listContent.isOrdered) { "Only ordered list items can have value attributes." }
-            setAttribute("value", value.toString())
+            setNumberAttribute("value", value)
         }
 
         listContent.flowContent.withNoAddedRestrictions(this).defineContent()

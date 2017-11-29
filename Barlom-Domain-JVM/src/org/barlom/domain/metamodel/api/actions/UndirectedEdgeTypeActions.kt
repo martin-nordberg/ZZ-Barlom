@@ -30,7 +30,7 @@ class UndirectedEdgeTypeActions {
         }
 
         /**
-         * Changes the abstractness of the given [edgeType].
+         * Changes the minimum degree of the given [edgeType].
          */
         fun changeMinDegree(edgeType: UndirectedEdgeType, minDegree: Int): ModelAction {
 
