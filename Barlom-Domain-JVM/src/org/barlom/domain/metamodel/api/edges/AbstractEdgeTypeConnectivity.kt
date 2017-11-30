@@ -5,14 +5,14 @@
 
 package org.barlom.domain.metamodel.api.edges
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
 import org.barlom.domain.metamodel.api.vertices.AbstractEdgeType
+import org.barlom.domain.metamodel.api.vertices.AbstractElement
 import org.barlom.domain.metamodel.api.vertices.VertexType
 
 /**
  * Interface for Barlom edge type connectivity.
  */
-abstract class AbstractEdgeTypeConnectivity : AbstractDocumentedElement() {
+abstract class AbstractEdgeTypeConnectivity : AbstractElement() {
 
     /** The connecting edge type. */
     abstract val connectingEdgeType: AbstractEdgeType

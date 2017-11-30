@@ -34,15 +34,18 @@ fun viewPropertiesForm(
 
             is Package            -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
             }
 
             is VertexType         -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
             }
 
             is UndirectedEdgeType -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
                 viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
                 viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
@@ -52,6 +55,7 @@ fun viewPropertiesForm(
 
             is DirectedEdgeType   -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewForwardReverseNameFields(this, revDispatchModel, focusedElement, isRoot)
                 viewRoleNameFields(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
@@ -127,6 +131,24 @@ private fun viewCyclicityField(
     )
 ) { cyclicity ->
     revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(edgeType, cyclicity))
+}
+
+
+private fun viewDescriptionField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    element: AbstractDocumentedElement,
+    isRoot: Boolean
+) = viewTextAreaField(
+    builder,
+    "description",
+    element.id.toString(),
+    "Description:",
+    element.description,
+    "short summary of the element ...",
+    isRoot
+) { newDescription ->
+    revDispatchModel(DocumentedElementActions.describe(element, newDescription))
 }
 
 

@@ -5,14 +5,14 @@
 
 package org.barlom.domain.metamodel.api.edges
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
+import org.barlom.domain.metamodel.api.vertices.AbstractElement
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.domain.metamodel.api.vertices.Package
 
 /**
  * Interface for abstract Barlom package containment.
  */
-abstract class AbstractPackagedElementContainment : AbstractDocumentedElement() {
+abstract class AbstractPackagedElementContainment : AbstractElement() {
 
     /** The packaged element that is contained by the parent package. */
     abstract val child: AbstractPackagedElement

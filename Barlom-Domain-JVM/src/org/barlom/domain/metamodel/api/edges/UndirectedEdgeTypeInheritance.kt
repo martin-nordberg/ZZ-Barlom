@@ -5,7 +5,7 @@
 
 package org.barlom.domain.metamodel.api.edges
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
+import org.barlom.domain.metamodel.api.vertices.AbstractElement
 import org.barlom.domain.metamodel.api.vertices.UndirectedEdgeType
 import org.barlom.infrastructure.uuids.Uuid
 
@@ -18,7 +18,7 @@ class UndirectedEdgeTypeInheritance internal constructor(
     val superType: UndirectedEdgeType,
     val subType: UndirectedEdgeType
 
-) : AbstractDocumentedElement() {
+) : AbstractElement() {
 
     init {
 

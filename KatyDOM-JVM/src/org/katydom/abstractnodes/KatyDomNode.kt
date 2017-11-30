@@ -117,7 +117,7 @@ abstract class KatyDomNode(val key: Any?) {
 
         if (isAddingAttributes) {
             freezeAttributes()
-            state = EState.ADDING_CHILD_NODES
+            state = EState.ADDING_EVENT_HANDLERS
         }
         else {
             check( isAddingEventHandlers ) { "KatyDOM node's event handlers must be defined before its child nodes." }

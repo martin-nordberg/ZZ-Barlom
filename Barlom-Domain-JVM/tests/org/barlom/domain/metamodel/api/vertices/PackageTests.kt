@@ -55,6 +55,41 @@ class PackageTests {
     }
 
     @Test
+    fun `Root elements of the model have fixed descriptions`() {
+
+        RevisionHistory("test").update {
+
+            Model(::makeUuid) {
+                assertEquals("Root package.", rootPackage.description)
+                assertEquals("Root vertex type.", rootVertexType.description)
+                assertEquals("Root directed edge type.", rootDirectedEdgeType.description)
+                assertEquals("Root undirected edge type.", rootUndirectedEdgeType.description)
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootPackage.description = "blah"
+                }
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootVertexType.description = "blah"
+                }
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootDirectedEdgeType.description = "blah"
+                }
+
+                assertFailsWith(IllegalStateException::class) {
+                    rootUndirectedEdgeType.description = "blah"
+                }
+
+            }
+
+            "test"
+
+        }
+
+    }
+
+    @Test
     fun `Packages are vertices of the graph`() {
 
         RevisionHistory("test").update {

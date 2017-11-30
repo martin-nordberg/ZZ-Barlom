@@ -24,8 +24,9 @@ class DirectedEdgeType(
 
 ) : AbstractEdgeType() {
 
-    private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
+    private val _abstractness = if (isRoot) V(EAbstractness.ABSTRACT) else V(EAbstractness.CONCRETE)
     private val _cyclicity = V(ECyclicity.DEFAULT)
+    private val _description = if (isRoot) V("Root directed edge type.") else V("")
     private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _directedEdgeTypeHeadConnectivities = VLinkedList<DirectedEdgeTypeHeadConnectivity>()
     private val _directedEdgeTypeTailConnectivities = VLinkedList<DirectedEdgeTypeTailConnectivity>()
@@ -73,10 +74,23 @@ class DirectedEdgeType(
         set(value) {
 
             check(!isRoot) {
-                "Root undirected edge type cyclicity cannot be changed"
+                "Root directed edge type cyclicity cannot be changed"
             }
 
             _cyclicity.set(value)
+
+        }
+
+    override var description: String
+        get() = _description.get()
+        set(value) {
+
+
+            check(!isRoot) {
+                "Root directed edge type description cannot be changed"
+            }
+
+            _description.set(value)
 
         }
 
@@ -166,7 +180,7 @@ class DirectedEdgeType(
         set(value) {
 
             check(!isRoot) {
-                "Root undirected edge type multiEdgedness cannot be changed"
+                "Root directed edge type multiEdgedness cannot be changed"
             }
 
             _multiEdgedness.set(value)
@@ -178,7 +192,7 @@ class DirectedEdgeType(
         set(value) {
 
             check(!isRoot) {
-                "Root undirected edge type name cannot be changed"
+                "Root directed edge type name cannot be changed"
             }
 
             _name.set(value)

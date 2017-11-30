@@ -5,7 +5,7 @@
 
 package org.barlom.domain.metamodel.api.edges
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
+import org.barlom.domain.metamodel.api.vertices.AbstractElement
 import org.barlom.domain.metamodel.api.vertices.VertexType
 import org.barlom.infrastructure.uuids.Uuid
 
@@ -18,7 +18,7 @@ class VertexTypeInheritance internal constructor(
     val superType: VertexType,
     val subType: VertexType
 
-) : AbstractDocumentedElement() {
+) : AbstractElement() {
 
     init {
 

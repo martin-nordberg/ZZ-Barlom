@@ -54,11 +54,12 @@ class VertexTypeTests {
                 val pkg = makePackage { name = "pkg" }
                 makePackageContainment(root, pkg)
                 val vtId = makeUuid()
-                val vt = makeVertexType(vtId) { name = "vt";abstractness = EAbstractness.ABSTRACT }
+                val vt = makeVertexType(vtId) { name = "vt"; abstractness = EAbstractness.ABSTRACT; description = "A vertex type." }
                 makeVertexTypeContainment(pkg, vt)
 
                 assertEquals(vtId, vt.id)
                 assertEquals("vt", vt.name)
+                assertEquals("A vertex type.", vt.description)
                 assertEquals(EAbstractness.ABSTRACT, vt.abstractness)
                 assertEquals(pkg, vt.parents[0])
                 assertEquals(pkg, vt.vertexTypeContainments[0].parent)

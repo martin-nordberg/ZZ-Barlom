@@ -33,12 +33,12 @@ class Model(
 
 ) {
 
-    private val _edges: VLinkedList<AbstractDocumentedElement> = VLinkedList()
+    private val _edges: VLinkedList<AbstractElement> = VLinkedList()
 
     private val _vertices: VLinkedList<AbstractNamedElement> = VLinkedList()
 
 
-    val edges: List<AbstractDocumentedElement>
+    val edges: List<AbstractElement>
         get() = _edges.asList()
 
     val revHistory = RevisionHistory.currentlyInUse

@@ -18,7 +18,8 @@ class VertexType(
 
 ) : AbstractPackagedElement() {
 
-    private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
+    private val _abstractness = if (isRoot) V(EAbstractness.ABSTRACT) else V(EAbstractness.CONCRETE)
+    private val _description = if (isRoot) V("Root vertex type.") else V("")
     private val _directedEdgeTypeHeadConnectivities = VLinkedList<DirectedEdgeTypeHeadConnectivity>()
     private val _directedEdgeTypeTailConnectivities = VLinkedList<DirectedEdgeTypeTailConnectivity>()
     private val _name = if (isRoot) V("RootVertexType") else V("NewVertexType")
@@ -57,6 +58,19 @@ class VertexType(
     /** The directed edge types connecting their tail to this vertex type. */
     val connectingTailEdgeTypes: List<DirectedEdgeType>
         get() = _directedEdgeTypeTailConnectivities.map { c -> c.connectingEdgeType }.sortedBy { et -> et.name }
+
+    override var description: String
+        get() = _description.get()
+        set(value) {
+
+
+            check(!isRoot) {
+                "Root vertex type description cannot be changed"
+            }
+
+            _description.set(value)
+
+        }
 
     override var name: String
         get() = _name.get()

@@ -20,6 +20,7 @@ class VertexAttributeType(
 ) : AbstractAttributeType() {
 
     private val _dataTypeUsages = VLinkedList<AttributeDataTypeUsage>()
+    private val _description = V("")
     private val _labelDefaulting = V(ELabelDefaulting.NOT_DEFAULT_LABEL)
     private val _name = V("NewAttributeType")
     private val _optionality = V(EAttributeOptionality.OPTIONAL)
@@ -28,6 +29,10 @@ class VertexAttributeType(
 
     override val dataTypes: List<ConstrainedDataType>
         get() = _dataTypeUsages.map { i -> i.dataType }.sortedBy { dt -> dt.path }
+
+    override var description: String
+        get() = _description.get()
+        set(value) = _description.set(value)
 
     /** Whether this attribute serves as the default label for vertexes of the parent type. */
     var labelDefaulting: ELabelDefaulting

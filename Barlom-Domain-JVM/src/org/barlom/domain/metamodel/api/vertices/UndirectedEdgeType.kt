@@ -27,8 +27,9 @@ class UndirectedEdgeType(
 
 ) : AbstractEdgeType() {
 
-    private val _abstractness = V(if (isRoot) EAbstractness.ABSTRACT else EAbstractness.CONCRETE)
+    private val _abstractness = if (isRoot) V(EAbstractness.ABSTRACT) else V(EAbstractness.CONCRETE)
     private val _cyclicity = V(ECyclicity.DEFAULT)
+    private val _description = if (isRoot) V("Root undirected edge type.") else V("")
     private val _edgeAttributeTypeContainments = VLinkedList<EdgeAttributeTypeContainment>()
     private val _maxDegree: V<Int?> = V(null)
     private val _minDegree: V<Int?> = V(null)
@@ -69,6 +70,19 @@ class UndirectedEdgeType(
             }
 
             _cyclicity.set(value)
+
+        }
+
+    override var description: String
+        get() = _description.get()
+        set(value) {
+
+
+            check(!isRoot) {
+                "Root undirected edge type description cannot be changed"
+            }
+
+            _description.set(value)
 
         }
 

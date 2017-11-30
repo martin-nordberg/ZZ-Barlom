@@ -23,6 +23,7 @@ class EdgeAttributeType(
 ) : AbstractAttributeType() {
 
     private val _dataTypeUsages = VLinkedList<AttributeDataTypeUsage>()
+    private val _description = V("")
     private val _edgeAttributeTypeContainments = VLinkedList<EdgeAttributeTypeContainment>()
     private val _name = V("NewAttributeType")
     private val _optionality = V(EAttributeOptionality.OPTIONAL)
@@ -30,6 +31,10 @@ class EdgeAttributeType(
 
     override val dataTypes: List<ConstrainedDataType>
         get() = _dataTypeUsages.map { i -> i.dataType }.sortedBy { dt -> dt.path }
+
+    override var description: String
+        get() = _description.get()
+        set(value) = _description.set(value)
 
     /** The edge types of this edge attribute type. */
     val edgeTypes: List<AbstractEdgeType>

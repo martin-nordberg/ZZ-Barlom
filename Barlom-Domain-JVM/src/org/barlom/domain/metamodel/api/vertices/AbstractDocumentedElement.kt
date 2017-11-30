@@ -8,12 +8,21 @@ package org.barlom.domain.metamodel.api.vertices
 import org.barlom.infrastructure.uuids.Uuid
 
 /**
- * Top-level interface for Barlom model elements. Various forms of documentation can be linked to any such
+ * Abstract interface for Barlom model elements. Various forms of documentation can be linked to any such
  * model element.
  */
-abstract class AbstractDocumentedElement internal constructor() {
+abstract class AbstractDocumentedElement internal constructor() : AbstractElement() {
 
-    /** The unique ID of this element. */
-    abstract val id: Uuid
+    /** A short description of the element. */
+    abstract var description: String;
+
+    val firstLineOfDescription: String
+        get() {
+            val result = description.split('\n')
+            if ( result.size > 1 ) {
+                return result[0] + " ..."
+            }
+            return result[0]
+        }
 
 }

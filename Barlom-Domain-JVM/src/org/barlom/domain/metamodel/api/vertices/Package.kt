@@ -24,6 +24,7 @@ class Package internal constructor(
     private val _childPackageContainments = VLinkedList<PackageContainment>()
     private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _consumerPackageDependencies = VLinkedList<PackageDependency>()
+    private val _description = if(isRoot) V("Root package.") else V("")
     private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _name = V(if (isRoot) "Metamodel" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
@@ -51,6 +52,19 @@ class Package internal constructor(
     /** Links to packages that are direct consumers of this package. */
     val consumerPackageDependencies: List<PackageDependency>
         get() = _consumerPackageDependencies.sortedBy { c -> c.consumer.path }
+
+    override var description: String
+        get() = _description.get()
+        set(value) {
+
+
+            check(!isRoot) {
+                "Root package description cannot be changed"
+            }
+
+            _description.set(value)
+
+        }
 
     /** The directed edge types within this package. */
     val directedEdgeTypes: List<DirectedEdgeType>

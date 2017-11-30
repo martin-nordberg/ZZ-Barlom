@@ -25,6 +25,7 @@ sealed class ConstrainedDataType(
 
     private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _dataTypeUsages = VLinkedList<AttributeDataTypeUsage>()
+    private val _description = V("")
     private val _name = V(name)
 
 
@@ -33,6 +34,10 @@ sealed class ConstrainedDataType(
 
     /** The core data type that is being constrained. */
     abstract val dataType: EDataType
+
+    override var description: String
+        get() = _description.get()
+        set(value) = _description.set(value)
 
     override var name: String
         get() = _name.get()

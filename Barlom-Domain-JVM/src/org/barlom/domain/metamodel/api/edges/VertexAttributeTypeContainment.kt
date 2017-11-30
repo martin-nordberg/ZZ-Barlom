@@ -5,7 +5,7 @@
 
 package org.barlom.domain.metamodel.api.edges
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
+import org.barlom.domain.metamodel.api.vertices.AbstractElement
 import org.barlom.domain.metamodel.api.vertices.VertexAttributeType
 import org.barlom.domain.metamodel.api.vertices.VertexType
 import org.barlom.infrastructure.uuids.Uuid
@@ -19,7 +19,7 @@ class VertexAttributeTypeContainment internal constructor(
     val vertexType: VertexType,
     val attributeType: VertexAttributeType
 
-) : AbstractDocumentedElement() {
+) : AbstractElement() {
 
     init {
 
