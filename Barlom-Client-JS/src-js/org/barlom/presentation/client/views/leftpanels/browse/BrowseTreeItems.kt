@@ -6,21 +6,44 @@
 package org.barlom.presentation.client.views.leftpanels.browse
 
 import org.barlom.domain.metamodel.api.actions.ModelAction
-import org.barlom.domain.metamodel.api.actions.PackageActions
-import org.barlom.domain.metamodel.api.vertices.DirectedEdgeType
-import org.barlom.domain.metamodel.api.vertices.Package
-import org.barlom.domain.metamodel.api.vertices.UndirectedEdgeType
-import org.barlom.domain.metamodel.api.vertices.VertexType
+import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.actions.leftpanels.browse.BrowsePanelAction
 import org.barlom.presentation.client.actions.leftpanels.browse.BrowsePanelActions
 import org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
-import org.barlom.presentation.client.views.listitems.*
+import org.barlom.presentation.client.views.listitems.viewListItem
 import org.katydom.api.katyDomComponent
 import org.katydom.api.katyDomListItemComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomListItemContentBuilder
 
+
+/** Generates a tree item for a given [directedEdgeType]. */
+fun viewConstrainedDataTypeTreeItem(
+    builder: KatyDomListItemContentBuilder,
+    constrainedDataType: ConstrainedDataType,
+    browsePanelState: BrowsePanelState,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    revDispatchUi: (uiAction: UiAction) -> Unit,
+    revDispatchBrowse: (browseAction: BrowsePanelAction) -> Unit
+) = katyDomListItemComponent(builder) {
+
+    val isFocused = constrainedDataType == browsePanelState.focusedElement
+
+    li {
+
+        classes(
+            "tree-item--focused" to isFocused,
+            "tree-item--not-focused" to !isFocused
+        )
+
+        data("uuid", constrainedDataType.id.toString())
+
+        viewListItem(this, constrainedDataType, revDispatchUi)
+
+    }
+
+}
 
 /** Generates a tree item for a given [directedEdgeType]. */
 fun viewDirectedEdgeTypeTreeItem(
@@ -66,10 +89,7 @@ fun viewPackageTreeItem(
     revDispatchBrowse: (browseAction: BrowsePanelAction) -> Unit
 ): Unit = katyDomListItemComponent(builder) {
 
-    val hasChildren = pkg.childPackageContainments.isNotEmpty() ||
-                      pkg.vertexTypeContainments.isNotEmpty() ||
-                      pkg.directedEdgeTypes.isNotEmpty()||
-                      pkg.undirectedEdgeTypes.isNotEmpty()
+    val hasChildren = pkg.containsElements
 
     val isExpanded = browsePanelState.isExpandedElement(pkg)
 
@@ -120,21 +140,9 @@ private fun viewPackageChildTreeItems(
 
         onclick { e -> e.stopPropagation() }
 
-        for (subpkg in pkg.children) {
+        for (subpkg in pkg.childPackages) {
             viewPackageTreeItem(this, subpkg, browsePanelState, revDispatchModel, revDispatchUi,
                                 revDispatchBrowse)
-        }
-
-        // TODO: Move to right panel:
-        li(".tree-item--not-focused") {
-
-            onclick {
-                revDispatchModel(PackageActions.addPackage(pkg))
-                // TODO: focus the newly created package
-            }
-
-            text("New Package")
-
         }
 
         for (vt in pkg.vertexTypes) {
@@ -142,11 +150,17 @@ private fun viewPackageChildTreeItems(
         }
 
         for (et in pkg.undirectedEdgeTypes) {
-            viewUndirectedEdgeTypeTreeItem(this, et, browsePanelState, revDispatchModel, revDispatchUi, revDispatchBrowse)
+            viewUndirectedEdgeTypeTreeItem(this, et, browsePanelState, revDispatchModel, revDispatchUi,
+                                           revDispatchBrowse)
         }
 
         for (et in pkg.directedEdgeTypes) {
             viewDirectedEdgeTypeTreeItem(this, et, browsePanelState, revDispatchModel, revDispatchUi, revDispatchBrowse)
+        }
+
+        for (cdt in pkg.constrainedDataTypes) {
+            viewConstrainedDataTypeTreeItem(this, cdt, browsePanelState, revDispatchModel, revDispatchUi,
+                                            revDispatchBrowse)
         }
 
     }
@@ -165,10 +179,7 @@ fun viewRootPackageTreeItem(
 
     require(pkg.isRoot) { "Root package expected." }
 
-    val hasChildren = pkg.childPackageContainments.isNotEmpty() ||
-                      pkg.vertexTypeContainments.isNotEmpty() ||
-                      pkg.directedEdgeTypes.isNotEmpty() ||
-                      pkg.undirectedEdgeTypes.isNotEmpty()
+    val hasChildren = pkg.containsElements
 
     val isFocused = pkg == browsePanelState.focusedElement
 

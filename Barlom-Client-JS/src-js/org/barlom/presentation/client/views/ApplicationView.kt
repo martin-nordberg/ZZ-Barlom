@@ -18,6 +18,7 @@ import org.barlom.presentation.client.views.leftpanels.search.viewSearchPanel
 import org.barlom.presentation.client.views.leftpanels.viewLeftPanelNavItem
 import org.barlom.presentation.client.views.listitems.viewFocusedElementPath
 import org.barlom.presentation.client.views.rightpanels.forms.viewPropertiesForm
+import org.barlom.presentation.client.views.rightpanels.links.viewRelatedElements
 import org.barlom.presentation.client.views.rightpanels.viewRightPanelNavItem
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.katyDom
@@ -96,7 +97,19 @@ fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): Kat
                     }
 
                     if (ui.focusedElement != null) {
-                        viewPropertiesForm(this, ::revDispatchModel, ui.focusedElement!!, ::revDispatchUi)
+
+                        div("#right-forms-container.o-grid") {
+
+                            div("#properties-form-container.o-grid__cell--width-60") {
+                                viewPropertiesForm(this, ::revDispatchModel, ui.focusedElement!!, ::revDispatchUi)
+                            }
+
+                            div("#related-elements-container.o-grid__cell--width-40") {
+                                viewRelatedElements(this, ::revDispatchModel, ui.focusedElement!!, ::revDispatchUi)
+                            }
+
+                        }
+
                     }
 
                 }

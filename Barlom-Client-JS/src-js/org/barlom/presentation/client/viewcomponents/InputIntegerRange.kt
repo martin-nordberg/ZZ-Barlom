@@ -74,7 +74,7 @@ fun viewInputIntegerRange(
                     ".c-field",
                     key = name + "-" + maxNumberInput.id,
                     disabled = maxNumberInput.disabled,
-                    min = minNumberInput.value,
+                    min = minNumberInput.value ?: 0,
                     placeholder = maxNumberInput.placeholder,
                     value = maxNumberInput.value
                 ) {

@@ -230,7 +230,7 @@ class ConstrainedString(
     private val _defaultValue: V<String?> = V(null)
     private val _maxLength: V<Int?> = V(null)
     private val _minLength: V<Int?> = V(null)
-    private val _regex: V<Regex?> = V(null)
+    private val _regexPattern: V<Regex?> = V(null)
 
 
     override val dataType: EDataType
@@ -252,9 +252,9 @@ class ConstrainedString(
         set(value) = _minLength.set(value)
 
     /** The regular expression that must be matched by values with this attribute type. */
-    var regex: Regex?
-        get() = _regex.get()
-        set(value) = _regex.set(value)
+    var regexPattern: Regex?
+        get() = _regexPattern.get()
+        set(value) = _regexPattern.set(value)
 
 
 }

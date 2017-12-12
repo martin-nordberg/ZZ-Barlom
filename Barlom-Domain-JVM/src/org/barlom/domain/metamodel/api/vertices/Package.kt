@@ -24,7 +24,7 @@ class Package internal constructor(
     private val _childPackageContainments = VLinkedList<PackageContainment>()
     private val _constrainedDataTypeContainments = VLinkedList<ConstrainedDataTypeContainment>()
     private val _consumerPackageDependencies = VLinkedList<PackageDependency>()
-    private val _description = if(isRoot) V("Root package.") else V("")
+    private val _description = if (isRoot) V("Root package.") else V("")
     private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
     private val _name = V(if (isRoot) "Metamodel" else "newpackage")
     private val _parentPackageContainments = VLinkedList<PackageContainment>()
@@ -33,17 +33,21 @@ class Package internal constructor(
     private val _vertexTypeContainments = VLinkedList<VertexTypeContainment>()
 
 
-    /** The child sub-packages within this package. */
-    val children: List<Package>
-        get() = _childPackageContainments.map { c -> c.child }.sortedBy { pkg -> pkg.name }
-
     /** Links to packages that are direct children of this package. */
     val childPackageContainments: List<PackageContainment>
         get() = _childPackageContainments.sortedBy { c -> c.child.name }
 
+    /** The child sub-packages within this package. */
+    val childPackages: List<Package>
+        get() = _childPackageContainments.map { c -> c.child }.sortedBy { pkg -> pkg.name }
+
+    /** The constrained data types within this package. */
+    val constrainedDataTypeContainments: List<ConstrainedDataTypeContainment>
+        get() = _constrainedDataTypeContainments.sortedBy { cdt -> cdt.child.name }
+
     /** The constrained data types within this package. */
     val constrainedDataTypes: List<ConstrainedDataType>
-        get() = _constrainedDataTypeContainments.map { c -> c.child }.sortedBy { vt -> vt.name }
+        get() = _constrainedDataTypeContainments.map { c -> c.child }.sortedBy { cdt -> cdt.name }
 
     /** The consumer package links within this package. */
     val consumers: List<Package>
@@ -52,6 +56,31 @@ class Package internal constructor(
     /** Links to packages that are direct consumers of this package. */
     val consumerPackageDependencies: List<PackageDependency>
         get() = _consumerPackageDependencies.sortedBy { c -> c.consumer.path }
+
+    /** Whether this package contains any sub-packages. */
+    val containsChildPackages: Boolean
+        get() = _childPackageContainments.isNotEmpty()
+
+    /** Whether this package contains directed edge types. */
+    val containsConstrainedDataTypes: Boolean
+        get() = _constrainedDataTypeContainments.isNotEmpty()
+
+    /** Whether this package contains directed edge types. */
+    val containsDirectedEdgeTypes: Boolean
+        get() = _directedEdgeTypeContainments.isNotEmpty()
+
+    /** Whether this package contains child elements of any kind. */
+    val containsElements: Boolean
+        get() = containsChildPackages || containsVertexTypes || containsUndirectedEdgeTypes ||
+            containsDirectedEdgeTypes || containsConstrainedDataTypes
+
+    /** Whether this package contains undirected edge types. */
+    val containsUndirectedEdgeTypes: Boolean
+        get() = _undirectedEdgeTypeContainments.isNotEmpty()
+
+    /** Whether this package contains vertex types. */
+    val containsVertexTypes: Boolean
+        get() = _vertexTypeContainments.isNotEmpty()
 
     override var description: String
         get() = _description.get()
@@ -65,6 +94,10 @@ class Package internal constructor(
             _description.set(value)
 
         }
+
+    /** The directed edge types within this package. */
+    val directedEdgeTypeContainments: List<DirectedEdgeTypeContainment>
+        get() = _directedEdgeTypeContainments.sortedBy { et -> et.child.name }
 
     /** The directed edge types within this package. */
     val directedEdgeTypes: List<DirectedEdgeType>
@@ -172,17 +205,21 @@ class Package internal constructor(
 
         }
 
+    /** The links to undirected edge types within this package. */
+    val undirectedEdgeTypeContainments: List<UndirectedEdgeTypeContainment>
+        get() = _undirectedEdgeTypeContainments.sortedBy { et -> et.child.name }
+
     /** The undirected edge types within this package. */
     val undirectedEdgeTypes: List<UndirectedEdgeType>
         get() = _undirectedEdgeTypeContainments.map { c -> c.child }.sortedBy { et -> et.name }
 
-    /** The vertex types within this package. */
-    val vertexTypes: List<VertexType>
-        get() = _vertexTypeContainments.map { c -> c.child }.sortedBy { vt -> vt.name }
-
     /** Links to vertex types that are direct children of this package. */
     val vertexTypeContainments: List<VertexTypeContainment>
         get() = _vertexTypeContainments.sortedBy { c -> c.child.name }
+
+    /** The vertex types within this package. */
+    val vertexTypes: List<VertexType>
+        get() = _vertexTypeContainments.map { c -> c.child }.sortedBy { vt -> vt.name }
 
 
     /** Registers the given package containment in this package. */

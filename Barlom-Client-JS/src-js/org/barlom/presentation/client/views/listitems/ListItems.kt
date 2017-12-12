@@ -9,7 +9,10 @@ import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.GeneralActions
 import org.barlom.presentation.client.actions.UiAction
 import org.katydom.api.katyDomComponent
+import org.katydom.api.katyDomPhrasingComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
+import org.katydom.builders.KatyDomPhrasingContentBuilder
+import kotlin.reflect.KClass
 
 
 /**
@@ -28,18 +31,31 @@ fun viewListItem(
             e.stopPropagation()
         }
 
-        span(".mdi", "icon") {
-
-            classes(
-                "mdi-ray-start-arrow directed-edge-type" to (element is DirectedEdgeType),
-                "mdi-folder package-icon" to (element is Package && !element.isRoot),
-                "mdi-book-open root-package-icon" to (element is Package && element.isRoot),
-                "mdi-ray-start-end undirected-edge-type-icon" to (element is UndirectedEdgeType),
-                "mdi-ray-vertex vertex-type-icon" to (element is VertexType)
-            )
-        }
+        viewListItemIcon(this, element::class, element is Package && element.isRoot)
 
         text(" " + element.name)
+
+    }
+
+}
+
+
+fun <T : AbstractPackagedElement> viewListItemIcon(
+    builder: KatyDomPhrasingContentBuilder,
+    elementClass: KClass<T>,
+    isRoot: Boolean
+) = katyDomPhrasingComponent(builder) {
+
+    span(".mdi", "icon") {
+
+        classes(
+            "mdi-square-outline constrained-string-icon" to (elementClass == ConstrainedString::class),
+            "mdi-ray-start-arrow directed-edge-type-icon" to (elementClass == DirectedEdgeType::class),
+            "mdi-folder package-icon" to (elementClass == Package::class && !isRoot),
+            "mdi-book-open root-package-icon" to (elementClass == Package::class && isRoot),
+            "mdi-ray-start-end undirected-edge-type-icon" to (elementClass == UndirectedEdgeType::class),
+            "mdi-ray-vertex vertex-type-icon" to (elementClass == VertexType::class)
+        )
 
     }
 

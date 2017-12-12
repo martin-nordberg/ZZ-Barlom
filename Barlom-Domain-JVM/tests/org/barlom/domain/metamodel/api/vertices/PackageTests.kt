@@ -195,9 +195,9 @@ class PackageTests {
                 assertEquals(pkg, root.childPackageContainments[0].child)
                 assertEquals(subpkg, pkg.childPackageContainments[0].child)
 
-                assertTrue(root.children.contains(pkg))
-                assertTrue(pkg.children.contains(subpkg))
-                assertFalse(root.children.contains(subpkg))
+                assertTrue(root.childPackages.contains(pkg))
+                assertTrue(pkg.childPackages.contains(subpkg))
+                assertFalse(root.childPackages.contains(subpkg))
 
                 assertTrue(root.hasChild(pkg))
                 assertFalse(root.hasChild(subpkg))

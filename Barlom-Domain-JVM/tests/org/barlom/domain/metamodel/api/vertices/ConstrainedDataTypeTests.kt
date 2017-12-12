@@ -187,7 +187,7 @@ class ConstrainedDataTypeTests {
                     defaultValue = "xx"
                     minLength = 2
                     maxLength = 30
-                    regex = Regex(".*loopy")
+                    regexPattern = Regex(".*loopy")
                 }
                 val c = makeConstrainedDataTypeContainment(pkg, s)
 
@@ -200,7 +200,7 @@ class ConstrainedDataTypeTests {
                 assertEquals(s.defaultValue, "xx")
                 assertEquals(s.minLength, 2)
                 assertEquals(s.maxLength, 30)
-                assertEquals(s.regex.toString(), ".*loopy")
+                assertEquals(s.regexPattern.toString(), ".*loopy")
 
                 assertTrue(s.hasParent(pkg))
                 assertTrue(pkg.constrainedDataTypes.contains(s))

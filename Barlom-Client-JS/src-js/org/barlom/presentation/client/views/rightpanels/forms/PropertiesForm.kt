@@ -32,25 +32,12 @@ fun viewPropertiesForm(
 
         when (focusedElement) {
 
-            is Package            -> {
+            is ConstrainedString  -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-            }
-
-            is VertexType         -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
-            }
-
-            is UndirectedEdgeType -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
-                viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
-                viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
-                viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
-                viewMinMaxDegreeFields(this, revDispatchModel, focusedElement, isRoot)
+                viewMinMaxLengthFields(this, revDispatchModel, focusedElement)
+                viewDefaultValueField(this, revDispatchModel, focusedElement)
+                viewPatternField(this, revDispatchModel, focusedElement)
             }
 
             is DirectedEdgeType   -> {
@@ -64,6 +51,27 @@ fun viewPropertiesForm(
                 viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
                 viewMinMaxHeadInDegreeFields(this, revDispatchModel, focusedElement, isRoot)
                 viewMinMaxTailOutDegreeFields(this, revDispatchModel, focusedElement, isRoot)
+            }
+
+            is Package            -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+            }
+
+            is UndirectedEdgeType -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
+                viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
+                viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
+                viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
+                viewMinMaxDegreeFields(this, revDispatchModel, focusedElement, isRoot)
+            }
+
+            is VertexType         -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
             }
 
         }
@@ -131,6 +139,23 @@ private fun viewCyclicityField(
     )
 ) { cyclicity ->
     revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(edgeType, cyclicity))
+}
+
+
+private fun viewDefaultValueField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedString: ConstrainedString
+) = viewInputTextField(
+    builder,
+    "default-value",
+    constrainedString.id.toString(),
+    "Default Value:",
+    constrainedString.defaultValue ?: "",
+    "default value",
+    false
+) { newDefaultValue ->
+    revDispatchModel(ConstrainedStringActions.changeDefaultValue(constrainedString, newDefaultValue))
 }
 
 
@@ -208,6 +233,23 @@ private fun viewMinMaxHeadInDegreeFields(
 )
 
 
+private fun viewMinMaxLengthFields(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedString: ConstrainedString
+) = viewInputIntegerRange(
+    builder,
+    "length",
+    "Length (Minimum, Maximum):",
+    IntegerInputConfig(false, constrainedString.minLength, "min-length", "minimum") { minLength ->
+        revDispatchModel(ConstrainedStringActions.changeMinLength(constrainedString, minLength))
+    },
+    IntegerInputConfig(false, constrainedString.maxLength, "max-length", "maximum") { maxLength ->
+        revDispatchModel(ConstrainedStringActions.changeMaxLength(constrainedString, maxLength))
+    }
+)
+
+
 private fun viewMinMaxTailOutDegreeFields(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -261,6 +303,23 @@ private fun viewNameField(
     isRoot
 ) { newName ->
     revDispatchModel(NamedElementActions.rename(namedElement, newName))
+}
+
+
+private fun viewPatternField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedString: ConstrainedString
+) = viewInputTextField(
+    builder,
+    "pattern",
+    constrainedString.id.toString(),
+    "Pattern (Regular Expression):",
+    constrainedString.regexPattern?.toString() ?: "",
+    "regular expression",
+    false
+) { newPattern ->
+    revDispatchModel(ConstrainedStringActions.changeRegexPattern(constrainedString, newPattern))
 }
 
 

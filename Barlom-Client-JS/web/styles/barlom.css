@@ -11,8 +11,16 @@
 
   --left-panel-background-color: #fafafa;
 
+  --symbol-color--add: green;
+
 }
 
+
+.add-symbol {
+
+    color: var(--symbol-color--add);
+
+}
 
 .directed-edge-type-icon {
 
@@ -20,7 +28,8 @@
 
 }
 
-.form--properties {
+.form--properties,
+.form--related-elements {
 
     padding: 1em;
 

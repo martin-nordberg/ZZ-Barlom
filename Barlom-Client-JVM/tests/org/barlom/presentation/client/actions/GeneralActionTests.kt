@@ -17,7 +17,7 @@ class GeneralActionTests {
 
             val appState = initializeAppStateForTesting()
 
-            val pkg = appState.model.rootPackage.children[0]
+            val pkg = appState.model.rootPackage.childPackages[0]
 
             val action = GeneralActions.focus(pkg)
 
