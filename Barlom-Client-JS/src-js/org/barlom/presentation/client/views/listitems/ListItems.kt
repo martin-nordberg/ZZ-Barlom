@@ -49,7 +49,13 @@ fun <T : AbstractPackagedElement> viewListItemIcon(
     span(".mdi", "icon") {
 
         classes(
+            "mdi-square-outline constrained-boolean-icon" to (elementClass == ConstrainedBoolean::class),
+            "mdi-square-outline constrained-datetime-icon" to (elementClass == ConstrainedDataType::class),
+            "mdi-square-outline constrained-datetime-icon" to (elementClass == ConstrainedDateTime::class),
+            "mdi-square-outline constrained-float64-icon" to (elementClass == ConstrainedFloat64::class),
+            "mdi-square-outline constrained-integer32-icon" to (elementClass == ConstrainedInteger32::class),
             "mdi-square-outline constrained-string-icon" to (elementClass == ConstrainedString::class),
+            "mdi-square-outline constrained-uuid-icon" to (elementClass == ConstrainedUuid::class),
             "mdi-ray-start-arrow directed-edge-type-icon" to (elementClass == DirectedEdgeType::class),
             "mdi-folder package-icon" to (elementClass == Package::class && !isRoot),
             "mdi-book-open root-package-icon" to (elementClass == Package::class && isRoot),

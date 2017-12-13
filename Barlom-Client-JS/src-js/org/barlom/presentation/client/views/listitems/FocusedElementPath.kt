@@ -41,6 +41,12 @@ fun viewFocusedElementPath(
 
                 viewListItem(this, element, revDispatchUi)
 
+                if (bold) {
+                    span("c-text") {
+                        text(" : ${element::class.simpleName}")
+                    }
+                }
+
             }
 
         }
@@ -48,6 +54,7 @@ fun viewFocusedElementPath(
         ol("#focused-element-path.c-breadcrumbs") {
             viewPath(this, focusedElement, true)
         }
+
 
     }
 

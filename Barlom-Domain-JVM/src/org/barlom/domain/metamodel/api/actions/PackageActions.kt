@@ -14,7 +14,75 @@ class PackageActions {
     companion object {
 
         /**
-         * Adds a new constrained data type to the given [parentPackage].
+         * Adds a new constrained 32-bit boolean data type to the given [parentPackage].
+         */
+        fun addConstrainedBoolean(parentPackage: Package): ModelAction {
+
+            return { model: Model ->
+
+                model.makeConstrainedBoolean {
+                    model.makeConstrainedDataTypeContainment(parentPackage, this)
+                }
+
+                "Add a constrained boolean data type to ${parentPackage.path}"
+
+            }
+
+        }
+
+        /**
+         * Adds a new constrained date/time data type to the given [parentPackage].
+         */
+        fun addConstrainedDateTime(parentPackage: Package): ModelAction {
+
+            return { model: Model ->
+
+                model.makeConstrainedDateTime {
+                    model.makeConstrainedDataTypeContainment(parentPackage, this)
+                }
+
+                "Add a constrained date/time data type to ${parentPackage.path}"
+
+            }
+
+        }
+
+        /**
+         * Adds a new constrained 64-bit floating point data type to the given [parentPackage].
+         */
+        fun addConstrainedFloat64(parentPackage: Package): ModelAction {
+
+            return { model: Model ->
+
+                model.makeConstrainedFloat64 {
+                    model.makeConstrainedDataTypeContainment(parentPackage, this)
+                }
+
+                "Add a constrained 64-bit floating point data type to ${parentPackage.path}"
+
+            }
+
+        }
+
+        /**
+         * Adds a new constrained 32-bit integer data type to the given [parentPackage].
+         */
+        fun addConstrainedInteger32(parentPackage: Package): ModelAction {
+
+            return { model: Model ->
+
+                model.makeConstrainedInteger32 {
+                    model.makeConstrainedDataTypeContainment(parentPackage, this)
+                }
+
+                "Add a constrained 32-bit integer data type to ${parentPackage.path}"
+
+            }
+
+        }
+
+        /**
+         * Adds a new constrained string data type to the given [parentPackage].
          */
         fun addConstrainedString(parentPackage: Package): ModelAction {
 
@@ -24,7 +92,24 @@ class PackageActions {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
-                "Add a constrained data type to ${parentPackage.path}"
+                "Add a constrained string data type to ${parentPackage.path}"
+
+            }
+
+        }
+
+        /**
+         * Adds a new constrained UUID data type to the given [parentPackage].
+         */
+        fun addConstrainedUuid(parentPackage: Package): ModelAction {
+
+            return { model: Model ->
+
+                model.makeConstrainedUuid {
+                    model.makeConstrainedDataTypeContainment(parentPackage, this)
+                }
+
+                "Add a constrained UUID data type to ${parentPackage.path}"
 
             }
 

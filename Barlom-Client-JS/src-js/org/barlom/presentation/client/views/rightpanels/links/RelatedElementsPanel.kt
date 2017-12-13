@@ -37,10 +37,12 @@ fun viewRelatedElements(
                     revDispatchUi,
                     "Child Packages:",
                     "child-packages",
-                    ".mdi-folder.package-icon",
-                    "Add a child package") { pkg ->
-                    revDispatchModel(PackageActions.addPackage(pkg))
-                }
+                    listOf(
+                        AddElementConfig("Add a child package") { pkg ->
+                            revDispatchModel(PackageActions.addPackage(pkg))
+                        }
+                    )
+                )
                 viewChildElements(
                     this,
                     focusedElement,
@@ -48,10 +50,12 @@ fun viewRelatedElements(
                     revDispatchUi,
                     "Vertex Types:",
                     "vertex-types",
-                    ".mdi-ray-vertex.vertex-type-icon",
-                    "Add a vertex type") { pkg ->
-                    revDispatchModel(PackageActions.addVertexType(pkg))
-                }
+                    listOf(
+                        AddElementConfig("Add a vertex type") { pkg ->
+                            revDispatchModel(PackageActions.addVertexType(pkg))
+                        }
+                    )
+                )
                 viewChildElements(
                     this,
                     focusedElement,
@@ -59,10 +63,12 @@ fun viewRelatedElements(
                     revDispatchUi,
                     "Undirected Edge Types:",
                     "undirected-edge-types",
-                    ".mdi-ray-start-end.undirected-edge-type-icon",
-                    "Add an undirected edge type") { pkg ->
-                    revDispatchModel(PackageActions.addUndirectedEdgeType(pkg))
-                }
+                    listOf(
+                        AddElementConfig("Add an undirected edge type") { pkg ->
+                            revDispatchModel(PackageActions.addUndirectedEdgeType(pkg))
+                        }
+                    )
+                )
                 viewChildElements(
                     this,
                     focusedElement,
@@ -70,10 +76,12 @@ fun viewRelatedElements(
                     revDispatchUi,
                     "Directed Edge Types:",
                     "directed-edge-types",
-                    ".mdi-ray-start-arrow.directed-edge-type-icon",
-                    "Add a directed edge type") { pkg ->
-                    revDispatchModel(PackageActions.addDirectedEdgeType(pkg))
-                }
+                    listOf(
+                        AddElementConfig("Add a directed edge type") { pkg ->
+                            revDispatchModel(PackageActions.addDirectedEdgeType(pkg))
+                        }
+                    )
+                )
                 viewChildElements(
                     this,
                     focusedElement,
@@ -81,10 +89,27 @@ fun viewRelatedElements(
                     revDispatchUi,
                     "Constrained Data Types:",
                     "constrained-data-types",
-                    ".mdi-square-outline.constrained-string-icon",
-                    "Add a constrained string data type") { pkg ->
-                    revDispatchModel(PackageActions.addConstrainedString(pkg))
-                }
+                    listOf(
+                        AddElementConfig("Add a constrained string data type") { pkg ->
+                            revDispatchModel(PackageActions.addConstrainedString(pkg))
+                        },
+                        AddElementConfig("Add a constrained 32-bit integer data type") { pkg ->
+                            revDispatchModel(PackageActions.addConstrainedInteger32(pkg))
+                        },
+                        AddElementConfig("Add a constrained 64-bit floating point data type") { pkg ->
+                            revDispatchModel(PackageActions.addConstrainedFloat64(pkg))
+                        },
+                        AddElementConfig("Add a constrained boolean data type") { pkg ->
+                            revDispatchModel(PackageActions.addConstrainedBoolean(pkg))
+                        },
+                        AddElementConfig("Add a constrained date/time data type") { pkg ->
+                            revDispatchModel(PackageActions.addConstrainedDateTime(pkg))
+                        },
+                        AddElementConfig("Add a constrained UUID data type") { pkg ->
+                            revDispatchModel(PackageActions.addConstrainedUuid(pkg))
+                        }
+                    )
+                )
 
             }
 
@@ -103,6 +128,11 @@ fun viewRelatedElements(
 
 }
 
+data class AddElementConfig(
+    val label: String,
+    val action: (Package) -> Unit
+);
+
 private inline fun <reified T : AbstractPackagedElement> viewChildElements(
     builder: KatyDomFlowContentBuilder,
     pkg: Package,
@@ -110,9 +140,7 @@ private inline fun <reified T : AbstractPackagedElement> viewChildElements(
     noinline revDispatchUi: (uiAction: UiAction) -> Unit,
     label: String,
     name: String,
-    iconClasses: String,
-    addLabel: String,
-    noinline addAction: (Package) -> Unit
+    addButtons: List<AddElementConfig>
 ) = katyDomComponent(builder) {
 
     label("#${name}-label.c-label.o-form-element") {
@@ -133,20 +161,22 @@ private inline fun <reified T : AbstractPackagedElement> viewChildElements(
 
         }
 
-        li(".tree-item--not-focused") {
+        for (addButton in addButtons) {
+            li(".tree-item--not-focused") {
 
-            onclick {
-                addAction(pkg)
-            }
+                onclick {
+                    addButton.action(pkg)
+                }
 
-            span(".c-link") {
+                span(".c-link") {
 
-                viewListItemIcon(this, T::class, false)
+                    viewListItemIcon(this, T::class, false)
 
-                span(".mdi.mdi-plus-circle-outline.add-symbol", "add-symbol") {}
+                    span(".mdi.mdi-plus-circle-outline.add-symbol", "add-symbol") {}
 
-                text(" ${addLabel}")
+                    text(" ${addButton.label}")
 
+                }
             }
         }
 
