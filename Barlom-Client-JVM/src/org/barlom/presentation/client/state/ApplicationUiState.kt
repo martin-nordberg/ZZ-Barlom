@@ -5,6 +5,7 @@
 
 package org.barlom.presentation.client.state
 
+import org.barlom.domain.metamodel.api.vertices.AbstractNamedElement
 import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.infrastructure.revisions.V
 import org.barlom.presentation.client.state.leftpanels.ELeftPanelType
@@ -15,7 +16,7 @@ import org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
  */
 class ApplicationUiState() {
 
-    private val _focusedElement: V<AbstractPackagedElement?> = V(null)
+    private val _focusedElement: V<AbstractNamedElement?> = V(null)
 
     private val _leftPanelType: V<ELeftPanelType> = V(
         ELeftPanelType.BROWSE)

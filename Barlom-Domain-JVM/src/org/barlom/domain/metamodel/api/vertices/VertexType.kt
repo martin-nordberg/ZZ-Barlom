@@ -223,6 +223,8 @@ class VertexType(
 
     }
 
+    override fun hasParentPackage(pkg: Package) = hasParent(pkg)
+
     /** Whether the given [vertexType] is a direct sub type of this one. */
     fun hasSubType(vertexType: VertexType): Boolean {
 

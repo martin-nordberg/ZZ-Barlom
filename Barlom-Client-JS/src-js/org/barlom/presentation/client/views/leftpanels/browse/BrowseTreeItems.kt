@@ -30,7 +30,7 @@ fun viewConstrainedDataTypeTreeItem(
 
     val isFocused = constrainedDataType == browsePanelState.focusedElement
 
-    li {
+    li ( ".c-tree__item.c-tree__item--empty") {
 
         classes(
             "tree-item--focused" to isFocused,
@@ -57,11 +57,16 @@ fun viewDirectedEdgeTypeTreeItem(
 
     val hasChildren = directedEdgeType.attributeTypes.isNotEmpty()
 
+    val isExpanded = browsePanelState.isExpandedElement(directedEdgeType)
+
     val isFocused = directedEdgeType == browsePanelState.focusedElement
 
-    li {
+    li( ".c-tree__item") {
 
         classes(
+            "c-tree__item--expanded" to (hasChildren && isExpanded),
+            "c-tree__item--expandable" to (hasChildren && !isExpanded),
+            "c-tree__item--empty" to !hasChildren,
             "tree-item--focused" to isFocused,
             "tree-item--not-focused" to !isFocused
         )
@@ -95,7 +100,7 @@ fun viewPackageTreeItem(
 
     val isFocused = pkg == browsePanelState.focusedElement
 
-    li(".c-tree__item") {
+    li(".c-tree__item.c-tree__item") {
 
         classes(
             "c-tree__item--expanded" to (hasChildren && isExpanded),
@@ -214,11 +219,16 @@ fun viewUndirectedEdgeTypeTreeItem(
 
     val hasChildren = undirectedEdgeType.attributeTypes.isNotEmpty()
 
+    val isExpanded = browsePanelState.isExpandedElement(undirectedEdgeType)
+
     val isFocused = undirectedEdgeType == browsePanelState.focusedElement
 
-    li {
+    li( ".c-tree__item") {
 
         classes(
+            "c-tree__item--expanded" to (hasChildren && isExpanded),
+            "c-tree__item--expandable" to (hasChildren && !isExpanded),
+            "c-tree__item--empty" to !hasChildren,
             "tree-item--focused" to isFocused,
             "tree-item--not-focused" to !isFocused
         )
@@ -230,6 +240,34 @@ fun viewUndirectedEdgeTypeTreeItem(
         if (hasChildren) {
             // TODO
         }
+
+    }
+
+}
+
+
+/** Generates a tree item for a given [vertexAttributeType]. */
+fun viewVertexAttributeTypeTreeItem(
+    builder: KatyDomListItemContentBuilder,
+    vertexAttributeType: VertexAttributeType,
+    browsePanelState: BrowsePanelState,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    revDispatchUi: (uiAction: UiAction) -> Unit,
+    revDispatchBrowse: (browseAction: BrowsePanelAction) -> Unit
+) = katyDomListItemComponent(builder) {
+
+    val isFocused = vertexAttributeType == browsePanelState.focusedElement
+
+    li (".c-tree__item.c-tree__item--empty") {
+
+        classes(
+            "tree-item--focused" to isFocused,
+            "tree-item--not-focused" to !isFocused
+        )
+
+        data("uuid", vertexAttributeType.id.toString())
+
+        viewListItem(this, vertexAttributeType, revDispatchUi)
 
     }
 
@@ -248,21 +286,47 @@ fun viewVertexTypeTreeItem(
 
     val hasChildren = vertexType.attributeTypes.isNotEmpty()
 
+    val isExpanded = browsePanelState.isExpandedElement(vertexType)
+
     val isFocused = vertexType == browsePanelState.focusedElement
 
-    li {
+    li( ".c-tree__item") {
 
         classes(
+            "c-tree__item--expanded" to (hasChildren && isExpanded),
+            "c-tree__item--expandable" to (hasChildren && !isExpanded),
+            "c-tree__item--empty" to !hasChildren,
             "tree-item--focused" to isFocused,
             "tree-item--not-focused" to !isFocused
         )
 
         data("uuid", vertexType.id.toString())
 
+        onclick { e ->
+
+            if (e.offsetX < 20) {
+                revDispatchBrowse(BrowsePanelActions.toggleExpanded(vertexType))
+                e.stopPropagation()
+            }
+
+        }
+
         viewListItem(this, vertexType, revDispatchUi)
 
-        if (hasChildren) {
-            // TODO
+        if (hasChildren && isExpanded) {
+
+            ul(".c-tree") {
+
+                onclick { e -> e.stopPropagation() }
+
+                for (at in vertexType.attributeTypes) {
+                    viewVertexAttributeTypeTreeItem(
+                        this, at, browsePanelState, revDispatchModel, revDispatchUi, revDispatchBrowse
+                    )
+                }
+
+            }
+
         }
 
     }

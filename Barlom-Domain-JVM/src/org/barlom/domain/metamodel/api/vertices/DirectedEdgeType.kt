@@ -350,6 +350,8 @@ class DirectedEdgeType(
 
     }
 
+    override fun hasParentPackage(pkg: Package) = hasParent(pkg)
+
     /** Whether the given [directedEdgeType] is a direct sub type of this one. */
     fun hasSubType(directedEdgeType: DirectedEdgeType): Boolean {
 

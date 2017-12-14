@@ -99,6 +99,8 @@ sealed class ConstrainedDataType(
 
     }
 
+    override fun hasParentPackage(pkg: Package) = hasParent(pkg)
+
 }
 
 /**

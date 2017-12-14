@@ -5,7 +5,7 @@
 
 package org.barlom.presentation.client.views.listitems
 
-import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
+import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.UiAction
 import org.katydom.api.katyDomComponent
 import org.katydom.api.katyDomListItemComponent
@@ -15,7 +15,7 @@ import org.katydom.builders.KatyDomListItemContentBuilder
 /** Generates the path to the focused element. */
 fun viewFocusedElementPath(
     builder: KatyDomFlowContentBuilder,
-    focusedElement: AbstractPackagedElement?,
+    focusedElement: AbstractNamedElement?,
     revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
@@ -27,12 +27,23 @@ fun viewFocusedElementPath(
         @Suppress("RedundantUnitReturnType")
         fun viewPath(
             builder: KatyDomListItemContentBuilder,
-            element: AbstractPackagedElement,
+            element: AbstractNamedElement,
             bold: Boolean = false
         ): Unit = katyDomListItemComponent(builder) {
 
-            if (element.parents.isNotEmpty()) {
-                viewPath(builder, element.parents[0])
+            when ( element ) {
+                is AbstractPackagedElement ->
+                    if (element.parents.isNotEmpty()) {
+                        viewPath(builder, element.parents[0])
+                    }
+                is EdgeAttributeType       ->
+                    if (element.edgeTypes.isNotEmpty()) {
+                        viewPath(builder, element.edgeTypes[0])
+                    }
+                is VertexAttributeType     ->
+                    if (element.vertexTypes.isNotEmpty()) {
+                        viewPath(builder, element.vertexTypes[0])
+                    }
             }
 
             li(".c-breadcrumbs__crumb", element.id) {

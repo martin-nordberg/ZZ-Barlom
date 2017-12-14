@@ -16,4 +16,7 @@ abstract class AbstractNamedElement internal constructor() : AbstractDocumentedE
     /** The dot-delimited path to this packaged element. */
     abstract val path: String
 
+    /** Whether this element is contained directly or indirectly by the given package. */
+    abstract fun hasParentPackage(pkg: Package): Boolean
+
 }

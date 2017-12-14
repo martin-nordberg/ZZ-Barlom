@@ -20,7 +20,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 fun viewPropertiesForm(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
-    focusedElement: AbstractPackagedElement,
+    focusedElement: AbstractNamedElement,
     revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
@@ -72,6 +72,12 @@ fun viewPropertiesForm(
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
+            }
+
+            is VertexAttributeType -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                // TODO: data type, label defaulting, optionality
             }
 
         }

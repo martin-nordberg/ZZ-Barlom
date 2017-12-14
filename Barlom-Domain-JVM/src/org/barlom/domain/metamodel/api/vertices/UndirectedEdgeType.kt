@@ -248,6 +248,8 @@ class UndirectedEdgeType(
 
     }
 
+    override fun hasParentPackage(pkg: Package) = hasParent(pkg)
+
     /** Whether the given [undirectedEdgeType] is a direct sub type of this one. */
     fun hasSubType(undirectedEdgeType: UndirectedEdgeType): Boolean {
 

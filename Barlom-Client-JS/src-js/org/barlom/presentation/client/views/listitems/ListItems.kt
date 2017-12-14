@@ -20,7 +20,7 @@ import kotlin.reflect.KClass
  */
 fun viewListItem(
     builder: KatyDomFlowContentBuilder,
-    element: AbstractPackagedElement,
+    element: AbstractNamedElement,
     revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
 
@@ -40,7 +40,7 @@ fun viewListItem(
 }
 
 
-fun <T : AbstractPackagedElement> viewListItemIcon(
+fun <T : AbstractNamedElement> viewListItemIcon(
     builder: KatyDomPhrasingContentBuilder,
     elementClass: KClass<T>,
     isRoot: Boolean
@@ -60,7 +60,8 @@ fun <T : AbstractPackagedElement> viewListItemIcon(
             "mdi-folder package-icon" to (elementClass == Package::class && !isRoot),
             "mdi-book-open root-package-icon" to (elementClass == Package::class && isRoot),
             "mdi-ray-start-end undirected-edge-type-icon" to (elementClass == UndirectedEdgeType::class),
-            "mdi-ray-vertex vertex-type-icon" to (elementClass == VertexType::class)
+            "mdi-ray-vertex vertex-type-icon" to (elementClass == VertexType::class),
+            "mdi-square vertex-attribute-type-icon" to (elementClass == VertexAttributeType::class)
         )
 
     }

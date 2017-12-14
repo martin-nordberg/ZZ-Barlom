@@ -109,6 +109,10 @@ class VLinkedListTests {
             assertFalse(list.contains(20))
             assertTrue(list.contains(30))
             assertTrue(list.contains(40))
+            assertTrue(list.contains({it==10}))
+            assertFalse(list.contains({it==20}))
+            assertTrue(list.contains({it==30}))
+            assertTrue(list.contains({it==40}))
             assertFalse(list.isEmpty())
             assertTrue(list.isNotEmpty())
 

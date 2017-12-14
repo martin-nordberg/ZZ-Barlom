@@ -15,6 +15,23 @@ class VertexTypeActions {
     companion object {
 
         /**
+         * Adds a new child package to the given [parentVertexType].
+         */
+        fun addAttributeType(parentVertexType: VertexType): ModelAction {
+
+            return { model: Model ->
+
+                model.makeVertexAttributeType {
+                    model.makeVertexAttributeTypeContainment(parentVertexType, this)
+                }
+
+                "Add an attribute type to ${parentVertexType.path}"
+
+            }
+
+        }
+
+        /**
          * Changes the abstractness of the given [vertexType].
          */
         fun changeAbstractness(vertexType: VertexType, abstractness: EAbstractness): ModelAction {

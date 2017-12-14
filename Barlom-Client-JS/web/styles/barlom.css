@@ -9,6 +9,7 @@
   --icon-color--root-package: #f57f17;
   --icon-color--undirected-edge-type: #00c853;
   --icon-color--vertex-type: #311b92;
+  --icon-color--vertex-attribute-type: #7f0000;
 
   --left-panel-background-color: #fafafa;
 
@@ -32,6 +33,11 @@
 
     color: var(--icon-color--constrained-data-type);
 
+}
+
+.c-tree__item--empty:before {
+    content: " ";
+    margin-left: 1em;
 }
 
 .directed-edge-type-icon {
@@ -86,6 +92,12 @@
 .vertex-type-icon {
 
     color: var(--icon-color--vertex-type);
+
+}
+
+.vertex-attribute-type-icon {
+
+    color: var(--icon-color--vertex-attribute-type);
 
 }
 

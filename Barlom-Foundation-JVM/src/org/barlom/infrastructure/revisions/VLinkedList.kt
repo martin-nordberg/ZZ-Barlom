@@ -88,6 +88,26 @@ class VLinkedList<T : Any> {
     }
 
     /**
+     * Tests whether the list contains a value satisfying the given condition. Search is O(n).
+     */
+    fun contains(predicate: (T)->Boolean): Boolean {
+
+        var link = _firstLink.get()
+        while (link != null) {
+
+            if (predicate(link.value)) {
+                return true
+            }
+
+            link = link.nextLink.get()
+
+        }
+
+        return false
+
+    }
+
+    /**
      * Performs the given [action] on each item in the list.
      */
     fun forEach(action: (T) -> Unit) {

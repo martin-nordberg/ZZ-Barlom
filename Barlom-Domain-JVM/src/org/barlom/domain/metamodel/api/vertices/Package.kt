@@ -362,20 +362,9 @@ class Package internal constructor(
 
     }
 
-    override fun hasParent(pkg: Package): Boolean {
+    override fun hasParent(pkg: Package) = _parentPackageContainments.contains({ c -> c.parent == pkg })
 
-        var result = false
-
-        _parentPackageContainments.forEachWhile { packageContainment ->
-
-            result = pkg === packageContainment.parent
-            !result
-
-        }
-
-        return result
-
-    }
+    override fun hasParentPackage(pkg: Package) = hasParent(pkg)
 
     /** Whether the given [pkg] is a direct supplier of this one. */
     fun hasSupplier(pkg: Package): Boolean {

@@ -91,5 +91,9 @@ class EdgeAttributeType(
 
     }
 
+    override fun hasParentPackage(pkg: Package) : Boolean {
+        return _edgeAttributeTypeContainments.contains({c -> c.edgeType.hasParent(pkg)})
+    }
+
 }
 

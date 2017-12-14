@@ -5,9 +5,7 @@
 
 package org.barlom.presentation.client.state.leftpanels.browse
 
-import org.barlom.domain.metamodel.api.vertices.AbstractDocumentedElement
-import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
-import org.barlom.domain.metamodel.api.vertices.Package
+import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.infrastructure.revisions.V
 import org.barlom.infrastructure.revisions.VHashSet
 import org.barlom.infrastructure.uuids.Uuid
@@ -17,7 +15,7 @@ import org.barlom.infrastructure.uuids.Uuid
  */
 class BrowsePanelState(
 
-    private val _focusedElement: V<AbstractPackagedElement?>
+    private val _focusedElement: V<AbstractNamedElement?>
 
 ) {
 
@@ -34,8 +32,19 @@ class BrowsePanelState(
     }
 
     fun isExpandedElement(element: AbstractDocumentedElement): Boolean {
-        return _expandedBrowseTreeElements.contains(element.id) ||
-            element is Package && _focusedElement.get()?.hasParent(element) ?: false
+
+        if (_expandedBrowseTreeElements.contains(element.id)) {
+            return true
+        }
+
+        val focusedElement = _focusedElement.get()
+
+        if ( focusedElement == null ) {
+            return false
+        }
+
+        return element is Package && focusedElement.hasParentPackage(element) ||
+            element is VertexType && focusedElement is VertexAttributeType && focusedElement.hasParent(element)
     }
 
     fun removeExpandedElement(element: AbstractDocumentedElement) {

@@ -94,4 +94,11 @@ class VertexAttributeType(
 
     }
 
+    /** Whether this attribute type is a child of the given vertex type. */
+    fun hasParent(vt: VertexType) = _vertexAttributeTypeContainments.contains({ c -> c.vertexType == vt })
+
+    override fun hasParentPackage(pkg: Package): Boolean {
+        return _vertexAttributeTypeContainments.contains({ c -> c.vertexType.hasParent(pkg) })
+    }
+
 }
