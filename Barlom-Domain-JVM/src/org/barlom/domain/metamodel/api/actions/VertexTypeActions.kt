@@ -15,7 +15,7 @@ class VertexTypeActions {
     companion object {
 
         /**
-         * Adds a new child package to the given [parentVertexType].
+         * Adds a new child attribute type to the given [parentVertexType].
          */
         fun addAttributeType(parentVertexType: VertexType): ModelAction {
 

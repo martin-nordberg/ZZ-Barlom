@@ -27,6 +27,7 @@ class EdgeAttributeType(
     private val _edgeAttributeTypeContainments = VLinkedList<EdgeAttributeTypeContainment>()
     private val _name = V("NewAttributeType")
     private val _optionality = V(EAttributeOptionality.OPTIONAL)
+    // TODO: edgeWeightDefaulting - is this attribute the default weight for a weighted edge?
 
 
     override val dataTypes: List<ConstrainedDataType>

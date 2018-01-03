@@ -5,9 +5,7 @@
 
 package org.barlom.presentation.client.views.rightpanels.links
 
-import org.barlom.domain.metamodel.api.actions.ModelAction
-import org.barlom.domain.metamodel.api.actions.PackageActions
-import org.barlom.domain.metamodel.api.actions.VertexTypeActions
+import org.barlom.domain.metamodel.api.actions.*
 import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.views.listitems.viewListItem
@@ -37,15 +35,44 @@ fun viewRelatedElements(
                 viewVertexTypeChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
             }
 
-            is UndirectedEdgeType -> {
+            is UndirectedEdgeType -> if (!focusedElement.isRoot) {
+                viewUndirectedEdgeTypeChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
             }
 
-            is DirectedEdgeType   -> {
+            is DirectedEdgeType   -> if (!focusedElement.isRoot) {
+                viewDirectedEdgeTypeChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
             }
 
         }
 
     }
+
+}
+
+
+/**
+ * Shows lists of the different kinds of child elements in a directed edge type.
+ */
+private fun viewDirectedEdgeTypeChildElements(
+    builder: KatyDomFlowContentBuilder,
+    focusedElement: DirectedEdgeType,
+    revDispatchUi: (uiAction: UiAction) -> Unit,
+    revDispatchModel: (modelAction: ModelAction) -> Unit
+) = katyDomComponent(builder) {
+
+    viewChildElements(
+        this,
+        focusedElement,
+        AbstractEdgeType::attributeTypes,
+        revDispatchUi,
+        "Attribute Types:",
+        "attribute-types",
+        listOf(
+            AddElementConfig("Add an attribute type") { et ->
+                revDispatchModel(AbstractEdgeTypeActions.addAttributeType(et))
+            }
+        )
+    )
 
 }
 
@@ -149,6 +176,33 @@ private fun viewPackageChildElements(
 
 
 /**
+ * Shows lists of the different kinds of child elements in an undirected edge type.
+ */
+private fun viewUndirectedEdgeTypeChildElements(
+    builder: KatyDomFlowContentBuilder,
+    focusedElement: UndirectedEdgeType,
+    revDispatchUi: (uiAction: UiAction) -> Unit,
+    revDispatchModel: (modelAction: ModelAction) -> Unit
+) = katyDomComponent(builder) {
+
+    viewChildElements(
+        this,
+        focusedElement,
+        AbstractEdgeType::attributeTypes,
+        revDispatchUi,
+        "Attribute Types:",
+        "attribute-types",
+        listOf(
+            AddElementConfig("Add an attribute type") { et ->
+                revDispatchModel(AbstractEdgeTypeActions.addAttributeType(et))
+            }
+        )
+    )
+
+}
+
+
+/**
  * Shows lists of the different kinds of child elements in a vertex type.
  */
 private fun viewVertexTypeChildElements(
@@ -175,10 +229,10 @@ private fun viewVertexTypeChildElements(
 }
 
 
-data class AddElementConfig<Parent>(
+data class AddElementConfig<in Parent>(
     val label: String,
     val action: (Parent) -> Unit
-);
+)
 
 /**
  * Shows a list of child elements for given parent.
@@ -194,11 +248,11 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
 ) = katyDomComponent(builder) {
 
     // Label the list.
-    label("#${name}-label.c-label.o-form-element") {
+    label("#$name-label.c-label.o-form-element") {
         text(label)
     }
 
-    ul("#${name}-list.c-tree") {
+    ul("#$name-list.c-tree") {
 
         // Show the child elements.
         for (child in parent.getChildElements()) {
@@ -230,7 +284,9 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
                     text(" ${addButton.label}")
 
                 }
+
             }
+
         }
 
     }

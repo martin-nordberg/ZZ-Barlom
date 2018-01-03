@@ -6,10 +6,7 @@
 package org.barlom.presentation.client.views.rightpanels.forms
 
 import org.barlom.domain.metamodel.api.actions.*
-import org.barlom.domain.metamodel.api.types.EAbstractness
-import org.barlom.domain.metamodel.api.types.ECyclicity
-import org.barlom.domain.metamodel.api.types.EMultiEdgedness
-import org.barlom.domain.metamodel.api.types.ESelfLooping
+import org.barlom.domain.metamodel.api.types.*
 import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.viewcomponents.*
@@ -53,6 +50,13 @@ fun viewPropertiesForm(
                 viewMinMaxTailOutDegreeFields(this, revDispatchModel, focusedElement, isRoot)
             }
 
+            is EdgeAttributeType -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewOptionalityField(this, revDispatchModel, focusedElement)
+                // TODO: data type, optionality
+            }
+
             is Package            -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
@@ -68,16 +72,18 @@ fun viewPropertiesForm(
                 viewMinMaxDegreeFields(this, revDispatchModel, focusedElement, isRoot)
             }
 
+            is VertexAttributeType -> {
+                viewNameField(this, revDispatchModel, focusedElement, false)
+                viewDescriptionField(this, revDispatchModel, focusedElement, false)
+                viewOptionalityField(this, revDispatchModel, focusedElement)
+                viewLabelDefaultingField(this, revDispatchModel, focusedElement)
+                // TODO: data type
+            }
+
             is VertexType         -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
-            }
-
-            is VertexAttributeType -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                // TODO: data type, label defaulting, optionality
             }
 
         }
@@ -203,6 +209,25 @@ private fun viewForwardReverseNameFields(
 )
 
 
+private fun viewLabelDefaultingField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    vertexAttributeType: VertexAttributeType
+) = viewRadioGroup(
+    builder,
+    "labelDefaulting",
+    "Default Label for Vertex?",
+    vertexAttributeType.labelDefaulting,
+    ELabelDefaulting::valueOf,
+    listOf(
+        RadioConfig(false, ELabelDefaulting.DEFAULT_LABEL, "Yes"),
+        RadioConfig(false, ELabelDefaulting.NOT_DEFAULT_LABEL, "No")
+    )
+) { labelDefaulting ->
+    revDispatchModel(VertexAttributeTypeActions.changeLabelDefaulting(vertexAttributeType, labelDefaulting))
+}
+
+
 private fun viewMinMaxDegreeFields(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -309,6 +334,44 @@ private fun viewNameField(
     isRoot
 ) { newName ->
     revDispatchModel(NamedElementActions.rename(namedElement, newName))
+}
+
+
+private fun viewOptionalityField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeAttributeType: EdgeAttributeType
+) = viewRadioGroup(
+    builder,
+    "optionality",
+    "Required?",
+    edgeAttributeType.optionality,
+    EAttributeOptionality::valueOf,
+    listOf(
+        RadioConfig(false, EAttributeOptionality.REQUIRED, "Required"),
+        RadioConfig(false, EAttributeOptionality.OPTIONAL, "Optional")
+    )
+) { optionality ->
+    revDispatchModel(EdgeAttributeTypeActions.changeOptionality(edgeAttributeType, optionality))
+}
+
+
+private fun viewOptionalityField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    vertexAttributeType: VertexAttributeType
+) = viewRadioGroup(
+    builder,
+    "optionality",
+    "Required?",
+    vertexAttributeType.optionality,
+    EAttributeOptionality::valueOf,
+    listOf(
+        RadioConfig(false, EAttributeOptionality.REQUIRED, "Required"),
+        RadioConfig(false, EAttributeOptionality.OPTIONAL, "Optional")
+    )
+) { optionality ->
+    revDispatchModel(VertexAttributeTypeActions.changeOptionality(vertexAttributeType, optionality))
 }
 
 

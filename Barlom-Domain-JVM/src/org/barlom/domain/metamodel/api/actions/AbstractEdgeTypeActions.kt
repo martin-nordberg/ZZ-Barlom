@@ -18,6 +18,23 @@ class AbstractEdgeTypeActions {
     companion object {
 
         /**
+         * Adds a new child attribute type to the given [parentEdgeType].
+         */
+        fun addAttributeType(parentEdgeType: AbstractEdgeType): ModelAction {
+
+            return { model: Model ->
+
+                model.makeEdgeAttributeType {
+                    model.makeEdgeAttributeTypeContainment(parentEdgeType, this)
+                }
+
+                "Add an attribute type to ${parentEdgeType.path}"
+
+            }
+
+        }
+
+        /**
          * Changes the abstractness of the given [edgeType].
          */
         fun changeAbstractness(edgeType: AbstractEdgeType, abstractness: EAbstractness): ModelAction {
