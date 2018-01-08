@@ -16,7 +16,7 @@ class UndirectedEdgeTypeActions {
         /**
          * Changes the maximum degree of the given [edgeType].
          */
-        fun changeMaxDegree(edgeType: UndirectedEdgeType, maxDegree: Int): ModelAction {
+        fun changeMaxDegree(edgeType: UndirectedEdgeType, maxDegree: Int?): ModelAction {
 
             return { _: Model ->
 
@@ -32,7 +32,7 @@ class UndirectedEdgeTypeActions {
         /**
          * Changes the minimum degree of the given [edgeType].
          */
-        fun changeMinDegree(edgeType: UndirectedEdgeType, minDegree: Int): ModelAction {
+        fun changeMinDegree(edgeType: UndirectedEdgeType, minDegree: Int?): ModelAction {
 
             return { _: Model ->
 

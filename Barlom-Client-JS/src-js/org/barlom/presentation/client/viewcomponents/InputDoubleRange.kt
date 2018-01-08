@@ -8,23 +8,23 @@ package org.barlom.presentation.client.viewcomponents
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
-data class IntegerInputConfig(
+data class DoubleInputConfig(
     val disabled: Boolean,
-    val value: Int?,
+    val value: Double?,
     val id: String,
     val placeholder: String,
-    val changeValue: (Int?) -> Unit
+    val changeValue: (Double?) -> Unit
 )
 
 /**
  * Builds the view for a grouped block of text inputs.
  */
-fun viewInputIntegerRange(
+fun viewInputDoubleRange(
     builder: KatyDomFlowContentBuilder,
     name: String,
     legend: String,
-    minNumberInput: IntegerInputConfig,
-    maxNumberInput: IntegerInputConfig
+    minNumberInput: DoubleInputConfig,
+    maxNumberInput: DoubleInputConfig
 ) = katyDomComponent(builder) {
 
     fieldset("#$name-field.o-fieldset") {
@@ -54,8 +54,7 @@ fun viewInputIntegerRange(
 
                     onblur { event ->
 
-                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.toInt()
-                        event.target.asDynamic().value = newValue
+                        val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
 
                         if (newValue != minNumberInput.value) {
                             minNumberInput.changeValue(newValue)
@@ -75,15 +74,14 @@ fun viewInputIntegerRange(
                     ".c-field",
                     key = name + "-" + maxNumberInput.id,
                     disabled = maxNumberInput.disabled,
-                    min = minNumberInput.value ?: 0,
+                    min = minNumberInput.value ?: 0.0,
                     placeholder = maxNumberInput.placeholder,
                     value = maxNumberInput.value
                 ) {
 
                     onblur { event ->
 
-                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.toInt()
-                        event.target.asDynamic().value = newValue
+                        val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
 
                         if (newValue != maxNumberInput.value) {
                             maxNumberInput.changeValue(newValue)

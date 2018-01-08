@@ -32,7 +32,7 @@ class ConstrainedStringActions {
         /**
          * Changes the maximum length of the given [constrainedString].
          */
-        fun changeMaxLength(constrainedString: ConstrainedString, maxLength: Int): ModelAction {
+        fun changeMaxLength(constrainedString: ConstrainedString, maxLength: Int?): ModelAction {
 
             return { _: Model ->
 
@@ -48,7 +48,7 @@ class ConstrainedStringActions {
         /**
          * Changes the minimum length of the given [constrainedString].
          */
-        fun changeMinLength(constrainedString: ConstrainedString, minLength: Int): ModelAction {
+        fun changeMinLength(constrainedString: ConstrainedString, minLength: Int?): ModelAction {
 
             return { _: Model ->
 

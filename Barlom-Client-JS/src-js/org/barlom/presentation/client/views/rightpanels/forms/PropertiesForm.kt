@@ -29,6 +29,21 @@ fun viewPropertiesForm(
 
         when (focusedElement) {
 
+            is ConstrainedBoolean  -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewDefaultValueField(this, revDispatchModel, focusedElement)
+            }
+
+            // TODO: ConstrainedDateTime
+
+            is ConstrainedFloat64 -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewMinMaxValueFields(this, revDispatchModel, focusedElement)
+                viewDefaultValueField(this, revDispatchModel, focusedElement)
+            }
+
             is ConstrainedString  -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
@@ -54,7 +69,7 @@ fun viewPropertiesForm(
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewOptionalityField(this, revDispatchModel, focusedElement)
-                // TODO: data type, optionality
+                // TODO: data type
             }
 
             is Package            -> {
@@ -151,6 +166,40 @@ private fun viewCyclicityField(
     )
 ) { cyclicity ->
     revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(edgeType, cyclicity))
+}
+
+
+private fun viewDefaultValueField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedBoolean: ConstrainedBoolean
+) = viewBooleanOrNullRadioGroup(
+    builder,
+    "default-value",
+    "Default Value",
+    constrainedBoolean.defaultValue,
+    "True",
+    "False",
+    "No Default"
+) { newDefaultValue ->
+    revDispatchModel(ConstrainedBooleanActions.changeDefaultValue(constrainedBoolean, newDefaultValue))
+}
+
+
+private fun viewDefaultValueField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedFloat64: ConstrainedFloat64
+) = viewInputNumberField(
+    builder,
+    "default-value",
+    constrainedFloat64.id.toString(),
+    "Default Value:",
+    constrainedFloat64.defaultValue,
+    "default value",
+    false
+) { newDefaultValue ->
+    revDispatchModel(ConstrainedFloat64Actions.changeDefaultValue(constrainedFloat64, newDefaultValue))
 }
 
 
@@ -297,6 +346,24 @@ private fun viewMinMaxTailOutDegreeFields(
         revDispatchModel(DirectedEdgeTypeActions.changeMaxTailOutDegree(edgeType, maxTailOutDegree))
     }
 )
+
+
+private fun viewMinMaxValueFields(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedFloat64: ConstrainedFloat64
+) = viewInputDoubleRange(
+    builder,
+    "value-limits",
+    "Value Limits (Minimum, Maximum):",
+    DoubleInputConfig(false, constrainedFloat64.minValue, "min-value", "minimum") { minValue ->
+        revDispatchModel(ConstrainedFloat64Actions.changeMinValue(constrainedFloat64, minValue))
+    },
+    DoubleInputConfig(false, constrainedFloat64.maxValue, "max-value", "maximum") { maxValue ->
+        revDispatchModel(ConstrainedFloat64Actions.changeMaxValue(constrainedFloat64, maxValue))
+    }
+)
+
 
 private fun viewMultiEdgednessField(
     builder: KatyDomFlowContentBuilder,

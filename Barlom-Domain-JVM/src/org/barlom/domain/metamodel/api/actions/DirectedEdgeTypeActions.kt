@@ -48,7 +48,7 @@ class DirectedEdgeTypeActions {
         /**
          * Changes the maximum head in-degree of the given [edgeType].
          */
-        fun changeMaxHeadInDegree(edgeType: DirectedEdgeType, maxHeadInDegree: Int): ModelAction {
+        fun changeMaxHeadInDegree(edgeType: DirectedEdgeType, maxHeadInDegree: Int?): ModelAction {
 
             return { _: Model ->
 
@@ -64,7 +64,7 @@ class DirectedEdgeTypeActions {
         /**
          * Changes the maximum tail out-degree of the given [edgeType].
          */
-        fun changeMaxTailOutDegree(edgeType: DirectedEdgeType, maxTailOutDegree: Int): ModelAction {
+        fun changeMaxTailOutDegree(edgeType: DirectedEdgeType, maxTailOutDegree: Int?): ModelAction {
 
             return { _: Model ->
 
@@ -80,7 +80,7 @@ class DirectedEdgeTypeActions {
         /**
          * Changes the minimum head in-degree of the given [edgeType].
          */
-        fun changeMinHeadInDegree(edgeType: DirectedEdgeType, minHeadInDegree: Int): ModelAction {
+        fun changeMinHeadInDegree(edgeType: DirectedEdgeType, minHeadInDegree: Int?): ModelAction {
 
             return { _: Model ->
 
@@ -96,7 +96,7 @@ class DirectedEdgeTypeActions {
         /**
          * Changes the minimum tail out-degree of the given [edgeType].
          */
-        fun changeMinTailOutDegree(edgeType: DirectedEdgeType, minTailOutDegree: Int): ModelAction {
+        fun changeMinTailOutDegree(edgeType: DirectedEdgeType, minTailOutDegree: Int?): ModelAction {
 
             return { _: Model ->
 
