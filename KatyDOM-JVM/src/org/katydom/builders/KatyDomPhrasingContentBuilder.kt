@@ -7,6 +7,7 @@ package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.forms.*
+import org.katydom.concretenodes.grouping.KatyDomDataList
 import org.katydom.concretenodes.text.KatyDomA
 import org.katydom.concretenodes.text.KatyDomBr
 import org.katydom.concretenodes.text.KatyDomSpan
@@ -120,6 +121,30 @@ open class KatyDomPhrasingContentBuilder(
             KatyDomButton(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form, formaction,
                           formenctype, formmethod, formnovalidate, formtarget, hidden, lang, menu,
                           name, spellcheck, style, tabindex, title, translate, type, value, defineContent)
+        )
+    }
+
+    /**
+     * Adds a datalist element with any global attributes as the next child of the element under construction.
+     */
+    fun datalist(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomOptionContentBuilder.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomDataList(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                            tabindex, title, translate, defineContent)
         )
     }
 

@@ -9,6 +9,7 @@ import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.types.ELabelDefaulting
+import org.barlom.domain.metamodel.api.vertices.ConstrainedDataType
 import org.barlom.domain.metamodel.api.vertices.VertexAttributeType
 import org.barlom.domain.metamodel.api.vertices.VertexType
 
@@ -16,6 +17,25 @@ import org.barlom.domain.metamodel.api.vertices.VertexType
 class VertexAttributeTypeActions {
 
     companion object {
+
+        /**
+         * Changes the data type of a vertex attribute type.
+         */
+        fun changeDataType(vertexAttributeType: VertexAttributeType, dataTypePath: String): ModelAction {
+
+            return { model: Model ->
+
+                // TODO
+//                var dataType: ConstrainedDataType = ...
+//
+//                model.makeAttributeDataTypeUsage( vertexAttributeType, dataType)
+
+                val path = vertexAttributeType.path
+
+                "Set vertex attribute type $path data type to $dataTypePath."
+            }
+
+        }
 
         /**
          * Changes the label defaulting of a vertex attribute type.

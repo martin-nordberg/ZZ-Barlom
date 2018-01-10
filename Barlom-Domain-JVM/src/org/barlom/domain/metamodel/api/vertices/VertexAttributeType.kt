@@ -94,6 +94,40 @@ class VertexAttributeType(
 
     }
 
+    /** Finds the constrained data types that are eligible to be the data type of this attribute type. */
+    fun findPotentialDataTypes() : List<ConstrainedDataType> {
+
+        val result = mutableListOf<ConstrainedDataType>()
+
+        fun findDataTypesInPackage( pkg: Package ) {
+
+            // same package as parent vertex type
+            for ( dt in pkg.constrainedDataTypes ) {
+                result.add( dt )
+            }
+
+            for ( pkg2 in pkg.transitiveSuppliers ) {
+
+                for ( dt in pkg2.constrainedDataTypes ) {
+                    result.add(dt)
+                }
+
+            }
+
+        }
+
+        for ( vt in vertexTypes ) {
+
+            for ( pkg in vt.parents ) {
+                findDataTypesInPackage( pkg )
+            }
+
+        }
+
+        return result
+
+    }
+
     /** Whether this attribute type is a child of the given vertex type. */
     fun hasParent(vt: VertexType) = _vertexAttributeTypeContainments.contains({ c -> c.vertexType == vt })
 
