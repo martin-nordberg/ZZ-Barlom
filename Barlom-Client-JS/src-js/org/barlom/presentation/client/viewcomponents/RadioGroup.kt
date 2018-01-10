@@ -5,9 +5,6 @@
 
 package org.barlom.presentation.client.viewcomponents
 
-import org.barlom.domain.metamodel.api.actions.ConstrainedBooleanActions
-import org.barlom.domain.metamodel.api.types.EBoolean
-import org.barlom.domain.metamodel.api.types.EBooleanOrNull
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
@@ -16,58 +13,6 @@ data class RadioConfig<out T>(
     val value: T,
     val label: String
 )
-
-/**
- * Builds the view for a set of radio buttons for an optional Boolean value.
- */
-fun viewBooleanRadioGroup(
-    builder: KatyDomFlowContentBuilder,
-    name: String,
-    legend: String,
-    currentValue: Boolean,
-    trueLabel: String = "Yes",
-    falseLabel: String = "No",
-    changeValue: (Boolean) -> Unit
-) = viewRadioGroup(
-    builder,
-    name,
-    legend,
-    EBoolean.fromBoolean(currentValue),
-    EBoolean::valueOf,
-    listOf(
-        RadioConfig(false, EBoolean.TRUE, trueLabel),
-        RadioConfig(false, EBoolean.FALSE, falseLabel)
-    )
-) { newDefaultValue -> changeValue(newDefaultValue.toBoolean())
-}
-
-
-/**
- * Builds the view for a set of radio buttons for an optional Boolean value.
- */
-fun viewBooleanOrNullRadioGroup(
-    builder: KatyDomFlowContentBuilder,
-    name: String,
-    legend: String,
-    currentValue: Boolean?,
-    trueLabel: String = "Yes",
-    falseLabel: String = "No",
-    nullLabel: String = "N/A",
-    changeValue: (Boolean?) -> Unit
-) = viewRadioGroup(
-    builder,
-    name,
-    legend,
-    EBooleanOrNull.fromBoolean(currentValue),
-    EBooleanOrNull::valueOf,
-    listOf(
-        RadioConfig(false, EBooleanOrNull.TRUE, trueLabel),
-        RadioConfig(false, EBooleanOrNull.FALSE, falseLabel),
-        RadioConfig(false, EBooleanOrNull.NULL, nullLabel)
-    )
-) { newDefaultValue -> changeValue(newDefaultValue.toBoolean())
-}
-
 
 /**
  * Builds the view for a generic set of radio buttons.

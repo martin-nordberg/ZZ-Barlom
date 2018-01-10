@@ -29,22 +29,29 @@ fun viewPropertiesForm(
 
         when (focusedElement) {
 
-            is ConstrainedBoolean  -> {
+            is ConstrainedBoolean   -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewDefaultValueField(this, revDispatchModel, focusedElement)
             }
 
-            // TODO: ConstrainedDateTime
+        // TODO: ConstrainedDateTime
 
-            is ConstrainedFloat64 -> {
+            is ConstrainedFloat64   -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewMinMaxValueFields(this, revDispatchModel, focusedElement)
                 viewDefaultValueField(this, revDispatchModel, focusedElement)
             }
 
-            is ConstrainedString  -> {
+            is ConstrainedInteger32 -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewMinMaxValueFields(this, revDispatchModel, focusedElement)
+                viewDefaultValueField(this, revDispatchModel, focusedElement)
+            }
+
+            is ConstrainedString    -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewMinMaxLengthFields(this, revDispatchModel, focusedElement)
@@ -52,7 +59,12 @@ fun viewPropertiesForm(
                 viewPatternField(this, revDispatchModel, focusedElement)
             }
 
-            is DirectedEdgeType   -> {
+            is ConstrainedUuid      -> {
+                viewNameField(this, revDispatchModel, focusedElement, isRoot)
+                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+            }
+
+            is DirectedEdgeType     -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewForwardReverseNameFields(this, revDispatchModel, focusedElement, isRoot)
@@ -65,19 +77,19 @@ fun viewPropertiesForm(
                 viewMinMaxTailOutDegreeFields(this, revDispatchModel, focusedElement, isRoot)
             }
 
-            is EdgeAttributeType -> {
+            is EdgeAttributeType    -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewOptionalityField(this, revDispatchModel, focusedElement)
                 // TODO: data type
             }
 
-            is Package            -> {
+            is Package              -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
             }
 
-            is UndirectedEdgeType -> {
+            is UndirectedEdgeType   -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
@@ -87,7 +99,7 @@ fun viewPropertiesForm(
                 viewMinMaxDegreeFields(this, revDispatchModel, focusedElement, isRoot)
             }
 
-            is VertexAttributeType -> {
+            is VertexAttributeType  -> {
                 viewNameField(this, revDispatchModel, focusedElement, false)
                 viewDescriptionField(this, revDispatchModel, focusedElement, false)
                 viewOptionalityField(this, revDispatchModel, focusedElement)
@@ -95,7 +107,7 @@ fun viewPropertiesForm(
                 // TODO: data type
             }
 
-            is VertexType         -> {
+            is VertexType           -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
@@ -190,7 +202,7 @@ private fun viewDefaultValueField(
     builder: KatyDomFlowContentBuilder,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
     constrainedFloat64: ConstrainedFloat64
-) = viewInputNumberField(
+) = viewInputDoubleField(
     builder,
     "default-value",
     constrainedFloat64.id.toString(),
@@ -200,6 +212,23 @@ private fun viewDefaultValueField(
     false
 ) { newDefaultValue ->
     revDispatchModel(ConstrainedFloat64Actions.changeDefaultValue(constrainedFloat64, newDefaultValue))
+}
+
+
+private fun viewDefaultValueField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedFloat64: ConstrainedInteger32
+) = viewInputIntegerField(
+    builder,
+    "default-value",
+    constrainedFloat64.id.toString(),
+    "Default Value:",
+    constrainedFloat64.defaultValue,
+    "default value",
+    false
+) { newDefaultValue ->
+    revDispatchModel(ConstrainedInteger32Actions.changeDefaultValue(constrainedFloat64, newDefaultValue))
 }
 
 
@@ -361,6 +390,23 @@ private fun viewMinMaxValueFields(
     },
     DoubleInputConfig(false, constrainedFloat64.maxValue, "max-value", "maximum") { maxValue ->
         revDispatchModel(ConstrainedFloat64Actions.changeMaxValue(constrainedFloat64, maxValue))
+    }
+)
+
+
+private fun viewMinMaxValueFields(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    constrainedInteger32: ConstrainedInteger32
+) = viewInputIntegerRange(
+    builder,
+    "value-limits",
+    "Value Limits (Minimum, Maximum):",
+    IntegerInputConfig(false, constrainedInteger32.minValue, "min-value", "minimum") { minValue ->
+        revDispatchModel(ConstrainedInteger32Actions.changeMinValue(constrainedInteger32, minValue))
+    },
+    IntegerInputConfig(false, constrainedInteger32.maxValue, "max-value", "maximum") { maxValue ->
+        revDispatchModel(ConstrainedInteger32Actions.changeMaxValue(constrainedInteger32, maxValue))
     }
 )
 

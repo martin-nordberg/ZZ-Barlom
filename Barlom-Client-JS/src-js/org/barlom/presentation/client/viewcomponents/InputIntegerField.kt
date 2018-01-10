@@ -7,19 +7,20 @@ package org.barlom.presentation.client.viewcomponents
 
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
+import kotlin.math.roundToInt
 
 /**
- * Builds the view for a single double text input.
+ * Builds the view for a single integer text input.
  */
-fun viewInputDoubleField(
+fun viewInputIntegerField(
     builder: KatyDomFlowContentBuilder,
     name: String,
     id: String,
     label: String,
-    currentValue: Double?,
+    currentValue: Int?,
     placeholder: String,
     disabled: Boolean,
-    changeValue: (Double?) -> Unit
+    changeValue: (Int?) -> Unit
 ) = katyDomComponent(builder) {
 
     label("#$name-field.c-label.o-form-element") {
@@ -37,7 +38,8 @@ fun viewInputDoubleField(
 
             onblur { event ->
 
-                val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
+                val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
+                event.target.asDynamic().value = newValue
 
                 if (newValue != currentValue) {
                     changeValue(newValue)

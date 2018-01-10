@@ -6,7 +6,7 @@
 package org.barlom.domain.metamodel.api.types
 
 /**
- * Enumeration of possible values for whether something is true, false, or null.
+ * Enumeration of possible values for whether something is true, false, or null. (Useful in constructing radio buttons.)
  */
 enum class EBooleanOrNull {
 
@@ -47,11 +47,11 @@ enum class EBooleanOrNull {
      * Converts this enum value to a boolean equivalent.
      * @return true, false, or null
      */
-    fun toBoolean() : Boolean? {
-        return when ( this ) {
+    fun toBoolean(): Boolean? {
+        return when (this) {
             FALSE -> false
-            TRUE -> true
-            NULL -> null
+            TRUE  -> true
+            NULL  -> null
         }
     }
 

@@ -7,6 +7,7 @@ package org.barlom.presentation.client.viewcomponents
 
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
+import kotlin.math.roundToInt
 
 data class IntegerInputConfig(
     val disabled: Boolean,
@@ -17,7 +18,7 @@ data class IntegerInputConfig(
 )
 
 /**
- * Builds the view for a grouped block of text inputs.
+ * Builds the view for a grouped block of integer text inputs.
  */
 fun viewInputIntegerRange(
     builder: KatyDomFlowContentBuilder,
@@ -54,7 +55,7 @@ fun viewInputIntegerRange(
 
                     onblur { event ->
 
-                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.toInt()
+                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
                         event.target.asDynamic().value = newValue
 
                         if (newValue != minNumberInput.value) {
@@ -82,7 +83,7 @@ fun viewInputIntegerRange(
 
                     onblur { event ->
 
-                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.toInt()
+                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
                         event.target.asDynamic().value = newValue
 
                         if (newValue != maxNumberInput.value) {

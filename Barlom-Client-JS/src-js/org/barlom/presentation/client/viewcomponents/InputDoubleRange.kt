@@ -17,7 +17,7 @@ data class DoubleInputConfig(
 )
 
 /**
- * Builds the view for a grouped block of text inputs.
+ * Builds the view for a grouped block of double text inputs.
  */
 fun viewInputDoubleRange(
     builder: KatyDomFlowContentBuilder,

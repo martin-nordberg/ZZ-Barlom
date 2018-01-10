@@ -37,10 +37,10 @@ enum class EBoolean {
      * Converts this enum value to a boolean equivalent.
      * @return true, false, or null
      */
-    fun toBoolean() : Boolean {
-        return when ( this ) {
+    fun toBoolean(): Boolean {
+        return when (this) {
             FALSE -> false
-            TRUE -> true
+            TRUE  -> true
         }
     }
 
