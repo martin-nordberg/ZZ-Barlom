@@ -108,6 +108,27 @@ class VLinkedList<T : Any> {
     }
 
     /**
+     * Finds the first value satisfying the given condition. Search is O(n).
+     * @return the value found or else null
+     */
+    fun find(predicate: (T)->Boolean): T? {
+
+        var link = _firstLink.get()
+        while (link != null) {
+
+            if (predicate(link.value)) {
+                return link.value
+            }
+
+            link = link.nextLink.get()
+
+        }
+
+        return null
+
+    }
+
+    /**
      * Performs the given [action] on each item in the list.
      */
     fun forEach(action: (T) -> Unit) {

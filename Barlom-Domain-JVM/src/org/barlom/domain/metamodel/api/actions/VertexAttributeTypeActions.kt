@@ -25,10 +25,11 @@ class VertexAttributeTypeActions {
 
             return { model: Model ->
 
-                // TODO
-//                var dataType: ConstrainedDataType = ...
-//
-//                model.makeAttributeDataTypeUsage( vertexAttributeType, dataType)
+                val dataType: ConstrainedDataType? = model.rootPackage.findDataTypeByPath( dataTypePath )
+
+                if ( dataType != null ) {
+                    model.makeAttributeDataTypeUsage(vertexAttributeType, dataType)
+                }
 
                 val path = vertexAttributeType.path
 

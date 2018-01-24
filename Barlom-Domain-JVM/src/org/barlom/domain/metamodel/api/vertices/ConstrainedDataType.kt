@@ -101,6 +101,16 @@ sealed class ConstrainedDataType(
 
     override fun hasParentPackage(pkg: Package) = hasParent(pkg)
 
+    internal fun removeAttributeDataTypeUsage(usage: AttributeDataTypeUsage) {
+
+        require(usage.dataType === this) {
+            "Attribute data type usage linked to wrong data type."
+        }
+
+        _dataTypeUsages.remove(usage)
+
+    }
+
 }
 
 /**

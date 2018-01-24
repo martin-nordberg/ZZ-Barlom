@@ -79,6 +79,11 @@ class VertexAttributeType(
             "Attribute data type usage linked to wrong attribute type."
         }
 
+        for ( dtu in _dataTypeUsages ) {
+            dtu.dataType.removeAttributeDataTypeUsage( dtu )
+        }
+        _dataTypeUsages.clear()
+
         _dataTypeUsages.add(usage)
 
     }

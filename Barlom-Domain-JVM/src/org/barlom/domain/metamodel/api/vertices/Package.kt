@@ -314,6 +314,33 @@ class Package internal constructor(
 
     }
 
+    /** Finds the child package of this package that has a given name. */
+    fun childPackageByName(name: String): Package? {
+        return _childPackageContainments.find { c ->
+            c.child.name == name
+        }?.child
+    }
+
+    /** Finds the constrained data type in this package that has a given name. */
+    fun constrainedDataTypeByName(name: String): ConstrainedDataType? {
+        return _constrainedDataTypeContainments.find { c ->
+            c.child.name == name
+        }?.child
+    }
+
+    /** Recursively searches within this package for the constrained data type with given relative path [dataTypePath]. */
+    fun findDataTypeByPath(dataTypePath: String): ConstrainedDataType? {
+
+        val pathSegments = dataTypePath.split(".", limit = 2)
+        if (pathSegments.size == 2) {
+            return this.childPackageByName(pathSegments[0])?.findDataTypeByPath(pathSegments[1])
+        }
+        else {
+            return this.constrainedDataTypeByName(pathSegments[0])
+        }
+
+    }
+
     /** Whether the given [pkg] is a direct child of this one. */
     fun hasChild(pkg: Package): Boolean {
 
