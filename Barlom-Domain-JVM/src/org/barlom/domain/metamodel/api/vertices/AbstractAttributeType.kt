@@ -16,11 +16,17 @@ abstract class AbstractAttributeType internal constructor() : AbstractNamedEleme
     /** The constrained data type of this attribute type. */
     abstract val dataTypes: List<ConstrainedDataType>
 
+    /** The constrained data type usages of this attribute type. */
+    abstract val dataTypeUsages: List<AttributeDataTypeUsage>
+
     /** Whether this attribute is required for instances of the parent vertex type. */
     abstract var optionality: EAttributeOptionality
 
 
     /** Adds a link to the constrained data type of this attribute type. */
     abstract internal fun addAttributeDataTypeUsage(usage: AttributeDataTypeUsage)
+
+    /** Removes a link from the constrained data type of this attribute type. */
+    abstract internal fun removeAttributeDataTypeUsage(usage: AttributeDataTypeUsage)
 
 }

@@ -32,4 +32,13 @@ class UndirectedEdgeTypeConnectivity internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        connectingEdgeType.removeUndirectedEdgeTypeConnectivity(this)
+        connectedVertexType.removeUndirectedEdgeTypeConnectivity(this)
+
+    }
+
 }

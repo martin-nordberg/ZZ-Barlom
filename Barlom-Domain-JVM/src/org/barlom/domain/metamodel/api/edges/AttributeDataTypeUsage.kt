@@ -29,4 +29,11 @@ class AttributeDataTypeUsage internal constructor(
 
     }
 
+
+    override fun remove() {
+        // Unregister both ends.
+        attributeType.removeAttributeDataTypeUsage(this)
+        dataType.removeAttributeDataTypeUsage(this)
+    }
+
 }

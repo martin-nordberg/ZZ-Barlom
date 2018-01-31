@@ -32,4 +32,13 @@ class DirectedEdgeTypeContainment internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        parent.removeDirectedEdgeTypeContainment(this)
+        child.removeDirectedEdgeTypeContainment(this)
+
+    }
+
 }

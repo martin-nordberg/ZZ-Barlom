@@ -29,4 +29,13 @@ class EdgeAttributeTypeContainment internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        edgeType.removeEdgeAttributeTypeContainment(this)
+        attributeType.removeEdgeAttributeTypeContainment(this)
+
+    }
+
 }

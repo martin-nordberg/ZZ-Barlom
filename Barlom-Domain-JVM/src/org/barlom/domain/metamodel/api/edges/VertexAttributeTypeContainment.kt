@@ -29,4 +29,13 @@ class VertexAttributeTypeContainment internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        vertexType.removeVertexAttributeTypeContainment(this)
+        attributeType.removeVertexAttributeTypeContainment(this)
+
+    }
+
 }

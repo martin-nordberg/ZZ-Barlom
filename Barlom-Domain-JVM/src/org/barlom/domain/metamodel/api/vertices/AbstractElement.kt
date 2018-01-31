@@ -15,4 +15,7 @@ abstract class AbstractElement internal constructor() {
     /** The unique ID of this element. */
     abstract val id: Uuid
 
+    /** Removes this abstract element from the graph it is part of. */
+    abstract fun remove()
+
 }

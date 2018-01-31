@@ -28,4 +28,13 @@ class ConstrainedDataTypeContainment internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        parent.removeConstrainedDataTypeContainment(this)
+        child.removeConstrainedDataTypeContainment(this)
+
+    }
+
 }

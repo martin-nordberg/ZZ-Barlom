@@ -27,4 +27,13 @@ class DirectedEdgeTypeTailConnectivity internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        connectingEdgeType.removeDirectedEdgeTypeTailConnectivity(this)
+        connectedVertexType.removeDirectedEdgeTypeTailConnectivity(this)
+
+    }
+
 }

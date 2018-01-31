@@ -30,6 +30,9 @@ class VertexAttributeType(
     override val dataTypes: List<ConstrainedDataType>
         get() = _dataTypeUsages.map { i -> i.dataType }.sortedBy { dt -> dt.path }
 
+    override val dataTypeUsages: List<AttributeDataTypeUsage>
+        get() = _dataTypeUsages.sortedBy { dt -> dt.dataType.path }
+
     override var description: String
         get() = _description.get()
         set(value) = _description.set(value)
@@ -79,10 +82,9 @@ class VertexAttributeType(
             "Attribute data type usage linked to wrong attribute type."
         }
 
-        for ( dtu in _dataTypeUsages ) {
-            dtu.dataType.removeAttributeDataTypeUsage( dtu )
+        require(_dataTypeUsages.isEmpty()) {
+            "Attribute type can have only one data type."
         }
-        _dataTypeUsages.clear()
 
         _dataTypeUsages.add(usage)
 
@@ -100,20 +102,20 @@ class VertexAttributeType(
     }
 
     /** Finds the constrained data types that are eligible to be the data type of this attribute type. */
-    fun findPotentialDataTypes() : List<ConstrainedDataType> {
+    fun findPotentialDataTypes(): List<ConstrainedDataType> {
 
         val result = mutableListOf<ConstrainedDataType>()
 
-        fun findDataTypesInPackage( pkg: Package ) {
+        fun findDataTypesInPackage(pkg: Package) {
 
             // same package as parent vertex type
-            for ( dt in pkg.constrainedDataTypes ) {
-                result.add( dt )
+            for (dt in pkg.constrainedDataTypes) {
+                result.add(dt)
             }
 
-            for ( pkg2 in pkg.transitiveSuppliers ) {
+            for (pkg2 in pkg.transitiveSuppliers) {
 
-                for ( dt in pkg2.constrainedDataTypes ) {
+                for (dt in pkg2.constrainedDataTypes) {
                     result.add(dt)
                 }
 
@@ -121,10 +123,10 @@ class VertexAttributeType(
 
         }
 
-        for ( vt in vertexTypes ) {
+        for (vt in vertexTypes) {
 
-            for ( pkg in vt.parents ) {
-                findDataTypesInPackage( pkg )
+            for (pkg in vt.parents) {
+                findDataTypesInPackage(pkg)
             }
 
         }
@@ -138,6 +140,28 @@ class VertexAttributeType(
 
     override fun hasParentPackage(pkg: Package): Boolean {
         return _vertexAttributeTypeContainments.contains({ c -> c.vertexType.hasParent(pkg) })
+    }
+
+    override fun remove() {
+        _dataTypeUsages.forEach { dtu -> dtu.remove() }
+        _vertexAttributeTypeContainments.forEach { c -> c.remove() }
+    }
+
+    override fun removeAttributeDataTypeUsage(usage: AttributeDataTypeUsage) {
+
+        require(_dataTypeUsages.remove(usage)) {
+            "Attribute data type usage not linked to this attribute type."
+        }
+
+    }
+
+    /** Removes a vertex type from this, its child vertex attribute type's, list of vertex attribute type containments. */
+    internal fun removeVertexAttributeTypeContainment(vertexAttributeTypeContainment: VertexAttributeTypeContainment) {
+
+        require(_vertexAttributeTypeContainments.remove(vertexAttributeTypeContainment)) {
+            "Cannot remove a vertex type from an attribute not its child."
+        }
+
     }
 
 }

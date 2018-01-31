@@ -553,4 +553,87 @@ class Package internal constructor(
 
     }
 
+    override fun remove() {
+        _childPackageContainments.forEach { c -> c.remove() }
+        _constrainedDataTypeContainments.forEach { c -> c.remove() }
+        _consumerPackageDependencies.forEach { c -> c.remove() }
+        _directedEdgeTypeContainments.forEach { c -> c.remove() }
+        _parentPackageContainments.forEach { c -> c.remove() }
+        _supplierPackageDependencies.forEach { d -> d.remove() }
+        _undirectedEdgeTypeContainments.forEach { c -> c.remove() }
+        _vertexTypeContainments.forEach { c -> c.remove() }
+    }
+
+    /** Unregisters the given package containment from this package. */
+    internal fun removeChildPackageContainment(packageContainment: PackageContainment) {
+
+        require(_childPackageContainments.remove(packageContainment)) {
+            "Child package containment can not be removed from a package not its parent."
+        }
+
+    }
+
+    /** Removes a constrained data type from this, its parent package's, list of constrained data type containments. */
+    internal fun removeConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(_constrainedDataTypeContainments.remove(constrainedDataTypeContainment)) {
+            "Cannot remove a constrained data type from a package not its parent."
+        }
+
+    }
+
+    /** Unregisters the given package dependency in this package. */
+    internal fun removeConsumerPackageDependency(packageDependency: PackageDependency) {
+
+        require(_consumerPackageDependencies.remove(packageDependency)) {
+            "Consumer package dependency can not be removed from a package not its supplier."
+        }
+
+    }
+
+    /** Removes a directed edge type from this, its parent package's, list of directed edge type containments. */
+    internal fun removeDirectedEdgeTypeContainment(directedEdgeTypeContainment: DirectedEdgeTypeContainment) {
+
+        require(_directedEdgeTypeContainments.remove(directedEdgeTypeContainment)) {
+            "Cannot remove a directed edge type from a package not its parent."
+        }
+
+    }
+
+    /** Unregisters the given package containment in this package. */
+    internal fun removeParentPackageContainment(packageContainment: PackageContainment) {
+
+        require(_parentPackageContainments.remove(packageContainment)) {
+            "Parent package containment can not be removed from a ackage not its child."
+        }
+
+    }
+
+    /** Registers the given package dependency in this package. */
+    internal fun removeSupplierPackageDependency(packageDependency: PackageDependency) {
+
+        require(_supplierPackageDependencies.remove(packageDependency)) {
+            "Supplier package dependency can not be removed from a package not its consumer."
+        }
+
+    }
+
+    /** Removes an undirected edge type from this, its parent package's, list of undirected edge type containments. */
+    internal fun removeUndirectedEdgeTypeContainment(undirectedEdgeTypeContainment: UndirectedEdgeTypeContainment) {
+
+        require(_undirectedEdgeTypeContainments.remove(undirectedEdgeTypeContainment)) {
+            "Cannot add an undirected edge type to a package not its parent."
+        }
+
+    }
+
+    /** Removes a vertex type from this, its parent package's, list of vertex type containments. */
+    internal fun removeVertexTypeContainment(vertexTypeContainment: VertexTypeContainment) {
+
+        require(_vertexTypeContainments.remove(vertexTypeContainment)) {
+            "Cannot remove a vertex type from a package not its parent."
+        }
+
+    }
+
 }

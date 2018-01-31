@@ -6,12 +6,10 @@
 package org.barlom.domain.metamodel.api.actions
 
 import org.barlom.domain.metamodel.api.model.Model
-import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.types.ELabelDefaulting
 import org.barlom.domain.metamodel.api.vertices.ConstrainedDataType
 import org.barlom.domain.metamodel.api.vertices.VertexAttributeType
-import org.barlom.domain.metamodel.api.vertices.VertexType
 
 
 class VertexAttributeTypeActions {
@@ -25,9 +23,12 @@ class VertexAttributeTypeActions {
 
             return { model: Model ->
 
-                val dataType: ConstrainedDataType? = model.rootPackage.findDataTypeByPath( dataTypePath )
+                val dataType: ConstrainedDataType? = model.rootPackage.findDataTypeByPath(dataTypePath)
 
-                if ( dataType != null ) {
+                if (dataType != null) {
+                    while (!vertexAttributeType.dataTypeUsages.isEmpty()) {
+                        vertexAttributeType.dataTypeUsages.get(0).remove()
+                    }
                     model.makeAttributeDataTypeUsage(vertexAttributeType, dataType)
                 }
 
@@ -41,7 +42,8 @@ class VertexAttributeTypeActions {
         /**
          * Changes the label defaulting of a vertex attribute type.
          */
-        fun changeLabelDefaulting(vertexAttributeType: VertexAttributeType, labelDefaulting: ELabelDefaulting): ModelAction {
+        fun changeLabelDefaulting(vertexAttributeType: VertexAttributeType,
+                                  labelDefaulting: ELabelDefaulting): ModelAction {
 
             return { _: Model ->
 
@@ -58,7 +60,8 @@ class VertexAttributeTypeActions {
         /**
          * Changes the optionality of a vertex attribute type.
          */
-        fun changeOptionality(vertexAttributeType: VertexAttributeType, optionality: EAttributeOptionality): ModelAction {
+        fun changeOptionality(vertexAttributeType: VertexAttributeType,
+                              optionality: EAttributeOptionality): ModelAction {
 
             return { _: Model ->
 

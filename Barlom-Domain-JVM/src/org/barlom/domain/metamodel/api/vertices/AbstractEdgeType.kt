@@ -39,4 +39,7 @@ abstract class AbstractEdgeType internal constructor() : AbstractPackagedElement
     /** Adds an edge attribute type to this, its parent edge type's, list of edge attribute type containments. */
     abstract internal fun addEdgeAttributeTypeContainment(edgeAttributeTypeContainment: EdgeAttributeTypeContainment)
 
+    /** Removes an edge attribute type from this, its parent edge type's, list of edge attribute type containments. */
+    abstract internal fun removeEdgeAttributeTypeContainment(edgeAttributeTypeContainment: EdgeAttributeTypeContainment)
+
 }

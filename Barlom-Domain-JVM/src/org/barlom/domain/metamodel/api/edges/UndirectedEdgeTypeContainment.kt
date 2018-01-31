@@ -32,4 +32,13 @@ class UndirectedEdgeTypeContainment internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        parent.removeUndirectedEdgeTypeContainment(this)
+        child.removeUndirectedEdgeTypeContainment(this)
+
+    }
+
 }

@@ -329,4 +329,79 @@ class VertexType(
 
     }
 
+    override fun remove() {
+        _directedEdgeTypeHeadConnectivities.forEach { c -> c.remove() }
+        _directedEdgeTypeTailConnectivities.forEach { c -> c.remove() }
+        _subTypeVertexTypeInheritances.forEach { i -> i.remove() }
+        _superTypeVertexTypeInheritances.forEach { i -> i.remove() }
+        _undirectedEdgeTypeConnectivities.forEach { c -> c.remove() }
+        _vertexAttributeTypeContainments.forEach { c -> c.remove() }
+        _vertexTypeContainments.forEach { c -> c.remove() }
+    }
+
+    /** Unlinks a vertex type from this, its head-connecting edge type's, list of vertex type connectivities. */
+    internal fun removeDirectedEdgeTypeHeadConnectivity(
+        directedEdgeTypeHeadConnectivity: DirectedEdgeTypeHeadConnectivity) {
+
+        require(_directedEdgeTypeHeadConnectivities.remove(directedEdgeTypeHeadConnectivity)) {
+            "Cannot unlink an edge type from a vertex type not its head connector."
+        }
+
+    }
+
+    /** Unlinks a vertex type from this, its tail-connecting edge type's, list of vertex type connectivities. */
+    internal fun removeDirectedEdgeTypeTailConnectivity(
+        directedEdgeTypeTailConnectivity: DirectedEdgeTypeTailConnectivity) {
+
+        require(_directedEdgeTypeTailConnectivities.remove(directedEdgeTypeTailConnectivity)) {
+            "Cannot unlink an edge type from a vertex type not its tail connector."
+        }
+
+    }
+
+    /** Removes a sub vertex type from this, its super type's, list of vertex type inheritances. */
+    internal fun removeSubTypeVertexTypeInheritance(vertexTypeInheritance: VertexTypeInheritance) {
+
+        require(_subTypeVertexTypeInheritances.remove(vertexTypeInheritance)) {
+            "Cannot remove a sub type from a vertex type not its super type."
+        }
+
+    }
+
+    /** Removes a super vertex type from this, its super type's, list of vertex type inheritances. */
+    internal fun removeSuperTypeVertexTypeInheritance(vertexTypeInheritance: VertexTypeInheritance) {
+
+        require(_superTypeVertexTypeInheritances.remove(vertexTypeInheritance)) {
+            "Cannot remove a super type from a vertex type not its sub type."
+        }
+
+    }
+
+    /** Removes an undirected edge type to this, its connected vertex type's, list of undirected edge type connectivities. */
+    internal fun removeUndirectedEdgeTypeConnectivity(undirectedEdgeTypeConnectivity: UndirectedEdgeTypeConnectivity) {
+
+        require(_undirectedEdgeTypeConnectivities.remove(undirectedEdgeTypeConnectivity)) {
+            "Cannot unlink an undirected edge type from an vertex type it does not connect."
+        }
+
+    }
+
+    /** Removes a vertex attribute type from this, its parent vertex type's, list of vertex attribute type containments. */
+    internal fun removeVertexAttributeTypeContainment(vertexAttributeTypeContainment: VertexAttributeTypeContainment) {
+
+        require(_vertexAttributeTypeContainments.remove(vertexAttributeTypeContainment)) {
+            "Cannot remove a vertex type from a package not its parent."
+        }
+
+    }
+
+    /** Removes a vertex type from this, its parent package's, list of vertex type containments. */
+    internal fun removeVertexTypeContainment(vertexTypeContainment: VertexTypeContainment) {
+
+        require(_vertexTypeContainments.remove(vertexTypeContainment)) {
+            "Cannot remove a package from a vertex type not its child."
+        }
+
+    }
+
 }

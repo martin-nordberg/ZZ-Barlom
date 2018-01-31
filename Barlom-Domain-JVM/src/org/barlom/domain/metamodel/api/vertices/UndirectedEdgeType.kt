@@ -354,4 +354,59 @@ class UndirectedEdgeType(
 
     }
 
+    override fun remove() {
+        _edgeAttributeTypeContainments.forEach { c -> c.remove() }
+        _subTypeUndirectedEdgeTypeInheritances.forEach { i -> i.remove() }
+        _superTypeUndirectedEdgeTypeInheritances.forEach { i -> i.remove() }
+        _undirectedEdgeTypeConnectivities.forEach { c -> c.remove() }
+        _undirectedEdgeTypeContainments.forEach { c -> c.remove() }
+    }
+
+    /** Removes an attribute type from this, its parent edge type's, list of edge attribute type containments. */
+    override fun removeEdgeAttributeTypeContainment(edgeAttributeTypeContainment: EdgeAttributeTypeContainment) {
+
+        require(_edgeAttributeTypeContainments.remove(edgeAttributeTypeContainment)) {
+            "Cannot unlink an edge attribute type from an edge type not its container."
+        }
+
+    }
+
+    /** Removes a sub undirected edge type to this, its super type's, list of undirected edge type inheritances. */
+    internal fun removeSubTypeUndirectedEdgeTypeInheritance(
+        undirectedEdgeTypeInheritance: UndirectedEdgeTypeInheritance) {
+
+        require(_subTypeUndirectedEdgeTypeInheritances.remove(undirectedEdgeTypeInheritance)) {
+            "Cannot remove a sub type from an undirected edge type not its super type."
+        }
+
+    }
+
+    /** Removes a super undirected edge type from this, its super type's, list of undirected edge type inheritances. */
+    internal fun removeSuperTypeUndirectedEdgeTypeInheritance(
+        undirectedEdgeTypeInheritance: UndirectedEdgeTypeInheritance) {
+
+        require(_superTypeUndirectedEdgeTypeInheritances.remove(undirectedEdgeTypeInheritance)) {
+            "Cannot remove a super type from an undirected edge type not its super type."
+        }
+
+    }
+
+    /** Removes a vertex type from this, its connecting edge type's, list of undirected edge type connectivities. */
+    internal fun removeUndirectedEdgeTypeConnectivity(undirectedEdgeTypeConnectivity: UndirectedEdgeTypeConnectivity) {
+
+        require(_undirectedEdgeTypeConnectivities.remove(undirectedEdgeTypeConnectivity)) {
+            "Cannot unlink a vertex type from an undirected edge type not its connector."
+        }
+
+    }
+
+    /** Removes a package from this, its child edge type's, list of undirected edge type containments. */
+    internal fun removeUndirectedEdgeTypeContainment(undirectedEdgeTypeContainment: UndirectedEdgeTypeContainment) {
+
+        require(_undirectedEdgeTypeContainments.remove(undirectedEdgeTypeContainment)) {
+            "Cannot unlink a package from an undirected edge type not its child."
+        }
+
+    }
+
 }

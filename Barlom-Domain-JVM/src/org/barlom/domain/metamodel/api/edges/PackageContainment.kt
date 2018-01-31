@@ -31,4 +31,13 @@ class PackageContainment internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        parent.removeChildPackageContainment(this)
+        child.removeParentPackageContainment(this)
+
+    }
+
 }

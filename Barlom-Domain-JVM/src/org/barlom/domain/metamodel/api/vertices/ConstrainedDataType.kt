@@ -101,13 +101,24 @@ sealed class ConstrainedDataType(
 
     override fun hasParentPackage(pkg: Package) = hasParent(pkg)
 
+    override fun remove() {
+        _constrainedDataTypeContainments.forEach { c -> c.remove() }
+        _dataTypeUsages.forEach { dtu -> dtu.remove() }
+    }
+
     internal fun removeAttributeDataTypeUsage(usage: AttributeDataTypeUsage) {
 
-        require(usage.dataType === this) {
+        require(_dataTypeUsages.remove(usage)) {
             "Attribute data type usage linked to wrong data type."
         }
 
-        _dataTypeUsages.remove(usage)
+    }
+
+    internal fun removeConstrainedDataTypeContainment(constrainedDataTypeContainment: ConstrainedDataTypeContainment) {
+
+        require(_constrainedDataTypeContainments.remove(constrainedDataTypeContainment)) {
+            "Constrained data type containment can not be removed from a data type not its child."
+        }
 
     }
 

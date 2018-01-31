@@ -32,4 +32,13 @@ class VertexTypeContainment internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        parent.removeVertexTypeContainment(this)
+        child.removeVertexTypeContainment(this)
+
+    }
+
 }

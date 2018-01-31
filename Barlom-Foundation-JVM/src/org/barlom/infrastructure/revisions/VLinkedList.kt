@@ -90,7 +90,7 @@ class VLinkedList<T : Any> {
     /**
      * Tests whether the list contains a value satisfying the given condition. Search is O(n).
      */
-    fun contains(predicate: (T)->Boolean): Boolean {
+    fun contains(predicate: (T) -> Boolean): Boolean {
 
         var link = _firstLink.get()
         while (link != null) {
@@ -111,7 +111,7 @@ class VLinkedList<T : Any> {
      * Finds the first value satisfying the given condition. Search is O(n).
      * @return the value found or else null
      */
-    fun find(predicate: (T)->Boolean): T? {
+    fun find(predicate: (T) -> Boolean): T? {
 
         var link = _firstLink.get()
         while (link != null) {
@@ -135,8 +135,9 @@ class VLinkedList<T : Any> {
 
         var link = _firstLink.get()
         while (link != null) {
+            val nextLink = link.nextLink.get()
             action(link.value)
-            link = link.nextLink.get()
+            link = nextLink
         }
 
     }
@@ -149,11 +150,13 @@ class VLinkedList<T : Any> {
         var link = _firstLink.get()
         while (link != null) {
 
+            val nextLink = link.nextLink.get()
+
             if (!action(link.value)) {
                 break
             }
 
-            link = link.nextLink.get()
+            link = nextLink
 
         }
 

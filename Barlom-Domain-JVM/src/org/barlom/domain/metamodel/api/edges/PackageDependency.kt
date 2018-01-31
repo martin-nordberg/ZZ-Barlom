@@ -31,4 +31,13 @@ class PackageDependency internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        consumer.removeSupplierPackageDependency(this)
+        supplier.removeConsumerPackageDependency(this)
+
+    }
+
 }

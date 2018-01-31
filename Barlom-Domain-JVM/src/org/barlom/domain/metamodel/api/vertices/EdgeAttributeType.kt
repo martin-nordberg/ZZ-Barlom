@@ -33,6 +33,9 @@ class EdgeAttributeType(
     override val dataTypes: List<ConstrainedDataType>
         get() = _dataTypeUsages.map { i -> i.dataType }.sortedBy { dt -> dt.path }
 
+    override val dataTypeUsages: List<AttributeDataTypeUsage>
+        get() = _dataTypeUsages.sortedBy { dt -> dt.dataType.path }
+
     override var description: String
         get() = _description.get()
         set(value) = _description.set(value)
@@ -92,8 +95,30 @@ class EdgeAttributeType(
 
     }
 
-    override fun hasParentPackage(pkg: Package) : Boolean {
-        return _edgeAttributeTypeContainments.contains({c -> c.edgeType.hasParent(pkg)})
+    override fun hasParentPackage(pkg: Package): Boolean {
+        return _edgeAttributeTypeContainments.contains({ c -> c.edgeType.hasParent(pkg) })
+    }
+
+    override fun remove() {
+        _dataTypeUsages.forEach { dtu -> dtu.remove() }
+        _edgeAttributeTypeContainments.forEach { c -> c.remove() }
+    }
+
+    override fun removeAttributeDataTypeUsage(usage: AttributeDataTypeUsage) {
+
+        require(_dataTypeUsages.remove(usage)) {
+            "Attribute data type usage not linked to this attribute type."
+        }
+
+    }
+
+    /** Removes an edge type from this, its child edge attribute type's, list of edge attribute type containments. */
+    internal fun removeEdgeAttributeTypeContainment(edgeAttributeTypeContainment: EdgeAttributeTypeContainment) {
+
+        require(_edgeAttributeTypeContainments.remove(edgeAttributeTypeContainment)) {
+            "Cannot remove an edge type from an attribute not its child."
+        }
+
     }
 
 }

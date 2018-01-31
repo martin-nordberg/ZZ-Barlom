@@ -30,4 +30,12 @@ class DirectedEdgeTypeInheritance internal constructor(
 
     }
 
+    override fun remove() {
+
+        // Unregister both ends.
+        superType.removeSubTypeDirectedEdgeTypeInheritance(this)
+        subType.removeSuperTypeDirectedEdgeTypeInheritance(this)
+
+    }
+
 }

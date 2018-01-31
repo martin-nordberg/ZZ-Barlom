@@ -30,4 +30,13 @@ class VertexTypeInheritance internal constructor(
 
     }
 
+
+    override fun remove() {
+
+        // Unregister both ends.
+        superType.removeSubTypeVertexTypeInheritance(this)
+        subType.removeSuperTypeVertexTypeInheritance(this)
+
+    }
+
 }

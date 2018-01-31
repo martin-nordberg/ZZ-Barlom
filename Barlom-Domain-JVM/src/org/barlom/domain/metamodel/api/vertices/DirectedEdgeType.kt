@@ -316,7 +316,7 @@ class DirectedEdgeType(
     internal fun addSubTypeDirectedEdgeTypeInheritance(directedEdgeTypeInheritance: DirectedEdgeTypeInheritance) {
 
         require(directedEdgeTypeInheritance.superType === this) {
-            "Cannot add a sub type to an directed edge type not its super type."
+            "Cannot add a sub type to a directed edge type not its super type."
         }
 
         _subTypeDirectedEdgeTypeInheritances.add(directedEdgeTypeInheritance)
@@ -328,7 +328,7 @@ class DirectedEdgeType(
         directedEdgeTypeInheritance: DirectedEdgeTypeInheritance) {
 
         require(directedEdgeTypeInheritance.subType === this) {
-            "Cannot add a super type to an directed edge type not its sub type."
+            "Cannot add a super type to a directed edge type not its sub type."
         }
 
         _superTypeDirectedEdgeTypeInheritances.add(directedEdgeTypeInheritance)
@@ -456,5 +456,70 @@ class DirectedEdgeType(
 
     }
 
+    override fun remove() {
+        _directedEdgeTypeContainments.forEach { c -> c.remove() }
+        _directedEdgeTypeHeadConnectivities.forEach { c -> c.remove() }
+        _directedEdgeTypeTailConnectivities.forEach { c -> c.remove() }
+        _edgeAttributeTypeContainments.forEach { c -> c.remove() }
+        _subTypeDirectedEdgeTypeInheritances.forEach { i -> i.remove() }
+        _superTypeDirectedEdgeTypeInheritances.forEach { i -> i.remove() }
+    }
+
+    /** Unlinks a vertex type from this, its head-connecting edge type's, list of vertex type connectivities. */
+    internal fun removeDirectedEdgeTypeHeadConnectivity(
+        directedEdgeTypeHeadConnectivity: DirectedEdgeTypeHeadConnectivity) {
+
+        require(_directedEdgeTypeHeadConnectivities.remove(directedEdgeTypeHeadConnectivity)) {
+            "Cannot unlink a vertex type from a directed edge type not its head connector."
+        }
+
+    }
+
+    /** Unlinks a vertex type from this, its tail-connecting edge type's, list of vertex type connectivities. */
+    internal fun removeDirectedEdgeTypeTailConnectivity(
+        directedEdgeTypeTailConnectivity: DirectedEdgeTypeTailConnectivity) {
+
+        require(_directedEdgeTypeTailConnectivities.remove(directedEdgeTypeTailConnectivity)) {
+            "Cannot unlink a vertex type from a directed edge type not its tail connector."
+        }
+
+    }
+
+    /** Removes a package from this, its child edge type's, list of directed edge type containments. */
+    internal fun removeDirectedEdgeTypeContainment(directedEdgeTypeContainment: DirectedEdgeTypeContainment) {
+
+        require(_directedEdgeTypeContainments.remove(directedEdgeTypeContainment)) {
+            "Cannot unlink a package from a directed edge type not its child."
+        }
+
+    }
+
+    /** Removes an attribute type from this, its parent edge type's, list of edge attribute type containments. */
+    override fun removeEdgeAttributeTypeContainment(edgeAttributeTypeContainment: EdgeAttributeTypeContainment) {
+
+        require(_edgeAttributeTypeContainments.remove(edgeAttributeTypeContainment)) {
+            "Cannot unlink an edge attribute type from an edge type not its container."
+        }
+
+    }
+
+    /** Removes a sub directed edge type from this, its super type's, list of directed edge type inheritances. */
+    internal fun removeSubTypeDirectedEdgeTypeInheritance(directedEdgeTypeInheritance: DirectedEdgeTypeInheritance) {
+
+        require(_subTypeDirectedEdgeTypeInheritances.remove(directedEdgeTypeInheritance)) {
+            "Cannot remove a sub type from a directed edge type not its super type."
+        }
+
+    }
+
+    /** Removes a super directed edge type from this, its super type's, list of directed edge type inheritances. */
+    internal fun removeSuperTypeDirectedEdgeTypeInheritance(
+        directedEdgeTypeInheritance: DirectedEdgeTypeInheritance) {
+
+        require(_superTypeDirectedEdgeTypeInheritances.remove(directedEdgeTypeInheritance)) {
+            "Cannot remove a super type from a directed edge type not its sub type."
+        }
+
+    }
 
 }
