@@ -341,6 +341,19 @@ class Package internal constructor(
 
     }
 
+    /** Recursively searches within this package for the vertex type with given relative path [dataTypePath]. */
+    fun findVertexTypeByPath(vertexTypePath: String): VertexType? {
+
+        val pathSegments = vertexTypePath.split(".", limit = 2)
+        if (pathSegments.size == 2) {
+            return this.childPackageByName(pathSegments[0])?.findVertexTypeByPath(pathSegments[1])
+        }
+        else {
+            return this.vertexTypeByName(pathSegments[0])
+        }
+
+    }
+
     /** Whether the given [pkg] is a direct child of this one. */
     fun hasChild(pkg: Package): Boolean {
 
@@ -634,6 +647,13 @@ class Package internal constructor(
             "Cannot remove a vertex type from a package not its parent."
         }
 
+    }
+
+    /** Finds the vertex type in this package that has a given name. */
+    fun vertexTypeByName(name: String): VertexType? {
+        return _vertexTypeContainments.find { c ->
+            c.child.name == name
+        }?.child
     }
 
 }

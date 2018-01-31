@@ -110,6 +110,7 @@ fun viewPropertiesForm(
             is VertexType           -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
             }
 
@@ -580,4 +581,24 @@ private fun viewSelfLoopingField(
 ) { selfLooping ->
     revDispatchModel(AbstractEdgeTypeActions.changeSelfLooping(edgeType, selfLooping))
 }
+
+
+private fun viewSuperTypeField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    vertexType: VertexType,
+    isRoot: Boolean
+) = viewInputTextFieldWithDataList(
+    builder,
+    "super-type",
+    vertexType.id.toString(),
+    "Super Type:",
+    vertexType.superTypes.elementAtOrNull(0)?.path ?: "",
+    "super type",
+    isRoot,
+    vertexType.findPotentialSuperTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+) { newDefaultValue ->
+    revDispatchModel(VertexTypeActions.changeSuperType(vertexType, newDefaultValue))
+}
+
 

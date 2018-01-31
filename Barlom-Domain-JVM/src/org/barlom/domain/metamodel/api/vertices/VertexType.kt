@@ -208,6 +208,45 @@ class VertexType(
 
     }
 
+    /** Finds the vertex types that are eligible to be the super type of this vertex type. */
+    fun findPotentialSuperTypes(): List<VertexType> {
+
+        val result = mutableListOf<VertexType>()
+
+        for (pkg in parents) {
+
+            // same package as parent vertex type
+            for (vt in pkg.vertexTypes) {
+                if ( vt !== this && !vt.hasSuperType(this) ) {
+                    result.add(vt)
+                }
+            }
+
+            for (pkg2 in pkg.transitiveSuppliers) {
+
+                for (vt in pkg2.vertexTypes) {
+                    if ( !vt.hasSuperType(this) ) {
+                        result.add(vt)
+                    }
+                }
+
+            }
+
+            var rpkg = pkg
+            while ( !rpkg.isRoot ) {
+                rpkg = rpkg.parents[0]
+            }
+
+            for (vt in rpkg.vertexTypes) {
+                result.add(vt)
+            }
+
+        }
+
+        return result
+
+    }
+
     override fun hasParent(pkg: Package): Boolean {
 
         var result = false

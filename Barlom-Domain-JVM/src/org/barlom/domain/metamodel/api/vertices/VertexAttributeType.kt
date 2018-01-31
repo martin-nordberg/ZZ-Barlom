@@ -106,27 +106,23 @@ class VertexAttributeType(
 
         val result = mutableListOf<ConstrainedDataType>()
 
-        fun findDataTypesInPackage(pkg: Package) {
-
-            // same package as parent vertex type
-            for (dt in pkg.constrainedDataTypes) {
-                result.add(dt)
-            }
-
-            for (pkg2 in pkg.transitiveSuppliers) {
-
-                for (dt in pkg2.constrainedDataTypes) {
-                    result.add(dt)
-                }
-
-            }
-
-        }
-
         for (vt in vertexTypes) {
 
             for (pkg in vt.parents) {
-                findDataTypesInPackage(pkg)
+
+                // same package as parent vertex type
+                for (dt in pkg.constrainedDataTypes) {
+                    result.add(dt)
+                }
+
+                for (pkg2 in pkg.transitiveSuppliers) {
+
+                    for (dt in pkg2.constrainedDataTypes) {
+                        result.add(dt)
+                    }
+
+                }
+
             }
 
         }

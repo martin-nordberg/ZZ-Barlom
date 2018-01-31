@@ -48,6 +48,29 @@ class VertexTypeActions {
 
         }
 
+        /**
+         * Changes the super type of a vertex type.
+         */
+        fun changeSuperType(vertexType: VertexType, superTypePath: String): ModelAction {
+
+            return { model: Model ->
+
+                val superType: VertexType? = model.rootPackage.findVertexTypeByPath(superTypePath)
+
+                if (superType != null) {
+                    while (!vertexType.superTypeVertexTypeInheritances.isEmpty()) {
+                        vertexType.subTypeVertexTypeInheritances.get(0).remove()
+                    }
+                    model.makeVertexTypeInheritance(superType, vertexType)
+                }
+
+                val path = vertexType.path
+
+                "Set vertex type $path super type to $superTypePath."
+            }
+
+        }
+
     }
 
 }
