@@ -95,6 +95,40 @@ class EdgeAttributeType(
 
     }
 
+    /** Finds the constrained data types that are eligible to be the data type of this attribute type. */
+    fun findPotentialDataTypes(): List<ConstrainedDataType> {
+
+        val result = mutableListOf<ConstrainedDataType>()
+
+        fun findDataTypesInPackage(pkg: Package) {
+
+            // same package as parent vertex type
+            for (dt in pkg.constrainedDataTypes) {
+                result.add(dt)
+            }
+
+            for (pkg2 in pkg.transitiveSuppliers) {
+
+                for (dt in pkg2.constrainedDataTypes) {
+                    result.add(dt)
+                }
+
+            }
+
+        }
+
+        for (et in edgeTypes) {
+
+            for (pkg in et.parents) {
+                findDataTypesInPackage(pkg)
+            }
+
+        }
+
+        return result
+
+    }
+
     override fun hasParentPackage(pkg: Package): Boolean {
         return _edgeAttributeTypeContainments.contains({ c -> c.edgeType.hasParent(pkg) })
     }

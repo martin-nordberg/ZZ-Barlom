@@ -80,8 +80,8 @@ fun viewPropertiesForm(
             is EdgeAttributeType    -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewDataTypeField(this, revDispatchModel, focusedElement)
                 viewOptionalityField(this, revDispatchModel, focusedElement)
-                // TODO: data type
             }
 
             is Package              -> {
@@ -105,7 +105,6 @@ fun viewPropertiesForm(
                 viewDataTypeField(this, revDispatchModel, focusedElement)
                 viewOptionalityField(this, revDispatchModel, focusedElement)
                 viewLabelDefaultingField(this, revDispatchModel, focusedElement)
-                // TODO: data type
             }
 
             is VertexType           -> {
@@ -179,6 +178,24 @@ private fun viewCyclicityField(
     )
 ) { cyclicity ->
     revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(edgeType, cyclicity))
+}
+
+
+private fun viewDataTypeField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeAttributeType: EdgeAttributeType
+) = viewInputTextFieldWithDataList(
+    builder,
+    "data-type",
+    edgeAttributeType.id.toString(),
+    "Data Type:",
+    edgeAttributeType.dataTypes.elementAtOrNull(0)?.path ?: "",
+    "data type",
+    false,
+    edgeAttributeType.findPotentialDataTypes().map{ dt -> DataListOptionConfig( dt.id.toString(), dt.path ) }
+) { newDefaultValue ->
+    revDispatchModel(EdgeAttributeTypeActions.changeDataType(edgeAttributeType, newDefaultValue))
 }
 
 
