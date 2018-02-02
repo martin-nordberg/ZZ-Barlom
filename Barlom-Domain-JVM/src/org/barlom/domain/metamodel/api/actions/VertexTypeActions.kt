@@ -59,7 +59,7 @@ class VertexTypeActions {
 
                 if (superType != null) {
                     while (!vertexType.superTypeVertexTypeInheritances.isEmpty()) {
-                        vertexType.subTypeVertexTypeInheritances.get(0).remove()
+                        vertexType.superTypeVertexTypeInheritances.get(0).remove()
                     }
                     model.makeVertexTypeInheritance(superType, vertexType)
                 }

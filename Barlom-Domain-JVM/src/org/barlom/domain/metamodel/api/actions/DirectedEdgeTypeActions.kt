@@ -126,6 +126,29 @@ class DirectedEdgeTypeActions {
         }
 
         /**
+         * Changes the super type of a directed edge type.
+         */
+        fun changeSuperType(edgeType: DirectedEdgeType, superTypePath: String): ModelAction {
+
+            return { model: Model ->
+
+                val superType: DirectedEdgeType? = model.rootPackage.findDirectedEdgeTypeByPath(superTypePath)
+
+                if (superType != null) {
+                    while (!edgeType.superTypeInheritances.isEmpty()) {
+                        edgeType.superTypeInheritances.get(0).remove()
+                    }
+                    model.makeDirectedEdgeTypeInheritance(superType, edgeType)
+                }
+
+                val path = edgeType.path
+
+                "Set vertex type $path super type to $superTypePath."
+            }
+
+        }
+
+        /**
          * Changes the tail role name of the given [edgeType].
          */
         fun changeTailRoleName(edgeType: DirectedEdgeType, tailRoleName: String): ModelAction {

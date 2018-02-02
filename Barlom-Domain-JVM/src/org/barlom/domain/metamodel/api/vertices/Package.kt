@@ -328,6 +328,13 @@ class Package internal constructor(
         }?.child
     }
 
+    /** Finds the directed edge type in this package that has a given name. */
+    fun directedEdgeTypeByName(name: String): DirectedEdgeType? {
+        return _directedEdgeTypeContainments.find { c ->
+            c.child.name == name
+        }?.child
+    }
+
     /** Recursively searches within this package for the constrained data type with given relative path [dataTypePath]. */
     fun findDataTypeByPath(dataTypePath: String): ConstrainedDataType? {
 
@@ -341,7 +348,33 @@ class Package internal constructor(
 
     }
 
-    /** Recursively searches within this package for the vertex type with given relative path [dataTypePath]. */
+    /** Recursively searches within this package for the directed edge type with given relative path [edgeTypePath]. */
+    fun findDirectedEdgeTypeByPath(edgeTypePath: String): DirectedEdgeType? {
+
+        val pathSegments = edgeTypePath.split(".", limit = 2)
+        if (pathSegments.size == 2) {
+            return this.childPackageByName(pathSegments[0])?.findDirectedEdgeTypeByPath(pathSegments[1])
+        }
+        else {
+            return this.directedEdgeTypeByName(pathSegments[0])
+        }
+
+    }
+
+    /** Recursively searches within this package for the undirected edge type with given relative path [edgeTypePath]. */
+    fun findUndirectedEdgeTypeByPath(edgeTypePath: String): UndirectedEdgeType? {
+
+        val pathSegments = edgeTypePath.split(".", limit = 2)
+        if (pathSegments.size == 2) {
+            return this.childPackageByName(pathSegments[0])?.findUndirectedEdgeTypeByPath(pathSegments[1])
+        }
+        else {
+            return this.undirectedEdgeTypeByName(pathSegments[0])
+        }
+
+    }
+
+    /** Recursively searches within this package for the vertex type with given relative path [vertexTypePath]. */
     fun findVertexTypeByPath(vertexTypePath: String): VertexType? {
 
         val pathSegments = vertexTypePath.split(".", limit = 2)
@@ -649,7 +682,14 @@ class Package internal constructor(
 
     }
 
-    /** Finds the vertex type in this package that has a given name. */
+    /** Finds the undirected edge type in this package that has a given [name]. */
+    fun undirectedEdgeTypeByName(name: String): UndirectedEdgeType? {
+        return _undirectedEdgeTypeContainments.find { c ->
+            c.child.name == name
+        }?.child
+    }
+
+    /** Finds the vertex type in this package that has a given [name]. */
     fun vertexTypeByName(name: String): VertexType? {
         return _vertexTypeContainments.find { c ->
             c.child.name == name

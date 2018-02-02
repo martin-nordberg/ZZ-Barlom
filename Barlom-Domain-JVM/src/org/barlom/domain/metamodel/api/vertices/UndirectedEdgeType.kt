@@ -170,11 +170,19 @@ class UndirectedEdgeType(
 
     /** The sub types of this edge type. */
     val subTypes: List<UndirectedEdgeType>
-        get() = _subTypeUndirectedEdgeTypeInheritances.map { i -> i.subType }.sortedBy { vt -> vt.path }
+        get() = _subTypeUndirectedEdgeTypeInheritances.map { i -> i.subType }.sortedBy { et -> et.path }
+
+    /** The sub types of this edge type. */
+    val subTypeInheritances: List<UndirectedEdgeTypeInheritance>
+        get() = _subTypeUndirectedEdgeTypeInheritances.sortedBy { et -> et.subType.path }
 
     /** The super types of this edge type. */
     val superTypes: List<UndirectedEdgeType>
-        get() = _superTypeUndirectedEdgeTypeInheritances.map { i -> i.superType }.sortedBy { vt -> vt.path }
+        get() = _superTypeUndirectedEdgeTypeInheritances.map { i -> i.superType }.sortedBy { et -> et.path }
+
+    /** The super types of this edge type. */
+    val superTypeInheritances: List<UndirectedEdgeTypeInheritance>
+        get() = _superTypeUndirectedEdgeTypeInheritances.sortedBy { et -> et.superType.path }
 
 
     /** Adds an attribute type to this, its parent edge type's, list of edge attribute type containments. */
@@ -230,6 +238,45 @@ class UndirectedEdgeType(
         }
 
         _undirectedEdgeTypeContainments.add(undirectedEdgeTypeContainment)
+
+    }
+
+    /** Finds the edge types that are eligible to be the super type of this edge type. */
+    fun findPotentialSuperTypes(): List<UndirectedEdgeType> {
+
+        val result = mutableListOf<UndirectedEdgeType>()
+
+        for (pkg in parents) {
+
+            // same package as parent vertex type
+            for (et in pkg.undirectedEdgeTypes) {
+                if ( et !== this && !et.hasSuperType(this) ) {
+                    result.add(et)
+                }
+            }
+
+            for (pkg2 in pkg.transitiveSuppliers) {
+
+                for (et in pkg2.undirectedEdgeTypes) {
+                    if ( !et.hasSuperType(this) ) {
+                        result.add(et)
+                    }
+                }
+
+            }
+
+            var rpkg = pkg
+            while ( !rpkg.isRoot ) {
+                rpkg = rpkg.parents[0]
+            }
+
+            for (et in rpkg.undirectedEdgeTypes) {
+                result.add(et)
+            }
+
+        }
+
+        return result
 
     }
 

@@ -248,9 +248,17 @@ class DirectedEdgeType(
     val subTypes: List<DirectedEdgeType>
         get() = _subTypeDirectedEdgeTypeInheritances.map { i -> i.subType }.sortedBy { et -> et.path }
 
+    /** The sub types of this edge type. */
+    val subTypeInheritances: List<DirectedEdgeTypeInheritance>
+        get() = _subTypeDirectedEdgeTypeInheritances.sortedBy { et -> et.subType.path }
+
     /** The super types of this edge type. */
     val superTypes: List<DirectedEdgeType>
         get() = _superTypeDirectedEdgeTypeInheritances.map { i -> i.superType }.sortedBy { et -> et.path }
+
+    /** The super types of this edge type. */
+    val superTypeInheritances: List<DirectedEdgeTypeInheritance>
+        get() = _superTypeDirectedEdgeTypeInheritances.sortedBy { et -> et.superType.path }
 
     /** The name of the role for the vertex at the tail of edges of this type. */
     var tailRoleName: String?
@@ -332,6 +340,45 @@ class DirectedEdgeType(
         }
 
         _superTypeDirectedEdgeTypeInheritances.add(directedEdgeTypeInheritance)
+
+    }
+
+    /** Finds the edge types that are eligible to be the super type of this edge type. */
+    fun findPotentialSuperTypes(): List<DirectedEdgeType> {
+
+        val result = mutableListOf<DirectedEdgeType>()
+
+        for (pkg in parents) {
+
+            // same package as parent vertex type
+            for (et in pkg.directedEdgeTypes) {
+                if ( et !== this && !et.hasSuperType(this) ) {
+                    result.add(et)
+                }
+            }
+
+            for (pkg2 in pkg.transitiveSuppliers) {
+
+                for (et in pkg2.directedEdgeTypes) {
+                    if ( !et.hasSuperType(this) ) {
+                        result.add(et)
+                    }
+                }
+
+            }
+
+            var rpkg = pkg
+            while ( !rpkg.isRoot ) {
+                rpkg = rpkg.parents[0]
+            }
+
+            for (et in rpkg.directedEdgeTypes) {
+                result.add(et)
+            }
+
+        }
+
+        return result
 
     }
 

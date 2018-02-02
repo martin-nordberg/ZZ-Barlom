@@ -67,6 +67,7 @@ fun viewPropertiesForm(
             is DirectedEdgeType     -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
                 viewForwardReverseNameFields(this, revDispatchModel, focusedElement, isRoot)
                 viewRoleNameFields(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
@@ -92,6 +93,7 @@ fun viewPropertiesForm(
             is UndirectedEdgeType   -> {
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
                 viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
                 viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
@@ -580,6 +582,44 @@ private fun viewSelfLoopingField(
     )
 ) { selfLooping ->
     revDispatchModel(AbstractEdgeTypeActions.changeSelfLooping(edgeType, selfLooping))
+}
+
+
+private fun viewSuperTypeField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: DirectedEdgeType,
+    isRoot: Boolean
+) = viewInputTextFieldWithDataList(
+    builder,
+    "super-type",
+    edgeType.id.toString(),
+    "Super Type:",
+    edgeType.superTypes.elementAtOrNull(0)?.path ?: "",
+    "super type",
+    isRoot,
+    edgeType.findPotentialSuperTypes().map{ et -> DataListOptionConfig( et.id.toString(), et.path ) }
+) { newDefaultValue ->
+    revDispatchModel(DirectedEdgeTypeActions.changeSuperType(edgeType, newDefaultValue))
+}
+
+
+private fun viewSuperTypeField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: UndirectedEdgeType,
+    isRoot: Boolean
+) = viewInputTextFieldWithDataList(
+    builder,
+    "super-type",
+    edgeType.id.toString(),
+    "Super Type:",
+    edgeType.superTypes.elementAtOrNull(0)?.path ?: "",
+    "super type",
+    isRoot,
+    edgeType.findPotentialSuperTypes().map{ et -> DataListOptionConfig( et.id.toString(), et.path ) }
+) { newDefaultValue ->
+    revDispatchModel(UndirectedEdgeTypeActions.changeSuperType(edgeType, newDefaultValue))
 }
 
 

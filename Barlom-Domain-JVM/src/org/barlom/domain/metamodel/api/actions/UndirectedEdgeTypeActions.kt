@@ -45,6 +45,29 @@ class UndirectedEdgeTypeActions {
 
         }
 
+        /**
+         * Changes the super type of a directed edge type.
+         */
+        fun changeSuperType(edgeType: UndirectedEdgeType, superTypePath: String): ModelAction {
+
+            return { model: Model ->
+
+                val superType: UndirectedEdgeType? = model.rootPackage.findUndirectedEdgeTypeByPath(superTypePath)
+
+                if (superType != null) {
+                    while (!edgeType.superTypeInheritances.isEmpty()) {
+                        edgeType.superTypeInheritances.get(0).remove()
+                    }
+                    model.makeUndirectedEdgeTypeInheritance(superType, edgeType)
+                }
+
+                val path = edgeType.path
+
+                "Set vertex type $path super type to $superTypePath."
+            }
+
+        }
+
     }
 
 }
