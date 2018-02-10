@@ -183,6 +183,27 @@ class PackageActions {
 
         }
 
+        fun addPackageSupplier(pkg: Package, supplierPath: String): ModelAction {
+
+            return { model: Model ->
+
+                val supplier: Package? = model.rootPackage.findPackageByPath(supplierPath)
+
+                if (supplier != null) {
+                    model.makePackageDependency(pkg, supplier)
+
+                    val path = pkg.path
+
+                    "Add dependency from $path to $supplierPath."
+                }
+                else {
+                    "Supplier package $supplierPath not found."
+                }
+
+            }
+
+        }
+
     }
 
 }

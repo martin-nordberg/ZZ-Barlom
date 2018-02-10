@@ -213,11 +213,13 @@ class VertexType(
 
         val result = mutableListOf<VertexType>()
 
+        val rootPackage = parents[0].findRootPackage()
+
         for (pkg in parents) {
 
             // same package as parent vertex type
             for (vt in pkg.vertexTypes) {
-                if ( vt !== this && !vt.hasSuperType(this) ) {
+                if (vt !== this && !vt.hasSuperType(this)) {
                     result.add(vt)
                 }
             }
@@ -225,19 +227,14 @@ class VertexType(
             for (pkg2 in pkg.transitiveSuppliers) {
 
                 for (vt in pkg2.vertexTypes) {
-                    if ( !vt.hasSuperType(this) ) {
+                    if (!vt.hasSuperType(this)) {
                         result.add(vt)
                     }
                 }
 
             }
 
-            var rpkg = pkg
-            while ( !rpkg.isRoot ) {
-                rpkg = rpkg.parents[0]
-            }
-
-            for (vt in rpkg.vertexTypes) {
+            for (vt in rootPackage.vertexTypes) {
                 result.add(vt)
             }
 

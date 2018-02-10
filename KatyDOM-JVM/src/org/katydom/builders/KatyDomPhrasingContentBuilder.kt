@@ -113,7 +113,7 @@ open class KatyDomPhrasingContentBuilder(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        type: EButtonType? = null,
+        type: EButtonType? = EButtonType.BUTTON,
         value: String? = null,
         defineContent: KatyDomPhrasingContentBuilder.() -> Unit
     ) {

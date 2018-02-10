@@ -6,10 +6,10 @@
 package org.barlom.presentation.client.state
 
 import org.barlom.domain.metamodel.api.vertices.AbstractNamedElement
-import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import org.barlom.infrastructure.revisions.V
 import org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 import org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
+import org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 
 /**
  * The UI (non-model) state of the application.
@@ -23,6 +23,8 @@ class ApplicationUiState() {
 
 
     val browsePanelState = BrowsePanelState(_focusedElement)
+
+    val relatedElementsPanelState = RelatedElementsPanelState()
 
 
     var focusedElement

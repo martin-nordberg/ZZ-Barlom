@@ -348,11 +348,13 @@ class DirectedEdgeType(
 
         val result = mutableListOf<DirectedEdgeType>()
 
+        val rootPackage = parents[0].findRootPackage()
+
         for (pkg in parents) {
 
             // same package as parent vertex type
             for (et in pkg.directedEdgeTypes) {
-                if ( et !== this && !et.hasSuperType(this) ) {
+                if (et !== this && !et.hasSuperType(this)) {
                     result.add(et)
                 }
             }
@@ -360,19 +362,14 @@ class DirectedEdgeType(
             for (pkg2 in pkg.transitiveSuppliers) {
 
                 for (et in pkg2.directedEdgeTypes) {
-                    if ( !et.hasSuperType(this) ) {
+                    if (!et.hasSuperType(this)) {
                         result.add(et)
                     }
                 }
 
             }
 
-            var rpkg = pkg
-            while ( !rpkg.isRoot ) {
-                rpkg = rpkg.parents[0]
-            }
-
-            for (et in rpkg.directedEdgeTypes) {
+            for (et in rootPackage.directedEdgeTypes) {
                 result.add(et)
             }
 

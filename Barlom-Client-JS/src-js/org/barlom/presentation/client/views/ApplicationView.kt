@@ -105,7 +105,8 @@ fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): Kat
                             }
 
                             div("#related-elements-container.o-grid__cell--width-40") {
-                                viewRelatedElements(this, ::revDispatchModel, ui.focusedElement!!, ::revDispatchUi)
+                                viewRelatedElements(this, ui.relatedElementsPanelState, ::revDispatchModel,
+                                                    ui.focusedElement!!, ::revDispatchUi)
                             }
 
                         }

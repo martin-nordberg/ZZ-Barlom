@@ -5,6 +5,7 @@
 
 package org.katydom.abstractnodes
 
+import org.katydom.dom.setAttributeAndProperty
 import org.katydom.infrastructure.UnusedMap
 import org.katydom.infrastructure.UnusedSet
 import org.w3c.dom.Element
@@ -282,8 +283,7 @@ abstract class KatyDomElement : KatyDomNode {
         // Patch other attributes.
         for ((key, newValue) in attributes) {
             if (newValue != priorElement.attributes[key]) {
-                domElement.setAttribute(key, newValue)
-                // TODO: need to set property for attributes like checked and value that are not synchronized
+                domElement.setAttributeAndProperty(key, newValue)
             }
         }
         for ((key, _) in priorElement.attributes) {

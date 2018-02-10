@@ -66,7 +66,7 @@ internal class KatyDomButton(
         this.freeze()
     }
 
-    override val nodeName = "INPUT"
+    override val nodeName = "BUTTON"
 
 }
 

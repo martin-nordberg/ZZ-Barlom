@@ -246,11 +246,13 @@ class UndirectedEdgeType(
 
         val result = mutableListOf<UndirectedEdgeType>()
 
+        val rootPackage = parents[0].findRootPackage()
+
         for (pkg in parents) {
 
             // same package as parent vertex type
             for (et in pkg.undirectedEdgeTypes) {
-                if ( et !== this && !et.hasSuperType(this) ) {
+                if (et !== this && !et.hasSuperType(this)) {
                     result.add(et)
                 }
             }
@@ -258,19 +260,14 @@ class UndirectedEdgeType(
             for (pkg2 in pkg.transitiveSuppliers) {
 
                 for (et in pkg2.undirectedEdgeTypes) {
-                    if ( !et.hasSuperType(this) ) {
+                    if (!et.hasSuperType(this)) {
                         result.add(et)
                     }
                 }
 
             }
 
-            var rpkg = pkg
-            while ( !rpkg.isRoot ) {
-                rpkg = rpkg.parents[0]
-            }
-
-            for (et in rpkg.undirectedEdgeTypes) {
+            for (et in rootPackage.undirectedEdgeTypes) {
                 result.add(et)
             }
 

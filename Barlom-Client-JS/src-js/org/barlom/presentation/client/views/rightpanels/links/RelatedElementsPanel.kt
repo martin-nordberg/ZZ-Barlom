@@ -5,9 +5,13 @@
 
 package org.barlom.presentation.client.views.rightpanels.links
 
-import org.barlom.domain.metamodel.api.actions.*
+import org.barlom.domain.metamodel.api.actions.AbstractEdgeTypeActions
+import org.barlom.domain.metamodel.api.actions.ModelAction
+import org.barlom.domain.metamodel.api.actions.PackageActions
+import org.barlom.domain.metamodel.api.actions.VertexTypeActions
 import org.barlom.domain.metamodel.api.vertices.*
 import org.barlom.presentation.client.actions.UiAction
+import org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 import org.barlom.presentation.client.views.listitems.viewListItem
 import org.barlom.presentation.client.views.listitems.viewListItemIcon
 import org.katydom.api.katyDomComponent
@@ -18,6 +22,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
  */
 fun viewRelatedElements(
     builder: KatyDomFlowContentBuilder,
+    relatedElementsPanelState: RelatedElementsPanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
     focusedElement: AbstractNamedElement,
     revDispatchUi: (uiAction: UiAction) -> Unit
@@ -29,6 +34,8 @@ fun viewRelatedElements(
 
             is Package            -> {
                 viewPackageChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
+                viewPackageSupplierElements(this, relatedElementsPanelState, focusedElement, revDispatchUi,
+                                            revDispatchModel)
             }
 
             is VertexType         -> if (!focusedElement.isRoot) {
@@ -176,6 +183,43 @@ private fun viewPackageChildElements(
 
 
 /**
+ * Shows a list of the supplier packages for a package.
+ */
+private fun viewPackageSupplierElements(
+    builder: KatyDomFlowContentBuilder,
+    relatedElementsPanelState: RelatedElementsPanelState,
+    focusedElement: Package,
+    revDispatchUi: (uiAction: UiAction) -> Unit,
+    revDispatchModel: (modelAction: ModelAction) -> Unit
+) = katyDomComponent(builder) {
+
+    viewConnectedElements(
+        this,
+        focusedElement,
+        Package::suppliers,
+        Package::findPotentialSuppliers,
+        revDispatchUi,
+        "Supplier Packages:",
+        "supplier-packages",
+        listOf(
+            AddConnectionConfig(
+                "Add a supplier package",
+                relatedElementsPanelState.newSupplierPackagePath
+            ) { pkg ->
+                revDispatchUi { uiState ->
+                    val supplierPath = uiState.relatedElementsPanelState.newSupplierPackagePath
+                    revDispatchModel(PackageActions.addPackageSupplier(pkg, supplierPath))
+                    uiState.relatedElementsPanelState.newSupplierPackagePath = ""
+                    "Added supplier package."
+                }
+            }
+        )
+    )
+
+}
+
+
+/**
  * Shows lists of the different kinds of child elements in an undirected edge type.
  */
 private fun viewUndirectedEdgeTypeChildElements(
@@ -257,7 +301,7 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
         // Show the child elements.
         for (child in parent.getChildElements()) {
 
-            li(".tree-item--not-focused") {
+            li(".tree-item--not-focused", key=child.id) {
 
                 data("uuid", child.id.toString())
 
@@ -269,6 +313,7 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
 
         // Show links for creating new child elements.
         for (addButton in addButtons) {
+
             li(".tree-item--not-focused") {
 
                 onclick {
@@ -282,6 +327,120 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
                     span(".mdi.mdi-plus-circle-outline.add-symbol", "add-symbol") {}
 
                     text(" ${addButton.label}")
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+data class AddConnectionConfig<in Parent>(
+    val label: String,
+    val path: String,
+    val action: (Parent) -> Unit
+)
+
+/**
+ * Shows a list of connected elements for given element.
+ */
+private inline fun <Element, reified ConnectedElement : AbstractNamedElement> viewConnectedElements(
+    builder: KatyDomFlowContentBuilder,
+    parent: Element,
+    noinline getConnectedElements: Element.() -> List<ConnectedElement>,
+    noinline getPotentialConnectedElements: Element.() -> List<ConnectedElement>,
+    noinline revDispatchUi: (uiAction: UiAction) -> Unit,
+    label: String,
+    name: String,
+    addButtons: List<AddConnectionConfig<Element>>
+) = katyDomComponent(builder) {
+
+    // Label the list.
+    label("#$name-label.c-label.o-form-element") {
+        text(label)
+    }
+
+    ul("#$name-list.c-tree") {
+
+        // Show the child elements.
+        for (child in parent.getConnectedElements()) {
+
+            li(".tree-item--not-focused", key=child.id) {
+
+                data("uuid", child.id.toString())
+
+                viewListItem(this, child, revDispatchUi)
+
+            }
+
+        }
+
+        // Show links for creating new child elements.
+        for (addButton in addButtons) {
+
+            li(".tree-item--not-focused") {
+
+                val dataListId = "$name-data-list"
+
+                datalist(
+                    "#$dataListId"
+                ) {
+
+                    for (element in parent.getPotentialConnectedElements()) {
+                        option("#${element.id}") { text(element.path) }
+                    }
+
+                }
+
+                div(".c-input-group") {
+
+                    button(
+                        ".c-button.c-button--success.u-small",
+                        key = "$name-action-button",
+                        style = "width:3em"
+                    ) {
+
+                        onclick {
+                            addButton.action(parent)
+                        }
+
+                        span(".mdi.mdi-plus-circle-outline", "add-symbol") {}
+
+                    }
+
+                    div(".o-field") {
+
+                        inputText(
+                            ".c-field.u-small",
+                            key = "$name-input-field",
+                            list = dataListId,
+                            placeholder = addButton.label,
+                            value = addButton.path
+
+                        ) {
+
+                            onblur { event ->
+
+                                val newValue: String = event.target.asDynamic().value as String
+
+                                if (newValue.isNotBlank()) {
+
+                                    revDispatchUi { uiState ->
+                                        uiState.relatedElementsPanelState.newSupplierPackagePath = newValue
+                                        "Entered new supplier package path '$newValue'."
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
 
                 }
 

@@ -316,29 +316,36 @@ class Package internal constructor(
 
     /** Finds the child package of this package that has a given name. */
     fun childPackageByName(name: String): Package? {
+
         return _childPackageContainments.find { c ->
             c.child.name == name
         }?.child
+
     }
 
     /** Finds the constrained data type in this package that has a given name. */
     fun constrainedDataTypeByName(name: String): ConstrainedDataType? {
+
         return _constrainedDataTypeContainments.find { c ->
             c.child.name == name
         }?.child
+
     }
 
     /** Finds the directed edge type in this package that has a given name. */
     fun directedEdgeTypeByName(name: String): DirectedEdgeType? {
+
         return _directedEdgeTypeContainments.find { c ->
             c.child.name == name
         }?.child
+
     }
 
     /** Recursively searches within this package for the constrained data type with given relative path [dataTypePath]. */
     fun findDataTypeByPath(dataTypePath: String): ConstrainedDataType? {
 
         val pathSegments = dataTypePath.split(".", limit = 2)
+
         if (pathSegments.size == 2) {
             return this.childPackageByName(pathSegments[0])?.findDataTypeByPath(pathSegments[1])
         }
@@ -352,6 +359,7 @@ class Package internal constructor(
     fun findDirectedEdgeTypeByPath(edgeTypePath: String): DirectedEdgeType? {
 
         val pathSegments = edgeTypePath.split(".", limit = 2)
+
         if (pathSegments.size == 2) {
             return this.childPackageByName(pathSegments[0])?.findDirectedEdgeTypeByPath(pathSegments[1])
         }
@@ -361,10 +369,72 @@ class Package internal constructor(
 
     }
 
+    /** Recursively searches within this package for the package with given relative path [packagePath]. */
+    fun findPackageByPath(packagePath: String): Package? {
+
+        val pathSegments = packagePath.split(".", limit = 2)
+
+        if (pathSegments.size == 2) {
+            return this.childPackageByName(pathSegments[0])?.findPackageByPath(pathSegments[1])
+        }
+        else {
+            return this.packageByName(pathSegments[0])
+        }
+
+    }
+
+    /** Finds the packages in the model that are eligible to be a supplier of this package. */
+    fun findPotentialSuppliers(): List<Package> {
+
+        val result = mutableListOf<Package>()
+
+        if (isRoot) {
+            return result
+        }
+
+        val parentPkg = this.parents[0]
+
+        fun findPotentialSuppliersInPkg(pkg: Package) {
+
+            val ineligible = pkg.isRoot ||
+                pkg == this ||
+                this.hasSupplier(pkg) ||
+                pkg.hasSupplier(this) && pkg.parents[0] != parentPkg
+
+            if (!ineligible) {
+                result.add(pkg)
+            }
+
+            for (childPkg in pkg.childPackages) {
+                findPotentialSuppliersInPkg(childPkg)
+            }
+
+        }
+
+        findPotentialSuppliersInPkg(this.findRootPackage())
+
+        return result
+
+    }
+
+    /** Finds the root package by traversing up the child-parent path. */
+    fun findRootPackage(): Package {
+
+        var result = this
+
+        while (!result.isRoot) {
+            result = result.parents[0]
+        }
+
+        return result
+
+    }
+
     /** Recursively searches within this package for the undirected edge type with given relative path [edgeTypePath]. */
     fun findUndirectedEdgeTypeByPath(edgeTypePath: String): UndirectedEdgeType? {
 
         val pathSegments = edgeTypePath.split(".", limit = 2)
+
         if (pathSegments.size == 2) {
             return this.childPackageByName(pathSegments[0])?.findUndirectedEdgeTypeByPath(pathSegments[1])
         }
@@ -378,6 +448,7 @@ class Package internal constructor(
     fun findVertexTypeByPath(vertexTypePath: String): VertexType? {
 
         val pathSegments = vertexTypePath.split(".", limit = 2)
+
         if (pathSegments.size == 2) {
             return this.childPackageByName(pathSegments[0])?.findVertexTypeByPath(pathSegments[1])
         }
@@ -599,6 +670,15 @@ class Package internal constructor(
 
     }
 
+    /** Finds the child package in this package that has a given [name]. */
+    fun packageByName(name: String): Package? {
+
+        return _childPackageContainments.find { c ->
+            c.child.name == name
+        }?.child
+
+    }
+
     override fun remove() {
         _childPackageContainments.forEach { c -> c.remove() }
         _constrainedDataTypeContainments.forEach { c -> c.remove() }
@@ -684,16 +764,20 @@ class Package internal constructor(
 
     /** Finds the undirected edge type in this package that has a given [name]. */
     fun undirectedEdgeTypeByName(name: String): UndirectedEdgeType? {
+
         return _undirectedEdgeTypeContainments.find { c ->
             c.child.name == name
         }?.child
+
     }
 
     /** Finds the vertex type in this package that has a given [name]. */
     fun vertexTypeByName(name: String): VertexType? {
+
         return _vertexTypeContainments.find { c ->
             c.child.name == name
         }?.child
+
     }
 
 }

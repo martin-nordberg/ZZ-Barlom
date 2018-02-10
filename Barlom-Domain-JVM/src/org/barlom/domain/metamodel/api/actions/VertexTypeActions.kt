@@ -44,6 +44,7 @@ class VertexTypeActions {
                 val a = if (abstractness.isAbstract()) "abstract" else "concrete"
 
                 "Make vertex type $path $a."
+
             }
 
         }
@@ -67,6 +68,7 @@ class VertexTypeActions {
                 val path = vertexType.path
 
                 "Set vertex type $path super type to $superTypePath."
+
             }
 
         }
