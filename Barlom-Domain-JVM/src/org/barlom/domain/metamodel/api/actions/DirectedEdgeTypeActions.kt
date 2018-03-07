@@ -7,11 +7,58 @@ package org.barlom.domain.metamodel.api.actions
 
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.vertices.DirectedEdgeType
+import org.barlom.domain.metamodel.api.vertices.VertexType
 
 
 class DirectedEdgeTypeActions {
 
     companion object {
+
+        /**
+         * Changes the connected head vertex of a directed edge type.
+         */
+        fun changeConnectedHeadVertexType(edgeType: DirectedEdgeType, vertexTypePath: String): ModelAction {
+
+            return { model: Model ->
+
+                val vertexType: VertexType? = model.rootPackage.findVertexTypeByPath(vertexTypePath)
+
+                if (vertexType != null) {
+                    while (!edgeType.headConnectivities.isEmpty()) {
+                        edgeType.headConnectivities[0].remove()
+                    }
+                    model.makeDirectedEdgeTypeHeadConnectivity(edgeType, vertexType)
+                }
+
+                val path = edgeType.path
+
+                "Set directed edge type $path connected head vertex type to $vertexTypePath."
+            }
+
+        }
+
+        /**
+         * Changes the connected tail vertex of a directed edge type.
+         */
+        fun changeConnectedTailVertexType(edgeType: DirectedEdgeType, vertexTypePath: String): ModelAction {
+
+            return { model: Model ->
+
+                val vertexType: VertexType? = model.rootPackage.findVertexTypeByPath(vertexTypePath)
+
+                if (vertexType != null) {
+                    while (!edgeType.tailConnectivities.isEmpty()) {
+                        edgeType.tailConnectivities[0].remove()
+                    }
+                    model.makeDirectedEdgeTypeTailConnectivity(edgeType, vertexType)
+                }
+
+                val path = edgeType.path
+
+                "Set directed edge type $path connected tail vertex type to $vertexTypePath."
+            }
+
+        }
 
         /**
          * Changes the forward directed name of the given [edgeType].

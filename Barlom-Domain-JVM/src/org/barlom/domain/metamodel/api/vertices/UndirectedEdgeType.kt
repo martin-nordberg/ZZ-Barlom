@@ -28,6 +28,7 @@ class UndirectedEdgeType(
 ) : AbstractEdgeType() {
 
     private val _abstractness = if (isRoot) V(EAbstractness.ABSTRACT) else V(EAbstractness.CONCRETE)
+    private val _connectivities = VLinkedList<UndirectedEdgeTypeConnectivity>()
     private val _cyclicity = V(ECyclicity.DEFAULT)
     private val _description = if (isRoot) V("Root undirected edge type.") else V("")
     private val _edgeAttributeTypeContainments = VLinkedList<EdgeAttributeTypeContainment>()
@@ -38,7 +39,6 @@ class UndirectedEdgeType(
     private val _selfLooping = V(ESelfLooping.DEFAULT)
     private val _subTypeUndirectedEdgeTypeInheritances = VLinkedList<UndirectedEdgeTypeInheritance>()
     private val _superTypeUndirectedEdgeTypeInheritances = VLinkedList<UndirectedEdgeTypeInheritance>()
-    private val _undirectedEdgeTypeConnectivities = VLinkedList<UndirectedEdgeTypeConnectivity>()
     private val _undirectedEdgeTypeContainments = VLinkedList<UndirectedEdgeTypeContainment>()
 
 
@@ -59,7 +59,11 @@ class UndirectedEdgeType(
 
     /** The vertex type connected to this edge type. */
     val connectedVertexTypes: List<VertexType>
-        get() = _undirectedEdgeTypeConnectivities.map { c -> c.connectedVertexType }.sortedBy { vt -> vt.name }
+        get() = _connectivities.map { c -> c.connectedVertexType }.sortedBy { vt -> vt.name }
+
+    /** The connectivities to the vertex type connected to this edge type. */
+    val connectivities: List<UndirectedEdgeTypeConnectivity>
+        get() = _connectivities.sortedBy { c -> c.connectedVertexType.path }
 
     override var cyclicity: ECyclicity
         get() = _cyclicity.get()
@@ -226,7 +230,7 @@ class UndirectedEdgeType(
             "Cannot link a vertex type to an undirected edge type not its connector."
         }
 
-        _undirectedEdgeTypeConnectivities.add(undirectedEdgeTypeConnectivity)
+        _connectivities.add(undirectedEdgeTypeConnectivity)
 
     }
 
@@ -238,6 +242,38 @@ class UndirectedEdgeType(
         }
 
         _undirectedEdgeTypeContainments.add(undirectedEdgeTypeContainment)
+
+    }
+
+    /** Finds the vertex types that are eligible to be connected by this edge type. */
+    fun findPotentialConnectedVertexTypes(): List<VertexType> {
+
+        val result = mutableListOf<VertexType>()
+
+        val rootPackage = parents[0].findRootPackage()
+
+        for (pkg in parents) {
+
+            // same package as parent vertex type
+            for (vt in pkg.vertexTypes) {
+                result.add(vt)
+            }
+
+            for (pkg2 in pkg.transitiveSuppliers) {
+
+                for (vt in pkg2.vertexTypes) {
+                    result.add(vt)
+                }
+
+            }
+
+            for (vt in rootPackage.vertexTypes) {
+                result.add(vt)
+            }
+
+        }
+
+        return result
 
     }
 
@@ -402,7 +438,7 @@ class UndirectedEdgeType(
         _edgeAttributeTypeContainments.forEach { c -> c.remove() }
         _subTypeUndirectedEdgeTypeInheritances.forEach { i -> i.remove() }
         _superTypeUndirectedEdgeTypeInheritances.forEach { i -> i.remove() }
-        _undirectedEdgeTypeConnectivities.forEach { c -> c.remove() }
+        _connectivities.forEach { c -> c.remove() }
         _undirectedEdgeTypeContainments.forEach { c -> c.remove() }
     }
 
@@ -438,7 +474,7 @@ class UndirectedEdgeType(
     /** Removes a vertex type from this, its connecting edge type's, list of undirected edge type connectivities. */
     internal fun removeUndirectedEdgeTypeConnectivity(undirectedEdgeTypeConnectivity: UndirectedEdgeTypeConnectivity) {
 
-        require(_undirectedEdgeTypeConnectivities.remove(undirectedEdgeTypeConnectivity)) {
+        require(_connectivities.remove(undirectedEdgeTypeConnectivity)) {
             "Cannot unlink a vertex type from an undirected edge type not its connector."
         }
 

@@ -55,10 +55,30 @@ fun initializeAppState(): ApplicationState {
             makeUndirectedEdgeTypeContainment(pkg1a, this)
         }
 
-        val DirectedEdgeTypeY = makeDirectedEdgeType {
-            name = "DirectedEdgeTypeY"
+        makeUndirectedEdgeTypeConnectivity( UndirectedEdgeTypeX, VertexTypeA )
+
+        val UndirectedEdgeTypeY = makeUndirectedEdgeType {
+            name = "UndirectedEdgeTypeY"
+            makeUndirectedEdgeTypeContainment(pkg1a, this)
+        }
+
+        makeUndirectedEdgeTypeConnectivity( UndirectedEdgeTypeY, VertexTypeB )
+
+        val DirectedEdgeTypeP = makeDirectedEdgeType {
+            name = "DirectedEdgeTypeP"
             makeDirectedEdgeTypeContainment(pkg1a, this)
         }
+
+        makeDirectedEdgeTypeHeadConnectivity( DirectedEdgeTypeP, VertexTypeA )
+        makeDirectedEdgeTypeTailConnectivity( DirectedEdgeTypeP, VertexTypeB )
+
+        val DirectedEdgeTypeQ = makeDirectedEdgeType {
+            name = "DirectedEdgeTypeQ"
+            makeDirectedEdgeTypeContainment(pkg1a, this)
+        }
+
+        makeDirectedEdgeTypeHeadConnectivity( DirectedEdgeTypeQ, VertexTypeB )
+        makeDirectedEdgeTypeTailConnectivity( DirectedEdgeTypeQ, VertexTypeA )
 
         val pkg1b = makePackage {
             name = "pkg1b"

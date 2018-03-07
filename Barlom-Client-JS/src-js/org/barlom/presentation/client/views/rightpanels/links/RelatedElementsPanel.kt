@@ -81,6 +81,16 @@ private fun viewDirectedEdgeTypeChildElements(
         )
     )
 
+    viewChildElements(
+        this,
+        focusedElement,
+        DirectedEdgeType::subTypes,
+        revDispatchUi,
+        "Sub Types:",
+        "sub-types",
+        listOf()
+    )
+
 }
 
 
@@ -242,6 +252,15 @@ private fun viewUndirectedEdgeTypeChildElements(
             }
         )
     )
+    viewChildElements(
+        this,
+        focusedElement,
+        UndirectedEdgeType::subTypes,
+        revDispatchUi,
+        "Sub Types:",
+        "sub-types",
+        listOf()
+    )
 
 }
 
@@ -268,6 +287,16 @@ private fun viewVertexTypeChildElements(
                 revDispatchModel(VertexTypeActions.addAttributeType(vt))
             }
         )
+    )
+
+    viewChildElements(
+        this,
+        focusedElement,
+        VertexType::subTypes,
+        revDispatchUi,
+        "Sub Types:",
+        "sub-types",
+        listOf()
     )
 
 }

@@ -7,11 +7,35 @@ package org.barlom.domain.metamodel.api.actions
 
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.vertices.UndirectedEdgeType
+import org.barlom.domain.metamodel.api.vertices.VertexType
 
 
 class UndirectedEdgeTypeActions {
 
     companion object {
+
+        /**
+         * Changes the connected vertex of an undirected edge type.
+         */
+        fun changeConnectedVertexType(edgeType: UndirectedEdgeType, vertexTypePath: String): ModelAction {
+
+            return { model: Model ->
+
+                val vertexType: VertexType? = model.rootPackage.findVertexTypeByPath(vertexTypePath)
+
+                if (vertexType != null) {
+                    while (!edgeType.connectivities.isEmpty()) {
+                        edgeType.connectivities[0].remove()
+                    }
+                    model.makeUndirectedEdgeTypeConnectivity(edgeType, vertexType)
+                }
+
+                val path = edgeType.path
+
+                "Set undirected edge type $path connected vertex type to $vertexTypePath."
+            }
+
+        }
 
         /**
          * Changes the maximum degree of the given [edgeType].
@@ -46,7 +70,7 @@ class UndirectedEdgeTypeActions {
         }
 
         /**
-         * Changes the super type of a directed edge type.
+         * Changes the super type of an undirected edge type.
          */
         fun changeSuperType(edgeType: UndirectedEdgeType, superTypePath: String): ModelAction {
 
@@ -56,14 +80,14 @@ class UndirectedEdgeTypeActions {
 
                 if (superType != null) {
                     while (!edgeType.superTypeInheritances.isEmpty()) {
-                        edgeType.superTypeInheritances.get(0).remove()
+                        edgeType.superTypeInheritances[0].remove()
                     }
                     model.makeUndirectedEdgeTypeInheritance(superType, edgeType)
                 }
 
                 val path = edgeType.path
 
-                "Set vertex type $path super type to $superTypePath."
+                "Set undirected edge type $path super type to $superTypePath."
             }
 
         }

@@ -68,6 +68,8 @@ fun viewPropertiesForm(
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
+                viewConnectedHeadVertexTypeField( this, revDispatchModel, focusedElement, isRoot)
+                viewConnectedTailVertexTypeField( this, revDispatchModel, focusedElement, isRoot)
                 viewForwardReverseNameFields(this, revDispatchModel, focusedElement, isRoot)
                 viewRoleNameFields(this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
@@ -94,6 +96,7 @@ fun viewPropertiesForm(
                 viewNameField(this, revDispatchModel, focusedElement, isRoot)
                 viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
                 viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
+                viewConnectedVertexTypeField( this, revDispatchModel, focusedElement, isRoot)
                 viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
                 viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
                 viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
@@ -160,6 +163,63 @@ private fun viewAbstractnessField(
     )
 ) { abstractness ->
     revDispatchModel(VertexTypeActions.changeAbstractness(vertexType, abstractness))
+}
+
+
+private fun viewConnectedHeadVertexTypeField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: DirectedEdgeType,
+    isRoot: Boolean
+) = viewInputTextFieldWithDataList(
+    builder,
+    "connected-head-vertex-type",
+    edgeType.id.toString(),
+    "Connected Head Vertex Type:",
+    edgeType.connectedHeadVertexTypes.elementAtOrNull(0)?.path ?: "",
+    "connected head vertex type",
+    isRoot,
+    edgeType.findPotentialConnectedHeadVertexTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+) { newDefaultValue ->
+    revDispatchModel(DirectedEdgeTypeActions.changeConnectedHeadVertexType(edgeType, newDefaultValue))
+}
+
+
+private fun viewConnectedTailVertexTypeField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: DirectedEdgeType,
+    isRoot: Boolean
+) = viewInputTextFieldWithDataList(
+    builder,
+    "connected-tail-vertex-type",
+    edgeType.id.toString(),
+    "Connected Tail Vertex Type:",
+    edgeType.connectedTailVertexTypes.elementAtOrNull(0)?.path ?: "",
+    "connected tail vertex type",
+    isRoot,
+    edgeType.findPotentialConnectedTailVertexTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+) { newDefaultValue ->
+    revDispatchModel(DirectedEdgeTypeActions.changeConnectedTailVertexType(edgeType, newDefaultValue))
+}
+
+
+private fun viewConnectedVertexTypeField(
+    builder: KatyDomFlowContentBuilder,
+    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    edgeType: UndirectedEdgeType,
+    isRoot: Boolean
+) = viewInputTextFieldWithDataList(
+    builder,
+    "connected-vertex-type",
+    edgeType.id.toString(),
+    "Connected Vertex Type:",
+    edgeType.connectedVertexTypes.elementAtOrNull(0)?.path ?: "",
+    "connected vertex type",
+    isRoot,
+    edgeType.findPotentialConnectedVertexTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+) { newDefaultValue ->
+    revDispatchModel(UndirectedEdgeTypeActions.changeConnectedVertexType(edgeType, newDefaultValue))
 }
 
 

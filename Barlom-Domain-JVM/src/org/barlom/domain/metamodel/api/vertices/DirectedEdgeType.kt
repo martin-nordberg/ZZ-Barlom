@@ -28,10 +28,9 @@ class DirectedEdgeType(
     private val _cyclicity = V(ECyclicity.DEFAULT)
     private val _description = if (isRoot) V("Root directed edge type.") else V("")
     private val _directedEdgeTypeContainments = VLinkedList<DirectedEdgeTypeContainment>()
-    private val _directedEdgeTypeHeadConnectivities = VLinkedList<DirectedEdgeTypeHeadConnectivity>()
-    private val _directedEdgeTypeTailConnectivities = VLinkedList<DirectedEdgeTypeTailConnectivity>()
     private val _edgeAttributeTypeContainments = VLinkedList<EdgeAttributeTypeContainment>()
     private val _forwardName: V<String?> = V(null)
+    private val _headConnectivities = VLinkedList<DirectedEdgeTypeHeadConnectivity>()
     private val _headRoleName: V<String?> = V(null)
     private val _maxHeadInDegree: V<Int?> = V(null)
     private val _maxTailOutDegree: V<Int?> = V(null)
@@ -43,6 +42,7 @@ class DirectedEdgeType(
     private val _subTypeDirectedEdgeTypeInheritances = VLinkedList<DirectedEdgeTypeInheritance>()
     private val _superTypeDirectedEdgeTypeInheritances = VLinkedList<DirectedEdgeTypeInheritance>()
     private val _reverseName: V<String?> = V(null)
+    private val _tailConnectivities = VLinkedList<DirectedEdgeTypeTailConnectivity>()
     private val _tailRoleName: V<String?> = V(null)
 
 
@@ -63,11 +63,11 @@ class DirectedEdgeType(
 
     /** The vertex type connected to the head of this edge type. */
     val connectedHeadVertexTypes: List<VertexType>
-        get() = _directedEdgeTypeHeadConnectivities.map { c -> c.connectedVertexType }.sortedBy { vt -> vt.name }
+        get() = _headConnectivities.map { c -> c.connectedVertexType }.sortedBy { vt -> vt.name }
 
     /** The vertex type connected to the tail of this edge type. */
     val connectedTailVertexTypes: List<VertexType>
-        get() = _directedEdgeTypeTailConnectivities.map { c -> c.connectedVertexType }.sortedBy { vt -> vt.name }
+        get() = _tailConnectivities.map { c -> c.connectedVertexType }.sortedBy { vt -> vt.name }
 
     override var cyclicity: ECyclicity
         get() = _cyclicity.get()
@@ -106,6 +106,9 @@ class DirectedEdgeType(
             _forwardName.set(value)
 
         }
+
+    val headConnectivities: List<DirectedEdgeTypeHeadConnectivity>
+        get() = _headConnectivities.sortedBy { c -> c.connectedVertexType.path }
 
     /** The name of the role for the vertex at the head of edges of this type. */
     var headRoleName: String?
@@ -260,6 +263,9 @@ class DirectedEdgeType(
     val superTypeInheritances: List<DirectedEdgeTypeInheritance>
         get() = _superTypeDirectedEdgeTypeInheritances.sortedBy { et -> et.superType.path }
 
+    val tailConnectivities: List<DirectedEdgeTypeTailConnectivity>
+        get() = _tailConnectivities.sortedBy { c -> c.connectedVertexType.path }
+
     /** The name of the role for the vertex at the tail of edges of this type. */
     var tailRoleName: String?
         get() = _tailRoleName.get()
@@ -282,7 +288,7 @@ class DirectedEdgeType(
             "Cannot link a vertex type to a directed edge type not its head connector."
         }
 
-        _directedEdgeTypeHeadConnectivities.add(directedEdgeTypeHeadConnectivity)
+        _headConnectivities.add(directedEdgeTypeHeadConnectivity)
 
     }
 
@@ -294,7 +300,7 @@ class DirectedEdgeType(
             "Cannot link a vertex type to a directed edge type not its tail connector."
         }
 
-        _directedEdgeTypeTailConnectivities.add(directedEdgeTypeTailConnectivity)
+        _tailConnectivities.add(directedEdgeTypeTailConnectivity)
 
     }
 
@@ -340,6 +346,70 @@ class DirectedEdgeType(
         }
 
         _superTypeDirectedEdgeTypeInheritances.add(directedEdgeTypeInheritance)
+
+    }
+
+    /** Finds the vertex types that are eligible to be connected by the head of this edge type. */
+    fun findPotentialConnectedHeadVertexTypes(): List<VertexType> {
+
+        val result = mutableListOf<VertexType>()
+
+        val rootPackage = parents[0].findRootPackage()
+
+        for (pkg in parents) {
+
+            // same package as parent vertex type
+            for (vt in pkg.vertexTypes) {
+                result.add(vt)
+            }
+
+            for (pkg2 in pkg.transitiveSuppliers) {
+
+                for (vt in pkg2.vertexTypes) {
+                    result.add(vt)
+                }
+
+            }
+
+            for (vt in rootPackage.vertexTypes) {
+                result.add(vt)
+            }
+
+        }
+
+        return result
+
+    }
+
+    /** Finds the vertex types that are eligible to be connected by the tail of this edge type. */
+    fun findPotentialConnectedTailVertexTypes(): List<VertexType> {
+
+        val result = mutableListOf<VertexType>()
+
+        val rootPackage = parents[0].findRootPackage()
+
+        for (pkg in parents) {
+
+            // same package as parent vertex type
+            for (vt in pkg.vertexTypes) {
+                result.add(vt)
+            }
+
+            for (pkg2 in pkg.transitiveSuppliers) {
+
+                for (vt in pkg2.vertexTypes) {
+                    result.add(vt)
+                }
+
+            }
+
+            for (vt in rootPackage.vertexTypes) {
+                result.add(vt)
+            }
+
+        }
+
+        return result
 
     }
 
@@ -502,8 +572,8 @@ class DirectedEdgeType(
 
     override fun remove() {
         _directedEdgeTypeContainments.forEach { c -> c.remove() }
-        _directedEdgeTypeHeadConnectivities.forEach { c -> c.remove() }
-        _directedEdgeTypeTailConnectivities.forEach { c -> c.remove() }
+        _headConnectivities.forEach { c -> c.remove() }
+        _tailConnectivities.forEach { c -> c.remove() }
         _edgeAttributeTypeContainments.forEach { c -> c.remove() }
         _subTypeDirectedEdgeTypeInheritances.forEach { i -> i.remove() }
         _superTypeDirectedEdgeTypeInheritances.forEach { i -> i.remove() }
@@ -513,7 +583,7 @@ class DirectedEdgeType(
     internal fun removeDirectedEdgeTypeHeadConnectivity(
         directedEdgeTypeHeadConnectivity: DirectedEdgeTypeHeadConnectivity) {
 
-        require(_directedEdgeTypeHeadConnectivities.remove(directedEdgeTypeHeadConnectivity)) {
+        require(_headConnectivities.remove(directedEdgeTypeHeadConnectivity)) {
             "Cannot unlink a vertex type from a directed edge type not its head connector."
         }
 
@@ -523,7 +593,7 @@ class DirectedEdgeType(
     internal fun removeDirectedEdgeTypeTailConnectivity(
         directedEdgeTypeTailConnectivity: DirectedEdgeTypeTailConnectivity) {
 
-        require(_directedEdgeTypeTailConnectivities.remove(directedEdgeTypeTailConnectivity)) {
+        require(_tailConnectivities.remove(directedEdgeTypeTailConnectivity)) {
             "Cannot unlink a vertex type from a directed edge type not its tail connector."
         }
 
