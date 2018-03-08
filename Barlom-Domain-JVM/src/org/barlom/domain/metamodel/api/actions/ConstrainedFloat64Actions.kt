@@ -24,7 +24,7 @@ class ConstrainedFloat64Actions {
 
                 val path = constrainedFloat64.path
 
-                "Change constrained float64 $path default value to \"$defaultValue\"."
+                "Changed constrained float64 $path default value to \"$defaultValue\"."
             }
 
         }
@@ -40,7 +40,7 @@ class ConstrainedFloat64Actions {
 
                 val path = constrainedFloat64.path
 
-                "Change constrained float64 $path maximum value to $maxValue."
+                "Changed constrained float64 $path maximum value to $maxValue."
             }
 
         }
@@ -56,7 +56,7 @@ class ConstrainedFloat64Actions {
 
                 val path = constrainedFloat64.path
 
-                "Change constrained float64 $path minimum value to $minValue."
+                "Changed constrained float64 $path minimum value to $minValue."
             }
 
         }

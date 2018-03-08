@@ -9,7 +9,6 @@ import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAttributeOptionality
 import org.barlom.domain.metamodel.api.vertices.ConstrainedDataType
 import org.barlom.domain.metamodel.api.vertices.EdgeAttributeType
-import org.barlom.domain.metamodel.api.vertices.VertexAttributeType
 
 
 class EdgeAttributeTypeActions {
@@ -51,7 +50,7 @@ class EdgeAttributeTypeActions {
                 val path = edgeAttributeType.path
                 val a = if (optionality.isRequired()) "required" else "optional"
 
-                "Make edge attribute type $path $a."
+                "Made edge attribute type $path $a."
             }
 
         }

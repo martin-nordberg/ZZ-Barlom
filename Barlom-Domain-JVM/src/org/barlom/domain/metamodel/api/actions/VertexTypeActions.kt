@@ -25,7 +25,7 @@ class VertexTypeActions {
                     model.makeVertexAttributeTypeContainment(parentVertexType, this)
                 }
 
-                "Add an attribute type to ${parentVertexType.path}"
+                "Added an attribute type to ${parentVertexType.path}"
 
             }
 
@@ -43,7 +43,7 @@ class VertexTypeActions {
                 val path = vertexType.path
                 val a = if (abstractness.isAbstract()) "abstract" else "concrete"
 
-                "Make vertex type $path $a."
+                "Made vertex type $path $a."
 
             }
 

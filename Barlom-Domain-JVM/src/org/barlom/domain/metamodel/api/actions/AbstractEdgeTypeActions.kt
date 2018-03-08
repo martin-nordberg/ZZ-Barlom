@@ -28,7 +28,7 @@ class AbstractEdgeTypeActions {
                     model.makeEdgeAttributeTypeContainment(parentEdgeType, this)
                 }
 
-                "Add an attribute type to ${parentEdgeType.path}"
+                "Added an attribute type to ${parentEdgeType.path}"
 
             }
 
@@ -46,7 +46,7 @@ class AbstractEdgeTypeActions {
                 val path = edgeType.path
                 val a = if (abstractness.isAbstract()) "abstract" else "concrete"
 
-                "Make edge type $path $a."
+                "Made edge type $path $a."
             }
 
         }
@@ -67,7 +67,7 @@ class AbstractEdgeTypeActions {
                     ECyclicity.UNCONSTRAINED      -> "unconstrained in cyclicity"
                 }
 
-                "Make edge type $path $c."
+                "Made edge type $path $c."
 
             }
 
@@ -89,7 +89,7 @@ class AbstractEdgeTypeActions {
                     EMultiEdgedness.UNCONSTRAINED           -> "unconstrained in multi-edgedness"
                 }
 
-                "Make edge type $path $m."
+                "Made edge type $path $m."
 
             }
 
@@ -111,7 +111,7 @@ class AbstractEdgeTypeActions {
                     ESelfLooping.UNCONSTRAINED          -> "unconstrained in self-looping"
                 }
 
-                "Make edge type $path $s."
+                "Made edge type $path $s."
 
             }
 

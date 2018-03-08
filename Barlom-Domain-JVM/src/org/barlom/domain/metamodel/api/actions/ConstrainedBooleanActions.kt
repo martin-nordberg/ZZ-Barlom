@@ -24,7 +24,7 @@ class ConstrainedBooleanActions {
 
                 val path = constrainedBoolean.path
 
-                "Change constrained boolean $path default value to $defaultValue."
+                "Changed constrained boolean $path default value to $defaultValue."
             }
 
         }

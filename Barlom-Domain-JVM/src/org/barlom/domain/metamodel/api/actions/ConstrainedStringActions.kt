@@ -24,7 +24,7 @@ class ConstrainedStringActions {
 
                 val path = constrainedString.path
 
-                "Change constrained string $path default value to \"$defaultValue\"."
+                "Changed constrained string $path default value to \"$defaultValue\"."
             }
 
         }
@@ -40,7 +40,7 @@ class ConstrainedStringActions {
 
                 val path = constrainedString.path
 
-                "Change constrained string $path maximum length to $maxLength."
+                "Changed constrained string $path maximum length to $maxLength."
             }
 
         }
@@ -56,7 +56,7 @@ class ConstrainedStringActions {
 
                 val path = constrainedString.path
 
-                "Change constrained string $path minimum length to $minLength."
+                "Changed constrained string $path minimum length to $minLength."
             }
 
         }
@@ -72,7 +72,7 @@ class ConstrainedStringActions {
 
                 val path = constrainedString.path
 
-                "Change constrained string $path regex pattern to \"$regexPatternStr\"."
+                "Changed constrained string $path regex pattern to \"$regexPatternStr\"."
             }
 
         }

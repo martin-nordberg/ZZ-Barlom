@@ -24,7 +24,7 @@ class ConstrainedInteger32Actions {
 
                 val path = constrainedInteger32.path
 
-                "Change constrained integer32 $path default value to \"$defaultValue\"."
+                "Changed constrained integer32 $path default value to \"$defaultValue\"."
             }
 
         }
@@ -40,7 +40,7 @@ class ConstrainedInteger32Actions {
 
                 val path = constrainedInteger32.path
 
-                "Change constrained integer32 $path maximum value to $maxValue."
+                "Changed constrained integer32 $path maximum value to $maxValue."
             }
 
         }
@@ -56,7 +56,7 @@ class ConstrainedInteger32Actions {
 
                 val path = constrainedInteger32.path
 
-                "Change constrained integer32 $path minimum value to $minValue."
+                "Changed constrained integer32 $path minimum value to $minValue."
             }
 
         }

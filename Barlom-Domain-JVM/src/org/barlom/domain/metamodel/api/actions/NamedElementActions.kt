@@ -20,7 +20,7 @@ class NamedElementActions {
             return { _: Model ->
                 val oldPath = element.path
                 element.name = newName
-                "Rename $oldPath to $newName."
+                "Renamed $oldPath to $newName."
             }
 
         }

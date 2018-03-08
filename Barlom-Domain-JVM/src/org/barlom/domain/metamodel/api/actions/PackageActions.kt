@@ -24,7 +24,7 @@ class PackageActions {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
-                "Add a constrained boolean data type to ${parentPackage.path}"
+                "Added a constrained boolean data type to ${parentPackage.path}"
 
             }
 
@@ -41,7 +41,7 @@ class PackageActions {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
-                "Add a constrained date/time data type to ${parentPackage.path}"
+                "Added a constrained date/time data type to ${parentPackage.path}"
 
             }
 
@@ -58,7 +58,7 @@ class PackageActions {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
-                "Add a constrained 64-bit floating point data type to ${parentPackage.path}"
+                "Added a constrained 64-bit floating point data type to ${parentPackage.path}"
 
             }
 
@@ -75,7 +75,7 @@ class PackageActions {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
-                "Add a constrained 32-bit integer data type to ${parentPackage.path}"
+                "Added a constrained 32-bit integer data type to ${parentPackage.path}"
 
             }
 
@@ -92,7 +92,7 @@ class PackageActions {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
-                "Add a constrained string data type to ${parentPackage.path}"
+                "Added a constrained string data type to ${parentPackage.path}"
 
             }
 
@@ -109,7 +109,7 @@ class PackageActions {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
-                "Add a constrained UUID data type to ${parentPackage.path}"
+                "Added a constrained UUID data type to ${parentPackage.path}"
 
             }
 
@@ -126,7 +126,7 @@ class PackageActions {
                     model.makeDirectedEdgeTypeContainment(parentPackage, this)
                 }
 
-                "Add a directed edge type to ${parentPackage.path}"
+                "Added a directed edge type to ${parentPackage.path}"
 
             }
 
@@ -143,7 +143,7 @@ class PackageActions {
                     model.makePackageContainment(parentPackage, this)
                 }
 
-                "Add a package to ${parentPackage.path}"
+                "Added a package to ${parentPackage.path}"
 
             }
 
@@ -160,7 +160,7 @@ class PackageActions {
                     model.makeUndirectedEdgeTypeContainment(parentPackage, this)
                 }
 
-                "Add an undirected edge type to ${parentPackage.path}"
+                "Added an undirected edge type to ${parentPackage.path}"
 
             }
 
@@ -177,7 +177,7 @@ class PackageActions {
                     model.makeVertexTypeContainment(parentPackage, this)
                 }
 
-                "Add a vertex type to ${parentPackage.path}"
+                "Added a vertex type to ${parentPackage.path}"
 
             }
 
@@ -194,7 +194,7 @@ class PackageActions {
 
                     val path = pkg.path
 
-                    "Add dependency from $path to $supplierPath."
+                    "Added dependency from $path to $supplierPath."
                 }
                 else {
                     "Supplier package $supplierPath not found."

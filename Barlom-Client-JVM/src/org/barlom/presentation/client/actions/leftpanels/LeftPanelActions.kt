@@ -22,9 +22,9 @@ object LeftPanelActions {
             uiState.focusedElement = null
 
             when (leftPanelType) {
-                ELeftPanelType.BROWSE    -> "Browse in left panel."
-                ELeftPanelType.FAVORITES -> "Show favorites in left panel."
-                ELeftPanelType.SEARCH    -> "Search in left panel."
+                ELeftPanelType.BROWSE    -> "Browsed in left panel."
+                ELeftPanelType.FAVORITES -> "Showed favorites in left panel."
+                ELeftPanelType.SEARCH    -> "Searched in left panel."
             }
         }
 

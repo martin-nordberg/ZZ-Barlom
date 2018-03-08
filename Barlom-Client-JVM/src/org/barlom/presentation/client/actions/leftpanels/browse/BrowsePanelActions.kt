@@ -29,11 +29,11 @@ object BrowsePanelActions {
 
             if (browsePanelState.isExpandedElement(element)) {
                 browsePanelState.removeExpandedElement(element)
-                "Contract element in browse panel."
+                "Contracted element in browse panel."
             }
             else {
                 browsePanelState.addExpandedElement(element)
-                "Expand element in browse panel."
+                "Expanded element in browse panel."
             }
 
         }

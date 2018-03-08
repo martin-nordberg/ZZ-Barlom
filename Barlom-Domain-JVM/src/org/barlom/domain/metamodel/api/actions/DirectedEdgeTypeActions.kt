@@ -71,7 +71,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path forward directed name to $forwardName."
+                "Changed edge type $path forward directed name to $forwardName."
             }
 
         }
@@ -87,7 +87,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path head role name to $headRoleName."
+                "Changed edge type $path head role name to $headRoleName."
             }
 
         }
@@ -103,7 +103,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path maximum head in-degree to $maxHeadInDegree."
+                "Changed edge type $path maximum head in-degree to $maxHeadInDegree."
             }
 
         }
@@ -119,7 +119,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path maximum tail out-degree to $maxTailOutDegree."
+                "Changed edge type $path maximum tail out-degree to $maxTailOutDegree."
             }
 
         }
@@ -135,7 +135,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path minimum head in-degree to $minHeadInDegree."
+                "Changed edge type $path minimum head in-degree to $minHeadInDegree."
             }
 
         }
@@ -151,7 +151,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path minimum tail out-degree to $minTailOutDegree."
+                "Changed edge type $path minimum tail out-degree to $minTailOutDegree."
             }
 
         }
@@ -167,7 +167,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path reverse directed name to $reverseName."
+                "Changed edge type $path reverse directed name to $reverseName."
             }
 
         }
@@ -206,7 +206,7 @@ class DirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path tail role name to $tailRoleName."
+                "Changed edge type $path tail role name to $tailRoleName."
             }
 
         }

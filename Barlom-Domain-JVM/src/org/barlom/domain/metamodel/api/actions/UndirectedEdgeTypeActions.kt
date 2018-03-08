@@ -48,7 +48,7 @@ class UndirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path maximum degree to $maxDegree."
+                "Changed edge type $path maximum degree to $maxDegree."
             }
 
         }
@@ -64,7 +64,7 @@ class UndirectedEdgeTypeActions {
 
                 val path = edgeType.path
 
-                "Change edge type $path minimum degree to $minDegree."
+                "Changed edge type $path minimum degree to $minDegree."
             }
 
         }

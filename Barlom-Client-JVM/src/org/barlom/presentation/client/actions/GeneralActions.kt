@@ -19,7 +19,7 @@ object GeneralActions {
         return { uiState: ApplicationUiState ->
             uiState.focusedElement = focusedElement
 
-            "Select element ${focusedElement.path} for review."
+            "Selected element ${focusedElement.path} for review."
         }
 
     }

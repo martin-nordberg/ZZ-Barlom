@@ -34,8 +34,9 @@ fun viewRelatedElements(
 
             is Package            -> {
                 viewPackageChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
-                viewPackageSupplierElements(this, relatedElementsPanelState, focusedElement, revDispatchUi,
-                                            revDispatchModel)
+                viewPackageSuppliers(this, relatedElementsPanelState, focusedElement, revDispatchUi,
+                                     revDispatchModel)
+                viewPackageConsumers(this, focusedElement, revDispatchUi)
             }
 
             is VertexType         -> if (!focusedElement.isRoot) {
@@ -193,9 +194,31 @@ private fun viewPackageChildElements(
 
 
 /**
+ * Shows lists of the packages consuming a package.
+ */
+private fun viewPackageConsumers(
+    builder: KatyDomFlowContentBuilder,
+    focusedElement: Package,
+    revDispatchUi: (uiAction: UiAction) -> Unit
+) = katyDomComponent(builder) {
+
+    viewChildElements(
+        this,
+        focusedElement,
+        Package::consumers,
+        revDispatchUi,
+        "Consumer Packages:",
+        "consumer-packages",
+        listOf()
+    )
+
+}
+
+
+/**
  * Shows a list of the supplier packages for a package.
  */
-private fun viewPackageSupplierElements(
+private fun viewPackageSuppliers(
     builder: KatyDomFlowContentBuilder,
     relatedElementsPanelState: RelatedElementsPanelState,
     focusedElement: Package,
@@ -299,6 +322,36 @@ private fun viewVertexTypeChildElements(
         listOf()
     )
 
+    viewChildElements(
+        this,
+        focusedElement,
+        VertexType::connectingEdgeTypes,
+        revDispatchUi,
+        "Connecting Edge Types (Undirected):",
+        "connecting-edge-types-undirected",
+        listOf()
+    )
+
+    viewChildElements(
+        this,
+        focusedElement,
+        VertexType::connectingHeadEdgeTypes,
+        revDispatchUi,
+        "Connecting Edge Types (Head):",
+        "connecting-edge-types-head",
+        listOf()
+    )
+
+    viewChildElements(
+        this,
+        focusedElement,
+        VertexType::connectingTailEdgeTypes,
+        revDispatchUi,
+        "Connecting Edge Types (Tail):",
+        "connecting-edge-types-tail",
+        listOf()
+    )
+
 }
 
 
@@ -330,7 +383,7 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
         // Show the child elements.
         for (child in parent.getChildElements()) {
 
-            li(".tree-item--not-focused", key=child.id) {
+            li(".tree-item--not-focused", key = child.id) {
 
                 data("uuid", child.id.toString())
 
@@ -359,6 +412,15 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
 
                 }
 
+            }
+
+        }
+
+        // Show a placeholder if no items and no buttons.
+        if (parent.getChildElements().isEmpty() && addButtons.isEmpty()) {
+
+            li(".tree-item--not-focused") {
+                text("(None)")
             }
 
         }
@@ -398,7 +460,7 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
         // Show the child elements.
         for (child in parent.getConnectedElements()) {
 
-            li(".tree-item--not-focused", key=child.id) {
+            li(".tree-item--not-focused", key = child.id) {
 
                 data("uuid", child.id.toString())
 
@@ -411,7 +473,9 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
         // Show links for creating new child elements.
         for (addButton in addButtons) {
 
-            li(".tree-item--not-focused") {
+            val buttonName = addButton.label.replace(" ", "-")
+
+            li(".tree-item--not-focused", key = "$buttonName-item") {
 
                 val dataListId = "$name-data-list"
 
@@ -425,11 +489,11 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
                 }
 
-                div(".c-input-group") {
+                div(".c-input-group", key = "$buttonName-group") {
 
                     button(
                         ".c-button.c-button--success.u-small",
-                        key = "$name-action-button",
+                        key = "$buttonName-action-button",
                         style = "width:3em"
                     ) {
 
@@ -441,7 +505,7 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
                     }
 
-                    div(".o-field") {
+                    div(".o-field", key = "$buttonName-field") {
 
                         inputText(
                             ".c-field.u-small",

@@ -52,7 +52,7 @@ class VertexAttributeTypeActions {
                 val path = vertexAttributeType.path
                 val a = if (labelDefaulting.isDefaultLabel()) "the" else "not the"
 
-                "Make vertex attribute type $path $a default label."
+                "Made vertex attribute type $path $a default label."
             }
 
         }
@@ -70,7 +70,7 @@ class VertexAttributeTypeActions {
                 val path = vertexAttributeType.path
                 val a = if (optionality.isRequired()) "required" else "optional"
 
-                "Make vertex attribute type $path $a."
+                "Made vertex attribute type $path $a."
             }
 
         }
