@@ -24,16 +24,16 @@ class ExperimentationTests {
                     text("a sample")
 
                     ul("#a-list") {
-                        li { text("item 1") }
-                        li { text("item 2") }
-                        li {
+                        li(key=1) { text("item 1") }
+                        li(key=2) { text("item 2") }
+                        li(key=3) {
                             text("item 3")
                             div {}
                         }
                     }
                 }
 
-                div(".some-class") {
+                div(".some-class", key=2) {
                     classes("big" to true, "small" to false, "smelly" to true)
                     attribute("class", "very-classy")
                     attributes("a1" to "v1", "a2" to "v2")
@@ -96,7 +96,7 @@ class ExperimentationTests {
                     text("a sample")
                 }
 
-                div(".some-class",title="A Title") {
+                div(".some-class", key="x", title="A Title") {
                     classes("big" to true, "small" to false, "smelly" to true)
                     attribute("class", "very-classy")
                     attributes("a1" to "v1", "a2" to "v2")

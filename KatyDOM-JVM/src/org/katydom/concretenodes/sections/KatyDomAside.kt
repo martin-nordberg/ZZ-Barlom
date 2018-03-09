@@ -32,12 +32,12 @@ internal class KatyDomAside(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "ASIDE"
+
     init {
         flowContent.withMainNotAllowed(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "ASIDE"
 
 }
 

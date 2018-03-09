@@ -79,6 +79,252 @@ class PatchTests {
                       |</div>""".trimMargin()
 
         checkPatch(html2, vnode2, html1, vnode1)
+    }
+
+    @Test
+    fun `Completely removed child nodes patch correctly`() {
+
+        val vnode1 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+
+                    li(key = "1") { text("One") }
+                    li(key = "2") { text("Two") }
+                    li(key = "4") { text("Four") }
+                    li(key = "5") { text("Five") }
+
+                }
+
+            }
+
+        }
+
+        val html1 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList">
+                      |    <li>
+                      |      One
+                      |    </li>
+                      |    <li>
+                      |      Two
+                      |    </li>
+                      |    <li>
+                      |      Four
+                      |    </li>
+                      |    <li>
+                      |      Five
+                      |    </li>
+                      |  </ul>
+                      |</div>""".trimMargin()
+
+        val vnode2 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+                }
+
+            }
+
+        }
+
+        val html2 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList"></ul>
+                      |</div>""".trimMargin()
+
+        checkPatch(html2, vnode2, html1, vnode1)
+
+    }
+
+    @Test
+    fun `Completely replaced child nodes patch correctly`() {
+
+        val vnode1 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+
+                    li(key = "1") { text("One") }
+                    li(key = "2") { text("Two") }
+                    li(key = "4") { text("Four") }
+                    li(key = "5") { text("Five") }
+
+                }
+
+            }
+
+        }
+
+        val html1 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList">
+                      |    <li>
+                      |      One
+                      |    </li>
+                      |    <li>
+                      |      Two
+                      |    </li>
+                      |    <li>
+                      |      Four
+                      |    </li>
+                      |    <li>
+                      |      Five
+                      |    </li>
+                      |  </ul>
+                      |</div>""".trimMargin()
+
+        val vnode2 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+
+                    li(key = "one") { text("One") }
+                    li(key = "two") { text("Two") }
+                    li(key = "four") { text("Four") }
+                    li(key = "five") { text("Five") }
+
+                }
+
+            }
+
+        }
+
+        val html2 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList">
+                      |    <li>
+                      |      One
+                      |    </li>
+                      |    <li>
+                      |      Two
+                      |    </li>
+                      |    <li>
+                      |      Four
+                      |    </li>
+                      |    <li>
+                      |      Five
+                      |    </li>
+                      |  </ul>
+                      |</div>""".trimMargin()
+
+        checkPatch(html2, vnode2, html1, vnode1)
+
+    }
+
+    @Test
+    fun `Child nodes removed all but one patch correctly`() {
+
+        val vnode1 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+
+                    li(key = "1") { text("One") }
+                    li(key = "2") { text("Two") }
+                    li(key = "4") { text("Four") }
+                    li(key = "5") { text("Five") }
+
+                }
+
+            }
+
+        }
+
+        val html1 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList">
+                      |    <li>
+                      |      One
+                      |    </li>
+                      |    <li>
+                      |      Two
+                      |    </li>
+                      |    <li>
+                      |      Four
+                      |    </li>
+                      |    <li>
+                      |      Five
+                      |    </li>
+                      |  </ul>
+                      |</div>""".trimMargin()
+
+        val vnode2 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+
+                    li(key = "5") { text("Five") }
+
+                }
+
+            }
+
+        }
+
+        val html2 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList">
+                      |    <li>
+                      |      Five
+                      |    </li>
+                      |  </ul>
+                      |</div>""".trimMargin()
+
+        checkPatch(html2, vnode2, html1, vnode1)
+
+    }
+
+    @Test
+    fun `Child nodes removed all but one patch correctly A`() {
+
+        val vnode1 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+
+                    li(key = "1") {}
+                    li(key = "2") {}
+                    li(key = "4") {}
+                    li(key = "5") {}
+
+                }
+
+            }
+
+        }
+
+        val html1 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList">
+                      |    <li></li>
+                      |    <li></li>
+                      |    <li></li>
+                      |    <li></li>
+                      |  </ul>
+                      |</div>""".trimMargin()
+
+        val vnode2 = katyDom {
+
+            div("#mydiv.funnyone") {
+
+                ul("#theList") {
+
+                    li(key = "5") {}
+
+                }
+
+            }
+
+        }
+
+        val html2 = """<div class="funnyone" id="mydiv">
+                      |  <ul id="theList">
+                      |    <li></li>
+                      |  </ul>
+                      |</div>""".trimMargin()
+
+        checkPatch(html2, vnode2, html1, vnode1)
 
     }
 

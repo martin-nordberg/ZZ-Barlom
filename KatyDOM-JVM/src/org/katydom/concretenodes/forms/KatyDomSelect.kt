@@ -41,6 +41,8 @@ internal class KatyDomSelect(
 ) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "SELECT"
+
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
 
@@ -58,8 +60,6 @@ internal class KatyDomSelect(
         phrasingContent.optionContent(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "SELECT"
 
 }
 

@@ -50,6 +50,8 @@ internal class KatyDomTextArea(
 ) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "TEXTAREA"
+
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
 
@@ -77,8 +79,6 @@ internal class KatyDomTextArea(
         phrasingContent.textContent(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "TEXTAREA"
 
 }
 

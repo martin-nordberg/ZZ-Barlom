@@ -32,12 +32,12 @@ internal class KatyDomSection(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "SECTION"
+
     init {
         flowContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "SECTION"
 
 }
 

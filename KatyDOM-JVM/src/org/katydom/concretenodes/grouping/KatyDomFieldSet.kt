@@ -35,6 +35,8 @@ internal class KatyDomFieldSet(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "FIELDSET"
+
     init {
         setBooleanAttribute("disabled", disabled)
         setAttribute("form", form)
@@ -43,8 +45,6 @@ internal class KatyDomFieldSet(
         flowContent.withLegendAllowed(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "FIELDSET"
 
 }
 

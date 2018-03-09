@@ -30,7 +30,7 @@ fun viewConstrainedDataTypeTreeItem(
 
     val isFocused = constrainedDataType == browsePanelState.focusedElement
 
-    li ( ".c-tree__item.c-tree__item--empty") {
+    li ( ".c-tree__item.c-tree__item--empty", key=constrainedDataType.id) {
 
         classes(
             "tree-item--focused" to isFocused,
@@ -61,7 +61,7 @@ fun viewDirectedEdgeTypeTreeItem(
 
     val isFocused = directedEdgeType == browsePanelState.focusedElement
 
-    li( ".c-tree__item") {
+    li( ".c-tree__item", key=directedEdgeType.id) {
 
         classes(
             "c-tree__item--expanded" to (hasChildren && isExpanded),
@@ -100,7 +100,7 @@ fun viewPackageTreeItem(
 
     val isFocused = pkg == browsePanelState.focusedElement
 
-    li(".c-tree__item.c-tree__item") {
+    li(".c-tree__item.c-tree__item", key=pkg.id) {
 
         classes(
             "c-tree__item--expanded" to (hasChildren && isExpanded),
@@ -188,7 +188,7 @@ fun viewRootPackageTreeItem(
 
     val isFocused = pkg == browsePanelState.focusedElement
 
-    li {
+    li (key=pkg.id) {
 
         classes(
             "tree-item--focused" to isFocused,
@@ -223,7 +223,7 @@ fun viewUndirectedEdgeTypeTreeItem(
 
     val isFocused = undirectedEdgeType == browsePanelState.focusedElement
 
-    li( ".c-tree__item") {
+    li( ".c-tree__item", key=undirectedEdgeType.id) {
 
         classes(
             "c-tree__item--expanded" to (hasChildren && isExpanded),
@@ -258,7 +258,7 @@ fun viewVertexAttributeTypeTreeItem(
 
     val isFocused = vertexAttributeType == browsePanelState.focusedElement
 
-    li (".c-tree__item.c-tree__item--empty") {
+    li (".c-tree__item.c-tree__item--empty", key=vertexAttributeType.id) {
 
         classes(
             "tree-item--focused" to isFocused,
@@ -290,7 +290,7 @@ fun viewVertexTypeTreeItem(
 
     val isFocused = vertexType == browsePanelState.focusedElement
 
-    li( ".c-tree__item") {
+    li( ".c-tree__item", key=vertexType.id) {
 
         classes(
             "c-tree__item--expanded" to (hasChildren && isExpanded),

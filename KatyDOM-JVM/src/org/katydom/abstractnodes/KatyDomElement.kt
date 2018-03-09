@@ -67,8 +67,9 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClass(className: String) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         classList.add(className)
 
@@ -80,8 +81,9 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun addClasses(classes: Iterable<String>) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         classList.addAll(classes)
 
@@ -95,14 +97,15 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttribute(name: String, value: String?) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         if (value == null) {
             attributes.remove(name)
         }
         else {
-            attributes.put(name, value)
+            attributes[name] = value
         }
     }
 
@@ -112,8 +115,9 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setAttributes(attributes: Map<String, String>) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         for ((name, value) in attributes) {
             setAttribute(name, value)
@@ -128,11 +132,12 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setBooleanAttribute(name: String, value: Boolean?) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         if (value != null && value) {
-            attributes.put(name, "")
+            attributes[name] = ""
         }
         else {
             attributes.remove(name)
@@ -147,15 +152,16 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(name: String, value: String) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         if (name.startsWith("data-")) {
             // TODO: Warning: "data-" prefix not required for dataset additions.
-            dataset.put(name.substring(5), value)
+            dataset[name.substring(5)] = value
         }
         else {
-            dataset.put(name, value)
+            dataset[name] = value
         }
 
     }
@@ -166,8 +172,9 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setData(dataset: Map<String, String>) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         for ((name, value) in dataset) {
             setData(name, value)
@@ -182,11 +189,12 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setNumberAttribute(name: String, value: Number?) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         if (value != null) {
-            attributes.put(name, value.toString())
+            attributes[name] = value.toString()
         }
         else {
             attributes.remove(name)
@@ -199,8 +207,9 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setStyle(style: String?) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         setAttribute("style", style)
 
@@ -213,15 +222,16 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setTrueFalseAttribute(name: String, value: Boolean?) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         if (value != null) {
             if (value) {
-                attributes.put(name, "true")
+                attributes[name] = "true"
             }
             else {
-                attributes.put(name, "false")
+                attributes[name] = "false"
             }
         }
         else {
@@ -237,15 +247,16 @@ abstract class KatyDomElement : KatyDomNode {
      */
     internal fun setYesNoAttribute(name: String, value: Boolean?) {
 
-        check(
-            isAddingAttributes) { "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes." }
+        check(isAddingAttributes) {
+            "Cannot modify KatyDOM attributes after beginning to add event handlers or child nodes."
+        }
 
         if (value != null) {
             if (value) {
-                attributes.put(name, "yes")
+                attributes[name] = "yes"
             }
             else {
-                attributes.put(name, "no")
+                attributes[name] = "no"
             }
         }
         else {
@@ -256,7 +267,7 @@ abstract class KatyDomElement : KatyDomNode {
 
 ////
 
-    override final fun establishAttributes(domElement: Node) {
+    final override fun establishAttributes(domElement: Node) {
 
         if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
 
@@ -266,7 +277,7 @@ abstract class KatyDomElement : KatyDomNode {
         }
 
         if (false /*TODO: ...isInstrumented*/) {
-            val debugAttr = nodeCount.toString() + if (this.key != null) ";" + this.key else ""
+            val debugAttr = nodeCount.toString() + ";" + this.key
 
             domElement.setAttribute("data-debug", debugAttr)
             nodeCount += 1
@@ -275,7 +286,7 @@ abstract class KatyDomElement : KatyDomNode {
 
     }
 
-    override final fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
+    final override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
 
         if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
         if (priorElement !is KatyDomElement) throw IllegalArgumentException("KatyDOM node expected to be element.")
@@ -294,7 +305,7 @@ abstract class KatyDomElement : KatyDomNode {
 
     }
 
-    override final fun freezeAttributes() {
+    final override fun freezeAttributes() {
 
         if (classList.isNotEmpty()) {
 
@@ -302,7 +313,7 @@ abstract class KatyDomElement : KatyDomNode {
             if (attrClasses != null) {
                 classList.addAll(attrClasses.split(" "))
             }
-            attributes.put("class", classList.sorted().joinToString(" "))
+            attributes["class"] = classList.sorted().joinToString(" ")
 
         }
 
@@ -312,6 +323,14 @@ abstract class KatyDomElement : KatyDomNode {
 
         classList = Unused.classList
         dataset = Unused.dataset
+    }
+
+    override fun toString(): String {
+        var result = "<" + nodeName.toLowerCase()
+        attributes.forEach {
+            entry -> result += " " + entry.key + "=\"" + entry.value.toString() + "\""
+        }
+        return result + ">"
     }
 
 ////

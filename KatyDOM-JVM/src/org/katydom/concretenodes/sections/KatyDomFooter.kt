@@ -32,14 +32,14 @@ internal class KatyDomFooter(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "FOOTER"
+
     init {
         flowContent.contentRestrictions.confirmFooterAllowed()
 
         flowContent.withFooterHeaderMainNotAllowed(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "FOOTER"
 
 }
 

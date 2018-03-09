@@ -396,7 +396,7 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
         // Show links for creating new child elements.
         for (addButton in addButtons) {
 
-            li(".tree-item--not-focused") {
+            li(".tree-item--not-focused", key=addButton.label) {
 
                 onclick {
                     addButton.action(parent)

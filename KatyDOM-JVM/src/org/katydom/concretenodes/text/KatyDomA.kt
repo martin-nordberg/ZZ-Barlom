@@ -40,6 +40,8 @@ internal class KatyDomA(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "A"
+
     init {
         phrasingContent.contentRestrictions.confirmAnchorAllowed()
         if( href!=null ) {
@@ -64,8 +66,6 @@ internal class KatyDomA(
         phrasingContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "A"
 
 }
 

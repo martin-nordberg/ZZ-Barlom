@@ -37,6 +37,8 @@ internal class KatyDomInputButton(
 ) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "INPUT"
+
     init {
         setBooleanAttribute("disabled", disabled)
         setAttribute("form", form)
@@ -48,8 +50,6 @@ internal class KatyDomInputButton(
         phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
-
-    override val nodeName = "INPUT"
 
 }
 

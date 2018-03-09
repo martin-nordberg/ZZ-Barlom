@@ -23,9 +23,13 @@ import org.katydom.types.EEventType
 
 /**
  * Topmost abstract base class for KatyDOM virtual DOM. Corresponds to DOM Node.
- * @param key a key for this KatyDOM node that is unique among all the siblings of this node.
+ * @param _key a key for this KatyDOM node that is unique among all the siblings of this node.
  */
-abstract class KatyDomNode(val key: Any?) {
+abstract class KatyDomNode(private val _key: Any?) {
+
+    /** Returns the key for this node. If none provided, uses the node name. */
+    val key : Any
+        get() = _key ?: nodeName
 
     /** Returns the first and only child node in this node. (Exception if there is none or more than one.) */
     val soleChildNode: KatyDomNode
@@ -40,6 +44,10 @@ abstract class KatyDomNode(val key: Any?) {
 
     /** The name of this node (usually the HTML tag name, otherwise a pseudo tag name like "#text"). */
     abstract val nodeName: String
+
+    override fun toString(): String {
+        return "<" + nodeName.toLowerCase() + ">"
+    }
 
 ////
 
@@ -60,8 +68,9 @@ abstract class KatyDomNode(val key: Any?) {
             check( isAddingChildNodes ) { "Cannot modify a KatyDOM node after it has been fully constructed." }
         }
 
-        require( !childNodesByKey.containsKey(childNode.key) ) { "Duplicate key: " + childNode.key }
-        // TODO: Warning for a mixture of keyed and keyless children ...
+        require( !childNodesByKey.containsKey(childNode.key) ) {
+            "Duplicate key: " + childNode.key + " in " + this.toString()
+        }
 
         if (firstChildNode == Nothing) {
             firstChildNode = childNode
@@ -73,9 +82,7 @@ abstract class KatyDomNode(val key: Any?) {
             lastChildNode = childNode
         }
 
-        if (childNode.key != null) {
-            childNodesByKey[childNode.key] = childNode
-        }
+        childNodesByKey[childNode.key] = childNode
 
     }
 
@@ -348,45 +355,7 @@ abstract class KatyDomNode(val key: Any?) {
             return false
         }
 
-        if (key != null) {
-            return key == otherNode.key
-        }
-
-        if (otherNode.key != null) {
-            return false
-        }
-
-        if (nodeName == "#text") {
-            return true
-        }
-
-        if (firstChildNode != Nothing &&
-            firstChildNode.key != null &&
-            otherNode.childNodesByKey[firstChildNode.key!!] != null) {
-            return true
-        }
-
-        if (lastChildNode != Nothing &&
-            lastChildNode.key != null &&
-            otherNode.childNodesByKey[lastChildNode.key!!] != null) {
-            return true
-        }
-
-        if (nextSiblingNode != Nothing &&
-            nextSiblingNode.key != null &&
-            otherNode.nextSiblingNode != Nothing &&
-            nextSiblingNode.key == otherNode.nextSiblingNode.key) {
-            return true
-        }
-
-        if (prevSiblingNode != Nothing &&
-            prevSiblingNode.key != null &&
-            otherNode.prevSiblingNode != Nothing &&
-            prevSiblingNode.key == otherNode.prevSiblingNode.key) {
-            return true
-        }
-
-        return false
+        return key == otherNode.key
 
     }
 
@@ -410,7 +379,7 @@ abstract class KatyDomNode(val key: Any?) {
 
         val document = checkNotNull(domNode.ownerDocument) { "DOM element must have an owner document." }
 
-        while (startChild != endChild.nextSiblingNode) {
+        while (startChild != endChild.nextSiblingNode && endChild != startChild.prevSiblingNode) {
 
             if (startChild.matches(priorStartChild)) {
 
@@ -456,8 +425,6 @@ abstract class KatyDomNode(val key: Any?) {
 
             }
             else {
-
-                // TODO: only works for keyed nodes
 
                 val priorChild = priorNode.childNodesByKey[startChild.key]
                 if (priorChild != null) {

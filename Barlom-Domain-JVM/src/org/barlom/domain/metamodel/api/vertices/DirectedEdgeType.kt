@@ -359,8 +359,12 @@ class DirectedEdgeType(
         for (pkg in parents) {
 
             // same package as parent vertex type
-            for (vt in pkg.vertexTypes) {
-                result.add(vt)
+            if ( !pkg.isRoot ) {
+
+                for (vt in pkg.vertexTypes) {
+                    result.add(vt)
+                }
+
             }
 
             for (pkg2 in pkg.transitiveSuppliers) {
@@ -371,10 +375,10 @@ class DirectedEdgeType(
 
             }
 
-            for (vt in rootPackage.vertexTypes) {
-                result.add(vt)
-            }
+        }
 
+        for (vt in rootPackage.vertexTypes) {
+            result.add(vt)
         }
 
         return result
@@ -391,8 +395,12 @@ class DirectedEdgeType(
         for (pkg in parents) {
 
             // same package as parent vertex type
-            for (vt in pkg.vertexTypes) {
-                result.add(vt)
+            if ( !pkg.isRoot ) {
+
+                for (vt in pkg.vertexTypes) {
+                    result.add(vt)
+                }
+
             }
 
             for (pkg2 in pkg.transitiveSuppliers) {
@@ -403,10 +411,10 @@ class DirectedEdgeType(
 
             }
 
-            for (vt in rootPackage.vertexTypes) {
-                result.add(vt)
-            }
+        }
 
+        for (vt in rootPackage.vertexTypes) {
+            result.add(vt)
         }
 
         return result

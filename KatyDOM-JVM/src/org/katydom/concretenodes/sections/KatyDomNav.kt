@@ -32,12 +32,12 @@ internal class KatyDomNav(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "NAV"
+
     init {
         flowContent.withMainNotAllowed(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "NAV"
 
 }
 

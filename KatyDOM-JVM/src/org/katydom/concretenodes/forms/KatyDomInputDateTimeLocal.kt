@@ -45,6 +45,8 @@ internal class KatyDomInputDateTimeLocal(
 ) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "INPUT"
+
     init {
 
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
@@ -67,8 +69,6 @@ internal class KatyDomInputDateTimeLocal(
         phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
-
-    override val nodeName = "INPUT"
 
 }
 

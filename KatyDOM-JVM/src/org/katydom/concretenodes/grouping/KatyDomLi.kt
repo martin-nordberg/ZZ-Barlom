@@ -34,6 +34,8 @@ internal class KatyDomLi(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "LI"
+
     init {
 
         if (value != null) {
@@ -45,8 +47,6 @@ internal class KatyDomLi(
         this.freeze()
 
     }
-
-    override val nodeName = "LI"
 
 }
 

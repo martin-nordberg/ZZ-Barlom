@@ -33,14 +33,14 @@ internal class KatyDomLegend(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "LEGEND"
+
     init {
         flowContent.contentRestrictions.confirmLegendAllowed()
 
         flowContent.phrasingContent(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "LEGEND"
 
 }
 

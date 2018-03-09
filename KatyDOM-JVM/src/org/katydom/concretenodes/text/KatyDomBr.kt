@@ -33,12 +33,12 @@ internal class KatyDomBr(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "BR"
+
     init {
         phrasingContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
-
-    override val nodeName = "BR"
 
 }
 

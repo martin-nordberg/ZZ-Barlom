@@ -47,6 +47,8 @@ internal class KatyDomButton(
 ) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "BUTTON"
+
     init {
         setBooleanAttribute("autofocus", autofocus)
         setBooleanAttribute("disabled", disabled)
@@ -65,8 +67,6 @@ internal class KatyDomButton(
         phrasingContent.withInteractiveContentNotAllowed(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "BUTTON"
 
 }
 

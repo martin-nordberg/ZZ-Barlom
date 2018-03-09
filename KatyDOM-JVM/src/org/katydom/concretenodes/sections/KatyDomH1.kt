@@ -33,12 +33,12 @@ internal class KatyDomH1(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "H1"
+
     init {
         flowContent.phrasingContent(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "H1"
 
 }
 

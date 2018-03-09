@@ -33,12 +33,12 @@ internal class KatyDomDataList(
 ) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
                        hidden, lang, spellcheck, style, tabindex, title, translate) {
 
+    override val nodeName = "DATALIST"
+
     init {
         (flowContent ?: KatyDomPhrasingContentBuilder(this)).optionContent(this).defineContent()
         this.freeze()
     }
-
-    override val nodeName = "DATALIST"
 
 }
 
