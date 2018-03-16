@@ -36,9 +36,7 @@ fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): Kat
      * Creates and dispatches an action inside a rev history transaction.
      */
     fun revDispatch(action: AppAction) {
-        revHistory.review {
-            dispatch(action)
-        }
+        revHistory.review { dispatch(action) }
     }
 
     /**

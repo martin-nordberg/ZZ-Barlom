@@ -25,7 +25,7 @@ fun viewPropertiesForm(
         focusedElement is VertexType && focusedElement.isRoot ||
         focusedElement is AbstractEdgeType && focusedElement.isRoot
 
-    form("#properties-form.form--properties", action = "javascript:void(0);") {
+    form("#properties-form-${focusedElement.id}.form--properties", action = "javascript:void(0);") {
 
         when (focusedElement) {
 
