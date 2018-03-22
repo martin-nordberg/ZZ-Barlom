@@ -8,10 +8,7 @@ package org.katydom.builders
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.forms.*
 import org.katydom.concretenodes.grouping.KatyDomDataList
-import org.katydom.concretenodes.text.KatyDomA
-import org.katydom.concretenodes.text.KatyDomBr
-import org.katydom.concretenodes.text.KatyDomSpan
-import org.katydom.concretenodes.text.KatyDomText
+import org.katydom.concretenodes.text.*
 import org.katydom.types.*
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +119,16 @@ open class KatyDomPhrasingContentBuilder(
                           formenctype, formmethod, formnovalidate, formtarget, hidden, lang, menu,
                           name, spellcheck, style, tabindex, title, translate, type, value, defineContent)
         )
+    }
+
+    /**
+     * Adds a comment node as the next child of the element under construction.
+     * @param nodeValue the text within the node.
+     * @param key unique key for this comment within its parent node.
+     */
+    fun comment(nodeValue: String,
+                key: Any? = null) {
+        element.addChildNode(KatyDomComment(nodeValue,key))
     }
 
     /**

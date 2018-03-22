@@ -28,6 +28,8 @@ fun viewBrowsePanel(
         revDispatchUi { uiState -> browseAction(uiState.browsePanelState) }
     }
 
+    comment( "The Browse Panel", "c1" )
+
     div("#browse-panel.o-panel.o-panel--nav-top.u-pillar-box--small.left-panel") {
 
         ul("#package-list.c-tree") {

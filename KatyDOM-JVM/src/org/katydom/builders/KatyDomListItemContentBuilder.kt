@@ -7,6 +7,7 @@ package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.concretenodes.grouping.KatyDomLi
+import org.katydom.concretenodes.text.KatyDomComment
 import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +21,16 @@ class KatyDomListItemContentBuilder(
     element: KatyDomHtmlElement
 
 ) : KatyDomAttributesContentBuilder(element) {
+
+    /**
+     * Adds a comment node as the next child of the element under construction.
+     * @param nodeValue the text within the node.
+     * @param key unique key for this comment within its parent node.
+     */
+    fun comment(nodeValue: String,
+                key: Any? = null) {
+        element.addChildNode(KatyDomComment(nodeValue,key))
+    }
 
     /**
      * Adds an li element with any global attributes as the next child of the element under construction.
