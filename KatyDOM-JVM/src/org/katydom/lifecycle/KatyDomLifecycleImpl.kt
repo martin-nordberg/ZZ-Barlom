@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,7 +15,7 @@ import org.w3c.dom.Element
  */
 internal class KatyDomLifecycleImpl : KatyDomLifecycle {
 
-    override fun build(domElement: Element, katyDomElement: KatyDomHtmlElement): Element {
+    override fun build(domElement: Element, katyDomElement: KatyDomHtmlElement) {
 
         val document = domElement.ownerDocument!!
 
@@ -30,14 +30,10 @@ internal class KatyDomLifecycleImpl : KatyDomLifecycle {
         parent.insertBefore(root, domElement)
         parent.removeChild(domElement)
 
-        return root
-
     }
 
-    override fun update(domElement: Element, oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement) {
-
+    override fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement) {
         newKatyDomElement.patch(oldKatyDomElement)
-
     }
 
 }

@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -23,9 +23,6 @@ fun <AppState : Any> runApplication(
     initializeAppState: () -> AppState,
     view: (appState: AppState, dispatch: (action: (AppState) -> String) -> Unit) -> KatyDomHtmlElement
 ) {
-
-    // Find the root application DOM element to put the app into (failing if not found).
-    var appElement = document.getElementById(appId)!!
 
     // Create the revision history for the application.
     val revHistory = RevisionHistory("Initial model")
@@ -83,7 +80,7 @@ fun <AppState : Any> runApplication(
                 appVdomNode = view(appState, ::dispatch)
 
                 // Patch the new view into the real DOM.
-                lifecycle.update(appElement, oldAppVdomNode, appVdomNode)
+                lifecycle.patch(oldAppVdomNode, appVdomNode)
 
             },
             0
@@ -94,7 +91,10 @@ fun <AppState : Any> runApplication(
     // Create the initial virtual view. Establish dispatching of events for subsequent updates inside dispatch(..).
     appVdomNode = view(appState, ::dispatch)
 
+    // Find the root application DOM element to put the app into (failing if not found).
+    val appElement = document.getElementById(appId)!!
+
     // Build the DOM to match the initial view.
-    appElement = lifecycle.build(appElement, appVdomNode)
+    lifecycle.build(appElement, appVdomNode)
 
 }

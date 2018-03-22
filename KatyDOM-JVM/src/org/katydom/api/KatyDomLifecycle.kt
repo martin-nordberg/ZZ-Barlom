@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,13 +15,13 @@ import org.w3c.dom.Element
 interface KatyDomLifecycle {
 
     /**
-     * Builds the real DOM corresponding to given virtual DOM in the given parent DOM element. Replaces the
-     * given real DOM element.
+     * Builds the real DOM corresponding to given virtual DOM element. Replaces the given real DOM element by the
+     * newly created result. To be called once when the application starts up.
      * @param domElement the DOM element to be the root of the application.
      * @param katyDomElement the virtual DOM root element to be built into the real DOM. Note that as a side
      *                            effect each virtual DOM element in this tree is linked to its real DOM counterpart.
      */
-    fun build(domElement: Element, katyDomElement: KatyDomHtmlElement): Element
+    fun build(domElement: Element, katyDomElement: KatyDomHtmlElement)
 
     /**
      * Updates the real DOM, which was last built or patched to mirror oldKatyDomElement, with the operations needed
@@ -31,6 +31,6 @@ interface KatyDomLifecycle {
      *                          side effect each virtual DOM element in this tree is linked to its real DOM counterpart
      *                          where not already so linked.
      */
-    fun update(domElement: Element, oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement): Unit
+    fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement): Unit
 
 }

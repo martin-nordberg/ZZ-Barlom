@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions.fail
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.abstractnodes.KatyDomNode
 import org.katydom.kdom.KDomDocument
-import org.w3c.dom.Element
 
 /**
  * Builds the DOM for a given KatyDOM node and checks the HTML output against what's expected.
@@ -53,7 +52,7 @@ internal fun checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode, expectedH
 
         assertEquals(expectedHtml1, body.firstChild?.toHtmlString())
 
-        lifecycle.update(body.firstChild as Element, vdomNode1, vdomNode2)
+        lifecycle.patch(vdomNode1, vdomNode2)
 
         assertEquals(expectedHtml2, body.firstChild?.toHtmlString())
     }
