@@ -1,23 +1,22 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.katydom.abstractnodes
 
+// Note: these are needed in JVM but not JS:
 import org.katydom.api.EventCancellationException
 import org.katydom.api.EventHandler
 import org.katydom.api.MouseEventHandler
+import org.katydom.eventtarget.addEventListener
+import org.katydom.eventtarget.removeEventListener
+import org.katydom.types.EEventType
 import org.katydom.types.EMouseEventType
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
-
-// Note: these are needed in JVM but not JS:
-import org.katydom.eventtarget.addEventListener
-import org.katydom.eventtarget.removeEventListener
-import org.katydom.types.EEventType
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,15 +27,15 @@ import org.katydom.types.EEventType
 abstract class KatyDomNode(private val _key: Any?) {
 
     /** Returns the key for this node. If none provided, uses the node name. */
-    val key : Any
+    val key: Any
         get() = _key ?: nodeName
 
     /** Returns the first and only child node in this node. (Exception if there is none or more than one.) */
     val soleChildNode: KatyDomNode
         get() {
 
-            check( firstChildNode != Nothing ) { "No child found." }
-            check( firstChildNode == lastChildNode ) { "More than one child node found." }
+            check(firstChildNode != Nothing) { "No child found." }
+            check(firstChildNode == lastChildNode) { "More than one child node found." }
 
             return firstChildNode
 
@@ -65,10 +64,10 @@ abstract class KatyDomNode(private val _key: Any?) {
             state = EState.ADDING_CHILD_NODES
         }
         else {
-            check( isAddingChildNodes ) { "Cannot modify a KatyDOM node after it has been fully constructed." }
+            check(isAddingChildNodes) { "Cannot modify a KatyDOM node after it has been fully constructed." }
         }
 
-        require( !childNodesByKey.containsKey(childNode.key) ) {
+        require(!childNodesByKey.containsKey(childNode.key)) {
             "Duplicate key: " + childNode.key + " in " + this.toString()
         }
 
@@ -84,6 +83,8 @@ abstract class KatyDomNode(private val _key: Any?) {
 
         childNodesByKey[childNode.key] = childNode
 
+        afterAddChildNode(childNode)
+
     }
 
     /**
@@ -98,7 +99,7 @@ abstract class KatyDomNode(private val _key: Any?) {
             state = EState.ADDING_CHILD_NODES
         }
         else {
-            check( isAddingEventHandlers ) { "KatyDOM node's event handlers must be defined before its child nodes." }
+            check(isAddingEventHandlers) { "KatyDOM node's event handlers must be defined before its child nodes." }
         }
 
         eventHandlers.put(
@@ -127,7 +128,7 @@ abstract class KatyDomNode(private val _key: Any?) {
             state = EState.ADDING_EVENT_HANDLERS
         }
         else {
-            check( isAddingEventHandlers ) { "KatyDOM node's event handlers must be defined before its child nodes." }
+            check(isAddingEventHandlers) { "KatyDOM node's event handlers must be defined before its child nodes." }
         }
 
         eventHandlers.put(
@@ -145,15 +146,28 @@ abstract class KatyDomNode(private val _key: Any?) {
     }
 
     /**
+     * Performs extra handling after a [childNode] has been added.
+     */
+    protected open fun afterAddChildNode(childNode: KatyDomNode) {
+
+    }
+
+    /**
      * Sets the attributes and child nodes of a newly created real DOM node to match this virtual DOM node.
      * @param domNode the real DOM node to be configured to mirror this virtual DOM node.
      */
     internal fun establish(domNode: Node) {
 
-        check( state >= EState.CONSTRUCTED ) { "KatyDOM node must be fully constructed before establishing the real DOM." }
-        check( state <= EState.CONSTRUCTED ) { "KatyDOM node already established." }
+        check(state >= EState.CONSTRUCTED) {
+            "KatyDOM node must be fully constructed before establishing the real DOM."
+        }
+        check(state <= EState.CONSTRUCTED) {
+            "KatyDOM node already established."
+        }
 
-        require( domNode.nodeName == nodeName ) { "Cannot establish a real DOM node differing in type from the KatyDOM node." }
+        require(domNode.nodeName == nodeName) {
+            "Cannot establish a real DOM node differing in type from the KatyDOM node."
+        }
 
         if (nodeName != "#text") {
             establishAttributes(domNode)
@@ -175,20 +189,36 @@ abstract class KatyDomNode(private val _key: Any?) {
 
         // Quit early if the node is the same (e.g. memoized).
         if (this === priorNode) {
-            check( isPatchedReplaced ) { "New KatyDOM node is identical to prior node but prior node has not been patched." }
+            check(isPatchedReplaced) {
+                "New KatyDOM node is identical to prior node but prior node has not been patched."
+            }
             return
         }
 
-        check( state >= EState.CONSTRUCTED ) { "KatyDOM node must be fully constructed before establishing the real DOM." }
-        check( state <= EState.CONSTRUCTED ) { "KatyDOM node already established." }
+        check(state >= EState.CONSTRUCTED) {
+            "KatyDOM node must be fully constructed before establishing the real DOM."
+        }
+        check(state <= EState.CONSTRUCTED) {
+            "KatyDOM node already established."
+        }
 
-        check( !priorNode.isPatchedRemoved ) { "Prior node cannot be patched after being removed." }
-        check( !priorNode.isPatchedReplaced ) { "Prior node cannot be patched twice." }
-        check( priorNode.isEstablished ) { "Prior KatyDOM node must be established before patching. " + priorNode.nodeName + "." + priorNode.key }
+        check(!priorNode.isPatchedRemoved) {
+            "Prior node cannot be patched after being removed."
+        }
+        check(!priorNode.isPatchedReplaced) {
+            "Prior node cannot be patched twice."
+        }
+        check(priorNode.isEstablished) {
+            "Prior KatyDOM node must be established before patching. " + priorNode.nodeName + "." + priorNode.key
+        }
 
-        require( priorNode.nodeName == nodeName ) { "Cannot patch a difference between two KatyDOM nodes of different types." }
+        require(priorNode.nodeName == nodeName) {
+            "Cannot patch a difference between two KatyDOM nodes of different types."
+        }
 
-        val domNode = checkNotNull(priorNode.domNode ) { "Prior KatyDOM node is not linked to its DOM node." }
+        val domNode = checkNotNull(priorNode.domNode) {
+            "Prior KatyDOM node is not linked to its DOM node."
+        }
 
         // Patch the attributes.
         patchAttributes(domNode, priorNode)
@@ -257,7 +287,7 @@ abstract class KatyDomNode(private val _key: Any?) {
      */
     protected fun freeze() {
 
-        check( state <= EState.CONSTRUCTED ) { "KatyDOM node already fully constructed." }
+        check(state <= EState.CONSTRUCTED) { "KatyDOM node already fully constructed." }
 
         if (isAddingAttributes) {
             freezeAttributes()

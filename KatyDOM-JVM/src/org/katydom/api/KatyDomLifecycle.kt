@@ -31,6 +31,6 @@ interface KatyDomLifecycle {
      *                          side effect each virtual DOM element in this tree is linked to its real DOM counterpart
      *                          where not already so linked.
      */
-    fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement): Unit
+    fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement)
 
 }

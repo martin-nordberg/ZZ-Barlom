@@ -1,15 +1,15 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.katydom.api
 
-import org.katydom.abstractnodes.KatyDomNode
+import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
 import org.katydom.builders.KatyDomListItemContentBuilder
 import org.katydom.builders.KatyDomPhrasingContentBuilder
-import org.katydom.concretenodes.grouping.KatyDomDiv
+import org.katydom.concretenodes.application.KatyDomAppPseudoNode
 import org.katydom.lifecycle.KatyDomLifecycleImpl
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,9 +28,10 @@ fun makeKatyDomLifecycle(/*TODO: options*/): KatyDomLifecycle {
  * @param fillChildNodes function that builds one root DOM node and its contents.
  * @return the root DOM node after it has been built by the provided function.
  */
-fun katyDom(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit): KatyDomNode {
-    val pseudoParentElement = KatyDomDiv(defineContent = fillChildNodes)
-    return pseudoParentElement.soleChildNode
+fun katyDom(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit): KatyDomHtmlElement {
+    val pseudoParentElement = KatyDomAppPseudoNode()
+    pseudoParentElement.fill(defineContent = fillChildNodes)
+    return pseudoParentElement.soleChildNode as KatyDomHtmlElement
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
