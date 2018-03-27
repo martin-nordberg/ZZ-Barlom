@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an <hr> element.
  */
-internal class KatyDomHr(
-    flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomHr<Message>(
+    flowContent: KatyDomFlowContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -29,9 +29,9 @@ internal class KatyDomHr(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "HR"
 

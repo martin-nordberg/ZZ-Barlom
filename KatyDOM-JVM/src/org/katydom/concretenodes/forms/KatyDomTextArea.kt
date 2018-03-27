@@ -17,8 +17,8 @@ import org.katydom.types.EWrapType
 /**
  * Virtual node for a textarea element.
  */
-internal class KatyDomTextArea(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomTextArea<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -46,9 +46,9 @@ internal class KatyDomTextArea(
     title: String?,
     translate: Boolean?,
     wrap: EWrapType?,
-    defineContent: KatyDomTextContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomTextContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "TEXTAREA"
 

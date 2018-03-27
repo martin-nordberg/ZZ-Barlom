@@ -17,7 +17,7 @@ import org.katydom.lifecycle.KatyDomLifecycleImpl
 /**
  * Constructs an object that orchestrates the main loop of the virtual DOM build and patch sequence.
  */
-fun makeKatyDomLifecycle(/*TODO: options*/): KatyDomLifecycle {
+fun <Message> makeKatyDomLifecycle(/*TODO: options*/): KatyDomLifecycle<Message> {
     return KatyDomLifecycleImpl()
 }
 
@@ -28,10 +28,10 @@ fun makeKatyDomLifecycle(/*TODO: options*/): KatyDomLifecycle {
  * @param fillChildNodes function that builds one root DOM node and its contents.
  * @return the root DOM node after it has been built by the provided function.
  */
-fun katyDom(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit): KatyDomHtmlElement {
-    val pseudoParentElement = KatyDomAppPseudoNode()
+fun <Message> katyDom(fillChildNodes: KatyDomFlowContentBuilder<Message>.() -> Unit): KatyDomHtmlElement<Message> {
+    val pseudoParentElement = KatyDomAppPseudoNode<Message>()
     pseudoParentElement.fill(defineContent = fillChildNodes)
-    return pseudoParentElement.soleChildNode as KatyDomHtmlElement
+    return pseudoParentElement.soleChildNode as KatyDomHtmlElement<Message>
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,8 @@ fun katyDom(fillChildNodes: KatyDomFlowContentBuilder.() -> Unit): KatyDomHtmlEl
  * @param fillChildNodes function that defines the one or more nodes of the component.
  * @return a function that builds the nodes as part of a larger tree.
  */
-fun katyDomComponent(builder: KatyDomFlowContentBuilder, fillChildNodes: KatyDomFlowContentBuilder.() -> Unit) {
+fun <Message> katyDomComponent(builder: KatyDomFlowContentBuilder<Message>,
+                               fillChildNodes: KatyDomFlowContentBuilder<Message>.() -> Unit) {
     return fillChildNodes(builder)
 }
 
@@ -53,8 +54,8 @@ fun katyDomComponent(builder: KatyDomFlowContentBuilder, fillChildNodes: KatyDom
  * @param fillChildNodes the function defining one or more <li> elements.
  * @return a function that builds the nodes as part of a larger tree.
  */
-fun katyDomListItemComponent(builder: KatyDomListItemContentBuilder,
-                             fillChildNodes: KatyDomListItemContentBuilder.() -> Unit) {
+fun <Message> katyDomListItemComponent(builder: KatyDomListItemContentBuilder<Message>,
+                                       fillChildNodes: KatyDomListItemContentBuilder<Message>.() -> Unit) {
     return fillChildNodes(builder)
 }
 
@@ -65,8 +66,8 @@ fun katyDomListItemComponent(builder: KatyDomListItemContentBuilder,
  * @param fillChildNodes the function defining one or more elements.
  * @return a function that builds the nodes as part of a larger tree.
  */
-fun katyDomPhrasingComponent(builder: KatyDomPhrasingContentBuilder,
-                             fillChildNodes: KatyDomPhrasingContentBuilder.() -> Unit) {
+fun <Message> katyDomPhrasingComponent(builder: KatyDomPhrasingContentBuilder<Message>,
+                                       fillChildNodes: KatyDomPhrasingContentBuilder<Message>.() -> Unit) {
     return fillChildNodes(builder)
 }
 

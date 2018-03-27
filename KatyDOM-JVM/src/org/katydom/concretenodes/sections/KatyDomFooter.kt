@@ -14,8 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a <footer> element.
  */
-internal class KatyDomFooter(
-    flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomFooter<Message>(
+    flowContent: KatyDomFlowContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -28,9 +28,9 @@ internal class KatyDomFooter(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomFlowContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "FOOTER"
 

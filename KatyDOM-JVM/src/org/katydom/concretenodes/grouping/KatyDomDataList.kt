@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a <datalist> element.
  */
-internal class KatyDomDataList(
-    flowContent: KatyDomPhrasingContentBuilder? = null,
+internal class KatyDomDataList<Message>(
+    flowContent: KatyDomPhrasingContentBuilder<Message>? = null,
     selector: String? = null,
     key: Any? = null,
     accesskey: String? = null,
@@ -29,9 +29,9 @@ internal class KatyDomDataList(
     tabindex: Int? = null,
     title: String? = null,
     translate: Boolean? = null,
-    defineContent: KatyDomOptionContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "DATALIST"
 

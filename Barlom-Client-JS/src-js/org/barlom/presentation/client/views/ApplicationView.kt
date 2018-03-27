@@ -26,7 +26,7 @@ import org.katydom.api.katyDom
 /**
  * Generates the view from the latest application state. Wires event handlers to be dispatched as actions.
  */
-fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): KatyDomHtmlElement {
+fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): KatyDomHtmlElement<Unit> {
 
     val m = appState.model
     val ui = appState.uiState
@@ -117,7 +117,7 @@ fun view(appState: ApplicationState, dispatch: (action: AppAction) -> Unit): Kat
 
         }
 
-    } as KatyDomHtmlElement
+    }
 
 }
 

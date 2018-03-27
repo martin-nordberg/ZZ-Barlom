@@ -15,12 +15,12 @@ import org.w3c.dom.Text
 /**
  * Virtual DOM node for a plain text node.
  */
-internal class KatyDomText(
+internal class KatyDomText<Message>(
 
     /** The text within the node. */
     val nodeValue: String
 
-) : KatyDomNode(null) {
+) : KatyDomNode<Message>(null) {
 
     override val nodeName = "#text"
 
@@ -44,7 +44,7 @@ internal class KatyDomText(
         // Nothing to freeze beyond the base node.
     }
 
-    override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
+    override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Message>) {
 
         if (domElement !is Text) throw IllegalArgumentException("DOM node expected to be text.")
         if (priorElement !is KatyDomText) throw IllegalArgumentException("KatyDOM node expected to be KatyDOM text.")

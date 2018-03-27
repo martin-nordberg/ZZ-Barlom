@@ -20,7 +20,7 @@ import org.katydom.builders.KatyDomListItemContentBuilder
 
 /** Generates a tree item for a given [directedEdgeType]. */
 fun viewConstrainedDataTypeTreeItem(
-    builder: KatyDomListItemContentBuilder,
+    builder: KatyDomListItemContentBuilder<Unit>,
     constrainedDataType: ConstrainedDataType,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -47,7 +47,7 @@ fun viewConstrainedDataTypeTreeItem(
 
 /** Generates a tree item for a given [directedEdgeType]. */
 fun viewDirectedEdgeTypeTreeItem(
-    builder: KatyDomListItemContentBuilder,
+    builder: KatyDomListItemContentBuilder<Unit>,
     directedEdgeType: DirectedEdgeType,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -86,7 +86,7 @@ fun viewDirectedEdgeTypeTreeItem(
 /** Generates a tree item for a given package [pkg]. */
 @Suppress("RedundantUnitReturnType")
 fun viewPackageTreeItem(
-    builder: KatyDomListItemContentBuilder,
+    builder: KatyDomListItemContentBuilder<Unit>,
     pkg: Package,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -119,6 +119,8 @@ fun viewPackageTreeItem(
                 e.stopPropagation()
             }
 
+            emptyList()
+
         }
 
         viewListItem(this, pkg, revDispatchUi)
@@ -133,7 +135,7 @@ fun viewPackageTreeItem(
 
 /** Fills in the child items of a package. */
 private fun viewPackageChildTreeItems(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     pkg: Package,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -143,7 +145,10 @@ private fun viewPackageChildTreeItems(
 
     ul(".c-tree") {
 
-        onclick { e -> e.stopPropagation() }
+        onclick { e ->
+            e.stopPropagation()
+            emptyList()
+        }
 
         for (subpkg in pkg.childPackages) {
             viewPackageTreeItem(this, subpkg, browsePanelState, revDispatchModel, revDispatchUi,
@@ -174,7 +179,7 @@ private fun viewPackageChildTreeItems(
 
 /** Generates a tree item for a given package [pkg]. */
 fun viewRootPackageTreeItem(
-    builder: KatyDomListItemContentBuilder,
+    builder: KatyDomListItemContentBuilder<Unit>,
     pkg: Package,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -209,7 +214,7 @@ fun viewRootPackageTreeItem(
 
 /** Generates a tree item for a given [undirectedEdgeType]. */
 fun viewUndirectedEdgeTypeTreeItem(
-    builder: KatyDomListItemContentBuilder,
+    builder: KatyDomListItemContentBuilder<Unit> ,
     undirectedEdgeType: UndirectedEdgeType,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -248,7 +253,7 @@ fun viewUndirectedEdgeTypeTreeItem(
 
 /** Generates a tree item for a given [vertexAttributeType]. */
 fun viewVertexAttributeTypeTreeItem(
-    builder: KatyDomListItemContentBuilder,
+    builder: KatyDomListItemContentBuilder<Unit>,
     vertexAttributeType: VertexAttributeType,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -276,7 +281,7 @@ fun viewVertexAttributeTypeTreeItem(
 
 /** Generates a tree item for a given [vertexType]. */
 fun viewVertexTypeTreeItem(
-    builder: KatyDomListItemContentBuilder,
+    builder: KatyDomListItemContentBuilder<Unit> ,
     vertexType: VertexType,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
@@ -309,6 +314,8 @@ fun viewVertexTypeTreeItem(
                 e.stopPropagation()
             }
 
+            emptyList()
+
         }
 
         viewListItem(this, vertexType, revDispatchUi)
@@ -317,7 +324,10 @@ fun viewVertexTypeTreeItem(
 
             ul(".c-tree") {
 
-                onclick { e -> e.stopPropagation() }
+                onclick {
+                    e -> e.stopPropagation()
+                    emptyList()
+                }
 
                 for (at in vertexType.attributeTypes) {
                     viewVertexAttributeTypeTreeItem(

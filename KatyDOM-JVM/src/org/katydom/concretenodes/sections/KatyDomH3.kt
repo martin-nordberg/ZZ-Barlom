@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an <h3> element.
  */
-internal class KatyDomH3(
-    flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomH3<Message>(
+    flowContent: KatyDomFlowContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -29,9 +29,9 @@ internal class KatyDomH3(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "H3"
 

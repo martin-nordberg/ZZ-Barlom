@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an input type="range" element.
  */
-internal class KatyDomInputRange<T : Number>(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomInputRange<Num : Number, Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -29,8 +29,8 @@ internal class KatyDomInputRange<T : Number>(
     hidden: Boolean?,
     lang: String?,
     list: String?,
-    max: T?,
-    min: T?,
+    max: Num?,
+    min: Num?,
     name: String?,
     spellcheck: Boolean?,
     step: String?,
@@ -38,10 +38,10 @@ internal class KatyDomInputRange<T : Number>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    value: T?,
-    defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    value: Num?,
+    defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "INPUT"
 

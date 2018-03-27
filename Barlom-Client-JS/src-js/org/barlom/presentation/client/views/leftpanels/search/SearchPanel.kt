@@ -14,7 +14,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
  * Generates the search panel view from the latest application state. Wires event handlers to be dispatched as actions.
  */
 fun viewSearchPanel(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     m: Model,
     revDispatchModel: (modelAction: ModelAction) -> Unit
 ) = katyDomComponent(builder) {

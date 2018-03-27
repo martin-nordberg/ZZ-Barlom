@@ -15,12 +15,12 @@ import org.katydom.concretenodes.text.KatyDomText
  * Virtual DOM builder for content that must be text.
  */
 @Suppress("unused")
-class KatyDomTextContentBuilder(
+class KatyDomTextContentBuilder<Message>(
 
     /** The element whose content is being built. */
-    element: KatyDomHtmlElement
+    element: KatyDomHtmlElement<Message>
 
-) : KatyDomAttributesContentBuilder(element) {
+) : KatyDomAttributesContentBuilder<Message>(element) {
 
     /**
      * Adds a comment node as the next child of the element under construction.

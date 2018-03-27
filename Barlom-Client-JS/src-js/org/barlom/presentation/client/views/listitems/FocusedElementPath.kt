@@ -14,7 +14,7 @@ import org.katydom.builders.KatyDomListItemContentBuilder
 
 /** Generates the path to the focused element. */
 fun viewFocusedElementPath(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     focusedElement: AbstractNamedElement?,
     revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
@@ -26,7 +26,7 @@ fun viewFocusedElementPath(
 
         @Suppress("RedundantUnitReturnType")
         fun viewPath(
-            builder: KatyDomListItemContentBuilder,
+            builder: KatyDomListItemContentBuilder<Unit>,
             element: AbstractNamedElement,
             bold: Boolean = false
         ): Unit = katyDomListItemComponent(builder) {

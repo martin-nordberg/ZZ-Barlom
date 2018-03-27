@@ -12,7 +12,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 
 /** Shows one of the nav items at the top of the right panel. */
 fun viewRightPanelNavItem(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit> ,
     revDispatchUi: (uiAction: UiAction) -> Unit,
     panelType: ERightPanelType
 ) = katyDomComponent(builder) {
@@ -25,6 +25,7 @@ fun viewRightPanelNavItem(
 
         onclick {
             // TODO revDispatchUi { Tbd(panelType) }
+            emptyList()
         }
 
         span(".u-large.mdi." + iconName(panelType), "icon") {}

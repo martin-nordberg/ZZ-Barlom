@@ -7,7 +7,6 @@ package org.katydom.abstractnodes
 
 import org.katydom.types.EDirection
 import org.w3c.dom.Document
-import org.w3c.dom.Element
 import org.w3c.dom.Node
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +15,7 @@ import org.w3c.dom.Node
  * Abstract KatyDOM class corresponding to a DOM HTMLElement node.
  * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
  * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
- * @param accesskey a string specifiying the HTML accesskey value.
+ * @param accesskey a string specifying the HTML accesskey value.
  * @param contenteditable whether the element has editable content.
  * @param dir the left-to-right direction of text inside this element.
  * @param hidden true if the element is to be hidden.
@@ -28,7 +27,7 @@ import org.w3c.dom.Node
  * @param translate whether to translate text within this element.
  */
 @Suppress("unused")
-abstract class KatyDomHtmlElement(
+abstract class KatyDomHtmlElement<Message>(
     selector: String?,
     key: Any?,
     accesskey: String? = null,
@@ -41,7 +40,7 @@ abstract class KatyDomHtmlElement(
     tabindex: Int? = null,
     title: String? = null,
     translate: Boolean? = null
-) : KatyDomElement(selector, key, style, tabindex) {
+) : KatyDomElement<Message>(selector, key, style, tabindex) {
 
     override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
 

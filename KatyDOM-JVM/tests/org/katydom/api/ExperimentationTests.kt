@@ -16,7 +16,7 @@ class ExperimentationTests {
     @Test
     fun `Sample 1 of KatyDOM DSL should produce correct HTML`() {
 
-        val vdomNode = katyDom {
+        val vdomNode = katyDom<Unit> {
 
             div("#myDiv.my-class", style = "color:red") {
 
@@ -39,7 +39,8 @@ class ExperimentationTests {
                     attributes("a1" to "v1", "a2" to "v2")
 
                     onclick { event ->
-                      event.clientX
+                        event.clientX
+                        emptyList()
                     }
                 }
 
@@ -88,7 +89,7 @@ class ExperimentationTests {
     @Test
     fun `Sample 2 of KatyDOM DSL should produce correct HTML`() {
 
-        val vdomNode = katyDom {
+        val vdomNode = katyDom<Unit> {
 
             div("#myDiv.my-class", style = "color:red") {
 
@@ -102,7 +103,8 @@ class ExperimentationTests {
                     attributes("a1" to "v1", "a2" to "v2")
 
                     onclick { event ->
-                      event.clientX
+                        event.clientX
+                        emptyList()
                     }
                 }
 
@@ -124,7 +126,7 @@ class ExperimentationTests {
     @Test
     fun `Sample 3 of KatyDOM DSL should produce correct HTML`() {
 
-        val vdomNode = katyDom {
+        val vdomNode = katyDom<Unit> {
 
             div("#myDiv.my-class", "div1" ) {
 

@@ -11,15 +11,15 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 /**
  * Builds the view for a single double text input.
  */
-fun viewInputDoubleField(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewInputDoubleField(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     id: String,
     label: String,
     currentValue: Double?,
     placeholder: String,
     disabled: Boolean,
-    changeValue: (Double?) -> Unit
+    changeValue: (Double?) -> Iterable<Message>
 ) = katyDomComponent(builder) {
 
     label("#$name-field.c-label.o-form-element") {
@@ -39,9 +39,7 @@ fun viewInputDoubleField(
 
                 val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
 
-                if (newValue != currentValue) {
-                    changeValue(newValue)
-                }
+                changeValue(newValue)
 
             }
 

@@ -16,7 +16,7 @@ import org.w3c.dom.Node
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
  */
-abstract class KatyDomElement : KatyDomNode {
+abstract class KatyDomElement<Message> : KatyDomNode<Message> {
 
     private constructor(
         selectorPieces: List<String>?,
@@ -286,7 +286,7 @@ abstract class KatyDomElement : KatyDomNode {
 
     }
 
-    final override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
+    final override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Message>) {
 
         if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
         if (priorElement !is KatyDomElement) throw IllegalArgumentException("KatyDOM node expected to be element.")
@@ -318,7 +318,7 @@ abstract class KatyDomElement : KatyDomNode {
         }
 
         for ((name, value) in dataset) {
-            setAttribute("data-" + name, value)
+            setAttribute("data-$name", value)
         }
 
         classList = Unused.classList
@@ -328,9 +328,9 @@ abstract class KatyDomElement : KatyDomNode {
     override fun toString(): String {
         var result = "<" + nodeName.toLowerCase()
         attributes.forEach {
-            entry -> result += " " + entry.key + "=\"" + entry.value.toString() + "\""
+            entry -> result += " " + entry.key + "=\"" + entry.value + "\""
         }
-        return result + ">"
+        return "$result>"
     }
 
 ////

@@ -12,7 +12,7 @@ import org.w3c.dom.Element
  * Interface defining a Katy DOM lifecycle. Provides two methods: one to initially build a real DOM from a virtual DOM
  * and another to repeatedly update the real DOM based upon differences in two virtual DOM trees.
  */
-interface KatyDomLifecycle {
+interface KatyDomLifecycle<Message> {
 
     /**
      * Builds the real DOM corresponding to given virtual DOM element. Replaces the given real DOM element by the
@@ -21,7 +21,7 @@ interface KatyDomLifecycle {
      * @param katyDomElement the virtual DOM root element to be built into the real DOM. Note that as a side
      *                            effect each virtual DOM element in this tree is linked to its real DOM counterpart.
      */
-    fun build(domElement: Element, katyDomElement: KatyDomHtmlElement)
+    fun build(domElement: Element, katyDomElement: KatyDomHtmlElement<Message>)
 
     /**
      * Updates the real DOM, which was last built or patched to mirror oldKatyDomElement, with the operations needed
@@ -31,6 +31,6 @@ interface KatyDomLifecycle {
      *                          side effect each virtual DOM element in this tree is linked to its real DOM counterpart
      *                          where not already so linked.
      */
-    fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement)
+    fun patch(oldKatyDomElement: KatyDomHtmlElement<Message>, newKatyDomElement: KatyDomHtmlElement<Message>)
 
 }

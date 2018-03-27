@@ -16,8 +16,8 @@ import org.katydom.types.EInputMode
 /**
  * Virtual node for an input type="search" element.
  */
-internal class KatyDomInputSearch(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomInputSearch<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -46,9 +46,9 @@ internal class KatyDomInputSearch(
     title: String?,
     translate: Boolean?,
     value: String?,
-    defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "INPUT"
 

@@ -14,10 +14,10 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an option element.
  */
-internal class KatyDomOption : KatyDomHtmlElement {
+internal class KatyDomOption<Message> : KatyDomHtmlElement<Message> {
 
     constructor(
-        optionContent: KatyDomOptionContentBuilder,
+        optionContent: KatyDomOptionContentBuilder<Message>,
         selector: String?,
         key: Any?,
         accesskey: String?,
@@ -35,7 +35,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
         title: String?,
         translate: Boolean?,
         value: String,
-        defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
     ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
         setAttributes(disabled, label, selected)
@@ -46,7 +46,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
     }
 
     constructor(
-        optionContent: KatyDomOptionContentBuilder,
+        optionContent: KatyDomOptionContentBuilder<Message>,
         selector: String?,
         key: Any?,
         accesskey: String?,
@@ -63,7 +63,7 @@ internal class KatyDomOption : KatyDomHtmlElement {
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomTextContentBuilder.() -> Unit
+        defineContent: KatyDomTextContentBuilder<Message>.() -> Unit
     ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
         setAttributes(disabled, label, selected)

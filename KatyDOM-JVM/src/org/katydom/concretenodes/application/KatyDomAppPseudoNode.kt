@@ -15,9 +15,9 @@ import org.katydom.builders.KatyDomFlowContentBuilder
  * Virtual node for the parent pseudo element of an application. The pseudo element allows only one child node to be
  * created. That child node is the root element of an application.
  */
-internal class KatyDomAppPseudoNode :
-    KatyDomHtmlElement(null, null, null, null, null,
-                       null, null, null, null, null, null, null) {
+internal class KatyDomAppPseudoNode<Message> :
+    KatyDomHtmlElement<Message>(null, null, null, null, null,
+                                null, null, null, null, null, null, null) {
 
     override val nodeName = "!APPLICATION"
 
@@ -26,7 +26,7 @@ internal class KatyDomAppPseudoNode :
      * exactly one child node that is to become the root node of the application. This pseudo node has no
      * corresponding real DOM node.
      */
-    fun fill(defineContent: KatyDomFlowContentBuilder.() -> Unit) {
+    fun fill(defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit) {
 
         KatyDomFlowContentBuilder(this).withNoAddedRestrictions(this).defineContent()
 
@@ -36,7 +36,7 @@ internal class KatyDomAppPseudoNode :
 
     }
 
-    override fun afterAddChildNode(childNode: KatyDomNode) {
+    override fun afterAddChildNode(childNode: KatyDomNode<Message>) {
 
         // Allow only one child node
         freeze()

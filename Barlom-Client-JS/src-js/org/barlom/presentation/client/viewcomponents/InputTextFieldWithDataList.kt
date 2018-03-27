@@ -17,8 +17,8 @@ data class DataListOptionConfig(
 /**
  * Builds the view for a single string text input. Adds a list of potential data items to choose from.
  */
-fun viewInputTextFieldWithDataList(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewInputTextFieldWithDataList(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     id: String,
     label: String,
@@ -26,7 +26,7 @@ fun viewInputTextFieldWithDataList(
     placeholder: String,
     disabled: Boolean,
     options: List<DataListOptionConfig>,
-    changeValue: (String) -> Unit
+    changeValue: (String) -> Iterable<Message>
 ) = katyDomComponent(builder) {
 
     label("#$name-field.c-label.o-form-element") {
@@ -49,9 +49,7 @@ fun viewInputTextFieldWithDataList(
 
                 val newValue: String = event.target.asDynamic().value as String
 
-                if (newValue != currentValue) {
-                    changeValue(newValue)
-                }
+                changeValue(newValue)
 
             }
 

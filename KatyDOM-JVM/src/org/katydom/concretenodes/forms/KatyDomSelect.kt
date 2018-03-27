@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a select element.
  */
-internal class KatyDomSelect(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomSelect<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -37,9 +37,9 @@ internal class KatyDomSelect(
     title: String?,
     translate: Boolean?,
     value: String?,
-    defineContent: KatyDomOptionContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "SELECT"
 

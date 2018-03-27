@@ -11,14 +11,14 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 /**
  * Builds the view for a set of radio buttons for an optional Boolean value.
  */
-fun viewBooleanRadioGroup(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewBooleanRadioGroup(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     legend: String,
     currentValue: Boolean,
     trueLabel: String = "Yes",
     falseLabel: String = "No",
-    changeValue: (Boolean) -> Unit
+    changeValue: (Boolean) -> Iterable<Message>
 ) = viewRadioGroup(
     builder,
     name,

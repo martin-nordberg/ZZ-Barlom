@@ -17,8 +17,8 @@ import org.katydom.types.EFormSubmissionMethod
 /**
  * Virtual node for an input type="image" element.
  */
-internal class KatyDomInputImageButton(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomInputImageButton<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -44,9 +44,9 @@ internal class KatyDomInputImageButton(
     translate: Boolean?,
     value: String?,
     width: Int?,
-    defineAttributes: KatyDomAttributesContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "INPUT"
 

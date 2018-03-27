@@ -16,8 +16,8 @@ import org.katydom.types.EOrderedListType
 /**
  * Virtual node for an ordered list <ol> element.
  */
-internal class KatyDomOl(
-    flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomOl<Message>(
+    flowContent: KatyDomFlowContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -33,9 +33,9 @@ internal class KatyDomOl(
     title: String?,
     translate: Boolean?,
     type: EOrderedListType?,
-    defineContent: KatyDomListItemContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomListItemContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "OL"
 

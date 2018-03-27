@@ -9,23 +9,23 @@ import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 import kotlin.math.roundToInt
 
-data class IntegerInputConfig(
+data class IntegerInputConfig<Message>(
     val disabled: Boolean,
     val value: Int?,
     val id: String,
     val placeholder: String,
-    val changeValue: (Int?) -> Unit
+    val changeValue: (Int?) -> Iterable<Message>
 )
 
 /**
  * Builds the view for a grouped block of integer text inputs.
  */
-fun viewInputIntegerRange(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewInputIntegerRange(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     legend: String,
-    minNumberInput: IntegerInputConfig,
-    maxNumberInput: IntegerInputConfig
+    minNumberInput: IntegerInputConfig<Message>,
+    maxNumberInput: IntegerInputConfig<Message>
 ) = katyDomComponent(builder) {
 
     fieldset("#$name-field.o-fieldset") {
@@ -58,9 +58,7 @@ fun viewInputIntegerRange(
                         val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
                         event.target.asDynamic().value = newValue
 
-                        if (newValue != minNumberInput.value) {
-                            minNumberInput.changeValue(newValue)
-                        }
+                        minNumberInput.changeValue(newValue)
 
                     }
 
@@ -86,9 +84,7 @@ fun viewInputIntegerRange(
                         val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
                         event.target.asDynamic().value = newValue
 
-                        if (newValue != maxNumberInput.value) {
-                            maxNumberInput.changeValue(newValue)
-                        }
+                        maxNumberInput.changeValue(newValue)
 
                     }
 

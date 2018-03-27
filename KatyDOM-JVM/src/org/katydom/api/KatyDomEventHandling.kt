@@ -15,12 +15,24 @@ import org.w3c.dom.events.MouseEvent
 class EventCancellationException : RuntimeException()
 
 /**
- * Generic event handler: input is any event. To cancel an event throw EventCancellationException.
+ * Generic event handler: input is any [event]. To cancel an event throw EventCancellationException.
  */
-typealias EventHandler = (e: Event) -> Unit
+typealias EventHandler = (event: Event) -> Unit
 
 /**
- * Mouse event handler: input is a mouse event. To cancel an event throw EventCancellationException.
+ * Mouse event handler: input is a mouse [event]. To cancel an event throw EventCancellationException.
  */
-typealias MouseEventHandler = (e: MouseEvent) -> Unit
+typealias MouseEventHandler = (event: MouseEvent) -> Unit
 
+
+/**
+ * Message-generating event handler: input is any [event], output is a message.
+ * To cancel an event throw EventCancellationException.
+ */
+typealias Event2Message<Message> = (event: Event) -> Iterable<Message>
+
+/**
+ * Message-generating event handler: input is any [event], output is a message.
+ * To cancel an event throw EventCancellationException.
+ */
+typealias MouseEvent2Message<Message> = (event: MouseEvent) -> Iterable<Message>

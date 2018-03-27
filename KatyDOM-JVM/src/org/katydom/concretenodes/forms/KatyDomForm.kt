@@ -16,8 +16,8 @@ import org.katydom.types.EFormSubmissionMethod
 /**
  * Virtual node for a form element.
  */
-internal class KatyDomForm(
-    flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomForm<Message>(
+    flowContent: KatyDomFlowContentBuilder<Message>,
     selector: String?,
     key: Any?,
     acceptCharset: String?,
@@ -38,8 +38,9 @@ internal class KatyDomForm(
     target: String?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomFlowContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir, hidden, lang,
+                                spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "FORM"
 

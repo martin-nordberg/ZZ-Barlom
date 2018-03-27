@@ -14,8 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a <span> element.
  */
-internal class KatyDomSpan(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomSpan<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -28,9 +28,9 @@ internal class KatyDomSpan(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "SPAN"
 

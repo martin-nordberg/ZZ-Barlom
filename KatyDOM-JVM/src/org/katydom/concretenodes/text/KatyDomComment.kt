@@ -15,7 +15,7 @@ import org.w3c.dom.Node
 /**
  * Virtual DOM node for a comment node.
  */
-internal class KatyDomComment(
+internal class KatyDomComment<Message>(
 
     /** The text within the comment. */
     _nodeValue: String,
@@ -23,7 +23,7 @@ internal class KatyDomComment(
     /** Unique identifier for this comment. */
     key: Any?
 
-) : KatyDomNode(key) {
+) : KatyDomNode<Message>(key) {
 
     override val nodeName = "#comment"
 
@@ -49,7 +49,7 @@ internal class KatyDomComment(
         // Nothing to freeze beyond the base node.
     }
 
-    override fun patchAttributes(domElement: Node, priorElement: KatyDomNode) {
+    override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Message>) {
 
         if (domElement !is Comment) throw IllegalArgumentException("DOM node expected to be comment.")
         if (priorElement !is KatyDomComment) throw IllegalArgumentException("KatyDOM node expected to be KatyDOM comment.")

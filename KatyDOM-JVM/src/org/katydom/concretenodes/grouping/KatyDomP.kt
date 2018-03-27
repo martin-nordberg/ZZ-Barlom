@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a <p> element.
  */
-internal class KatyDomP(
-        flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomP<Message>(
+        flowContent: KatyDomFlowContentBuilder<Message>,
         selector: String?,
         key: Any?,
         accesskey: String?,
@@ -29,9 +29,9 @@ internal class KatyDomP(
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "P"
 

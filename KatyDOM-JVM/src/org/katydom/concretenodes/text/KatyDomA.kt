@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an anchor <a> element.
  */
-internal class KatyDomA(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomA<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -36,9 +36,9 @@ internal class KatyDomA(
     title: String?,
     translate: Boolean?,
     type: String?,
-    defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "A"
 

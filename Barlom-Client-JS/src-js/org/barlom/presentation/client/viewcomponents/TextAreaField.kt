@@ -12,15 +12,15 @@ import kotlin.math.min
 /**
  * Builds the view for a single string text input.
  */
-fun viewTextAreaField(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewTextAreaField(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     id: String,
     label: String,
     currentValue: String,
     placeholder: String,
     disabled: Boolean,
-    changeValue: (String) -> Unit
+    changeValue: (String) -> Iterable<Message>
 ) = katyDomComponent(builder) {
 
     val height = min( 8.5, currentValue.filter { it == '\n' }.length * 1.7 + 3.5 )
@@ -41,9 +41,7 @@ fun viewTextAreaField(
 
                 val newValue: String = event.target.asDynamic().value as String
 
-                if (newValue != currentValue) {
-                    changeValue(newValue)
-                }
+                changeValue(newValue)
 
             }
 

@@ -12,15 +12,15 @@ import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class KatyDomListItemContentBuilder(
+class KatyDomListItemContentBuilder<Message>(
 
-    internal val flowContent: KatyDomFlowContentBuilder,
+    internal val flowContent: KatyDomFlowContentBuilder<Message>,
 
     internal val isOrdered: Boolean,
 
-    element: KatyDomHtmlElement
+    element: KatyDomHtmlElement<Message>
 
-) : KatyDomAttributesContentBuilder(element) {
+) : KatyDomAttributesContentBuilder<Message>(element) {
 
     /**
      * Adds a comment node as the next child of the element under construction.
@@ -63,7 +63,7 @@ class KatyDomListItemContentBuilder(
         title: String? = null,
         translate: Boolean? = null,
         value: Int? = null,
-        defineContent: KatyDomFlowContentBuilder.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomLi(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,

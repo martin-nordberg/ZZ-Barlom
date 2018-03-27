@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an <li> element.
  */
-internal class KatyDomLi(
-    listContent: KatyDomListItemContentBuilder,
+internal class KatyDomLi<Message>(
+    listContent: KatyDomListItemContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -30,9 +30,9 @@ internal class KatyDomLi(
     title: String?,
     translate: Boolean?,
     value: Int?,
-    defineContent: KatyDomFlowContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "LI"
 

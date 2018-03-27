@@ -14,8 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a <fieldset> element.
  */
-internal class KatyDomFieldSet(
-    flowContent: KatyDomFlowContentBuilder,
+internal class KatyDomFieldSet<Message>(
+    flowContent: KatyDomFlowContentBuilder<Message>,
     selector: String? = null,
     key: Any? = null,
     accesskey: String? = null,
@@ -31,9 +31,9 @@ internal class KatyDomFieldSet(
     tabindex: Int? = null,
     title: String? = null,
     translate: Boolean? = null,
-    defineContent: KatyDomFlowContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "FIELDSET"
 

@@ -14,8 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a label element.
  */
-internal class KatyDomLabel(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomLabel<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -29,8 +29,9 @@ internal class KatyDomLabel(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "LABEL"
 

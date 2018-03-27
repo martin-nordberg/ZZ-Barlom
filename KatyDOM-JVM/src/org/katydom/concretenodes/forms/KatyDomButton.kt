@@ -17,8 +17,8 @@ import org.katydom.types.EFormSubmissionMethod
 /**
  * Virtual node for a button element.
  */
-internal class KatyDomButton(
-    phrasingContent: KatyDomPhrasingContentBuilder,
+internal class KatyDomButton<Message>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -43,9 +43,9 @@ internal class KatyDomButton(
     translate: Boolean?,
     type: EButtonType?,
     value: String?,
-    defineContent: KatyDomPhrasingContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir,
-                       hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "BUTTON"
 

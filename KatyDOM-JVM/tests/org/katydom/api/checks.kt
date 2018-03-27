@@ -14,7 +14,7 @@ import org.katydom.kdom.KDomDocument
 /**
  * Builds the DOM for a given KatyDOM node and checks the HTML output against what's expected.
  */
-internal fun checkBuild(expectedHtml: String, vdomNode: KatyDomNode) {
+internal fun <Message> checkBuild(expectedHtml: String, vdomNode: KatyDomNode<Message>) {
 
     val body = KDomDocument().createElement("body")
     val div = body.ownerDocument.createElement("div")
@@ -23,7 +23,7 @@ internal fun checkBuild(expectedHtml: String, vdomNode: KatyDomNode) {
 
     assertEquals(div, body.firstChild)
 
-    val lifecycle = makeKatyDomLifecycle()
+    val lifecycle = makeKatyDomLifecycle<Message>()
 
     if (vdomNode is KatyDomHtmlElement) {
         lifecycle.build(div, vdomNode)
@@ -36,7 +36,7 @@ internal fun checkBuild(expectedHtml: String, vdomNode: KatyDomNode) {
 /**
  * Builds the DOM for a given KatyDOM node and checks the HTML output against what's expected before and after a patch.
  */
-internal fun checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode, expectedHtml1: String, vdomNode1: KatyDomNode) {
+internal fun <Message> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<Message>, expectedHtml1: String, vdomNode1: KatyDomNode<Message>) {
 
     val body = KDomDocument().createElement("body")
     val div = body.ownerDocument.createElement("div")
@@ -45,7 +45,7 @@ internal fun checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode, expectedH
 
     assertEquals(div, body.firstChild)
 
-    val lifecycle = makeKatyDomLifecycle()
+    val lifecycle = makeKatyDomLifecycle<Message>()
 
     if (vdomNode1 is KatyDomHtmlElement && vdomNode2 is KatyDomHtmlElement) {
         lifecycle.build(div, vdomNode1)

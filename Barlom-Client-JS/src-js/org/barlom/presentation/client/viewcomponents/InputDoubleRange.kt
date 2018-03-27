@@ -8,23 +8,23 @@ package org.barlom.presentation.client.viewcomponents
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
-data class DoubleInputConfig(
+data class DoubleInputConfig<Message>(
     val disabled: Boolean,
     val value: Double?,
     val id: String,
     val placeholder: String,
-    val changeValue: (Double?) -> Unit
+    val changeValue: (Double?) -> Iterable<Message>
 )
 
 /**
  * Builds the view for a grouped block of double text inputs.
  */
-fun viewInputDoubleRange(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewInputDoubleRange(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     legend: String,
-    minNumberInput: DoubleInputConfig,
-    maxNumberInput: DoubleInputConfig
+    minNumberInput: DoubleInputConfig<Message>,
+    maxNumberInput: DoubleInputConfig<Message>
 ) = katyDomComponent(builder) {
 
     fieldset("#$name-field.o-fieldset") {
@@ -56,9 +56,7 @@ fun viewInputDoubleRange(
 
                         val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
 
-                        if (newValue != minNumberInput.value) {
-                            minNumberInput.changeValue(newValue)
-                        }
+                        minNumberInput.changeValue(newValue)
 
                     }
 
@@ -83,9 +81,7 @@ fun viewInputDoubleRange(
 
                         val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
 
-                        if (newValue != maxNumberInput.value) {
-                            maxNumberInput.changeValue(newValue)
-                        }
+                        maxNumberInput.changeValue(newValue)
 
                     }
 

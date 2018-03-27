@@ -19,7 +19,7 @@ import kotlin.reflect.KClass
  * Generates the icon and clickable name for an abstract [element].
  */
 fun viewListItem(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     element: AbstractNamedElement,
     revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
@@ -29,6 +29,7 @@ fun viewListItem(
         onclick { e ->
             revDispatchUi(GeneralActions.focus(element))
             e.stopPropagation()
+            emptyList()
         }
 
         viewListItemIcon(this, element::class, element is Package && element.isRoot)
@@ -41,7 +42,7 @@ fun viewListItem(
 
 
 fun <T : AbstractNamedElement> viewListItemIcon(
-    builder: KatyDomPhrasingContentBuilder,
+    builder: KatyDomPhrasingContentBuilder<Unit>,
     elementClass: KClass<T>,
     isRoot: Boolean
 ) = katyDomPhrasingComponent(builder) {

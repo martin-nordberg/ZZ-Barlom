@@ -11,15 +11,15 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 /**
  * Builds the view for a single string text input.
  */
-fun viewInputTextField(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewInputTextField(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     id: String,
     label: String,
     currentValue: String,
     placeholder: String,
     disabled: Boolean,
-    changeValue: (String) -> Unit
+    changeValue: (String) -> Iterable<Message>
 ) = katyDomComponent(builder) {
 
     label("#$name-field.c-label.o-form-element") {
@@ -39,9 +39,7 @@ fun viewInputTextField(
 
                 val newValue: String = event.target.asDynamic().value as String
 
-                if (newValue != currentValue) {
-                    changeValue(newValue)
-                }
+                changeValue(newValue)
 
             }
 

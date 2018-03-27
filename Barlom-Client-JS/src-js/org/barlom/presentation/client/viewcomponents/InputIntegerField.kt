@@ -12,15 +12,15 @@ import kotlin.math.roundToInt
 /**
  * Builds the view for a single integer text input.
  */
-fun viewInputIntegerField(
-    builder: KatyDomFlowContentBuilder,
+fun <Message> viewInputIntegerField(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     id: String,
     label: String,
     currentValue: Int?,
     placeholder: String,
     disabled: Boolean,
-    changeValue: (Int?) -> Unit
+    changeValue: (Int?) -> Iterable<Message>
 ) = katyDomComponent(builder) {
 
     label("#$name-field.c-label.o-form-element") {
@@ -41,9 +41,7 @@ fun viewInputIntegerField(
                 val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
                 event.target.asDynamic().value = newValue
 
-                if (newValue != currentValue) {
-                    changeValue(newValue)
-                }
+                changeValue(newValue)
 
             }
 

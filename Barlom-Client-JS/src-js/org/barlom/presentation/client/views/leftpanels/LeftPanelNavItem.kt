@@ -14,7 +14,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 
 /** Shows one of the nav items at the top of the left panel. */
 fun viewLeftPanelNavItem(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     revDispatchUi: (uiAction: UiAction) -> Unit,
     panelType: ELeftPanelType,
     focusedPanelType: ELeftPanelType
@@ -32,6 +32,7 @@ fun viewLeftPanelNavItem(
 
             onclick {
                 revDispatchUi(LeftPanelActions.change(panelType))
+                emptyList()
             }
 
             span(".u-large.mdi." + iconName(panelType), "icon") {}

@@ -13,9 +13,9 @@ import org.w3c.dom.Element
  * Implementation of the KatyDOM lifecycle to build and patch a real DOM tree from an initial and changed virtual DOM
  * tree.
  */
-internal class KatyDomLifecycleImpl : KatyDomLifecycle {
+internal class KatyDomLifecycleImpl<Message> : KatyDomLifecycle<Message> {
 
-    override fun build(domElement: Element, katyDomElement: KatyDomHtmlElement) {
+    override fun build(domElement: Element, katyDomElement: KatyDomHtmlElement<Message>) {
 
         val document = domElement.ownerDocument!!
 
@@ -32,7 +32,7 @@ internal class KatyDomLifecycleImpl : KatyDomLifecycle {
 
     }
 
-    override fun patch(oldKatyDomElement: KatyDomHtmlElement, newKatyDomElement: KatyDomHtmlElement) {
+    override fun patch(oldKatyDomElement: KatyDomHtmlElement<Message>, newKatyDomElement: KatyDomHtmlElement<Message>) {
         newKatyDomElement.patch(oldKatyDomElement)
     }
 

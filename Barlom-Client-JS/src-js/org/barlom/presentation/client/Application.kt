@@ -21,7 +21,7 @@ import kotlin.browser.window
 fun <AppState : Any> runApplication(
     appId: String,
     initializeAppState: () -> AppState,
-    view: (appState: AppState, dispatch: (action: (AppState) -> String) -> Unit) -> KatyDomHtmlElement
+    view: (appState: AppState, dispatch: (action: (AppState) -> String) -> Unit) -> KatyDomHtmlElement<Unit>
 ) {
 
     // Create the revision history for the application.
@@ -35,12 +35,12 @@ fun <AppState : Any> runApplication(
     }
 
     // Create the KatyDOM lifecycle for build and patching the view.
-    val lifecycle = makeKatyDomLifecycle()
+    val lifecycle = makeKatyDomLifecycle<Unit>()
 
     // Start with an empty div just to avoid nullable node type.
-    var appVdomNode = katyDom {
+    var appVdomNode = katyDom<Unit> {
         div("#application") {}
-    } as KatyDomHtmlElement
+    }
 
     // Keep a queue of actions to reduce view recomputation when multiple action fire in sequence.
     val queuedActions: MutableList<(AppState) -> String> = mutableListOf()

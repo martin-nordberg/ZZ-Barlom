@@ -15,7 +15,7 @@ import kotlin.browser.window
 /**
  * Interface defining a KatyDOM Elm-like application.
  */
-interface KatyDomApplication<AppState, in Message> {
+interface KatyDomApplication<AppState, Message> {
 
     /**
      * Initializes the application state for the first time.
@@ -31,8 +31,8 @@ interface KatyDomApplication<AppState, in Message> {
      * Constructs the KatyDOM virtual DOM tree for given input application state [appState].
      * @return the root of the application's virtual DOM tree for given application state.
      */
-    fun view(builder: KatyDomFlowContentBuilder,
-             appState: AppState): KatyDomHtmlElement
+    fun view(builder: KatyDomFlowContentBuilder<Message>,
+             appState: AppState): KatyDomHtmlElement<Message>
 
 }
 
@@ -52,10 +52,10 @@ fun <AppState, Message> runApplication(
     var appState = application.initialize()
 
     // Create the KatyDOM lifecycle for building and patching the view.
-    val lifecycle = makeKatyDomLifecycle()
+    val lifecycle = makeKatyDomLifecycle<Message>()
 
     // Start with an empty div just to avoid nullable node type.
-    var appVdomNode = katyDom {
+    var appVdomNode = katyDom<Message> {
         div("#application") {}
     }
 

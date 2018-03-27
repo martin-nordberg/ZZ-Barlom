@@ -14,8 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an optgroup element.
  */
-internal class KatyDomOptionGroup(
-    optionContent: KatyDomOptionContentBuilder,
+internal class KatyDomOptionGroup<Message>(
+    optionContent: KatyDomOptionContentBuilder<Message>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -31,8 +31,9 @@ internal class KatyDomOptionGroup(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomOptionContentBuilder.() -> Unit
-) : KatyDomHtmlElement(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+    defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
+) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+                                hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "OPTGROUP"
 

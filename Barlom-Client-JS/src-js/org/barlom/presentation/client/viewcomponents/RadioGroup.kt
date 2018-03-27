@@ -17,14 +17,14 @@ data class RadioConfig<out T>(
 /**
  * Builds the view for a generic set of radio buttons.
  */
-fun <T> viewRadioGroup(
-    builder: KatyDomFlowContentBuilder,
+fun <Enum,Message> viewRadioGroup(
+    builder: KatyDomFlowContentBuilder<Message>,
     name: String,
     legend: String,
-    currentValue: T,
-    toT: (String) -> T,
-    radios: List<RadioConfig<T>>,
-    changeValue: (T) -> Unit
+    currentValue: Enum,
+    toT: (String) -> Enum,
+    radios: List<RadioConfig<Enum>>,
+    changeValue: (Enum) -> Iterable<Message>
 ) = katyDomComponent(builder) {
 
     fieldset("#$name-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
@@ -52,9 +52,7 @@ fun <T> viewRadioGroup(
 
                         val newValue = toT(event.target.asDynamic().value as String)
 
-                        if (newValue != currentValue) {
-                            changeValue(newValue)
-                        }
+                        changeValue(newValue)
 
                     }
 

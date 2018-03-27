@@ -21,7 +21,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
  * Builds the right panel with lists of elements related to the focused element.
  */
 fun viewRelatedElements(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     relatedElementsPanelState: RelatedElementsPanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
     focusedElement: AbstractNamedElement,
@@ -62,7 +62,7 @@ fun viewRelatedElements(
  * Shows lists of the different kinds of child elements in a directed edge type.
  */
 private fun viewDirectedEdgeTypeChildElements(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     focusedElement: DirectedEdgeType,
     revDispatchUi: (uiAction: UiAction) -> Unit,
     revDispatchModel: (modelAction: ModelAction) -> Unit
@@ -89,7 +89,7 @@ private fun viewDirectedEdgeTypeChildElements(
         revDispatchUi,
         "Sub Types:",
         "sub-types",
-        listOf()
+        emptyList()
     )
 
 }
@@ -99,7 +99,7 @@ private fun viewDirectedEdgeTypeChildElements(
  * Shows lists of the different kinds of child elements in a package.
  */
 private fun viewPackageChildElements(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     focusedElement: Package,
     revDispatchUi: (uiAction: UiAction) -> Unit,
     revDispatchModel: (modelAction: ModelAction) -> Unit
@@ -197,7 +197,7 @@ private fun viewPackageChildElements(
  * Shows lists of the packages consuming a package.
  */
 private fun viewPackageConsumers(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     focusedElement: Package,
     revDispatchUi: (uiAction: UiAction) -> Unit
 ) = katyDomComponent(builder) {
@@ -209,7 +209,7 @@ private fun viewPackageConsumers(
         revDispatchUi,
         "Consumer Packages:",
         "consumer-packages",
-        listOf()
+        emptyList()
     )
 
 }
@@ -219,7 +219,7 @@ private fun viewPackageConsumers(
  * Shows a list of the supplier packages for a package.
  */
 private fun viewPackageSuppliers(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     relatedElementsPanelState: RelatedElementsPanelState,
     focusedElement: Package,
     revDispatchUi: (uiAction: UiAction) -> Unit,
@@ -256,7 +256,7 @@ private fun viewPackageSuppliers(
  * Shows lists of the different kinds of child elements in an undirected edge type.
  */
 private fun viewUndirectedEdgeTypeChildElements(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     focusedElement: UndirectedEdgeType,
     revDispatchUi: (uiAction: UiAction) -> Unit,
     revDispatchModel: (modelAction: ModelAction) -> Unit
@@ -282,7 +282,7 @@ private fun viewUndirectedEdgeTypeChildElements(
         revDispatchUi,
         "Sub Types:",
         "sub-types",
-        listOf()
+        emptyList()
     )
 
 }
@@ -292,7 +292,7 @@ private fun viewUndirectedEdgeTypeChildElements(
  * Shows lists of the different kinds of child elements in a vertex type.
  */
 private fun viewVertexTypeChildElements(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     focusedElement: VertexType,
     revDispatchUi: (uiAction: UiAction) -> Unit,
     revDispatchModel: (modelAction: ModelAction) -> Unit
@@ -319,7 +319,7 @@ private fun viewVertexTypeChildElements(
         revDispatchUi,
         "Sub Types:",
         "sub-types",
-        listOf()
+        emptyList()
     )
 
     viewChildElements(
@@ -329,7 +329,7 @@ private fun viewVertexTypeChildElements(
         revDispatchUi,
         "Connecting Edge Types (Undirected):",
         "connecting-edge-types-undirected",
-        listOf()
+        emptyList()
     )
 
     viewChildElements(
@@ -339,7 +339,7 @@ private fun viewVertexTypeChildElements(
         revDispatchUi,
         "Connecting Edge Types (Head):",
         "connecting-edge-types-head",
-        listOf()
+        emptyList()
     )
 
     viewChildElements(
@@ -349,7 +349,7 @@ private fun viewVertexTypeChildElements(
         revDispatchUi,
         "Connecting Edge Types (Tail):",
         "connecting-edge-types-tail",
-        listOf()
+        emptyList()
     )
 
 }
@@ -364,7 +364,7 @@ data class AddElementConfig<in Parent>(
  * Shows a list of child elements for given parent.
  */
 private inline fun <Parent, reified Child : AbstractNamedElement> viewChildElements(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     parent: Parent,
     noinline getChildElements: Parent.() -> List<Child>,
     noinline revDispatchUi: (uiAction: UiAction) -> Unit,
@@ -400,6 +400,7 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
 
                 onclick {
                     addButton.action(parent)
+                    emptyList()
                 }
 
                 span(".c-link") {
@@ -440,7 +441,7 @@ data class AddConnectionConfig<in Parent>(
  * Shows a list of connected elements for given element.
  */
 private inline fun <Element, reified ConnectedElement : AbstractNamedElement> viewConnectedElements(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     parent: Element,
     noinline getConnectedElements: Element.() -> List<ConnectedElement>,
     noinline getPotentialConnectedElements: Element.() -> List<ConnectedElement>,
@@ -499,6 +500,7 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
                         onclick {
                             addButton.action(parent)
+                            emptyList()
                         }
 
                         span(".mdi.mdi-plus-circle-outline", "add-symbol") {}
@@ -528,6 +530,8 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
                                     }
 
                                 }
+
+                                emptyList()
 
                             }
 

@@ -17,7 +17,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
  * Generates the browse panel view from the latest application state. Wires event handlers to be dispatched as actions.
  */
 fun viewBrowsePanel(
-    builder: KatyDomFlowContentBuilder,
+    builder: KatyDomFlowContentBuilder<Unit>,
     m: Model,
     browsePanelState: BrowsePanelState,
     revDispatchModel: (modelAction: ModelAction) -> Unit,
