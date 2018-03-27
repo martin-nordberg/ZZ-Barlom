@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -7,9 +7,7 @@ package org.katydom.builders
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.Event2Message
-import org.katydom.api.EventHandler
 import org.katydom.api.MouseEvent2Message
-import org.katydom.api.MouseEventHandler
 import org.katydom.types.EEventType
 import org.katydom.types.EMouseEventType
 import org.w3c.dom.events.Event
@@ -29,8 +27,7 @@ open class KatyDomAttributesContentBuilder<Message>(
     protected val element: KatyDomHtmlElement<Message>,
 
     /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
-    private val dispatchMessage: (message:Message)->Unit = {}
-            // TODO: no default
+    protected val dispatchMessages: (Iterable<Message>) -> Unit
 
 ) {
 
@@ -103,11 +100,8 @@ open class KatyDomAttributesContentBuilder<Message>(
      * @param handler the callback that listens to change events.
      */
     fun onchange(handler: Event2Message<Message>) {
-        element.addEventHandler(EEventType.CHANGE) {
-            e: Event ->
-            for ( msg in handler(e) ) {
-                dispatchMessage(msg)
-            }
+        element.addEventHandler(EEventType.CHANGE) { e: Event ->
+            dispatchMessages(handler(e))
         }
     }
 
@@ -116,11 +110,8 @@ open class KatyDomAttributesContentBuilder<Message>(
      * @param handler the callback that listens to mouse clicks.
      */
     fun onclick(handler: MouseEvent2Message<Message>) {
-        element.addMouseEventHandler(EMouseEventType.CLICK) {
-            e: MouseEvent ->
-            for ( msg in handler(e) ) {
-                dispatchMessage(msg)
-            }
+        element.addMouseEventHandler(EMouseEventType.CLICK) { e: MouseEvent ->
+            dispatchMessages(handler(e))
         }
     }
 
@@ -129,11 +120,8 @@ open class KatyDomAttributesContentBuilder<Message>(
      * @param handler the callback that listens to blur events.
      */
     fun onblur(handler: Event2Message<Message>) {
-        element.addEventHandler(EEventType.BLUR) {
-            e: Event ->
-            for (msg in handler(e)) {
-                dispatchMessage(msg)
-            }
+        element.addEventHandler(EEventType.BLUR) { e: Event ->
+            dispatchMessages(handler(e))
         }
     }
 

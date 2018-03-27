@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -16,21 +16,21 @@ import org.katydom.types.EDirection
  */
 internal class KatyDomFieldSet<Message>(
     flowContent: KatyDomFlowContentBuilder<Message>,
-    selector: String? = null,
-    key: Any? = null,
-    accesskey: String? = null,
-    contenteditable: Boolean? = null,
-    dir: EDirection? = null,
-    disabled: Boolean? = null,
-    form: String? = null,
-    hidden: Boolean? = null,
-    lang: String? = null,
-    name: String? = null,
-    spellcheck: Boolean? = null,
-    style: String? = null,
-    tabindex: Int? = null,
-    title: String? = null,
-    translate: Boolean? = null,
+    selector: String?,
+    key: Any?,
+    accesskey: String?,
+    contenteditable: Boolean?,
+    dir: EDirection?,
+    disabled: Boolean?,
+    form: String?,
+    hidden: Boolean?,
+    lang: String?,
+    name: String?,
+    spellcheck: Boolean?,
+    style: String?,
+    tabindex: Int?,
+    title: String?,
+    translate: Boolean?,
     defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
 ) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {

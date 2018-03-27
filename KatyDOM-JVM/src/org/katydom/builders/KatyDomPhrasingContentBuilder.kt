@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -23,9 +23,12 @@ open class KatyDomPhrasingContentBuilder<Message>(
     element: KatyDomHtmlElement<Message>,
 
     /** Restrictions on content enforced at run time. */
-    internal val contentRestrictions: KatyDomContentRestrictions = KatyDomContentRestrictions()
+    internal val contentRestrictions: KatyDomContentRestrictions = KatyDomContentRestrictions(),
 
-) : KatyDomAttributesContentBuilder<Message>(element) {
+    /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
+    dispatchMessages: (messages: Iterable<Message>) -> Unit
+
+) : KatyDomAttributesContentBuilder<Message>(element, dispatchMessages) {
 
     /**
      * Adds an a element with its attributes as the next child of the element under construction.
@@ -128,7 +131,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
      */
     fun comment(nodeValue: String,
                 key: Any? = null) {
-        element.addChildNode(KatyDomComment(nodeValue,key))
+        element.addChildNode(KatyDomComment(nodeValue, key))
     }
 
     /**
@@ -1110,7 +1113,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * Creates a new attributes content builder for the given child [element].
      */
     internal fun attributesContent(element: KatyDomHtmlElement<Message>): KatyDomAttributesContentBuilder<Message> {
-        return KatyDomAttributesContentBuilder(element)
+        return KatyDomAttributesContentBuilder(element, dispatchMessages)
     }
 
     /**
@@ -1118,24 +1121,26 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * as this builder.
      */
     internal fun optionContent(element: KatyDomHtmlElement<Message>): KatyDomOptionContentBuilder<Message> {
-        return KatyDomOptionContentBuilder(element, contentRestrictions)
+        return KatyDomOptionContentBuilder(element, contentRestrictions, dispatchMessages)
     }
 
     /**
      * Creates a new text content builder for the given child [element].
      */
     internal fun textContent(element: KatyDomHtmlElement<Message>): KatyDomTextContentBuilder<Message> {
-        return KatyDomTextContentBuilder(element)
+        return KatyDomTextContentBuilder(element, dispatchMessages)
     }
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no anchor element or interactive content allowed.
      */
-    internal fun withAnchorInteractiveContentNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+    internal fun withAnchorInteractiveContentNotAllowed(
+        element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
         return KatyDomPhrasingContentBuilder(
             element,
-            contentRestrictions.withAnchorInteractiveContentNotAllowed()
+            contentRestrictions.withAnchorInteractiveContentNotAllowed(),
+            dispatchMessages
         )
     }
 
@@ -1143,10 +1148,12 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no interactive content allowed.
      */
-    internal fun withInteractiveContentNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+    internal fun withInteractiveContentNotAllowed(
+        element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
         return KatyDomPhrasingContentBuilder(
             element,
-            contentRestrictions.withInteractiveContentNotAllowed()
+            contentRestrictions.withInteractiveContentNotAllowed(),
+            dispatchMessages
         )
     }
 
@@ -1155,15 +1162,24 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * as this builder plus no label element allowed.
      */
     internal fun withLabelNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
-        return KatyDomPhrasingContentBuilder(element, contentRestrictions.withLabelNotAllowed())
+        return KatyDomPhrasingContentBuilder(
+            element,
+            contentRestrictions.withLabelNotAllowed(),
+            dispatchMessages
+        )
     }
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal open fun withNoAddedRestrictions(element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
-        return KatyDomPhrasingContentBuilder(element, contentRestrictions)
+    internal open fun withNoAddedRestrictions(
+        element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+        return KatyDomPhrasingContentBuilder(
+            element,
+            contentRestrictions,
+            dispatchMessages
+        )
     }
 
 

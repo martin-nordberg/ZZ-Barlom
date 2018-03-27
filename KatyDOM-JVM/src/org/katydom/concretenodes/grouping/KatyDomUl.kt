@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -16,27 +16,27 @@ import org.katydom.types.EDirection
  * Virtual node for an unordered list <ul> element.
  */
 internal class KatyDomUl<Message>(
-        flowContent: KatyDomFlowContentBuilder<Message>,
-        selector: String?,
-        key: Any?,
-        accesskey: String?,
-        contenteditable: Boolean?,
-        dir: EDirection?,
-        hidden: Boolean?,
-        lang: String?,
-        spellcheck: Boolean?,
-        style: String?,
-        tabindex: Int?,
-        title: String?,
-        translate: Boolean?,
-        defineContent: KatyDomListItemContentBuilder<Message>.() -> Unit
+    flowContent: KatyDomFlowContentBuilder<Message>,
+    selector: String?,
+    key: Any?,
+    accesskey: String?,
+    contenteditable: Boolean?,
+    dir: EDirection?,
+    hidden: Boolean?,
+    lang: String?,
+    spellcheck: Boolean?,
+    style: String?,
+    tabindex: Int?,
+    title: String?,
+    translate: Boolean?,
+    defineContent: KatyDomListItemContentBuilder<Message>.() -> Unit
 ) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "UL"
 
     init {
-        KatyDomListItemContentBuilder(flowContent, false, this).defineContent()
+        flowContent.listItemContent(false, this).defineContent()
         this.freeze()
     }
 

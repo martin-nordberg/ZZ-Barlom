@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -18,9 +18,12 @@ class KatyDomOptionContentBuilder<Message>(
     element: KatyDomHtmlElement<Message>,
 
     /** Restrictions on content enforced at run time. */
-    internal val contentRestrictions: KatyDomContentRestrictions
+    internal val contentRestrictions: KatyDomContentRestrictions,
 
-) : KatyDomAttributesContentBuilder<Message>(element) {
+    /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
+    dispatchMessages: (messages: Iterable<Message>) -> Unit
+
+) : KatyDomAttributesContentBuilder<Message>(element, dispatchMessages) {
 
     /**
      * Adds a comment node as the next child of the element under construction.
@@ -29,7 +32,7 @@ class KatyDomOptionContentBuilder<Message>(
      */
     fun comment(nodeValue: String,
                 key: Any? = null) {
-        element.addChildNode(KatyDomComment(nodeValue,key))
+        element.addChildNode(KatyDomComment(nodeValue, key))
     }
 
     /**
@@ -125,14 +128,14 @@ class KatyDomOptionContentBuilder<Message>(
      * Creates a new attributes content builder for the given child [element].
      */
     internal fun attributesContent(element: KatyDomHtmlElement<Message>): KatyDomAttributesContentBuilder<Message> {
-        return KatyDomAttributesContentBuilder(element)
+        return KatyDomAttributesContentBuilder(element, dispatchMessages)
     }
 
     /**
      * Creates a new text content builder for the given child [element].
      */
     internal fun textContent(element: KatyDomHtmlElement<Message>): KatyDomTextContentBuilder<Message> {
-        return KatyDomTextContentBuilder(element)
+        return KatyDomTextContentBuilder(element, dispatchMessages)
     }
 
     /**
@@ -140,7 +143,11 @@ class KatyDomOptionContentBuilder<Message>(
      * as this builder.
      */
     internal fun withNoAddedRestrictions(element: KatyDomHtmlElement<Message>): KatyDomOptionContentBuilder<Message> {
-        return KatyDomOptionContentBuilder(element, contentRestrictions)
+        return KatyDomOptionContentBuilder(
+            element,
+            contentRestrictions,
+            dispatchMessages
+        )
     }
 
     /**
@@ -148,7 +155,11 @@ class KatyDomOptionContentBuilder<Message>(
      * as this builder plus no option groups allowed.
      */
     internal fun withOptionGroupNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomOptionContentBuilder<Message> {
-        return KatyDomOptionContentBuilder(element, contentRestrictions.withOptionGroupNotAllowed())
+        return KatyDomOptionContentBuilder(
+            element,
+            contentRestrictions.withOptionGroupNotAllowed(),
+            dispatchMessages
+        )
     }
 
 

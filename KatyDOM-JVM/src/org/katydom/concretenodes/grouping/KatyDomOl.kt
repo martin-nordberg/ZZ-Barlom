@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -44,7 +44,7 @@ internal class KatyDomOl<Message>(
         setNumberAttribute("start", start)
         setAttribute("type", type?.toHtmlString())
 
-        KatyDomListItemContentBuilder(flowContent, true, this).defineContent()
+        flowContent.listItemContent(true, this).defineContent()
         this.freeze()
     }
 

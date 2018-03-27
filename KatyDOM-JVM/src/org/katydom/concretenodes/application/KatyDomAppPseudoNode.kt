@@ -7,6 +7,7 @@ package org.katydom.concretenodes.application
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.abstractnodes.KatyDomNode
+import org.katydom.builders.KatyDomContentRestrictions
 import org.katydom.builders.KatyDomFlowContentBuilder
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,9 +27,12 @@ internal class KatyDomAppPseudoNode<Message> :
      * exactly one child node that is to become the root node of the application. This pseudo node has no
      * corresponding real DOM node.
      */
-    fun fill(defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit) {
+    fun fill(
+        dispatchMessages: (Iterable<Message>) -> Unit,
+        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+    ) {
 
-        KatyDomFlowContentBuilder(this).withNoAddedRestrictions(this).defineContent()
+        KatyDomFlowContentBuilder(this, KatyDomContentRestrictions(), dispatchMessages).defineContent()
 
         require(this.isConstructed) {
             "Application node should be filled with exactly one child node."

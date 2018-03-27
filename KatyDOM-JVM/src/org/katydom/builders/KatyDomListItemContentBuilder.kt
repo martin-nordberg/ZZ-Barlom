@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -18,9 +18,12 @@ class KatyDomListItemContentBuilder<Message>(
 
     internal val isOrdered: Boolean,
 
-    element: KatyDomHtmlElement<Message>
+    element: KatyDomHtmlElement<Message>,
 
-) : KatyDomAttributesContentBuilder<Message>(element) {
+    /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
+    dispatchMessages: (messages: Iterable<Message>) -> Unit
+
+) : KatyDomAttributesContentBuilder<Message>(element, dispatchMessages) {
 
     /**
      * Adds a comment node as the next child of the element under construction.
@@ -29,7 +32,7 @@ class KatyDomListItemContentBuilder<Message>(
      */
     fun comment(nodeValue: String,
                 key: Any? = null) {
-        element.addChildNode(KatyDomComment(nodeValue,key))
+        element.addChildNode(KatyDomComment(nodeValue, key))
     }
 
     /**

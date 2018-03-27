@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -41,9 +41,12 @@ class KatyDomFlowContentBuilder<Message>(
     element: KatyDomHtmlElement<Message>,
 
     /** Restrictions on content enforced at run time. */
-    contentRestrictions: KatyDomContentRestrictions = KatyDomContentRestrictions()
+    contentRestrictions: KatyDomContentRestrictions,
 
-) : KatyDomPhrasingContentBuilder<Message>(element, contentRestrictions) {
+    /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
+    dispatchMessages: (messages: Iterable<Message>) -> Unit
+
+) : KatyDomPhrasingContentBuilder<Message>(element, contentRestrictions, dispatchMessages) {
 
     /**
      * Adds an article element with any global attributes as the next child of the element under construction.
@@ -571,22 +574,62 @@ class KatyDomFlowContentBuilder<Message>(
         )
     }
 
+
+    // TODO: Figure out how to map messages
+//    fun <InnerMessage> withMessagesMapped(
+//        mapp: (InnerMessage) -> Message
+//    ) : KatyDomFlowContentBuilder<Message> {
+//
+//        val innerDispatch : (Iterable<InnerMessage>) -> Unit = { messages: Iterable<InnerMessage> ->
+//            dispatchMessages( messages.map { m -> mapp(m) } )
+//        }
+//
+//        return KatyDomFlowContentBuilder<Message>(
+//            element,
+//            innerDispatch,
+//            contentRestrictions
+//        )
+//    }
+
 ////
 
     /**
      * Creates a new phrasing content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
+    internal fun listItemContent(isOrdered: Boolean,
+                                 element: KatyDomHtmlElement<Message>): KatyDomListItemContentBuilder<Message> {
+        return KatyDomListItemContentBuilder(
+            this,
+            isOrdered,
+            element,
+            dispatchMessages
+        )
+    }
+
+    /**
+     * Creates a new phrasing content builder for the given child [element] that has the same restrictions
+     * as this builder.
+     */
     internal fun phrasingContent(element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
-        return KatyDomPhrasingContentBuilder(element, contentRestrictions)
+        return KatyDomPhrasingContentBuilder(
+            element,
+            contentRestrictions,
+            dispatchMessages
+        )
     }
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no footer, header or main elements allowed.
      */
-    internal fun withFooterHeaderMainNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
-        return KatyDomFlowContentBuilder(element, contentRestrictions.withFooterHeaderMainNotAllowed())
+    internal fun withFooterHeaderMainNotAllowed(
+        element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
+        return KatyDomFlowContentBuilder(
+            element,
+            contentRestrictions.withFooterHeaderMainNotAllowed(),
+            dispatchMessages
+        )
     }
 
     /**
@@ -594,7 +637,11 @@ class KatyDomFlowContentBuilder<Message>(
      * as this builder plus no form element allowed.
      */
     internal fun withFormNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
-        return KatyDomFlowContentBuilder(element, contentRestrictions.withFormNotAllowed())
+        return KatyDomFlowContentBuilder(
+            element,
+            contentRestrictions.withFormNotAllowed(),
+            dispatchMessages
+        )
     }
 
     /**
@@ -602,7 +649,11 @@ class KatyDomFlowContentBuilder<Message>(
      * as this builder but allows one legend element.
      */
     internal fun withLegendAllowed(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
-        return KatyDomFlowContentBuilder(element, contentRestrictions.withLegendAllowed())
+        return KatyDomFlowContentBuilder(
+            element,
+            contentRestrictions.withLegendAllowed(),
+            dispatchMessages
+        )
     }
 
     /**
@@ -610,7 +661,11 @@ class KatyDomFlowContentBuilder<Message>(
      * as this builder plus no main element allowed.
      */
     internal fun withMainNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
-        return KatyDomFlowContentBuilder(element, contentRestrictions.withMainNotAllowed())
+        return KatyDomFlowContentBuilder(
+            element,
+            contentRestrictions.withMainNotAllowed(),
+            dispatchMessages
+        )
     }
 
     /**
@@ -618,7 +673,11 @@ class KatyDomFlowContentBuilder<Message>(
      * as this builder.
      */
     override fun withNoAddedRestrictions(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
-        return KatyDomFlowContentBuilder(element, contentRestrictions)
+        return KatyDomFlowContentBuilder(
+            element,
+            contentRestrictions,
+            dispatchMessages
+        )
     }
 
 }
