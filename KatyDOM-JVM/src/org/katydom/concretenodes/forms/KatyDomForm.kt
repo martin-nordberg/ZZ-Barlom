@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -16,8 +16,8 @@ import org.katydom.types.EFormSubmissionMethod
 /**
  * Virtual node for a form element.
  */
-internal class KatyDomForm<Message>(
-    flowContent: KatyDomFlowContentBuilder<Message>,
+internal class KatyDomForm<Msg>(
+    flowContent: KatyDomFlowContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     acceptCharset: String?,
@@ -38,8 +38,8 @@ internal class KatyDomForm<Message>(
     target: String?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir, hidden, lang,
+    defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir, hidden, lang,
                                 spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "FORM"

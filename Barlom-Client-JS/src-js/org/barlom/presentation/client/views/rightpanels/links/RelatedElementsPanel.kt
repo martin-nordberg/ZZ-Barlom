@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -10,7 +10,9 @@ import org.barlom.domain.metamodel.api.actions.ModelAction
 import org.barlom.domain.metamodel.api.actions.PackageActions
 import org.barlom.domain.metamodel.api.actions.VertexTypeActions
 import org.barlom.domain.metamodel.api.vertices.*
-import org.barlom.presentation.client.actions.UiAction
+import org.barlom.presentation.client.messages.Message
+import org.barlom.presentation.client.messages.ModelActionMessage
+import org.barlom.presentation.client.messages.UiActionMessage
 import org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 import org.barlom.presentation.client.views.listitems.viewListItem
 import org.barlom.presentation.client.views.listitems.viewListItemIcon
@@ -21,11 +23,9 @@ import org.katydom.builders.KatyDomFlowContentBuilder
  * Builds the right panel with lists of elements related to the focused element.
  */
 fun viewRelatedElements(
-    builder: KatyDomFlowContentBuilder<Unit>,
+    builder: KatyDomFlowContentBuilder<Message>,
     relatedElementsPanelState: RelatedElementsPanelState,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
-    focusedElement: AbstractNamedElement,
-    revDispatchUi: (uiAction: UiAction) -> Unit
+    focusedElement: AbstractNamedElement
 ) = katyDomComponent(builder) {
 
     form("#related-elements-form.form--related-elements", action = "javascript:void(0);") {
@@ -33,22 +33,21 @@ fun viewRelatedElements(
         when (focusedElement) {
 
             is Package            -> {
-                viewPackageChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
-                viewPackageSuppliers(this, relatedElementsPanelState, focusedElement, revDispatchUi,
-                                     revDispatchModel)
-                viewPackageConsumers(this, focusedElement, revDispatchUi)
+                viewPackageChildElements(this, focusedElement)
+                viewPackageSuppliers(this, relatedElementsPanelState, focusedElement)
+                viewPackageConsumers(this, focusedElement)
             }
 
             is VertexType         -> if (!focusedElement.isRoot) {
-                viewVertexTypeChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
+                viewVertexTypeChildElements(this, focusedElement)
             }
 
             is UndirectedEdgeType -> if (!focusedElement.isRoot) {
-                viewUndirectedEdgeTypeChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
+                viewUndirectedEdgeTypeChildElements(this, focusedElement)
             }
 
             is DirectedEdgeType   -> if (!focusedElement.isRoot) {
-                viewDirectedEdgeTypeChildElements(this, focusedElement, revDispatchUi, revDispatchModel)
+                viewDirectedEdgeTypeChildElements(this, focusedElement)
             }
 
         }
@@ -62,22 +61,19 @@ fun viewRelatedElements(
  * Shows lists of the different kinds of child elements in a directed edge type.
  */
 private fun viewDirectedEdgeTypeChildElements(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    focusedElement: DirectedEdgeType,
-    revDispatchUi: (uiAction: UiAction) -> Unit,
-    revDispatchModel: (modelAction: ModelAction) -> Unit
+    builder: KatyDomFlowContentBuilder<Message>,
+    focusedElement: DirectedEdgeType
 ) = katyDomComponent(builder) {
 
     viewChildElements(
         this,
         focusedElement,
         AbstractEdgeType::attributeTypes,
-        revDispatchUi,
         "Attribute Types:",
         "attribute-types",
         listOf(
             AddElementConfig("Add an attribute type") { et ->
-                revDispatchModel(AbstractEdgeTypeActions.addAttributeType(et))
+                AbstractEdgeTypeActions.addAttributeType(et)
             }
         )
     )
@@ -86,7 +82,6 @@ private fun viewDirectedEdgeTypeChildElements(
         this,
         focusedElement,
         DirectedEdgeType::subTypes,
-        revDispatchUi,
         "Sub Types:",
         "sub-types",
         emptyList()
@@ -99,22 +94,19 @@ private fun viewDirectedEdgeTypeChildElements(
  * Shows lists of the different kinds of child elements in a package.
  */
 private fun viewPackageChildElements(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    focusedElement: Package,
-    revDispatchUi: (uiAction: UiAction) -> Unit,
-    revDispatchModel: (modelAction: ModelAction) -> Unit
+    builder: KatyDomFlowContentBuilder<Message>,
+    focusedElement: Package
 ) = katyDomComponent(builder) {
 
     viewChildElements(
         this,
         focusedElement,
         Package::childPackages,
-        revDispatchUi,
         "Child Packages:",
         "child-packages",
         listOf(
             AddElementConfig("Add a child package") { pkg ->
-                revDispatchModel(PackageActions.addPackage(pkg))
+                PackageActions.addPackage(pkg)
             }
         )
     )
@@ -123,12 +115,11 @@ private fun viewPackageChildElements(
         this,
         focusedElement,
         Package::vertexTypes,
-        revDispatchUi,
         "Vertex Types:",
         "vertex-types",
         listOf(
             AddElementConfig("Add a vertex type") { pkg ->
-                revDispatchModel(PackageActions.addVertexType(pkg))
+                PackageActions.addVertexType(pkg)
             }
         )
     )
@@ -137,12 +128,11 @@ private fun viewPackageChildElements(
         this,
         focusedElement,
         Package::undirectedEdgeTypes,
-        revDispatchUi,
         "Undirected Edge Types:",
         "undirected-edge-types",
         listOf(
             AddElementConfig("Add an undirected edge type") { pkg ->
-                revDispatchModel(PackageActions.addUndirectedEdgeType(pkg))
+                PackageActions.addUndirectedEdgeType(pkg)
             }
         )
     )
@@ -151,12 +141,11 @@ private fun viewPackageChildElements(
         this,
         focusedElement,
         Package::directedEdgeTypes,
-        revDispatchUi,
         "Directed Edge Types:",
         "directed-edge-types",
         listOf(
             AddElementConfig("Add a directed edge type") { pkg ->
-                revDispatchModel(PackageActions.addDirectedEdgeType(pkg))
+                PackageActions.addDirectedEdgeType(pkg)
             }
         )
     )
@@ -165,27 +154,26 @@ private fun viewPackageChildElements(
         this,
         focusedElement,
         Package::constrainedDataTypes,
-        revDispatchUi,
         "Constrained Data Types:",
         "constrained-data-types",
         listOf(
             AddElementConfig("Add a constrained string data type") { pkg ->
-                revDispatchModel(PackageActions.addConstrainedString(pkg))
+                PackageActions.addConstrainedString(pkg)
             },
             AddElementConfig("Add a constrained 32-bit integer data type") { pkg ->
-                revDispatchModel(PackageActions.addConstrainedInteger32(pkg))
+                PackageActions.addConstrainedInteger32(pkg)
             },
             AddElementConfig("Add a constrained 64-bit floating point data type") { pkg ->
-                revDispatchModel(PackageActions.addConstrainedFloat64(pkg))
+                PackageActions.addConstrainedFloat64(pkg)
             },
             AddElementConfig("Add a constrained boolean data type") { pkg ->
-                revDispatchModel(PackageActions.addConstrainedBoolean(pkg))
+                PackageActions.addConstrainedBoolean(pkg)
             },
             AddElementConfig("Add a constrained date/time data type") { pkg ->
-                revDispatchModel(PackageActions.addConstrainedDateTime(pkg))
+                PackageActions.addConstrainedDateTime(pkg)
             },
             AddElementConfig("Add a constrained UUID data type") { pkg ->
-                revDispatchModel(PackageActions.addConstrainedUuid(pkg))
+                PackageActions.addConstrainedUuid(pkg)
             }
         )
     )
@@ -197,16 +185,14 @@ private fun viewPackageChildElements(
  * Shows lists of the packages consuming a package.
  */
 private fun viewPackageConsumers(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    focusedElement: Package,
-    revDispatchUi: (uiAction: UiAction) -> Unit
+    builder: KatyDomFlowContentBuilder<Message>,
+    focusedElement: Package
 ) = katyDomComponent(builder) {
 
     viewChildElements(
         this,
         focusedElement,
         Package::consumers,
-        revDispatchUi,
         "Consumer Packages:",
         "consumer-packages",
         emptyList()
@@ -219,32 +205,34 @@ private fun viewPackageConsumers(
  * Shows a list of the supplier packages for a package.
  */
 private fun viewPackageSuppliers(
-    builder: KatyDomFlowContentBuilder<Unit>,
+    builder: KatyDomFlowContentBuilder<Message>,
     relatedElementsPanelState: RelatedElementsPanelState,
-    focusedElement: Package,
-    revDispatchUi: (uiAction: UiAction) -> Unit,
-    revDispatchModel: (modelAction: ModelAction) -> Unit
+    focusedElement: Package
 ) = katyDomComponent(builder) {
+
+    val newSupplierPackagePath = relatedElementsPanelState.newSupplierPackagePath
 
     viewConnectedElements(
         this,
         focusedElement,
         Package::suppliers,
         Package::findPotentialSuppliers,
-        revDispatchUi,
         "Supplier Packages:",
         "supplier-packages",
         listOf(
             AddConnectionConfig(
                 "Add a supplier package",
-                relatedElementsPanelState.newSupplierPackagePath
+                newSupplierPackagePath
             ) { pkg ->
-                revDispatchUi { uiState ->
-                    val supplierPath = uiState.relatedElementsPanelState.newSupplierPackagePath
-                    revDispatchModel(PackageActions.addPackageSupplier(pkg, supplierPath))
-                    uiState.relatedElementsPanelState.newSupplierPackagePath = ""
-                    "Added supplier package."
-                }
+                listOf<Message>(
+                    ModelActionMessage(
+                        PackageActions.addPackageSupplier(pkg, newSupplierPackagePath)
+                    ),
+                    UiActionMessage { uiState ->
+                        uiState.relatedElementsPanelState.newSupplierPackagePath = ""
+                        "Blanked out supplier package path."
+                    }
+                )
             }
         )
     )
@@ -256,22 +244,19 @@ private fun viewPackageSuppliers(
  * Shows lists of the different kinds of child elements in an undirected edge type.
  */
 private fun viewUndirectedEdgeTypeChildElements(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    focusedElement: UndirectedEdgeType,
-    revDispatchUi: (uiAction: UiAction) -> Unit,
-    revDispatchModel: (modelAction: ModelAction) -> Unit
+    builder: KatyDomFlowContentBuilder<Message>,
+    focusedElement: UndirectedEdgeType
 ) = katyDomComponent(builder) {
 
     viewChildElements(
         this,
         focusedElement,
         AbstractEdgeType::attributeTypes,
-        revDispatchUi,
         "Attribute Types:",
         "attribute-types",
         listOf(
             AddElementConfig("Add an attribute type") { et ->
-                revDispatchModel(AbstractEdgeTypeActions.addAttributeType(et))
+                AbstractEdgeTypeActions.addAttributeType(et)
             }
         )
     )
@@ -279,7 +264,6 @@ private fun viewUndirectedEdgeTypeChildElements(
         this,
         focusedElement,
         UndirectedEdgeType::subTypes,
-        revDispatchUi,
         "Sub Types:",
         "sub-types",
         emptyList()
@@ -292,22 +276,19 @@ private fun viewUndirectedEdgeTypeChildElements(
  * Shows lists of the different kinds of child elements in a vertex type.
  */
 private fun viewVertexTypeChildElements(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    focusedElement: VertexType,
-    revDispatchUi: (uiAction: UiAction) -> Unit,
-    revDispatchModel: (modelAction: ModelAction) -> Unit
+    builder: KatyDomFlowContentBuilder<Message>,
+    focusedElement: VertexType
 ) = katyDomComponent(builder) {
 
     viewChildElements(
         this,
         focusedElement,
         VertexType::attributeTypes,
-        revDispatchUi,
         "Attribute Types:",
         "attribute-types",
         listOf(
             AddElementConfig("Add an attribute type") { vt ->
-                revDispatchModel(VertexTypeActions.addAttributeType(vt))
+                VertexTypeActions.addAttributeType(vt)
             }
         )
     )
@@ -316,7 +297,6 @@ private fun viewVertexTypeChildElements(
         this,
         focusedElement,
         VertexType::subTypes,
-        revDispatchUi,
         "Sub Types:",
         "sub-types",
         emptyList()
@@ -326,7 +306,6 @@ private fun viewVertexTypeChildElements(
         this,
         focusedElement,
         VertexType::connectingEdgeTypes,
-        revDispatchUi,
         "Connecting Edge Types (Undirected):",
         "connecting-edge-types-undirected",
         emptyList()
@@ -336,7 +315,6 @@ private fun viewVertexTypeChildElements(
         this,
         focusedElement,
         VertexType::connectingHeadEdgeTypes,
-        revDispatchUi,
         "Connecting Edge Types (Head):",
         "connecting-edge-types-head",
         emptyList()
@@ -346,7 +324,6 @@ private fun viewVertexTypeChildElements(
         this,
         focusedElement,
         VertexType::connectingTailEdgeTypes,
-        revDispatchUi,
         "Connecting Edge Types (Tail):",
         "connecting-edge-types-tail",
         emptyList()
@@ -357,17 +334,16 @@ private fun viewVertexTypeChildElements(
 
 data class AddElementConfig<in Parent>(
     val label: String,
-    val action: (Parent) -> Unit
+    val action: (Parent) -> ModelAction
 )
 
 /**
  * Shows a list of child elements for given parent.
  */
 private inline fun <Parent, reified Child : AbstractNamedElement> viewChildElements(
-    builder: KatyDomFlowContentBuilder<Unit>,
+    builder: KatyDomFlowContentBuilder<Message>,
     parent: Parent,
     noinline getChildElements: Parent.() -> List<Child>,
-    noinline revDispatchUi: (uiAction: UiAction) -> Unit,
     label: String,
     name: String,
     addButtons: List<AddElementConfig<Parent>>
@@ -387,7 +363,7 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
 
                 data("uuid", child.id.toString())
 
-                viewListItem(this, child, revDispatchUi)
+                viewListItem(this, child)
 
             }
 
@@ -396,11 +372,10 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
         // Show links for creating new child elements.
         for (addButton in addButtons) {
 
-            li(".tree-item--not-focused", key=addButton.label) {
+            li(".tree-item--not-focused", key = addButton.label) {
 
                 onclick {
-                    addButton.action(parent)
-                    emptyList()
+                    listOf(ModelActionMessage(addButton.action(parent)))
                 }
 
                 span(".c-link") {
@@ -434,18 +409,17 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
 data class AddConnectionConfig<in Parent>(
     val label: String,
     val path: String,
-    val action: (Parent) -> Unit
+    val messages: (Parent) -> Iterable<Message>
 )
 
 /**
  * Shows a list of connected elements for given element.
  */
 private inline fun <Element, reified ConnectedElement : AbstractNamedElement> viewConnectedElements(
-    builder: KatyDomFlowContentBuilder<Unit>,
+    builder: KatyDomFlowContentBuilder<Message>,
     parent: Element,
     noinline getConnectedElements: Element.() -> List<ConnectedElement>,
     noinline getPotentialConnectedElements: Element.() -> List<ConnectedElement>,
-    noinline revDispatchUi: (uiAction: UiAction) -> Unit,
     label: String,
     name: String,
     addButtons: List<AddConnectionConfig<Element>>
@@ -465,7 +439,7 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
                 data("uuid", child.id.toString())
 
-                viewListItem(this, child, revDispatchUi)
+                viewListItem(this, child)
 
             }
 
@@ -499,8 +473,7 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
                     ) {
 
                         onclick {
-                            addButton.action(parent)
-                            emptyList()
+                            addButton.messages(parent)
                         }
 
                         span(".mdi.mdi-plus-circle-outline", "add-symbol") {}
@@ -524,14 +497,15 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
                                 if (newValue.isNotBlank()) {
 
-                                    revDispatchUi { uiState ->
+                                    listOf<Message>(UiActionMessage { uiState ->
                                         uiState.relatedElementsPanelState.newSupplierPackagePath = newValue
                                         "Entered new supplier package path '$newValue'."
-                                    }
+                                    })
 
                                 }
-
-                                emptyList()
+                                else {
+                                    emptyList()
+                                }
 
                             }
 

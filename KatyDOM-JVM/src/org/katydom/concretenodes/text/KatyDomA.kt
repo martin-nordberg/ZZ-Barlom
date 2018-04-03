@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an anchor <a> element.
  */
-internal class KatyDomA<Message>(
-    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
+internal class KatyDomA<Msg>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -36,8 +36,8 @@ internal class KatyDomA<Message>(
     title: String?,
     translate: Boolean?,
     type: String?,
-    defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+    defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "A"

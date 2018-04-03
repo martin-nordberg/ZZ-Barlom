@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -16,8 +16,8 @@ import org.katydom.types.EInputMode
 /**
  * Virtual node for an input type="password" element.
  */
-internal class KatyDomInputPassword<Message>(
-    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
+internal class KatyDomInputPassword<Msg>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -44,8 +44,8 @@ internal class KatyDomInputPassword<Message>(
     title: String?,
     translate: Boolean?,
     value: String?,
-    defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+    defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "INPUT"

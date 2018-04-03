@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an input type="file" element.
  */
-internal class KatyDomInputFile<Message>(
-    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
+internal class KatyDomInputFile<Msg>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accept: String?,
@@ -37,8 +37,8 @@ internal class KatyDomInputFile<Message>(
     title: String?,
     translate: Boolean?,
     value: String?,
-    defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+    defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "INPUT"

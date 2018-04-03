@@ -16,7 +16,7 @@ import org.w3c.dom.Node
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
  */
-abstract class KatyDomElement<Message> : KatyDomNode<Message> {
+abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
     private constructor(
         selectorPieces: List<String>?,
@@ -286,7 +286,7 @@ abstract class KatyDomElement<Message> : KatyDomNode<Message> {
 
     }
 
-    final override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Message>) {
+    final override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>) {
 
         if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
         if (priorElement !is KatyDomElement) throw IllegalArgumentException("KatyDOM node expected to be element.")

@@ -27,7 +27,7 @@ import org.w3c.dom.Node
  * @param translate whether to translate text within this element.
  */
 @Suppress("unused")
-abstract class KatyDomHtmlElement<Message>(
+abstract class KatyDomHtmlElement<Msg>(
     selector: String?,
     key: Any?,
     accesskey: String? = null,
@@ -40,7 +40,7 @@ abstract class KatyDomHtmlElement<Message>(
     tabindex: Int? = null,
     title: String? = null,
     translate: Boolean? = null
-) : KatyDomElement<Message>(selector, key, style, tabindex) {
+) : KatyDomElement<Msg>(selector, key, style, tabindex) {
 
     override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
 

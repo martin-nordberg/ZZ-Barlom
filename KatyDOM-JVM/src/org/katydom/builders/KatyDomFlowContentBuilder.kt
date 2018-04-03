@@ -35,18 +35,18 @@ import org.katydom.types.EOrderedListType
  *  defineContent a DSL-style lambda that builds the child nodes of the new element.
  */
 @Suppress("unused")
-class KatyDomFlowContentBuilder<Message>(
+class KatyDomFlowContentBuilder<Msg>(
 
     /** The element whose content is being built. */
-    element: KatyDomHtmlElement<Message>,
+    element: KatyDomHtmlElement<Msg>,
 
     /** Restrictions on content enforced at run time. */
     contentRestrictions: KatyDomContentRestrictions,
 
     /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
-    dispatchMessages: (messages: Iterable<Message>) -> Unit
+    dispatchMessages: (messages: Iterable<Msg>) -> Unit
 
-) : KatyDomPhrasingContentBuilder<Message>(element, contentRestrictions, dispatchMessages) {
+) : KatyDomPhrasingContentBuilder<Msg>(element, contentRestrictions, dispatchMessages) {
 
     /**
      * Adds an article element with any global attributes as the next child of the element under construction.
@@ -64,7 +64,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomArticle(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -88,7 +88,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomAside(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -112,7 +112,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomDiv(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -139,7 +139,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomFieldSet(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
@@ -163,7 +163,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomFooter(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -195,7 +195,7 @@ class KatyDomFlowContentBuilder<Message>(
         target: String? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomForm(this, selector, key, acceptCharset, accesskey, action, autocomplete, contenteditable, dir,
@@ -220,7 +220,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomH1(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -244,7 +244,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomH2(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -268,7 +268,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomH3(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -292,7 +292,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomH4(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -316,7 +316,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomH5(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -340,7 +340,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomH6(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -364,7 +364,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomHeader(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -389,7 +389,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomHr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -414,7 +414,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomLegend(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck,
@@ -438,7 +438,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomMain(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -462,7 +462,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomNav(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -493,7 +493,7 @@ class KatyDomFlowContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         type: EOrderedListType? = null,
-        defineContent: KatyDomListItemContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomListItemContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomOl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, reversed, spellcheck,
@@ -517,7 +517,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomP(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -541,7 +541,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomSection(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -566,7 +566,7 @@ class KatyDomFlowContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomListItemContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomListItemContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomUl(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -575,20 +575,22 @@ class KatyDomFlowContentBuilder<Message>(
     }
 
 
-    // TODO: Figure out how to map messages
+    // TODO: Figure out how to map messages and element construction
 //    fun <InnerMessage> withMessagesMapped(
-//        mapp: (InnerMessage) -> Message
-//    ) : KatyDomFlowContentBuilder<Message> {
+//        mapMessage: (InnerMessage) -> Message,
+//        defineContent: KatyDomFlowContentBuilder<InnerMessage>.() -> Unit
+//    ) {
 //
 //        val innerDispatch : (Iterable<InnerMessage>) -> Unit = { messages: Iterable<InnerMessage> ->
-//            dispatchMessages( messages.map { m -> mapp(m) } )
+//            dispatchMessages( messages.map { m -> mapMessage(m) } )
 //        }
 //
-//        return KatyDomFlowContentBuilder<Message>(
-//            element,
-//            innerDispatch,
-//            contentRestrictions
-//        )
+//        // TODO: Need something like IKatyDomElement with forwarding of methods plus mapping of messages
+//
+//        val builder = KatyDomFlowContentBuilder<InnerMessage>(element,contentRestrictions,innerDispatch)
+//
+//        builder.defineContent()
+//
 //    }
 
 ////
@@ -598,7 +600,7 @@ class KatyDomFlowContentBuilder<Message>(
      * as this builder.
      */
     internal fun listItemContent(isOrdered: Boolean,
-                                 element: KatyDomHtmlElement<Message>): KatyDomListItemContentBuilder<Message> {
+                                 element: KatyDomHtmlElement<Msg>): KatyDomListItemContentBuilder<Msg> {
         return KatyDomListItemContentBuilder(
             this,
             isOrdered,
@@ -611,7 +613,7 @@ class KatyDomFlowContentBuilder<Message>(
      * Creates a new phrasing content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal fun phrasingContent(element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+    internal fun phrasingContent(element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions,
@@ -624,7 +626,7 @@ class KatyDomFlowContentBuilder<Message>(
      * as this builder plus no footer, header or main elements allowed.
      */
     internal fun withFooterHeaderMainNotAllowed(
-        element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
+        element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
         return KatyDomFlowContentBuilder(
             element,
             contentRestrictions.withFooterHeaderMainNotAllowed(),
@@ -636,7 +638,7 @@ class KatyDomFlowContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no form element allowed.
      */
-    internal fun withFormNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
+    internal fun withFormNotAllowed(element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
         return KatyDomFlowContentBuilder(
             element,
             contentRestrictions.withFormNotAllowed(),
@@ -648,7 +650,7 @@ class KatyDomFlowContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder but allows one legend element.
      */
-    internal fun withLegendAllowed(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
+    internal fun withLegendAllowed(element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
         return KatyDomFlowContentBuilder(
             element,
             contentRestrictions.withLegendAllowed(),
@@ -660,7 +662,7 @@ class KatyDomFlowContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no main element allowed.
      */
-    internal fun withMainNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
+    internal fun withMainNotAllowed(element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
         return KatyDomFlowContentBuilder(
             element,
             contentRestrictions.withMainNotAllowed(),
@@ -672,7 +674,7 @@ class KatyDomFlowContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    override fun withNoAddedRestrictions(element: KatyDomHtmlElement<Message>): KatyDomFlowContentBuilder<Message> {
+    override fun withNoAddedRestrictions(element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
         return KatyDomFlowContentBuilder(
             element,
             contentRestrictions,

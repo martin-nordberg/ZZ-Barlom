@@ -17,18 +17,18 @@ import org.katydom.types.*
  * Virtual DOM builder for the case of HTML "phrasing content".
  */
 @Suppress("unused")
-open class KatyDomPhrasingContentBuilder<Message>(
+open class KatyDomPhrasingContentBuilder<Msg>(
 
     /** The element whose content is being built. */
-    element: KatyDomHtmlElement<Message>,
+    element: KatyDomHtmlElement<Msg>,
 
     /** Restrictions on content enforced at run time. */
     internal val contentRestrictions: KatyDomContentRestrictions = KatyDomContentRestrictions(),
 
     /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
-    dispatchMessages: (messages: Iterable<Message>) -> Unit
+    dispatchMessages: (messages: Iterable<Msg>) -> Unit
 
-) : KatyDomAttributesContentBuilder<Message>(element, dispatchMessages) {
+) : KatyDomAttributesContentBuilder<Msg>(element, dispatchMessages) {
 
     /**
      * Adds an a element with its attributes as the next child of the element under construction.
@@ -53,7 +53,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         type: String? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomA(this, selector, key, accesskey, contenteditable, dir, download, hidden, href, hreflang, lang,
@@ -78,7 +78,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomBr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -115,7 +115,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         translate: Boolean? = null,
         type: EButtonType? = EButtonType.BUTTON,
         value: String? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomButton(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form, formaction,
@@ -150,7 +150,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomDataList(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -178,7 +178,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
@@ -210,7 +210,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputCheckbox(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
@@ -244,7 +244,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputColor(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -282,7 +282,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputDate(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -320,7 +320,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputDateTimeLocal(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -361,7 +361,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputEmail(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -395,7 +395,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputFile(this, selector, key, accept, accesskey, autofocus, contenteditable, dir, disabled,
@@ -425,7 +425,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputHidden(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
@@ -462,7 +462,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         translate: Boolean? = null,
         value: String? = null,
         width: Int? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputImageButton(this, selector, key, accesskey, alt, contenteditable, dir, disabled, form,
@@ -501,7 +501,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputMonth(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -540,7 +540,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: T? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputNumber(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -580,7 +580,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputPassword(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -614,7 +614,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputRadioButton(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
@@ -650,7 +650,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: T? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputRange(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -680,7 +680,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputResetButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
@@ -720,7 +720,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputSearch(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, dirname,
@@ -755,7 +755,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputSubmitButton(this, selector, key, accesskey, contenteditable, dir, disabled, form, formaction,
@@ -794,7 +794,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputTelephone(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -836,7 +836,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputText(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, dirname,
@@ -874,7 +874,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputTime(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -914,7 +914,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputUrl(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -952,7 +952,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomInputWeek(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
@@ -979,7 +979,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomLabel(this, selector, key, accesskey, contenteditable, dir, `for`, hidden, lang, spellcheck,
@@ -1011,7 +1011,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String? = null,
-        defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomSelect(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
@@ -1049,7 +1049,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomPhrasingContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomSpan(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
@@ -1096,7 +1096,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         wrap: EWrapType? = null,
-        defineContent: KatyDomTextContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomTextContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomTextArea(this, selector, key, accesskey, autocomplete, autofocus, cols, contenteditable, dir,
@@ -1112,7 +1112,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
     /**
      * Creates a new attributes content builder for the given child [element].
      */
-    internal fun attributesContent(element: KatyDomHtmlElement<Message>): KatyDomAttributesContentBuilder<Message> {
+    internal fun attributesContent(element: KatyDomHtmlElement<Msg>): KatyDomAttributesContentBuilder<Msg> {
         return KatyDomAttributesContentBuilder(element, dispatchMessages)
     }
 
@@ -1120,14 +1120,14 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * Creates a new option content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal fun optionContent(element: KatyDomHtmlElement<Message>): KatyDomOptionContentBuilder<Message> {
+    internal fun optionContent(element: KatyDomHtmlElement<Msg>): KatyDomOptionContentBuilder<Msg> {
         return KatyDomOptionContentBuilder(element, contentRestrictions, dispatchMessages)
     }
 
     /**
      * Creates a new text content builder for the given child [element].
      */
-    internal fun textContent(element: KatyDomHtmlElement<Message>): KatyDomTextContentBuilder<Message> {
+    internal fun textContent(element: KatyDomHtmlElement<Msg>): KatyDomTextContentBuilder<Msg> {
         return KatyDomTextContentBuilder(element, dispatchMessages)
     }
 
@@ -1136,7 +1136,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * as this builder plus no anchor element or interactive content allowed.
      */
     internal fun withAnchorInteractiveContentNotAllowed(
-        element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+        element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions.withAnchorInteractiveContentNotAllowed(),
@@ -1149,7 +1149,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * as this builder plus no interactive content allowed.
      */
     internal fun withInteractiveContentNotAllowed(
-        element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+        element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions.withInteractiveContentNotAllowed(),
@@ -1161,7 +1161,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no label element allowed.
      */
-    internal fun withLabelNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+    internal fun withLabelNotAllowed(element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions.withLabelNotAllowed(),
@@ -1174,7 +1174,7 @@ open class KatyDomPhrasingContentBuilder<Message>(
      * as this builder.
      */
     internal open fun withNoAddedRestrictions(
-        element: KatyDomHtmlElement<Message>): KatyDomPhrasingContentBuilder<Message> {
+        element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions,

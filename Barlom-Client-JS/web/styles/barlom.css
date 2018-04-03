@@ -5,6 +5,7 @@
 
   --icon-color--constrained-data-type: #7f0000;
   --icon-color--directed-edge-type: #e64a19;
+  --icon-color--edge-attribute-type: #7f0000;
   --icon-color--package: #ffd54f;
   --icon-color--root-package: #f57f17;
   --icon-color--undirected-edge-type: #00c853;
@@ -43,6 +44,12 @@
 .directed-edge-type-icon {
 
     color: var(--icon-color--directed-edge-type);
+
+}
+
+.edge-attribute-type-icon {
+
+    color: var(--icon-color--edge-attribute-type);
 
 }
 

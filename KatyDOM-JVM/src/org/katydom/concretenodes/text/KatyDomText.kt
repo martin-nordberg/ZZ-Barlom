@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,12 +15,12 @@ import org.w3c.dom.Text
 /**
  * Virtual DOM node for a plain text node.
  */
-internal class KatyDomText<Message>(
+internal class KatyDomText<Msg>(
 
     /** The text within the node. */
     val nodeValue: String
 
-) : KatyDomNode<Message>(null) {
+) : KatyDomNode<Msg>(null) {
 
     override val nodeName = "#text"
 
@@ -44,7 +44,7 @@ internal class KatyDomText<Message>(
         // Nothing to freeze beyond the base node.
     }
 
-    override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Message>) {
+    override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>) {
 
         if (domElement !is Text) throw IllegalArgumentException("DOM node expected to be text.")
         if (priorElement !is KatyDomText) throw IllegalArgumentException("KatyDOM node expected to be KatyDOM text.")

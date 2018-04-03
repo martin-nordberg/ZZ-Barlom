@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an unordered list <ul> element.
  */
-internal class KatyDomUl<Message>(
-    flowContent: KatyDomFlowContentBuilder<Message>,
+internal class KatyDomUl<Msg>(
+    flowContent: KatyDomFlowContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -29,8 +29,8 @@ internal class KatyDomUl<Message>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomListItemContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+    defineContent: KatyDomListItemContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "UL"

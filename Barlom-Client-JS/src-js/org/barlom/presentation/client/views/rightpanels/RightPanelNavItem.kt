@@ -1,19 +1,18 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.barlom.presentation.client.views.rightpanels
 
-import org.barlom.presentation.client.actions.UiAction
+import org.barlom.presentation.client.messages.Message
 import org.barlom.presentation.client.state.rightpanels.ERightPanelType
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
 /** Shows one of the nav items at the top of the right panel. */
 fun viewRightPanelNavItem(
-    builder: KatyDomFlowContentBuilder<Unit> ,
-    revDispatchUi: (uiAction: UiAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     panelType: ERightPanelType
 ) = katyDomComponent(builder) {
 

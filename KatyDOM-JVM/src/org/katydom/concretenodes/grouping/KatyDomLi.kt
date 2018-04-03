@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an <li> element.
  */
-internal class KatyDomLi<Message>(
-    listContent: KatyDomListItemContentBuilder<Message>,
+internal class KatyDomLi<Msg>(
+    listContent: KatyDomListItemContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -30,8 +30,8 @@ internal class KatyDomLi<Message>(
     title: String?,
     translate: Boolean?,
     value: Int?,
-    defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+    defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "LI"

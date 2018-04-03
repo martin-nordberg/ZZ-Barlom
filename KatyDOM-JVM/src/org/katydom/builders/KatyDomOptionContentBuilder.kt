@@ -13,17 +13,17 @@ import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class KatyDomOptionContentBuilder<Message>(
+class KatyDomOptionContentBuilder<Msg>(
 
-    element: KatyDomHtmlElement<Message>,
+    element: KatyDomHtmlElement<Msg>,
 
     /** Restrictions on content enforced at run time. */
     internal val contentRestrictions: KatyDomContentRestrictions,
 
     /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
-    dispatchMessages: (messages: Iterable<Message>) -> Unit
+    dispatchMessages: (messages: Iterable<Msg>) -> Unit
 
-) : KatyDomAttributesContentBuilder<Message>(element, dispatchMessages) {
+) : KatyDomAttributesContentBuilder<Msg>(element, dispatchMessages) {
 
     /**
      * Adds a comment node as the next child of the element under construction.
@@ -56,7 +56,7 @@ class KatyDomOptionContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: String,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomOption(this, selector, key, accesskey, contenteditable, dir, disabled,
@@ -85,7 +85,7 @@ class KatyDomOptionContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomTextContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomTextContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomOption(this, selector, key, accesskey, contenteditable, dir, disabled,
@@ -113,7 +113,7 @@ class KatyDomOptionContentBuilder<Message>(
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomOptionGroup(this, selector, key, accesskey, contenteditable, dir, disabled,
@@ -127,14 +127,14 @@ class KatyDomOptionContentBuilder<Message>(
     /**
      * Creates a new attributes content builder for the given child [element].
      */
-    internal fun attributesContent(element: KatyDomHtmlElement<Message>): KatyDomAttributesContentBuilder<Message> {
+    internal fun attributesContent(element: KatyDomHtmlElement<Msg>): KatyDomAttributesContentBuilder<Msg> {
         return KatyDomAttributesContentBuilder(element, dispatchMessages)
     }
 
     /**
      * Creates a new text content builder for the given child [element].
      */
-    internal fun textContent(element: KatyDomHtmlElement<Message>): KatyDomTextContentBuilder<Message> {
+    internal fun textContent(element: KatyDomHtmlElement<Msg>): KatyDomTextContentBuilder<Msg> {
         return KatyDomTextContentBuilder(element, dispatchMessages)
     }
 
@@ -142,7 +142,7 @@ class KatyDomOptionContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
-    internal fun withNoAddedRestrictions(element: KatyDomHtmlElement<Message>): KatyDomOptionContentBuilder<Message> {
+    internal fun withNoAddedRestrictions(element: KatyDomHtmlElement<Msg>): KatyDomOptionContentBuilder<Msg> {
         return KatyDomOptionContentBuilder(
             element,
             contentRestrictions,
@@ -154,7 +154,7 @@ class KatyDomOptionContentBuilder<Message>(
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder plus no option groups allowed.
      */
-    internal fun withOptionGroupNotAllowed(element: KatyDomHtmlElement<Message>): KatyDomOptionContentBuilder<Message> {
+    internal fun withOptionGroupNotAllowed(element: KatyDomHtmlElement<Msg>): KatyDomOptionContentBuilder<Msg> {
         return KatyDomOptionContentBuilder(
             element,
             contentRestrictions.withOptionGroupNotAllowed(),

@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -8,17 +8,16 @@ package org.barlom.presentation.client.views.rightpanels.forms
 import org.barlom.domain.metamodel.api.actions.*
 import org.barlom.domain.metamodel.api.types.*
 import org.barlom.domain.metamodel.api.vertices.*
-import org.barlom.presentation.client.actions.UiAction
+import org.barlom.presentation.client.messages.Message
+import org.barlom.presentation.client.messages.ModelActionMessage
 import org.barlom.presentation.client.viewcomponents.*
 import org.katydom.api.katyDomComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
 
 
 fun viewPropertiesForm(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
-    focusedElement: AbstractNamedElement,
-    revDispatchUi: (uiAction: UiAction) -> Unit
+    builder: KatyDomFlowContentBuilder<Message>,
+    focusedElement: AbstractNamedElement
 ) = katyDomComponent(builder) {
 
     val isRoot = focusedElement is Package && focusedElement.isRoot ||
@@ -30,93 +29,93 @@ fun viewPropertiesForm(
         when (focusedElement) {
 
             is ConstrainedBoolean   -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewDefaultValueField(this, revDispatchModel, focusedElement)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewDefaultValueField(this, focusedElement)
             }
 
         // TODO: ConstrainedDateTime
 
             is ConstrainedFloat64   -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewMinMaxValueFields(this, revDispatchModel, focusedElement)
-                viewDefaultValueField(this, revDispatchModel, focusedElement)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewMinMaxValueFields(this, focusedElement)
+                viewDefaultValueField(this, focusedElement)
             }
 
             is ConstrainedInteger32 -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewMinMaxValueFields(this, revDispatchModel, focusedElement)
-                viewDefaultValueField(this, revDispatchModel, focusedElement)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewMinMaxValueFields(this, focusedElement)
+                viewDefaultValueField(this, focusedElement)
             }
 
             is ConstrainedString    -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewMinMaxLengthFields(this, revDispatchModel, focusedElement)
-                viewDefaultValueField(this, revDispatchModel, focusedElement)
-                viewPatternField(this, revDispatchModel, focusedElement)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewMinMaxLengthFields(this, focusedElement)
+                viewDefaultValueField(this, focusedElement)
+                viewPatternField(this, focusedElement)
             }
 
             is ConstrainedUuid      -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
             }
 
             is DirectedEdgeType     -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
-                viewConnectedHeadVertexTypeField( this, revDispatchModel, focusedElement, isRoot)
-                viewConnectedTailVertexTypeField( this, revDispatchModel, focusedElement, isRoot)
-                viewForwardReverseNameFields(this, revDispatchModel, focusedElement, isRoot)
-                viewRoleNameFields(this, revDispatchModel, focusedElement, isRoot)
-                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
-                viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
-                viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
-                viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
-                viewMinMaxHeadInDegreeFields(this, revDispatchModel, focusedElement, isRoot)
-                viewMinMaxTailOutDegreeFields(this, revDispatchModel, focusedElement, isRoot)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewSuperTypeField(this, focusedElement, isRoot)
+                viewConnectedHeadVertexTypeField(this, focusedElement, isRoot)
+                viewConnectedTailVertexTypeField(this, focusedElement, isRoot)
+                viewForwardReverseNameFields(this, focusedElement, isRoot)
+                viewRoleNameFields(this, focusedElement, isRoot)
+                viewAbstractnessField(this, focusedElement, isRoot)
+                viewCyclicityField(this, focusedElement, isRoot)
+                viewMultiEdgednessField(this, focusedElement, isRoot)
+                viewSelfLoopingField(this, focusedElement, isRoot)
+                viewMinMaxHeadInDegreeFields(this, focusedElement, isRoot)
+                viewMinMaxTailOutDegreeFields(this, focusedElement, isRoot)
             }
 
             is EdgeAttributeType    -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewDataTypeField(this, revDispatchModel, focusedElement)
-                viewOptionalityField(this, revDispatchModel, focusedElement)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewDataTypeField(this, focusedElement)
+                viewOptionalityField(this, focusedElement)
             }
 
             is Package              -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
             }
 
             is UndirectedEdgeType   -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
-                viewConnectedVertexTypeField( this, revDispatchModel, focusedElement, isRoot)
-                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
-                viewCyclicityField(this, revDispatchModel, focusedElement, isRoot)
-                viewMultiEdgednessField(this, revDispatchModel, focusedElement, isRoot)
-                viewSelfLoopingField(this, revDispatchModel, focusedElement, isRoot)
-                viewMinMaxDegreeFields(this, revDispatchModel, focusedElement, isRoot)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewSuperTypeField(this, focusedElement, isRoot)
+                viewConnectedVertexTypeField(this, focusedElement, isRoot)
+                viewAbstractnessField(this, focusedElement, isRoot)
+                viewCyclicityField(this, focusedElement, isRoot)
+                viewMultiEdgednessField(this, focusedElement, isRoot)
+                viewSelfLoopingField(this, focusedElement, isRoot)
+                viewMinMaxDegreeFields(this, focusedElement, isRoot)
             }
 
             is VertexAttributeType  -> {
-                viewNameField(this, revDispatchModel, focusedElement, false)
-                viewDescriptionField(this, revDispatchModel, focusedElement, false)
-                viewDataTypeField(this, revDispatchModel, focusedElement)
-                viewOptionalityField(this, revDispatchModel, focusedElement)
-                viewLabelDefaultingField(this, revDispatchModel, focusedElement)
+                viewNameField(this, focusedElement, false)
+                viewDescriptionField(this, focusedElement, false)
+                viewDataTypeField(this, focusedElement)
+                viewOptionalityField(this, focusedElement)
+                viewLabelDefaultingField(this, focusedElement)
             }
 
             is VertexType           -> {
-                viewNameField(this, revDispatchModel, focusedElement, isRoot)
-                viewDescriptionField(this, revDispatchModel, focusedElement, isRoot)
-                viewSuperTypeField( this, revDispatchModel, focusedElement, isRoot)
-                viewAbstractnessField(this, revDispatchModel, focusedElement, isRoot)
+                viewNameField(this, focusedElement, isRoot)
+                viewDescriptionField(this, focusedElement, isRoot)
+                viewSuperTypeField(this, focusedElement, isRoot)
+                viewAbstractnessField(this, focusedElement, isRoot)
             }
 
         }
@@ -127,8 +126,7 @@ fun viewPropertiesForm(
 
 
 private fun viewAbstractnessField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -142,14 +140,12 @@ private fun viewAbstractnessField(
         RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
     )
 ) { abstractness ->
-    revDispatchModel(AbstractEdgeTypeActions.changeAbstractness(edgeType, abstractness))
-    emptyList()
+    listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeAbstractness(edgeType, abstractness)))
 }
 
 
 private fun viewAbstractnessField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     vertexType: VertexType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -163,14 +159,12 @@ private fun viewAbstractnessField(
         RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
     )
 ) { abstractness ->
-    revDispatchModel(VertexTypeActions.changeAbstractness(vertexType, abstractness))
-    emptyList()
+    listOf<Message>(ModelActionMessage(VertexTypeActions.changeAbstractness(vertexType, abstractness)))
 }
 
 
 private fun viewConnectedHeadVertexTypeField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -181,16 +175,15 @@ private fun viewConnectedHeadVertexTypeField(
     edgeType.connectedHeadVertexTypes.elementAtOrNull(0)?.path ?: "",
     "connected head vertex type",
     isRoot,
-    edgeType.findPotentialConnectedHeadVertexTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+    edgeType.findPotentialConnectedHeadVertexTypes().map { vt -> DataListOptionConfig(vt.id.toString(), vt.path) }
 ) { newDefaultValue ->
-    revDispatchModel(DirectedEdgeTypeActions.changeConnectedHeadVertexType(edgeType, newDefaultValue))
-    emptyList()
+    listOf<Message>(
+        ModelActionMessage(DirectedEdgeTypeActions.changeConnectedHeadVertexType(edgeType, newDefaultValue)))
 }
 
 
 private fun viewConnectedTailVertexTypeField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -201,16 +194,15 @@ private fun viewConnectedTailVertexTypeField(
     edgeType.connectedTailVertexTypes.elementAtOrNull(0)?.path ?: "",
     "connected tail vertex type",
     isRoot,
-    edgeType.findPotentialConnectedTailVertexTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+    edgeType.findPotentialConnectedTailVertexTypes().map { vt -> DataListOptionConfig(vt.id.toString(), vt.path) }
 ) { newDefaultValue ->
-    revDispatchModel(DirectedEdgeTypeActions.changeConnectedTailVertexType(edgeType, newDefaultValue))
-    emptyList()
+    listOf<Message>(
+        ModelActionMessage(DirectedEdgeTypeActions.changeConnectedTailVertexType(edgeType, newDefaultValue)))
 }
 
 
 private fun viewConnectedVertexTypeField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: UndirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -221,16 +213,14 @@ private fun viewConnectedVertexTypeField(
     edgeType.connectedVertexTypes.elementAtOrNull(0)?.path ?: "",
     "connected vertex type",
     isRoot,
-    edgeType.findPotentialConnectedVertexTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+    edgeType.findPotentialConnectedVertexTypes().map { vt -> DataListOptionConfig(vt.id.toString(), vt.path) }
 ) { newDefaultValue ->
-    revDispatchModel(UndirectedEdgeTypeActions.changeConnectedVertexType(edgeType, newDefaultValue))
-    emptyList()
+    listOf<Message>(ModelActionMessage(UndirectedEdgeTypeActions.changeConnectedVertexType(edgeType, newDefaultValue)))
 }
 
 
 private fun viewCyclicityField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -245,14 +235,12 @@ private fun viewCyclicityField(
         RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ECyclicity.UNCONSTRAINED, "Unconstrained")
     )
 ) { cyclicity ->
-    revDispatchModel(AbstractEdgeTypeActions.changeCyclicity(edgeType, cyclicity))
-    emptyList()
+    listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeCyclicity(edgeType, cyclicity)))
 }
 
 
 private fun viewDataTypeField(
-    builder: KatyDomFlowContentBuilder<Unit> ,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeAttributeType: EdgeAttributeType
 ) = viewInputTextFieldWithDataList(
     builder,
@@ -262,16 +250,14 @@ private fun viewDataTypeField(
     edgeAttributeType.dataTypes.elementAtOrNull(0)?.path ?: "",
     "data type",
     false,
-    edgeAttributeType.findPotentialDataTypes().map{ dt -> DataListOptionConfig( dt.id.toString(), dt.path ) }
+    edgeAttributeType.findPotentialDataTypes().map { dt -> DataListOptionConfig(dt.id.toString(), dt.path) }
 ) { newDefaultValue ->
-    revDispatchModel(EdgeAttributeTypeActions.changeDataType(edgeAttributeType, newDefaultValue))
-    emptyList()
+    listOf<Message>(ModelActionMessage(EdgeAttributeTypeActions.changeDataType(edgeAttributeType, newDefaultValue)))
 }
 
 
 private fun viewDataTypeField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     vertexAttributeType: VertexAttributeType
 ) = viewInputTextFieldWithDataList(
     builder,
@@ -281,16 +267,14 @@ private fun viewDataTypeField(
     vertexAttributeType.dataTypes.elementAtOrNull(0)?.path ?: "",
     "data type",
     false,
-    vertexAttributeType.findPotentialDataTypes().map{ dt -> DataListOptionConfig( dt.id.toString(), dt.path ) }
+    vertexAttributeType.findPotentialDataTypes().map { dt -> DataListOptionConfig(dt.id.toString(), dt.path) }
 ) { newDefaultValue ->
-    revDispatchModel(VertexAttributeTypeActions.changeDataType(vertexAttributeType, newDefaultValue))
-    emptyList()
+    listOf<Message>(ModelActionMessage(VertexAttributeTypeActions.changeDataType(vertexAttributeType, newDefaultValue)))
 }
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedBoolean: ConstrainedBoolean
 ) = viewBooleanOrNullRadioGroup(
     builder,
@@ -301,14 +285,13 @@ private fun viewDefaultValueField(
     "False",
     "No Default"
 ) { newDefaultValue ->
-    revDispatchModel(ConstrainedBooleanActions.changeDefaultValue(constrainedBoolean, newDefaultValue))
-    emptyList()
+    listOf<Message>(
+        ModelActionMessage(ConstrainedBooleanActions.changeDefaultValue(constrainedBoolean, newDefaultValue)))
 }
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedFloat64: ConstrainedFloat64
 ) = viewInputDoubleField(
     builder,
@@ -319,14 +302,13 @@ private fun viewDefaultValueField(
     "default value",
     false
 ) { newDefaultValue ->
-    revDispatchModel(ConstrainedFloat64Actions.changeDefaultValue(constrainedFloat64, newDefaultValue))
-    emptyList()
+    listOf<Message>(
+        ModelActionMessage(ConstrainedFloat64Actions.changeDefaultValue(constrainedFloat64, newDefaultValue)))
 }
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedFloat64: ConstrainedInteger32
 ) = viewInputIntegerField(
     builder,
@@ -337,14 +319,13 @@ private fun viewDefaultValueField(
     "default value",
     false
 ) { newDefaultValue ->
-    revDispatchModel(ConstrainedInteger32Actions.changeDefaultValue(constrainedFloat64, newDefaultValue))
-    emptyList()
+    listOf<Message>(
+        ModelActionMessage(ConstrainedInteger32Actions.changeDefaultValue(constrainedFloat64, newDefaultValue)))
 }
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedString: ConstrainedString
 ) = viewInputTextField(
     builder,
@@ -355,14 +336,12 @@ private fun viewDefaultValueField(
     "default value",
     false
 ) { newDefaultValue ->
-    revDispatchModel(ConstrainedStringActions.changeDefaultValue(constrainedString, newDefaultValue))
-    emptyList()
+    listOf<Message>(ModelActionMessage(ConstrainedStringActions.changeDefaultValue(constrainedString, newDefaultValue)))
 }
 
 
 private fun viewDescriptionField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     element: AbstractDocumentedElement,
     isRoot: Boolean
 ) = viewTextAreaField(
@@ -374,14 +353,12 @@ private fun viewDescriptionField(
     "short summary of the element ...",
     isRoot
 ) { newDescription ->
-    revDispatchModel(DocumentedElementActions.describe(element, newDescription))
-    emptyList()
+    listOf<Message>(ModelActionMessage(DocumentedElementActions.describe(element, newDescription)))
 }
 
 
 private fun viewForwardReverseNameFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextGroup(
@@ -390,20 +367,17 @@ private fun viewForwardReverseNameFields(
     "Directed Names (Forward, Reverse):",
     listOf(
         TextInputConfig(isRoot, edgeType.forwardName, "forward-name", "forward") { forwardName ->
-            revDispatchModel(DirectedEdgeTypeActions.changeForwardName(edgeType, forwardName))
-            listOf<Unit>()
+            listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeForwardName(edgeType, forwardName)))
         },
         TextInputConfig(isRoot, edgeType.reverseName, "reverse-name", "reverse") { reverseName ->
-            revDispatchModel(DirectedEdgeTypeActions.changeReverseName(edgeType, reverseName))
-            listOf<Unit>()
+            listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeReverseName(edgeType, reverseName)))
         }
     )
 )
 
 
 private fun viewLabelDefaultingField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     vertexAttributeType: VertexAttributeType
 ) = viewRadioGroup(
     builder,
@@ -416,14 +390,13 @@ private fun viewLabelDefaultingField(
         RadioConfig(false, ELabelDefaulting.NOT_DEFAULT_LABEL, "No")
     )
 ) { labelDefaulting ->
-    revDispatchModel(VertexAttributeTypeActions.changeLabelDefaulting(vertexAttributeType, labelDefaulting))
-    emptyList()
+    listOf<Message>(
+        ModelActionMessage(VertexAttributeTypeActions.changeLabelDefaulting(vertexAttributeType, labelDefaulting)))
 }
 
 
 private fun viewMinMaxDegreeFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: UndirectedEdgeType,
     isRoot: Boolean
 ) = viewInputIntegerRange(
@@ -431,19 +404,16 @@ private fun viewMinMaxDegreeFields(
     "degree",
     "Degree (Minimum, Maximum):",
     IntegerInputConfig(isRoot, edgeType.minDegree, "min-degree", "minimum") { minDegree ->
-        revDispatchModel(UndirectedEdgeTypeActions.changeMinDegree(edgeType, minDegree))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(UndirectedEdgeTypeActions.changeMinDegree(edgeType, minDegree)))
     },
     IntegerInputConfig(isRoot, edgeType.maxDegree, "max-degree", "maximum") { maxDegree ->
-        revDispatchModel(UndirectedEdgeTypeActions.changeMaxDegree(edgeType, maxDegree))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(UndirectedEdgeTypeActions.changeMaxDegree(edgeType, maxDegree)))
     }
 )
 
 
 private fun viewMinMaxHeadInDegreeFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputIntegerRange(
@@ -451,38 +421,32 @@ private fun viewMinMaxHeadInDegreeFields(
     "head-in-degree",
     "Head In-Degree (Minimum, Maximum):",
     IntegerInputConfig(isRoot, edgeType.minHeadInDegree, "min-head-in-degree", "minimum") { minHeadInDegree ->
-        revDispatchModel(DirectedEdgeTypeActions.changeMinHeadInDegree(edgeType, minHeadInDegree))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMinHeadInDegree(edgeType, minHeadInDegree)))
     },
     IntegerInputConfig(isRoot, edgeType.maxHeadInDegree, "max-head-in-degree", "maximum") { maxHeadInDegree ->
-        revDispatchModel(DirectedEdgeTypeActions.changeMaxHeadInDegree(edgeType, maxHeadInDegree))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMaxHeadInDegree(edgeType, maxHeadInDegree)))
     }
 )
 
 
 private fun viewMinMaxLengthFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedString: ConstrainedString
 ) = viewInputIntegerRange(
     builder,
     "length",
     "Length (Minimum, Maximum):",
     IntegerInputConfig(false, constrainedString.minLength, "min-length", "minimum") { minLength ->
-        revDispatchModel(ConstrainedStringActions.changeMinLength(constrainedString, minLength))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(ConstrainedStringActions.changeMinLength(constrainedString, minLength)))
     },
     IntegerInputConfig(false, constrainedString.maxLength, "max-length", "maximum") { maxLength ->
-        revDispatchModel(ConstrainedStringActions.changeMaxLength(constrainedString, maxLength))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(ConstrainedStringActions.changeMaxLength(constrainedString, maxLength)))
     }
 )
 
 
 private fun viewMinMaxTailOutDegreeFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputIntegerRange(
@@ -490,57 +454,48 @@ private fun viewMinMaxTailOutDegreeFields(
     "tail-out-degree",
     "Tail Out-Degree (Minimum, Maximum):",
     IntegerInputConfig(isRoot, edgeType.minTailOutDegree, "min-tail-out-degree", "minimum") { minTailOutDegree ->
-        revDispatchModel(DirectedEdgeTypeActions.changeMinTailOutDegree(edgeType, minTailOutDegree))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMinTailOutDegree(edgeType, minTailOutDegree)))
     },
     IntegerInputConfig(isRoot, edgeType.maxTailOutDegree, "max-tail-out-degree", "maximum") { maxTailOutDegree ->
-        revDispatchModel(DirectedEdgeTypeActions.changeMaxTailOutDegree(edgeType, maxTailOutDegree))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMaxTailOutDegree(edgeType, maxTailOutDegree)))
     }
 )
 
 
 private fun viewMinMaxValueFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedFloat64: ConstrainedFloat64
 ) = viewInputDoubleRange(
     builder,
     "value-limits",
     "Value Limits (Minimum, Maximum):",
     DoubleInputConfig(false, constrainedFloat64.minValue, "min-value", "minimum") { minValue ->
-        revDispatchModel(ConstrainedFloat64Actions.changeMinValue(constrainedFloat64, minValue))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(ConstrainedFloat64Actions.changeMinValue(constrainedFloat64, minValue)))
     },
     DoubleInputConfig(false, constrainedFloat64.maxValue, "max-value", "maximum") { maxValue ->
-        revDispatchModel(ConstrainedFloat64Actions.changeMaxValue(constrainedFloat64, maxValue))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(ConstrainedFloat64Actions.changeMaxValue(constrainedFloat64, maxValue)))
     }
 )
 
 
 private fun viewMinMaxValueFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedInteger32: ConstrainedInteger32
 ) = viewInputIntegerRange(
     builder,
     "value-limits",
     "Value Limits (Minimum, Maximum):",
     IntegerInputConfig(false, constrainedInteger32.minValue, "min-value", "minimum") { minValue ->
-        revDispatchModel(ConstrainedInteger32Actions.changeMinValue(constrainedInteger32, minValue))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(ConstrainedInteger32Actions.changeMinValue(constrainedInteger32, minValue)))
     },
     IntegerInputConfig(false, constrainedInteger32.maxValue, "max-value", "maximum") { maxValue ->
-        revDispatchModel(ConstrainedInteger32Actions.changeMaxValue(constrainedInteger32, maxValue))
-        listOf<Unit>()
+        listOf<Message>(ModelActionMessage(ConstrainedInteger32Actions.changeMaxValue(constrainedInteger32, maxValue)))
     }
 )
 
 
 private fun viewMultiEdgednessField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -555,14 +510,12 @@ private fun viewMultiEdgednessField(
         RadioConfig(isRoot || edgeType.abstractness.isConcrete(), EMultiEdgedness.UNCONSTRAINED, "Unconstrained")
     )
 ) { multiEdgedness ->
-    revDispatchModel(AbstractEdgeTypeActions.changeMultiEdgedness(edgeType, multiEdgedness))
-    emptyList()
+    listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeMultiEdgedness(edgeType, multiEdgedness)))
 }
 
 
 private fun viewNameField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     namedElement: AbstractNamedElement,
     isRoot: Boolean
 ) = viewInputTextField(
@@ -574,14 +527,12 @@ private fun viewNameField(
     "lowercase name",
     isRoot
 ) { newName ->
-    revDispatchModel(NamedElementActions.rename(namedElement, newName))
-    emptyList()
+    listOf<Message>(ModelActionMessage(NamedElementActions.rename(namedElement, newName)))
 }
 
 
 private fun viewOptionalityField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeAttributeType: EdgeAttributeType
 ) = viewRadioGroup(
     builder,
@@ -594,14 +545,12 @@ private fun viewOptionalityField(
         RadioConfig(false, EAttributeOptionality.OPTIONAL, "Optional")
     )
 ) { optionality ->
-    revDispatchModel(EdgeAttributeTypeActions.changeOptionality(edgeAttributeType, optionality))
-    emptyList()
+    listOf<Message>(ModelActionMessage(EdgeAttributeTypeActions.changeOptionality(edgeAttributeType, optionality)))
 }
 
 
 private fun viewOptionalityField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     vertexAttributeType: VertexAttributeType
 ) = viewRadioGroup(
     builder,
@@ -614,14 +563,12 @@ private fun viewOptionalityField(
         RadioConfig(false, EAttributeOptionality.OPTIONAL, "Optional")
     )
 ) { optionality ->
-    revDispatchModel(VertexAttributeTypeActions.changeOptionality(vertexAttributeType, optionality))
-    emptyList()
+    listOf<Message>(ModelActionMessage(VertexAttributeTypeActions.changeOptionality(vertexAttributeType, optionality)))
 }
 
 
 private fun viewPatternField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     constrainedString: ConstrainedString
 ) = viewInputTextField(
     builder,
@@ -632,14 +579,12 @@ private fun viewPatternField(
     "regular expression",
     false
 ) { newPattern ->
-    revDispatchModel(ConstrainedStringActions.changeRegexPattern(constrainedString, newPattern))
-    emptyList()
+    listOf<Message>(ModelActionMessage(ConstrainedStringActions.changeRegexPattern(constrainedString, newPattern)))
 }
 
 
 private fun viewRoleNameFields(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextGroup(
@@ -648,20 +593,17 @@ private fun viewRoleNameFields(
     "Role Names (Head, Tail):",
     listOf(
         TextInputConfig(isRoot, edgeType.headRoleName, "head-role-name", "head") { headRoleName ->
-            revDispatchModel(DirectedEdgeTypeActions.changeHeadRoleName(edgeType, headRoleName))
-            listOf<Unit>()
+            listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeHeadRoleName(edgeType, headRoleName)))
         },
         TextInputConfig(isRoot, edgeType.tailRoleName, "tail-role-name", "tail") { tailRoleName ->
-            revDispatchModel(DirectedEdgeTypeActions.changeTailRoleName(edgeType, tailRoleName))
-            listOf<Unit>()
+            listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeTailRoleName(edgeType, tailRoleName)))
         }
     )
 )
 
 
 private fun viewSelfLoopingField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -676,14 +618,12 @@ private fun viewSelfLoopingField(
         RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ESelfLooping.UNCONSTRAINED, "Unconstrained")
     )
 ) { selfLooping ->
-    revDispatchModel(AbstractEdgeTypeActions.changeSelfLooping(edgeType, selfLooping))
-    emptyList()
+    listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeSelfLooping(edgeType, selfLooping)))
 }
 
 
 private fun viewSuperTypeField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -694,16 +634,14 @@ private fun viewSuperTypeField(
     edgeType.superTypes.elementAtOrNull(0)?.path ?: "",
     "super type",
     isRoot,
-    edgeType.findPotentialSuperTypes().map{ et -> DataListOptionConfig( et.id.toString(), et.path ) }
+    edgeType.findPotentialSuperTypes().map { et -> DataListOptionConfig(et.id.toString(), et.path) }
 ) { newDefaultValue ->
-    revDispatchModel(DirectedEdgeTypeActions.changeSuperType(edgeType, newDefaultValue))
-    emptyList()
+    listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeSuperType(edgeType, newDefaultValue)))
 }
 
 
 private fun viewSuperTypeField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     edgeType: UndirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -714,16 +652,14 @@ private fun viewSuperTypeField(
     edgeType.superTypes.elementAtOrNull(0)?.path ?: "",
     "super type",
     isRoot,
-    edgeType.findPotentialSuperTypes().map{ et -> DataListOptionConfig( et.id.toString(), et.path ) }
+    edgeType.findPotentialSuperTypes().map { et -> DataListOptionConfig(et.id.toString(), et.path) }
 ) { newDefaultValue ->
-    revDispatchModel(UndirectedEdgeTypeActions.changeSuperType(edgeType, newDefaultValue))
-    emptyList()
+    listOf<Message>(ModelActionMessage(UndirectedEdgeTypeActions.changeSuperType(edgeType, newDefaultValue)))
 }
 
 
 private fun viewSuperTypeField(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchModel: (modelAction: ModelAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     vertexType: VertexType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -734,10 +670,9 @@ private fun viewSuperTypeField(
     vertexType.superTypes.elementAtOrNull(0)?.path ?: "",
     "super type",
     isRoot,
-    vertexType.findPotentialSuperTypes().map{ vt -> DataListOptionConfig( vt.id.toString(), vt.path ) }
+    vertexType.findPotentialSuperTypes().map { vt -> DataListOptionConfig(vt.id.toString(), vt.path) }
 ) { newDefaultValue ->
-    revDispatchModel(VertexTypeActions.changeSuperType(vertexType, newDefaultValue))
-    emptyList()
+    listOf<Message>(ModelActionMessage(VertexTypeActions.changeSuperType(vertexType, newDefaultValue)))
 }
 
 

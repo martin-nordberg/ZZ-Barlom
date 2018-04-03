@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -14,10 +14,10 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an option element.
  */
-internal class KatyDomOption<Message> : KatyDomHtmlElement<Message> {
+internal class KatyDomOption<Msg> : KatyDomHtmlElement<Msg> {
 
     constructor(
-        optionContent: KatyDomOptionContentBuilder<Message>,
+        optionContent: KatyDomOptionContentBuilder<Msg>,
         selector: String?,
         key: Any?,
         accesskey: String?,
@@ -35,7 +35,7 @@ internal class KatyDomOption<Message> : KatyDomHtmlElement<Message> {
         title: String?,
         translate: Boolean?,
         value: String,
-        defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
+        defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
         setAttributes(disabled, label, selected)
@@ -46,7 +46,7 @@ internal class KatyDomOption<Message> : KatyDomHtmlElement<Message> {
     }
 
     constructor(
-        optionContent: KatyDomOptionContentBuilder<Message>,
+        optionContent: KatyDomOptionContentBuilder<Msg>,
         selector: String?,
         key: Any?,
         accesskey: String?,
@@ -63,7 +63,7 @@ internal class KatyDomOption<Message> : KatyDomHtmlElement<Message> {
         tabindex: Int?,
         title: String?,
         translate: Boolean?,
-        defineContent: KatyDomTextContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomTextContentBuilder<Msg>.() -> Unit
     ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
 
         setAttributes(disabled, label, selected)

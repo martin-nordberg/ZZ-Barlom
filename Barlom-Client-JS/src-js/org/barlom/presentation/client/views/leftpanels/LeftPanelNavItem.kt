@@ -1,12 +1,13 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.barlom.presentation.client.views.leftpanels
 
-import org.barlom.presentation.client.actions.UiAction
 import org.barlom.presentation.client.actions.leftpanels.LeftPanelActions
+import org.barlom.presentation.client.messages.Message
+import org.barlom.presentation.client.messages.UiActionMessage
 import org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 import org.barlom.presentation.client.state.leftpanels.ELeftPanelType.*
 import org.katydom.api.katyDomComponent
@@ -14,8 +15,7 @@ import org.katydom.builders.KatyDomFlowContentBuilder
 
 /** Shows one of the nav items at the top of the left panel. */
 fun viewLeftPanelNavItem(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    revDispatchUi: (uiAction: UiAction) -> Unit,
+    builder: KatyDomFlowContentBuilder<Message>,
     panelType: ELeftPanelType,
     focusedPanelType: ELeftPanelType
 ) {
@@ -31,8 +31,7 @@ fun viewLeftPanelNavItem(
             attribute("aria-label", toolTip)
 
             onclick {
-                revDispatchUi(LeftPanelActions.change(panelType))
-                emptyList()
+                listOf(UiActionMessage(LeftPanelActions.change(panelType)))
             }
 
             span(".u-large.mdi." + iconName(panelType), "icon") {}

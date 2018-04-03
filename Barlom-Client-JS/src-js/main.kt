@@ -1,13 +1,12 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 import org.barlom.infrastructure.uuids.prefetchUuid
-import org.barlom.presentation.client.runApplication
-import org.barlom.presentation.client.state.initializeAppState
-import org.barlom.presentation.client.views.view
+import org.barlom.presentation.client.application.Application
 import org.barlom.presentation.tests.runTests
+import org.katydom.api.runApplication
 
 
 /**
@@ -25,8 +24,9 @@ fun main(args: Array<String>) {
     prefetchUuid()
 
     // Run the application.
-    runApplication("app", ::initializeAppState, ::view)
+    val application = Application()
 
+    runApplication("app", application)
 
     console.log("Lifecycle started.")
 

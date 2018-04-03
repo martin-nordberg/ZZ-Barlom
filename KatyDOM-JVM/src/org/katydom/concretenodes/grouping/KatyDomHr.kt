@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an <hr> element.
  */
-internal class KatyDomHr<Message>(
-    flowContent: KatyDomFlowContentBuilder<Message>,
+internal class KatyDomHr<Msg>(
+    flowContent: KatyDomFlowContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -29,8 +29,8 @@ internal class KatyDomHr<Message>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineAttributes: KatyDomAttributesContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+    defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "HR"

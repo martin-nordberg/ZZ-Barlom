@@ -14,8 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a <div> element.
  */
-internal class KatyDomDiv<Message>(
-    flowContent: KatyDomFlowContentBuilder<Message>,
+internal class KatyDomDiv<Msg>(
+    flowContent: KatyDomFlowContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -28,8 +28,8 @@ internal class KatyDomDiv<Message>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key, accesskey, contenteditable, dir,
+    defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "DIV"

@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -14,8 +14,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for an optgroup element.
  */
-internal class KatyDomOptionGroup<Message>(
-    optionContent: KatyDomOptionContentBuilder<Message>,
+internal class KatyDomOptionGroup<Msg>(
+    optionContent: KatyDomOptionContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -31,8 +31,8 @@ internal class KatyDomOptionGroup<Message>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+    defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "OPTGROUP"

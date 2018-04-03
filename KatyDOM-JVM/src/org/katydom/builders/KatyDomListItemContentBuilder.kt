@@ -12,18 +12,18 @@ import org.katydom.types.EDirection
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class KatyDomListItemContentBuilder<Message>(
+class KatyDomListItemContentBuilder<Msg>(
 
-    internal val flowContent: KatyDomFlowContentBuilder<Message>,
+    internal val flowContent: KatyDomFlowContentBuilder<Msg>,
 
     internal val isOrdered: Boolean,
 
-    element: KatyDomHtmlElement<Message>,
+    element: KatyDomHtmlElement<Msg>,
 
     /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
-    dispatchMessages: (messages: Iterable<Message>) -> Unit
+    dispatchMessages: (messages: Iterable<Msg>) -> Unit
 
-) : KatyDomAttributesContentBuilder<Message>(element, dispatchMessages) {
+) : KatyDomAttributesContentBuilder<Msg>(element, dispatchMessages) {
 
     /**
      * Adds a comment node as the next child of the element under construction.
@@ -66,7 +66,7 @@ class KatyDomListItemContentBuilder<Message>(
         title: String? = null,
         translate: Boolean? = null,
         value: Int? = null,
-        defineContent: KatyDomFlowContentBuilder<Message>.() -> Unit
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
             KatyDomLi(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,

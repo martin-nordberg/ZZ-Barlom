@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -15,8 +15,8 @@ import org.katydom.types.EDirection
 /**
  * Virtual node for a select element.
  */
-internal class KatyDomSelect<Message>(
-    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
+internal class KatyDomSelect<Msg>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -37,8 +37,8 @@ internal class KatyDomSelect<Message>(
     title: String?,
     translate: Boolean?,
     value: String?,
-    defineContent: KatyDomOptionContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+    defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "SELECT"

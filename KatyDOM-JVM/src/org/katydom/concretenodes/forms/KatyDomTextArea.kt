@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -17,8 +17,8 @@ import org.katydom.types.EWrapType
 /**
  * Virtual node for a textarea element.
  */
-internal class KatyDomTextArea<Message>(
-    phrasingContent: KatyDomPhrasingContentBuilder<Message>,
+internal class KatyDomTextArea<Msg>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
@@ -46,8 +46,8 @@ internal class KatyDomTextArea<Message>(
     title: String?,
     translate: Boolean?,
     wrap: EWrapType?,
-    defineContent: KatyDomTextContentBuilder<Message>.() -> Unit
-) : KatyDomHtmlElement<Message>(selector, key ?: name, accesskey, contenteditable, dir,
+    defineContent: KatyDomTextContentBuilder<Msg>.() -> Unit
+) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
                                 hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     override val nodeName = "TEXTAREA"

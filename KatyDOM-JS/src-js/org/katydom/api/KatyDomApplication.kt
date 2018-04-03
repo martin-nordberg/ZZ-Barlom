@@ -5,7 +5,6 @@
 
 package org.katydom.api
 
-import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.builders.KatyDomFlowContentBuilder
 import kotlin.browser.document
 import kotlin.browser.window
@@ -15,24 +14,23 @@ import kotlin.browser.window
 /**
  * Interface defining a KatyDOM Elm-like application.
  */
-interface KatyDomApplication<AppState, Message> {
+interface KatyDomApplication<AppState, Msg> {
 
     /**
      * Initializes the application state for the first time.
      */
-    fun initialize(): AppState;
+    fun initialize(): AppState
 
     /**
-     * Creates a new application state modified from given [appState] by the given [message].
+     * Creates a new application state modified from given [applicationState] by the given [message].
      */
-    fun update(appState: AppState, message: Message): AppState
+    fun update(applicationState: AppState, message: Msg): AppState
 
     /**
      * Constructs the KatyDOM virtual DOM tree for given input application state [appState].
      * @return the root of the application's virtual DOM tree for given application state.
      */
-    fun view(builder: KatyDomFlowContentBuilder<Message>,
-             appState: AppState): KatyDomHtmlElement<Message>
+    fun view(applicationState: AppState): KatyDomFlowContentBuilder<Msg>.() -> Unit
 
 }
 
@@ -43,67 +41,69 @@ interface KatyDomApplication<AppState, Message> {
  * id=[applicationDomId]. Initializes the application state, builds the initial virtual and real DOM trees, then
  * repeatedly updates them in response to messages dispatched from view elements.
  */
-fun <AppState, Message> runApplication(
+fun <AppState, Msg> runApplication(
     applicationDomId: String,
-    application: KatyDomApplication<AppState, Message>
+    application: KatyDomApplication<AppState, Msg>
 ) {
 
     // Initialize the application state.
     var appState = application.initialize()
 
     // Create the KatyDOM lifecycle for building and patching the view.
-    val lifecycle = makeKatyDomLifecycle<Message>()
+    val lifecycle = makeKatyDomLifecycle<Msg>()
 
     // Start with an empty div just to avoid nullable node type.
-    var appVdomNode = katyDom<Message> {
+    var appVdomNode = katyDom<Msg> {
         div("#application") {}
     }
 
     // Keep a queue of messages to reduce view recomputation when multiple messages fire in sequence.
-    val queuedActions: MutableList<Message> = mutableListOf()
+    val queuedMessages: MutableList<Msg> = mutableListOf()
 
     /**
      * Dispatches a [message] triggered by an event in the latest edition of the view.
      */
-    fun dispatch(message: Message) {
+    fun dispatch(messages: Iterable<Msg>) {
 
-        // Queue the message for execution when next idle.
-        queuedActions.add(message)
+        val timerNeeded = queuedMessages.isEmpty()
+
+        // Queue the messages for execution when next idle.
+        queuedMessages.addAll(messages)
 
         // If we already had something queued, then we already triggered the processing.
-        if (queuedActions.size > 1) {
-            return
+        if (timerNeeded) {
+
+            window.setTimeout(
+                {
+
+                    // Update the model with each of the queued messages.
+                    for (queuedAction in queuedMessages) {
+                        appState = application.update(appState, queuedAction)
+                    }
+
+                    // Empty the queue.
+                    queuedMessages.clear()
+
+                    // Compute the new view (virtual DOM).
+                    val oldAppVdomNode = appVdomNode
+                    appVdomNode = katyDom(::dispatch) {
+                        this.(application.view(appState))()
+                    }
+
+                    // Patch the new view into the real DOM.
+                    lifecycle.patch(oldAppVdomNode, appVdomNode)
+
+                },
+                0
+            )
+
         }
-
-        window.setTimeout(
-            {
-
-                // Update the model with each of the queued actions.
-                for (queuedAction in queuedActions) {
-                    appState = application.update(appState, queuedAction)
-                }
-
-                // Empty the queue.
-                queuedActions.clear()
-
-                // Compute the new view (virtual DOM).
-                val oldAppVdomNode = appVdomNode
-                appVdomNode = katyDom {
-                    application.view(this, appState)
-                }
-
-                // Patch the new view into the real DOM.
-                lifecycle.patch(oldAppVdomNode, appVdomNode)
-
-            },
-            0
-        )
 
     }
 
     // Create the initial virtual view. Establish dispatching of events for subsequent updates inside dispatch(..).
-    appVdomNode = katyDom {
-        application.view(this, appState)
+    appVdomNode = katyDom(::dispatch) {
+        this.(application.view(appState))()
     }
 
     // Find the root application DOM element to put the app into (failing if not found).

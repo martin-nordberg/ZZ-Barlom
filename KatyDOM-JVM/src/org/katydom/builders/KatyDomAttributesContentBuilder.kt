@@ -21,13 +21,13 @@ import org.w3c.dom.events.MouseEvent
  */
 @Suppress("unused")
 @KatyDomContentBuilderDsl
-open class KatyDomAttributesContentBuilder<Message>(
+open class KatyDomAttributesContentBuilder<Msg>(
 
     /** The element whose attributes are being set. */
-    protected val element: KatyDomHtmlElement<Message>,
+    protected val element: KatyDomHtmlElement<Msg>,
 
     /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
-    protected val dispatchMessages: (Iterable<Message>) -> Unit
+    protected val dispatchMessages: (Iterable<Msg>) -> Unit
 
 ) {
 
@@ -99,7 +99,7 @@ open class KatyDomAttributesContentBuilder<Message>(
      * Adds an event handler for change events.
      * @param handler the callback that listens to change events.
      */
-    fun onchange(handler: Event2Message<Message>) {
+    fun onchange(handler: Event2Message<Msg>) {
         element.addEventHandler(EEventType.CHANGE) { e: Event ->
             dispatchMessages(handler(e))
         }
@@ -109,7 +109,7 @@ open class KatyDomAttributesContentBuilder<Message>(
      * Adds an event handler for mouse clicks.
      * @param handler the callback that listens to mouse clicks.
      */
-    fun onclick(handler: MouseEvent2Message<Message>) {
+    fun onclick(handler: MouseEvent2Message<Msg>) {
         element.addMouseEventHandler(EMouseEventType.CLICK) { e: MouseEvent ->
             dispatchMessages(handler(e))
         }
@@ -119,7 +119,7 @@ open class KatyDomAttributesContentBuilder<Message>(
      * Adds an event handler for blur events.
      * @param handler the callback that listens to blur events.
      */
-    fun onblur(handler: Event2Message<Message>) {
+    fun onblur(handler: Event2Message<Msg>) {
         element.addEventHandler(EEventType.BLUR) { e: Event ->
             dispatchMessages(handler(e))
         }

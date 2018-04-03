@@ -24,14 +24,14 @@ import org.w3c.dom.events.MouseEvent
  * Topmost abstract base class for KatyDOM virtual DOM. Corresponds to DOM Node.
  * @param _key a key for this KatyDOM node that is unique among all the siblings of this node.
  */
-abstract class KatyDomNode<Message>(private val _key: Any?) {
+abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
     /** Returns the key for this node. If none provided, uses the node name. */
     val key: Any
         get() = _key ?: nodeName
 
     /** Returns the first and only child node in this node. (Exception if there is none or more than one.) */
-    val soleChildNode: KatyDomNode<Message>
+    val soleChildNode: KatyDomNode<Msg>
         get() {
 
             check(firstChildNode != null) { "No child found." }
@@ -54,7 +54,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
      * Adds a new child node to this node.
      * @param childNode the child node to add.
      */
-    internal fun addChildNode(childNode: KatyDomNode<Message>) {
+    internal fun addChildNode(childNode: KatyDomNode<Msg>) {
 
         if (isAddingAttributes) {
             freezeAttributes()
@@ -148,7 +148,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
     /**
      * Performs extra handling after a [childNode] has been added.
      */
-    protected open fun afterAddChildNode(childNode: KatyDomNode<Message>) {
+    protected open fun afterAddChildNode(childNode: KatyDomNode<Msg>) {
 
     }
 
@@ -185,7 +185,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
      * Patches a real DOM node by determining the difference between this KatyDOM node and its prior edition.
      * @param priorNode the prior edition of this KatyDOM node.
      */
-    internal fun patch(priorNode: KatyDomNode<Message>) {
+    internal fun patch(priorNode: KatyDomNode<Msg>) {
 
         // Quit early if the node is the same (e.g. memoized).
         if (this === priorNode) {
@@ -335,7 +335,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
      * @param domElement the real DOM node being patched.
      * @param priorElement the prior edition of this KatyDOM node from which to compute the patch.
      */
-    protected abstract fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Message>)
+    protected abstract fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>)
 
 ////
 
@@ -375,7 +375,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
      * Whether this KatyDOM node matches the given KatyDOM node for purposes of patching.
      * @param otherNode the node to compare with.
      */
-    private fun matches(otherNode: KatyDomNode<Message>?): Boolean {
+    private fun matches(otherNode: KatyDomNode<Msg>?): Boolean {
 
         if (otherNode == null) {
             return false
@@ -394,7 +394,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
      * @param domNode the DOM node to patch changes into.
      * @param priorNode the prior edition of this KatyDOM node that corresponds to the given domNode.
      */
-    private fun patchChildNodes(domNode: Node, priorNode: KatyDomNode<Message>) {
+    private fun patchChildNodes(domNode: Node, priorNode: KatyDomNode<Msg>) {
 
         // Shrinking interval of child nodes of this node.
         var startChild = firstChildNode
@@ -495,7 +495,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
      * @param domNode the DOM node to patch changes into.
      * @param priorNode the prior edition of this KatyDOM node that corresponds to the given domNode.
      */
-    private fun patchEventHandlers(domNode: Node, priorNode: KatyDomNode<Message>) {
+    private fun patchEventHandlers(domNode: Node, priorNode: KatyDomNode<Msg>) {
 
         // TODO: Need the event handlers to implement equals
 
@@ -521,7 +521,7 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
     }
 
     /** A map of child nodes by their key. */
-    private val childNodesByKey: MutableMap<Any, KatyDomNode<Message>> = hashMapOf()
+    private val childNodesByKey: MutableMap<Any, KatyDomNode<Msg>> = hashMapOf()
 
     /** The established DOM node after this node has been established or patched. */
     private var domNode: Node? = null
@@ -530,16 +530,16 @@ abstract class KatyDomNode<Message>(private val _key: Any?) {
     private val eventHandlers: MutableMap<String, EventHandler> = mutableMapOf()
 
     /** The first child node within this node. Starts as Nothing, meaning no children. */
-    private var firstChildNode: KatyDomNode<Message>? = null
+    private var firstChildNode: KatyDomNode<Msg>? = null
 
     /** The last child node within this node. Starts as Nothing, meaning no children. */
-    private var lastChildNode: KatyDomNode<Message>? = null
+    private var lastChildNode: KatyDomNode<Msg>? = null
 
     /** The next sibling node within this node. Points to Nothing from last child in the list. */
-    private var nextSiblingNode: KatyDomNode<Message>? = null
+    private var nextSiblingNode: KatyDomNode<Msg>? = null
 
     /** The previous sibling node within this node. Linked to Nothing for first child in the list. */
-    private var prevSiblingNode: KatyDomNode<Message>? = null
+    private var prevSiblingNode: KatyDomNode<Msg>? = null
 
     /** Flag set to true once the node is fully constructed. */
     private var state: EState = EState.ADDING_ATTRIBUTES

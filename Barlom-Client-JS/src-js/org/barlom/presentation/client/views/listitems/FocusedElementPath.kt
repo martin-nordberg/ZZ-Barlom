@@ -1,12 +1,15 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.barlom.presentation.client.views.listitems
 
-import org.barlom.domain.metamodel.api.vertices.*
-import org.barlom.presentation.client.actions.UiAction
+import org.barlom.domain.metamodel.api.vertices.AbstractNamedElement
+import org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
+import org.barlom.domain.metamodel.api.vertices.EdgeAttributeType
+import org.barlom.domain.metamodel.api.vertices.VertexAttributeType
+import org.barlom.presentation.client.messages.Message
 import org.katydom.api.katyDomComponent
 import org.katydom.api.katyDomListItemComponent
 import org.katydom.builders.KatyDomFlowContentBuilder
@@ -14,9 +17,8 @@ import org.katydom.builders.KatyDomListItemContentBuilder
 
 /** Generates the path to the focused element. */
 fun viewFocusedElementPath(
-    builder: KatyDomFlowContentBuilder<Unit>,
-    focusedElement: AbstractNamedElement?,
-    revDispatchUi: (uiAction: UiAction) -> Unit
+    builder: KatyDomFlowContentBuilder<Message>,
+    focusedElement: AbstractNamedElement?
 ) = katyDomComponent(builder) {
 
     if (focusedElement == null) {
@@ -26,12 +28,12 @@ fun viewFocusedElementPath(
 
         @Suppress("RedundantUnitReturnType")
         fun viewPath(
-            builder: KatyDomListItemContentBuilder<Unit>,
+            builder: KatyDomListItemContentBuilder<Message>,
             element: AbstractNamedElement,
             bold: Boolean = false
         ): Unit = katyDomListItemComponent(builder) {
 
-            when ( element ) {
+            when (element) {
                 is AbstractPackagedElement ->
                     if (element.parents.isNotEmpty()) {
                         viewPath(builder, element.parents[0])
@@ -50,7 +52,7 @@ fun viewFocusedElementPath(
 
                 classes("c-text--loud" to bold)
 
-                viewListItem(this, element, revDispatchUi)
+                viewListItem(this, element)
 
                 if (bold) {
                     span("c-text") {
