@@ -50,8 +50,8 @@ class RevisionHistory(
 
     /** Returns the revision number currently being reviewed in the current thread. */
     internal val revisionNumberInCurrentThread: Long
-        get() = _revisionNumberOfCurrentThread.get() ?:
-            throw IllegalStateException("Attempted to complete a review operation outside of revision history.")
+        get() = _revisionNumberOfCurrentThread.get() ?: throw IllegalStateException(
+            "Attempted to complete a review operation outside of revision history.")
 
 
     /**
@@ -109,11 +109,12 @@ class RevisionHistory(
      *
      * @param task       the work to be done inside a transaction; returns a description of that work
      * @param maxRetries the maximum number of times to retry the transaction if write conflicts are encountered (must
-     *                   be zero or more, zero meaning try but don't retry).
+     *                   be zero or greater, default zero meaning try but don't retry).
+     * @return a description of the transaction (as returned by the task).
      *
      * @throws MaximumRetriesExceededException if the transaction fails even after the specified number of retries.
      */
-    fun update(maxRetries: Int = 0, task: () -> String) {
+    fun update(maxRetries: Int = 0, task: () -> String): String {
 
         // Sanity check the input.
         require(maxRetries >= 0) { "Retry count must be greater than or equal to zero." }
@@ -141,7 +142,7 @@ class RevisionHistory(
                         transaction.commit()
 
                         // If succeeded, no more retries are needed.
-                        return
+                        return transaction.description
                     }
                     catch (e: Exception) {
                         // On any error abort the transaction.
@@ -230,9 +231,8 @@ class RevisionHistory(
             get() {
 
                 // Get the thread-local transaction. If there is none, then it's a programming error.
-                return _transactionOfCurrentThread.get() ?:
-                    throw IllegalStateException(
-                        "Attempted to complete a transactional operation without a transaction.")
+                return _transactionOfCurrentThread.get() ?: throw IllegalStateException(
+                    "Attempted to complete a transactional operation without a transaction.")
 
             }
 

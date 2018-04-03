@@ -140,7 +140,8 @@ class Application : KatyDomApplication<ApplicationState, Message> {
     override fun update(applicationState: ApplicationState, message: Message): ApplicationState {
 
         if (message is ActionMessage) {
-            message.executeAction(applicationState)
+            val actionDescription = message.executeAction(applicationState)
+            console.log(actionDescription)
             return applicationState
         }
 

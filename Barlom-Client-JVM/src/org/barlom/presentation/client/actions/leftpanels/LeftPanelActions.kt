@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -10,6 +10,9 @@ import org.barlom.presentation.client.state.ApplicationUiState
 import org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 
 
+/**
+ * Actions that act upon the UI state of the left panel.
+ */
 object LeftPanelActions {
 
     /**

@@ -10,9 +10,11 @@ import org.barlom.domain.metamodel.api.actions.ModelAction
 import org.barlom.domain.metamodel.api.actions.PackageActions
 import org.barlom.domain.metamodel.api.actions.VertexTypeActions
 import org.barlom.domain.metamodel.api.vertices.*
+import org.barlom.presentation.client.actions.rightpanels.links.RelatedElementsPanelAction
+import org.barlom.presentation.client.actions.rightpanels.links.RelatedElementsPanelActions
 import org.barlom.presentation.client.messages.Message
 import org.barlom.presentation.client.messages.ModelActionMessage
-import org.barlom.presentation.client.messages.UiActionMessage
+import org.barlom.presentation.client.messages.rightpanels.links.RelatedElementsPanelActionMessage
 import org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 import org.barlom.presentation.client.views.listitems.viewListItem
 import org.barlom.presentation.client.views.listitems.viewListItemIcon
@@ -222,16 +224,16 @@ private fun viewPackageSuppliers(
         listOf(
             AddConnectionConfig(
                 "Add a supplier package",
-                newSupplierPackagePath
+                newSupplierPackagePath,
+                RelatedElementsPanelActions::setSupplierPackagePath
             ) { pkg ->
                 listOf<Message>(
                     ModelActionMessage(
                         PackageActions.addPackageSupplier(pkg, newSupplierPackagePath)
                     ),
-                    UiActionMessage { uiState ->
-                        uiState.relatedElementsPanelState.newSupplierPackagePath = ""
-                        "Blanked out supplier package path."
-                    }
+                    RelatedElementsPanelActionMessage(
+                        RelatedElementsPanelActions.resetSupplierPackagePath()
+                    )
                 )
             }
         )
@@ -409,17 +411,18 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
 data class AddConnectionConfig<in Parent>(
     val label: String,
     val path: String,
+    val setPath: (String) -> RelatedElementsPanelAction,
     val messages: (Parent) -> Iterable<Message>
 )
 
 /**
- * Shows a list of connected elements for given element.
+ * Shows a list of connected elements for a given [parent] element.
  */
-private inline fun <Element, reified ConnectedElement : AbstractNamedElement> viewConnectedElements(
+private fun <Element, ConnectedElement : AbstractNamedElement> viewConnectedElements(
     builder: KatyDomFlowContentBuilder<Message>,
     parent: Element,
-    noinline getConnectedElements: Element.() -> List<ConnectedElement>,
-    noinline getPotentialConnectedElements: Element.() -> List<ConnectedElement>,
+    getConnectedElements: Element.() -> List<ConnectedElement>,
+    getPotentialConnectedElements: Element.() -> List<ConnectedElement>,
     label: String,
     name: String,
     addButtons: List<AddConnectionConfig<Element>>
@@ -432,7 +435,7 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
     ul("#$name-list.c-tree") {
 
-        // Show the child elements.
+        // Show the connected elements.
         for (child in parent.getConnectedElements()) {
 
             li(".tree-item--not-focused", key = child.id) {
@@ -445,7 +448,7 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
         }
 
-        // Show links for creating new child elements.
+        // Show links for creating new connected elements.
         for (addButton in addButtons) {
 
             val buttonName = addButton.label.replace(" ", "-")
@@ -497,10 +500,11 @@ private inline fun <Element, reified ConnectedElement : AbstractNamedElement> vi
 
                                 if (newValue.isNotBlank()) {
 
-                                    listOf<Message>(UiActionMessage { uiState ->
-                                        uiState.relatedElementsPanelState.newSupplierPackagePath = newValue
-                                        "Entered new supplier package path '$newValue'."
-                                    })
+                                    listOf<Message>(
+                                        RelatedElementsPanelActionMessage(
+                                            addButton.setPath(newValue)
+                                        )
+                                    )
 
                                 }
                                 else {

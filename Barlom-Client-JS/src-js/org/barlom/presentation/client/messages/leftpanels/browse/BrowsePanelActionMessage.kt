@@ -13,14 +13,11 @@ class BrowsePanelActionMessage(
     private val browsePanelAction: BrowsePanelAction
 ) : ActionMessage {
 
-    override fun executeAction(applicationState: ApplicationState) {
-
+    override fun executeAction(applicationState: ApplicationState) =
         applicationState.revHistory.update {
-            val result = browsePanelAction.invoke(applicationState.uiState.browsePanelState)
-            console.log( result )
-            result
+            browsePanelAction.invoke(applicationState.uiState.browsePanelState)
         }
 
-    }
-
 }
+
+
