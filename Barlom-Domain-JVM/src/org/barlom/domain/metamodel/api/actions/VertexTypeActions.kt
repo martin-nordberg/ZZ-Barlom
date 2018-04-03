@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -8,6 +8,7 @@ package org.barlom.domain.metamodel.api.actions
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.types.EAbstractness
 import org.barlom.domain.metamodel.api.vertices.VertexType
+import org.barlom.infrastructure.uuids.Uuid
 
 
 class VertexTypeActions {
@@ -15,13 +16,13 @@ class VertexTypeActions {
     companion object {
 
         /**
-         * Adds a new child attribute type to the given [parentVertexType].
+         * Adds a new child attribute type with given [id] to the given [parentVertexType].
          */
-        fun addAttributeType(parentVertexType: VertexType): ModelAction {
+        fun addAttributeType(parentVertexType: VertexType, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeVertexAttributeType {
+                model.makeVertexAttributeType(id) {
                     model.makeVertexAttributeTypeContainment(parentVertexType, this)
                 }
 

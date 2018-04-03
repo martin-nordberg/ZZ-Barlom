@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -70,6 +70,11 @@ class Model(
 
     }
 
+
+    fun findVertexById( id:Uuid ): AbstractNamedElement? {
+        // TODO: need a versioned map class for better performance
+        return _vertices.find { v -> v.id == id }
+    }
 
     fun makeAttributeDataTypeUsage(
         attributeType: AbstractAttributeType,

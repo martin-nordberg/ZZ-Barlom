@@ -21,6 +21,25 @@ typealias BrowsePanelAction = (browsePanelState: BrowsePanelState) -> String
 object BrowsePanelActions {
 
     /**
+     * Expands a given [element] in the browse panel.
+     */
+    fun setExpanded(element: AbstractDocumentedElement): BrowsePanelAction {
+
+        return { browsePanelState: BrowsePanelState ->
+
+            if (browsePanelState.isExpandedElement(element)) {
+                "Element already expanded in browse panel."
+            }
+            else {
+                browsePanelState.addExpandedElement(element)
+                "Expanded element in browse panel."
+            }
+
+        }
+
+    }
+
+    /**
      * Expands or contracts a given [element] in the browse panel.
      */
     fun toggleExpanded(element: AbstractDocumentedElement): BrowsePanelAction {

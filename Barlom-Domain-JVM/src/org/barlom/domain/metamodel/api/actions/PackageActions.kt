@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -7,6 +7,7 @@ package org.barlom.domain.metamodel.api.actions
 
 import org.barlom.domain.metamodel.api.model.Model
 import org.barlom.domain.metamodel.api.vertices.Package
+import org.barlom.infrastructure.uuids.Uuid
 
 
 class PackageActions {
@@ -14,13 +15,13 @@ class PackageActions {
     companion object {
 
         /**
-         * Adds a new constrained 32-bit boolean data type to the given [parentPackage].
+         * Adds a new constrained 32-bit boolean data type with given [id] to the given [parentPackage].
          */
-        fun addConstrainedBoolean(parentPackage: Package): ModelAction {
+        fun addConstrainedBoolean(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeConstrainedBoolean {
+                model.makeConstrainedBoolean(id) {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
@@ -31,13 +32,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new constrained date/time data type to the given [parentPackage].
+         * Adds a new constrained date/time data type with given [id] to the given [parentPackage].
          */
-        fun addConstrainedDateTime(parentPackage: Package): ModelAction {
+        fun addConstrainedDateTime(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeConstrainedDateTime {
+                model.makeConstrainedDateTime(id) {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
@@ -48,13 +49,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new constrained 64-bit floating point data type to the given [parentPackage].
+         * Adds a new constrained 64-bit floating point data type with given [id] to the given [parentPackage].
          */
-        fun addConstrainedFloat64(parentPackage: Package): ModelAction {
+        fun addConstrainedFloat64(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeConstrainedFloat64 {
+                model.makeConstrainedFloat64(id) {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
@@ -65,13 +66,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new constrained 32-bit integer data type to the given [parentPackage].
+         * Adds a new constrained 32-bit integer data type with given [id] to the given [parentPackage].
          */
-        fun addConstrainedInteger32(parentPackage: Package): ModelAction {
+        fun addConstrainedInteger32(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeConstrainedInteger32 {
+                model.makeConstrainedInteger32(id) {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
@@ -82,13 +83,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new constrained string data type to the given [parentPackage].
+         * Adds a new constrained string data type with given [id] to the given [parentPackage].
          */
-        fun addConstrainedString(parentPackage: Package): ModelAction {
+        fun addConstrainedString(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeConstrainedString {
+                model.makeConstrainedString(id) {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
@@ -99,13 +100,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new constrained UUID data type to the given [parentPackage].
+         * Adds a new constrained UUID data type with given [id] to the given [parentPackage].
          */
-        fun addConstrainedUuid(parentPackage: Package): ModelAction {
+        fun addConstrainedUuid(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeConstrainedUuid {
+                model.makeConstrainedUuid(id) {
                     model.makeConstrainedDataTypeContainment(parentPackage, this)
                 }
 
@@ -116,13 +117,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new directed edge type to the given [parentPackage].
+         * Adds a new directed edge type with given [id] to the given [parentPackage].
          */
-        fun addDirectedEdgeType(parentPackage: Package): ModelAction {
+        fun addDirectedEdgeType(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeDirectedEdgeType {
+                model.makeDirectedEdgeType(id) {
                     model.makeDirectedEdgeTypeContainment(parentPackage, this)
                 }
 
@@ -133,13 +134,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new child package to the given [parentPackage].
+         * Adds a new child package with given [id] to the given [parentPackage].
          */
-        fun addPackage(parentPackage: Package): ModelAction {
+        fun addPackage(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makePackage {
+                model.makePackage(id) {
                     model.makePackageContainment(parentPackage, this)
                 }
 
@@ -150,13 +151,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new undirected edge type to the given [parentPackage].
+         * Adds a new undirected edge type with given [id] to the given [parentPackage].
          */
-        fun addUndirectedEdgeType(parentPackage: Package): ModelAction {
+        fun addUndirectedEdgeType(parentPackage: Package, id:Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeUndirectedEdgeType {
+                model.makeUndirectedEdgeType(id) {
                     model.makeUndirectedEdgeTypeContainment(parentPackage, this)
                 }
 
@@ -167,13 +168,13 @@ class PackageActions {
         }
 
         /**
-         * Adds a new vertex type to the given [parentPackage].
+         * Adds a new vertex type with given [id] to the given [parentPackage].
          */
-        fun addVertexType(parentPackage: Package): ModelAction {
+        fun addVertexType(parentPackage: Package, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeVertexType {
+                model.makeVertexType(id) {
                     model.makeVertexTypeContainment(parentPackage, this)
                 }
 

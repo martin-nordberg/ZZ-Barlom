@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -11,6 +11,7 @@ import org.barlom.domain.metamodel.api.types.ECyclicity
 import org.barlom.domain.metamodel.api.types.EMultiEdgedness
 import org.barlom.domain.metamodel.api.types.ESelfLooping
 import org.barlom.domain.metamodel.api.vertices.AbstractEdgeType
+import org.barlom.infrastructure.uuids.Uuid
 
 
 class AbstractEdgeTypeActions {
@@ -18,13 +19,13 @@ class AbstractEdgeTypeActions {
     companion object {
 
         /**
-         * Adds a new child attribute type to the given [parentEdgeType].
+         * Adds a new child attribute type with given [id] to the given [parentEdgeType].
          */
-        fun addAttributeType(parentEdgeType: AbstractEdgeType): ModelAction {
+        fun addAttributeType(parentEdgeType: AbstractEdgeType, id: Uuid): ModelAction {
 
             return { model: Model ->
 
-                model.makeEdgeAttributeType {
+                model.makeEdgeAttributeType(id) {
                     model.makeEdgeAttributeTypeContainment(parentEdgeType, this)
                 }
 

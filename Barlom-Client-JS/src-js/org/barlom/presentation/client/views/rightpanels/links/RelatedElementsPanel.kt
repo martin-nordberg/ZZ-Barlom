@@ -10,10 +10,16 @@ import org.barlom.domain.metamodel.api.actions.ModelAction
 import org.barlom.domain.metamodel.api.actions.PackageActions
 import org.barlom.domain.metamodel.api.actions.VertexTypeActions
 import org.barlom.domain.metamodel.api.vertices.*
+import org.barlom.infrastructure.uuids.Uuid
+import org.barlom.infrastructure.uuids.makeUuid
+import org.barlom.presentation.client.actions.GeneralActions
+import org.barlom.presentation.client.actions.leftpanels.browse.BrowsePanelActions
 import org.barlom.presentation.client.actions.rightpanels.links.RelatedElementsPanelAction
 import org.barlom.presentation.client.actions.rightpanels.links.RelatedElementsPanelActions
+import org.barlom.presentation.client.messages.AppActionMessage
 import org.barlom.presentation.client.messages.Message
 import org.barlom.presentation.client.messages.ModelActionMessage
+import org.barlom.presentation.client.messages.leftpanels.browse.BrowsePanelActionMessage
 import org.barlom.presentation.client.messages.rightpanels.links.RelatedElementsPanelActionMessage
 import org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 import org.barlom.presentation.client.views.listitems.viewListItem
@@ -74,8 +80,8 @@ private fun viewDirectedEdgeTypeChildElements(
         "Attribute Types:",
         "attribute-types",
         listOf(
-            AddElementConfig("Add an attribute type") { et ->
-                AbstractEdgeTypeActions.addAttributeType(et)
+            AddElementConfig("Add an attribute type") { et, id ->
+                AbstractEdgeTypeActions.addAttributeType(et, id)
             }
         )
     )
@@ -107,8 +113,8 @@ private fun viewPackageChildElements(
         "Child Packages:",
         "child-packages",
         listOf(
-            AddElementConfig("Add a child package") { pkg ->
-                PackageActions.addPackage(pkg)
+            AddElementConfig("Add a child package") { pkg, id ->
+                PackageActions.addPackage(pkg,id)
             }
         )
     )
@@ -120,8 +126,8 @@ private fun viewPackageChildElements(
         "Vertex Types:",
         "vertex-types",
         listOf(
-            AddElementConfig("Add a vertex type") { pkg ->
-                PackageActions.addVertexType(pkg)
+            AddElementConfig("Add a vertex type") { pkg, id ->
+                PackageActions.addVertexType(pkg,id)
             }
         )
     )
@@ -133,8 +139,8 @@ private fun viewPackageChildElements(
         "Undirected Edge Types:",
         "undirected-edge-types",
         listOf(
-            AddElementConfig("Add an undirected edge type") { pkg ->
-                PackageActions.addUndirectedEdgeType(pkg)
+            AddElementConfig("Add an undirected edge type") { pkg, id ->
+                PackageActions.addUndirectedEdgeType(pkg,id)
             }
         )
     )
@@ -146,8 +152,8 @@ private fun viewPackageChildElements(
         "Directed Edge Types:",
         "directed-edge-types",
         listOf(
-            AddElementConfig("Add a directed edge type") { pkg ->
-                PackageActions.addDirectedEdgeType(pkg)
+            AddElementConfig("Add a directed edge type") { pkg, id ->
+                PackageActions.addDirectedEdgeType(pkg,id)
             }
         )
     )
@@ -159,23 +165,23 @@ private fun viewPackageChildElements(
         "Constrained Data Types:",
         "constrained-data-types",
         listOf(
-            AddElementConfig("Add a constrained string data type") { pkg ->
-                PackageActions.addConstrainedString(pkg)
+            AddElementConfig("Add a constrained string data type") { pkg, id ->
+                PackageActions.addConstrainedString(pkg, id)
             },
-            AddElementConfig("Add a constrained 32-bit integer data type") { pkg ->
-                PackageActions.addConstrainedInteger32(pkg)
+            AddElementConfig("Add a constrained 32-bit integer data type") { pkg, id ->
+                PackageActions.addConstrainedInteger32(pkg, id)
             },
-            AddElementConfig("Add a constrained 64-bit floating point data type") { pkg ->
-                PackageActions.addConstrainedFloat64(pkg)
+            AddElementConfig("Add a constrained 64-bit floating point data type") { pkg, id ->
+                PackageActions.addConstrainedFloat64(pkg, id)
             },
-            AddElementConfig("Add a constrained boolean data type") { pkg ->
-                PackageActions.addConstrainedBoolean(pkg)
+            AddElementConfig("Add a constrained boolean data type") { pkg, id ->
+                PackageActions.addConstrainedBoolean(pkg, id)
             },
-            AddElementConfig("Add a constrained date/time data type") { pkg ->
-                PackageActions.addConstrainedDateTime(pkg)
+            AddElementConfig("Add a constrained date/time data type") { pkg, id ->
+                PackageActions.addConstrainedDateTime(pkg, id)
             },
-            AddElementConfig("Add a constrained UUID data type") { pkg ->
-                PackageActions.addConstrainedUuid(pkg)
+            AddElementConfig("Add a constrained UUID data type") { pkg, id ->
+                PackageActions.addConstrainedUuid(pkg, id)
             }
         )
     )
@@ -257,8 +263,8 @@ private fun viewUndirectedEdgeTypeChildElements(
         "Attribute Types:",
         "attribute-types",
         listOf(
-            AddElementConfig("Add an attribute type") { et ->
-                AbstractEdgeTypeActions.addAttributeType(et)
+            AddElementConfig("Add an attribute type") { et, id ->
+                AbstractEdgeTypeActions.addAttributeType(et, id)
             }
         )
     )
@@ -289,8 +295,8 @@ private fun viewVertexTypeChildElements(
         "Attribute Types:",
         "attribute-types",
         listOf(
-            AddElementConfig("Add an attribute type") { vt ->
-                VertexTypeActions.addAttributeType(vt)
+            AddElementConfig("Add an attribute type") { vt, id ->
+                VertexTypeActions.addAttributeType(vt, id)
             }
         )
     )
@@ -336,13 +342,13 @@ private fun viewVertexTypeChildElements(
 
 data class AddElementConfig<in Parent>(
     val label: String,
-    val action: (Parent) -> ModelAction
+    val action: (Parent, Uuid) -> ModelAction
 )
 
 /**
  * Shows a list of child elements for given parent.
  */
-private inline fun <Parent, reified Child : AbstractNamedElement> viewChildElements(
+private inline fun <Parent: AbstractDocumentedElement, reified Child : AbstractNamedElement> viewChildElements(
     builder: KatyDomFlowContentBuilder<Message>,
     parent: Parent,
     noinline getChildElements: Parent.() -> List<Child>,
@@ -377,7 +383,13 @@ private inline fun <Parent, reified Child : AbstractNamedElement> viewChildEleme
             li(".tree-item--not-focused", key = addButton.label) {
 
                 onclick {
-                    listOf(ModelActionMessage(addButton.action(parent)))
+                    val id = makeUuid()
+                    listOf(
+                        ModelActionMessage(addButton.action(parent,id)),
+                        // TODO: get rid of dependencies below using something like: afterAddElement(id:Uuid)->listOf<Message>
+                        BrowsePanelActionMessage(BrowsePanelActions.setExpanded(parent)),
+                        AppActionMessage(GeneralActions.focusById(id))
+                    )
                 }
 
                 span(".c-link") {
