@@ -1,12 +1,12 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.katydom.api
 
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.MouseEvent
+import org.katydom.dom.events.Event
+import org.katydom.dom.events.MouseEvent
 
 /**
  * Exception indicating that default handling of an event should be cancelled.

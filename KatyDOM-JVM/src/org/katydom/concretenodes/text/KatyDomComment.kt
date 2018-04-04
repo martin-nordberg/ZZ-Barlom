@@ -6,9 +6,9 @@
 package org.katydom.concretenodes.text
 
 import org.katydom.abstractnodes.KatyDomNode
-import org.w3c.dom.Comment
-import org.w3c.dom.Document
-import org.w3c.dom.Node
+import org.katydom.dom.Comment
+import org.katydom.dom.Document
+import org.katydom.dom.Node
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,7 +52,8 @@ internal class KatyDomComment<Msg>(
     override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>) {
 
         if (domElement !is Comment) throw IllegalArgumentException("DOM node expected to be comment.")
-        if (priorElement !is KatyDomComment) throw IllegalArgumentException("KatyDOM node expected to be KatyDOM comment.")
+        if (priorElement !is KatyDomComment) throw IllegalArgumentException(
+            "KatyDOM node expected to be KatyDOM comment.")
 
         if (nodeValue != priorElement.nodeValue) {
             domElement.nodeValue = nodeValue

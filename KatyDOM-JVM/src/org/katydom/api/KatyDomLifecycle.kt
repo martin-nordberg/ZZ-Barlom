@@ -6,7 +6,7 @@
 package org.katydom.api
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
-import org.w3c.dom.Element
+import org.katydom.dom.Element
 
 /**
  * Interface defining a Katy DOM lifecycle. Provides two methods: one to initially build a real DOM from a virtual DOM

@@ -9,14 +9,14 @@ package org.katydom.abstractnodes
 import org.katydom.api.EventCancellationException
 import org.katydom.api.EventHandler
 import org.katydom.api.MouseEventHandler
+import org.katydom.dom.Document
+import org.katydom.dom.Node
+import org.katydom.dom.events.Event
+import org.katydom.dom.events.MouseEvent
 import org.katydom.eventtarget.addEventListener
 import org.katydom.eventtarget.removeEventListener
 import org.katydom.types.EEventType
 import org.katydom.types.EMouseEventType
-import org.w3c.dom.Document
-import org.w3c.dom.Node
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.MouseEvent
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,14 +1,14 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 package org.katydom.kdom
 
+import org.katydom.dom.Attr
+import org.katydom.dom.Element
+import org.katydom.dom.NodeList
+import org.katydom.dom.TypeInfo
 import org.katydom.infrastructure.indent
-import org.w3c.dom.Attr
-import org.w3c.dom.Element
-import org.w3c.dom.NodeList
-import org.w3c.dom.TypeInfo
 
 /**
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
@@ -63,7 +63,7 @@ open class KDomElement(
             result.indent(indent)
         }
 
-        if ( !elementsWithoutEndTags.contains(tagName) ) {
+        if (!elementsWithoutEndTags.contains(tagName)) {
             result.append("</", tagName, ">")
         }
 
@@ -149,7 +149,7 @@ open class KDomElement(
 
     private companion object {
         val elementsWithoutEndTags = hashSetOf(
-          "br", "hr"
+            "br", "hr"
         )
     }
 

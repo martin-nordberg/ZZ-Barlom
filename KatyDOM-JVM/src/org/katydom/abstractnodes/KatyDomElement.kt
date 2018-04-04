@@ -1,15 +1,15 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.katydom.abstractnodes
 
+import org.katydom.dom.Element
+import org.katydom.dom.Node
 import org.katydom.dom.setAttributeAndProperty
 import org.katydom.infrastructure.UnusedMap
 import org.katydom.infrastructure.UnusedSet
-import org.w3c.dom.Element
-import org.w3c.dom.Node
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -327,8 +327,8 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
     override fun toString(): String {
         var result = "<" + nodeName.toLowerCase()
-        attributes.forEach {
-            entry -> result += " " + entry.key + "=\"" + entry.value + "\""
+        attributes.forEach { entry ->
+            result += " " + entry.key + "=\"" + entry.value + "\""
         }
         return "$result>"
     }

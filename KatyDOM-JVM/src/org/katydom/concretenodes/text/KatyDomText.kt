@@ -6,9 +6,9 @@
 package org.katydom.concretenodes.text
 
 import org.katydom.abstractnodes.KatyDomNode
-import org.w3c.dom.Document
-import org.w3c.dom.Node
-import org.w3c.dom.Text
+import org.katydom.dom.Document
+import org.katydom.dom.Node
+import org.katydom.dom.Text
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

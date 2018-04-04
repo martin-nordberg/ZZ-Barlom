@@ -8,10 +8,10 @@ package org.katydom.builders
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.Event2Message
 import org.katydom.api.MouseEvent2Message
+import org.katydom.dom.events.Event
+import org.katydom.dom.events.MouseEvent
 import org.katydom.types.EEventType
 import org.katydom.types.EMouseEventType
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.MouseEvent
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

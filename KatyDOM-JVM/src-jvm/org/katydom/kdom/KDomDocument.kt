@@ -1,11 +1,12 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.katydom.kdom
 
-import org.w3c.dom.*
+import org.katydom.dom.*
+
 
 /**
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.

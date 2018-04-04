@@ -7,7 +7,7 @@ package org.katydom.lifecycle
 
 import org.katydom.abstractnodes.KatyDomHtmlElement
 import org.katydom.api.KatyDomLifecycle
-import org.w3c.dom.Element
+import org.katydom.dom.Element
 
 /**
  * Implementation of the KatyDOM lifecycle to build and patch a real DOM tree from an initial and changed virtual DOM

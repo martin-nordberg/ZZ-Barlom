@@ -1,14 +1,14 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.katydom.kdom
 
-import org.w3c.dom.NamedNodeMap
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
-import org.w3c.dom.UserDataHandler
+import org.katydom.dom.NamedNodeMap
+import org.katydom.dom.Node
+import org.katydom.dom.NodeList
+import org.katydom.dom.UserDataHandler
 
 
 /**

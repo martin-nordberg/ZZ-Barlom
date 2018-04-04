@@ -1,13 +1,13 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
 package org.katydom.abstractnodes
 
+import org.katydom.dom.Document
+import org.katydom.dom.Node
 import org.katydom.types.EDirection
-import org.w3c.dom.Document
-import org.w3c.dom.Node
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
