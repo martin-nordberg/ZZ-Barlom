@@ -4,32 +4,30 @@
 //
 package org.katydom.kdom
 
-import org.katydom.dom.Attr
 import org.katydom.dom.Element
-import org.katydom.dom.NodeList
-import org.katydom.dom.TypeInfo
 import org.katydom.infrastructure.indent
 
 /**
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
  */
-open class KDomElement(
-    private val _ownerDocument: KDomDocument,
-    private val _nodeName: String
+class KDomElement(
+    override val ownerDocument: KDomDocument,
+    override val nodeName: String
 ) : KDomNode(), Element {
 
     private val _attributes: MutableMap<String, String> = sortedMapOf()
 
-    override fun getNodeName(): String {
-        return _nodeName
-    }
+    override var nodeValue: String?
+        get() = null
+        set(value) {}
 
-    override fun getOwnerDocument(): KDomDocument {
-        return _ownerDocument
-    }
+    override val tagName: String
+        get() {
+            return nodeName.toLowerCase()
+        }
 
-    override fun getTagName(): String {
-        return _nodeName.toLowerCase()
+    override fun removeAttribute(name: String) {
+        _attributes.remove(name)
     }
 
     override fun setAttribute(name: String, value: String) {
@@ -69,80 +67,6 @@ open class KDomElement(
 
         return result.toString()
 
-    }
-
-////
-
-    override fun setIdAttribute(name: String?, isId: Boolean) {
-        TODO("not yet needed")
-    }
-
-    override fun setIdAttributeNS(namespaceURI: String?, localName: String?, isId: Boolean) {
-        TODO("not yet needed")
-    }
-
-    override fun getAttributeNodeNS(namespaceURI: String?, localName: String?): Attr {
-        TODO("not yet needed")
-    }
-
-    override fun getElementsByTagName(name: String?): NodeList {
-        TODO("not yet needed")
-    }
-
-    override fun setAttributeNodeNS(newAttr: Attr?): Attr {
-        TODO("not yet needed")
-    }
-
-    override fun getAttribute(name: String?): String {
-        TODO("not yet needed")
-    }
-
-    override fun setIdAttributeNode(idAttr: Attr?, isId: Boolean) {
-        TODO("not yet needed")
-    }
-
-    override fun setAttributeNode(newAttr: Attr?): Attr {
-        TODO("not yet needed")
-    }
-
-    override fun removeAttributeNS(namespaceURI: String?, localName: String?) {
-        TODO("not yet needed")
-    }
-
-    override fun getElementsByTagNameNS(namespaceURI: String?, localName: String?): NodeList {
-        TODO("not yet needed")
-    }
-
-    override fun hasAttributeNS(namespaceURI: String?, localName: String?): Boolean {
-        TODO("not yet needed")
-    }
-
-    override fun getAttributeNode(name: String?): Attr {
-        TODO("not yet needed")
-    }
-
-    override fun getSchemaTypeInfo(): TypeInfo {
-        TODO("not yet needed")
-    }
-
-    override fun hasAttribute(name: String?): Boolean {
-        TODO("not yet needed")
-    }
-
-    override fun setAttributeNS(namespaceURI: String?, qualifiedName: String?, value: String?) {
-        TODO("not yet needed")
-    }
-
-    override fun removeAttribute(name: String?) {
-        TODO("not yet needed")
-    }
-
-    override fun removeAttributeNode(oldAttr: Attr?): Attr {
-        TODO("not yet needed")
-    }
-
-    override fun getAttributeNS(namespaceURI: String?, localName: String?): String {
-        TODO("not yet needed")
     }
 
 ////

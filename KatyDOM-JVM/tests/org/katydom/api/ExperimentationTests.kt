@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -24,22 +24,21 @@ class ExperimentationTests {
                     text("a sample")
 
                     ul("#a-list") {
-                        li(key=1) { text("item 1") }
-                        li(key=2) { text("item 2") }
-                        li(key=3) {
+                        li(key = 1) { text("item 1") }
+                        li(key = 2) { text("item 2") }
+                        li(key = 3) {
                             text("item 3")
                             div {}
                         }
                     }
                 }
 
-                div(".some-class", key=2) {
+                div(".some-class", key = 2) {
                     classes("big" to true, "small" to false, "smelly" to true)
                     attribute("class", "very-classy")
                     attributes("a1" to "v1", "a2" to "v2")
 
-                    onclick { event ->
-                        event.clientX
+                    onclick { _ ->
                         emptyList()
                     }
                 }
@@ -93,17 +92,16 @@ class ExperimentationTests {
 
             div("#myDiv.my-class", style = "color:red") {
 
-                div(hidden=true) {
+                div(hidden = true) {
                     text("a sample")
                 }
 
-                div(".some-class", key="x", title="A Title") {
+                div(".some-class", key = "x", title = "A Title") {
                     classes("big" to true, "small" to false, "smelly" to true)
                     attribute("class", "very-classy")
                     attributes("a1" to "v1", "a2" to "v2")
 
-                    onclick { event ->
-                        event.clientX
+                    onclick { _ ->
                         emptyList()
                     }
                 }
@@ -128,11 +126,11 @@ class ExperimentationTests {
 
         val vdomNode = katyDom<Unit> {
 
-            div("#myDiv.my-class", "div1" ) {
+            div("#myDiv.my-class", "div1") {
 
-                span ( ".mottled" ) {
-                    a ( href="#somewhere", rel=listOf(EAnchorHtmlLinkType.NEXT, EAnchorHtmlLinkType.NOREFERRER) ) {
-                        text( "Go Somewhere" )
+                span(".mottled") {
+                    a(href = "#somewhere", rel = listOf(EAnchorHtmlLinkType.NEXT, EAnchorHtmlLinkType.NOREFERRER)) {
+                        text("Go Somewhere")
                     }
                 }
 

@@ -5,16 +5,16 @@
 
 package org.katydom.kdom
 
-import org.katydom.dom.Text
+import org.katydom.dom.Comment
 import org.katydom.infrastructure.indent
 
 /**
  * Implementation of DOM Text for generating HTML text for testing or server-side rendering.
  */
-open class KDomText(
+open class KDomComment(
     override val ownerDocument: KDomDocument,
     private var _data: String
-) : KDomNode(), Text {
+) : KDomNode(), Comment {
 
     override var data: String
         get() = _data

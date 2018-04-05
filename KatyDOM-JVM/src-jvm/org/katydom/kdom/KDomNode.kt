@@ -5,10 +5,8 @@
 
 package org.katydom.kdom
 
-import org.katydom.dom.NamedNodeMap
 import org.katydom.dom.Node
-import org.katydom.dom.NodeList
-import org.katydom.dom.UserDataHandler
+import org.katydom.dom.events.Event
 
 
 /**
@@ -22,6 +20,32 @@ abstract class KDomNode : Node {
 
     private var _parentNode: KDomNode? = null
 
+    override val firstChild
+        get() = _firstChild
+
+    override val lastChild: KDomNode?
+        get() {
+
+            var result = _firstChild
+
+            while (result != null && result._nextSibling != null) {
+                result = result._nextSibling
+            }
+
+            return result
+
+        }
+
+    override val nextSibling: KDomNode?
+        get() = _nextSibling
+
+    override val parentNode
+        get() = _parentNode
+
+    override fun addEventListener(eventName: String, eventHandler: (Event) -> Unit) {
+        // do nothing in JVM
+    }
+
     override fun appendChild(newChild: Node): KDomNode {
         val result = newChild as KDomNode
         if (_firstChild == null) {
@@ -32,30 +56,6 @@ abstract class KDomNode : Node {
         }
         result.setParentNode(this)
         return result
-    }
-
-    override fun getFirstChild(): KDomNode? {
-        return _firstChild
-    }
-
-    override fun getLastChild(): KDomNode? {
-
-        var result = _firstChild
-
-        while (result != null && result._nextSibling != null) {
-            result = result._nextSibling
-        }
-
-        return result
-
-    }
-
-    override fun getNextSibling(): KDomNode? {
-        return _nextSibling
-    }
-
-    override fun getParentNode(): KDomNode? {
-        return _parentNode
     }
 
     override fun hasChildNodes(): Boolean {
@@ -113,120 +113,14 @@ abstract class KDomNode : Node {
         return result
     }
 
+    override fun removeEventListener(eventName: String, eventHandler: (Event) -> Unit) {
+        // do nothing in JVM
+    }
+
     internal fun setParentNode(parentNode: KDomNode?) {
         _parentNode = parentNode
     }
 
     abstract fun toHtmlString(indent: Int = 0): String
-
-////
-
-    override fun isSameNode(other: Node?): Boolean {
-        TODO("not yet needed")
-    }
-
-    override fun getBaseURI(): String {
-        TODO("not yet needed")
-    }
-
-    override fun isDefaultNamespace(namespaceURI: String?): Boolean {
-        TODO("not yet needed")
-    }
-
-    override fun getFeature(feature: String?, version: String?): Any {
-        TODO("not yet needed")
-    }
-
-    override fun getAttributes(): NamedNodeMap {
-        TODO("not yet needed")
-    }
-
-    override fun cloneNode(deep: Boolean): KDomNode {
-        TODO("not yet needed")
-    }
-
-    override fun isSupported(feature: String?, version: String?): Boolean {
-        TODO("not yet needed")
-    }
-
-    override fun getTextContent(): String {
-        TODO("not yet needed")
-    }
-
-    override fun getNodeValue(): String {
-        TODO("not yet needed")
-    }
-
-    override fun setTextContent(textContent: String?) {
-        TODO("not yet needed")
-    }
-
-    override fun compareDocumentPosition(other: Node?): Short {
-        TODO("not yet needed")
-    }
-
-    override fun getLocalName(): String {
-        TODO("not yet needed")
-    }
-
-    override fun normalize() {
-        TODO("not yet needed")
-    }
-
-    override fun getNamespaceURI(): String {
-        TODO("not yet needed")
-    }
-
-    override fun setNodeValue(nodeValue: String?) {
-        TODO("not yet needed")
-    }
-
-    override fun replaceChild(newChild: Node?, oldChild: Node?): KDomNode {
-        TODO("not yet needed")
-    }
-
-    override fun getPreviousSibling(): KDomNode {
-        TODO("not yet needed")
-    }
-
-    override fun setPrefix(prefix: String?) {
-        TODO("not yet needed")
-    }
-
-    override fun setUserData(key: String?, data: Any?, handler: UserDataHandler?): Any {
-        TODO("not yet needed")
-    }
-
-    override fun getUserData(key: String?): Any {
-        TODO("not yet needed")
-    }
-
-    override fun hasAttributes(): Boolean {
-        TODO("not yet needed")
-    }
-
-    override fun getNodeType(): Short {
-        TODO("not yet needed")
-    }
-
-    override fun getPrefix(): String {
-        TODO("not yet needed")
-    }
-
-    override fun getChildNodes(): NodeList {
-        TODO("not yet needed")
-    }
-
-    override fun lookupPrefix(namespaceURI: String?): String {
-        TODO("not yet needed")
-    }
-
-    override fun lookupNamespaceURI(prefix: String?): String {
-        TODO("not yet needed")
-    }
-
-    override fun isEqualNode(arg: Node?): Boolean {
-        TODO("not yet needed")
-    }
 
 }

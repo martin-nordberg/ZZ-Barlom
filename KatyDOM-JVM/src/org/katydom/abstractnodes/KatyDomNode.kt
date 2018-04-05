@@ -13,8 +13,6 @@ import org.katydom.dom.Document
 import org.katydom.dom.Node
 import org.katydom.dom.events.Event
 import org.katydom.dom.events.MouseEvent
-import org.katydom.eventtarget.addEventListener
-import org.katydom.eventtarget.removeEventListener
 import org.katydom.types.EEventType
 import org.katydom.types.EMouseEventType
 

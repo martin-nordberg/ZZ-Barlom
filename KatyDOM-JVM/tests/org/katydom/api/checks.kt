@@ -36,7 +36,8 @@ internal fun <Message> checkBuild(expectedHtml: String, vdomNode: KatyDomNode<Me
 /**
  * Builds the DOM for a given KatyDOM node and checks the HTML output against what's expected before and after a patch.
  */
-internal fun <Message> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<Message>, expectedHtml1: String, vdomNode1: KatyDomNode<Message>) {
+internal fun <Message> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<Message>, expectedHtml1: String,
+                                  vdomNode1: KatyDomNode<Message>) {
 
     val body = KDomDocument().createElement("body")
     val div = body.ownerDocument.createElement("div")
@@ -59,7 +60,6 @@ internal fun <Message> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<
     else {
         fail("Function checkPatch expects HTML elements.")
     }
-
 
 }
 
