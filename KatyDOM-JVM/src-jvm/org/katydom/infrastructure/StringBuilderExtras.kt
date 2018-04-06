@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -13,5 +13,5 @@ fun StringBuilder.indent(spaces: Int) {
 }
 
 
-private val FIFTY_SPACES = "                                                  "
+private const val FIFTY_SPACES = "                                                  "
 

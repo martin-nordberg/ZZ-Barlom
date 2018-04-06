@@ -31,7 +31,7 @@ class KDomElement(
     }
 
     override fun setAttribute(name: String, value: String) {
-        _attributes.put(name, value)
+        _attributes[name] = value
     }
 
     override fun toHtmlString(indent: Int): String {

@@ -117,7 +117,7 @@ abstract class KDomNode : Node {
         // do nothing in JVM
     }
 
-    internal fun setParentNode(parentNode: KDomNode?) {
+    private fun setParentNode(parentNode: KDomNode?) {
         _parentNode = parentNode
     }
 

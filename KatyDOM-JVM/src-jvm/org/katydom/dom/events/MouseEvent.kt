@@ -5,5 +5,4 @@
 
 package org.katydom.dom.events
 
-interface MouseEvent : Event {
-}
+interface MouseEvent : Event

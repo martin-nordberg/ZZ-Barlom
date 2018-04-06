@@ -54,15 +54,21 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
      */
     internal fun addChildNode(childNode: KatyDomNode<Msg>) {
 
-        if (isAddingAttributes) {
-            freezeAttributes()
-            state = EState.ADDING_CHILD_NODES
-        }
-        else if (isAddingEventHandlers) {
-            state = EState.ADDING_CHILD_NODES
-        }
-        else {
-            check(isAddingChildNodes) { "Cannot modify a KatyDOM node after it has been fully constructed." }
+        when {
+
+            isAddingAttributes    -> {
+                freezeAttributes()
+                state = EState.ADDING_CHILD_NODES
+            }
+
+            isAddingEventHandlers -> {
+                state = EState.ADDING_CHILD_NODES
+            }
+
+            else                  -> {
+                check(isAddingChildNodes) { "Cannot modify a KatyDOM node after it has been fully constructed." }
+            }
+
         }
 
         require(!childNodesByKey.containsKey(childNode.key)) {
@@ -100,8 +106,7 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
             check(isAddingEventHandlers) { "KatyDOM node's event handlers must be defined before its child nodes." }
         }
 
-        eventHandlers.put(
-            eventType.domName,
+        eventHandlers[eventType.domName] =
             { event: Event ->
                 try {
                     handler(event as MouseEvent)
@@ -110,7 +115,6 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
                     event.preventDefault()
                 }
             }
-        )
 
     }
 
@@ -129,8 +133,7 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
             check(isAddingEventHandlers) { "KatyDOM node's event handlers must be defined before its child nodes." }
         }
 
-        eventHandlers.put(
-            eventType.domName,
+        eventHandlers[eventType.domName] =
             { event: Event ->
                 try {
                     handler(event)
@@ -139,7 +142,6 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
                     event.preventDefault()
                 }
             }
-        )
 
     }
 
@@ -225,21 +227,18 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
         patchEventHandlers(domNode, priorNode)
 
         // Patch the child nodes.
-        if (priorNode.firstChildNode == null) {
+        when {
 
-            establishChildNodes(domNode)
+            priorNode.firstChildNode == null ->
+                establishChildNodes(domNode)
 
-        }
-        else if (firstChildNode == null) {
+            firstChildNode == null           ->
+                while (domNode.hasChildNodes()) {
+                    domNode.removeChild(domNode.firstChild!!)
+                }
 
-            while (domNode.hasChildNodes()) {
-                domNode.removeChild(domNode.firstChild!!)
-            }
-
-        }
-        else {
-
-            patchChildNodes(domNode, priorNode)
+            else                             ->
+                patchChildNodes(domNode, priorNode)
 
         }
 
@@ -409,67 +408,74 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
         while (startChild != null && endChild != null && startChild != endChild.nextSiblingNode && endChild != startChild.prevSiblingNode) {
 
-            if (startChild.matches(priorStartChild)) {
+            when {
 
-                domChild = domChild!!.nextSibling
+                startChild.matches(priorStartChild) -> {
 
-                startChild.patch(priorStartChild!!)
+                    domChild = domChild!!.nextSibling
 
-                startChild = startChild.nextSiblingNode
-                priorStartChild = priorStartChild.nextSiblingNode
+                    startChild.patch(priorStartChild!!)
 
-            }
-            else if (endChild.matches(priorEndChild)) {
-
-                endChild.patch(priorEndChild!!)
-
-                endChild = endChild.prevSiblingNode
-                priorEndChild = priorEndChild.prevSiblingNode
-
-            }
-            else if (startChild.matches(priorEndChild)) {
-
-                domNode.insertBefore(priorEndChild!!.domNode!!, domChild)
-
-                startChild.patch(priorEndChild)
-
-                startChild = startChild.nextSiblingNode
-                priorEndChild = priorEndChild.prevSiblingNode
-
-            }
-            else if (endChild.matches(priorStartChild)) {
-
-                if (endChild.nextSiblingNode == null) {
-                    domNode.insertBefore(priorStartChild!!.domNode!!, null)
-                }
-                else {
-                    domNode.insertBefore(priorStartChild!!.domNode!!, endChild.nextSiblingNode!!.domNode)
-                }
-
-                endChild.patch(priorStartChild)
-
-                endChild = endChild.prevSiblingNode
-                priorStartChild = priorStartChild.nextSiblingNode
-
-            }
-            else {
-
-                val priorChild = priorNode.childNodesByKey[startChild.key]
-                if (priorChild != null) {
-
-                    domNode.insertBefore(priorChild.domNode!!, domChild)
-
-                    startChild.patch(priorChild)
-
-                }
-                else {
-
-                    startChild.createDomNode(document, domNode, domChild)
+                    startChild = startChild.nextSiblingNode
+                    priorStartChild = priorStartChild.nextSiblingNode
 
                 }
 
-                startChild = startChild.nextSiblingNode
+                endChild.matches(priorEndChild)     -> {
 
+                    endChild.patch(priorEndChild!!)
+
+                    endChild = endChild.prevSiblingNode
+                    priorEndChild = priorEndChild.prevSiblingNode
+
+                }
+
+                startChild.matches(priorEndChild)   -> {
+
+                    domNode.insertBefore(priorEndChild!!.domNode!!, domChild)
+
+                    startChild.patch(priorEndChild)
+
+                    startChild = startChild.nextSiblingNode
+                    priorEndChild = priorEndChild.prevSiblingNode
+
+                }
+
+                endChild.matches(priorStartChild)   -> {
+
+                    if (endChild.nextSiblingNode == null) {
+                        domNode.insertBefore(priorStartChild!!.domNode!!, null)
+                    }
+                    else {
+                        domNode.insertBefore(priorStartChild!!.domNode!!, endChild.nextSiblingNode!!.domNode)
+                    }
+
+                    endChild.patch(priorStartChild)
+
+                    endChild = endChild.prevSiblingNode
+                    priorStartChild = priorStartChild.nextSiblingNode
+
+                }
+
+                else                                -> {
+
+                    val priorChild = priorNode.childNodesByKey[startChild.key]
+                    if (priorChild != null) {
+
+                        domNode.insertBefore(priorChild.domNode!!, domChild)
+
+                        startChild.patch(priorChild)
+
+                    }
+                    else {
+
+                        startChild.createDomNode(document, domNode, domChild)
+
+                    }
+
+                    startChild = startChild.nextSiblingNode
+
+                }
             }
 
         }

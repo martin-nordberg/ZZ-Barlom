@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2017 Martin E. Nordberg III
+// (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -45,7 +45,7 @@ class MutableCell<T>(
      * @param value the new value.
      */
     fun set(value: T?) {
-        this._value = value;
+        this._value = value
     }
 
 }

@@ -53,11 +53,11 @@ internal class KatyDomA<Msg>(
         this.setAttribute("hreflang", hreflang)
 
         if (rel != null) {
-            this.setAttribute("rel", rel.map(EAnchorHtmlLinkType::toHtmlString).joinToString(" "))
+            this.setAttribute("rel", rel.joinToString(" ", transform = EAnchorHtmlLinkType::toHtmlString))
         }
 
         if (rev != null) {
-            this.setAttribute("rev", rev.map(EAnchorHtmlLinkType::toHtmlString).joinToString(" "))
+            this.setAttribute("rev", rev.joinToString(" ", transform = EAnchorHtmlLinkType::toHtmlString))
         }
 
         this.setAttribute("target", target)

@@ -15,24 +15,24 @@ import org.katydom.dom.events.MouseEvent
 class EventCancellationException : RuntimeException()
 
 /**
- * Generic event handler: input is any [event]. To cancel an event throw EventCancellationException.
+ * Generic event handler: input is any event. To cancel an event throw EventCancellationException.
  */
 typealias EventHandler = (event: Event) -> Unit
 
 /**
- * Mouse event handler: input is a mouse [event]. To cancel an event throw EventCancellationException.
+ * Mouse event handler: input is a mouse event. To cancel an event throw EventCancellationException.
  */
 typealias MouseEventHandler = (event: MouseEvent) -> Unit
 
 
 /**
- * Message-generating event handler: input is any [event], output is a message.
+ * Message-generating event handler: input is any event, output is a list of messages.
  * To cancel an event throw EventCancellationException.
  */
 typealias Event2Message<Message> = (event: Event) -> Iterable<Message>
 
 /**
- * Message-generating event handler: input is any [event], output is a message.
+ * Message-generating event handler: input is any mouse event, output is a list of messages.
  * To cancel an event throw EventCancellationException.
  */
 typealias MouseEvent2Message<Message> = (event: MouseEvent) -> Iterable<Message>
