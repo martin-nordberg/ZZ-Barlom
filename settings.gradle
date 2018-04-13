@@ -1,0 +1,12 @@
+
+rootProject.name = 'Barlom'
+
+include 'Barlom-Foundation-JVM'
+include 'Barlom-Foundation-JS'
+include 'Barlom-Domain-JVM'
+include 'Barlom-Domain-JS'
+include 'Barlom-Server-JVM'
+include 'KatyDOM-JVM'
+include 'KatyDOM-JS'
+include 'Barlom-Client-JVM'
+include 'Barlom-Client-JS'
