@@ -28,7 +28,7 @@ fun makeUuid(): Uuid {
         console.log("Retrieving nextUuid synchronously....")
 
         val request = XMLHttpRequest()
-        request.open("GET", "/Barlom/uuid", false)
+        request.open("GET", "/barlom/uuid", false)
         request.send(null)
 
         if (request.status == 200.toShort()) {
@@ -59,7 +59,7 @@ fun prefetchUuid() {
     console.log("Retrieving waitingUuid asynchronously....")
 
     val request = XMLHttpRequest()
-    request.open("GET", "/Barlom/uuid")
+    request.open("GET", "/barlom/uuid")
     request.send(null)
 
     request.onload = {

@@ -5,20 +5,29 @@
 
 package jvm.org.barlom.presentation.server.routes.util
 
+import io.ktor.application.call
+import io.ktor.http.ContentType
+import io.ktor.response.respondText
+import io.ktor.routing.Routing
+import io.ktor.routing.get
 import org.apache.logging.log4j.LogManager
 import jvm.org.barlom.infrastructure.logging.logInfo
 import x.org.barlom.infrastructure.uuids.makeUuidWithReservedBlock
-import spark.kotlin.get
 
+/**
+ * Defines a JSON endpoint below the given [root] path for retrieving UUIDs.
+ */
+fun Routing.getUuid(root: String) {
 
-fun uuidRoute( root: String) {
-
-    get(root + "/uuid" ) {
-        response.type("application/json")
+    get(root + "/uuid") {
 
         val uuid = makeUuidWithReservedBlock().toString()
         logger.logInfo { "Created UUID: $uuid" }
-        """{"uuid":"$uuid"}"""
+
+        call.respondText(ContentType.parse("application/json")) {
+            """{"uuid":"$uuid"}"""
+        }
+
     }
 
 }

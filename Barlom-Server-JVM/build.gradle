@@ -2,6 +2,7 @@
 buildscript {
 
     ext.kotlin_version = '1.2.30'
+    ext.ktor_version = '0.9.1'
     ext.log4j_version = '2.11.0'
 
     repositories {
@@ -32,6 +33,8 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
 }
 
 dependencies {
@@ -40,11 +43,10 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-api:$log4j_version"
     compile "org.apache.logging.log4j:log4j-core:$log4j_version"
     compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
-    compile "com.sparkjava:spark-kotlin:1.0.0-alpha"
+    compile "io.ktor:ktor-server-jetty:$ktor_version"
 
+    compile project( ':Barlom-Client-JS' )
     compile project( ':Barlom-Domain-JVM' )
-
-    compile project( ':Barlom-Client-JS', { assemble } )
 
     testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -67,6 +69,12 @@ compileTestKotlin {
 
 junitPlatform {
     details 'tree'
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
 
 task copyWebResources(type: Copy) {
