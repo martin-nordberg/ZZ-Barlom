@@ -1,17 +1,13 @@
 
 buildscript {
 
-    ext.kotlin_version = '1.2.30'
-    ext.ktor_version = '0.9.1'
-    ext.log4j_version = '2.11.0'
-
     repositories {
         mavenCentral()
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
     }
 
 }
@@ -32,7 +28,6 @@ defaultTasks 'run'
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
     jcenter()
     maven { url "https://dl.bintray.com/kotlin/ktor" }
 }
@@ -50,12 +45,12 @@ dependencies {
 
     testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    testCompile 'org.junit.platform:junit-platform-runner:1.1.0'
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testCompile "org.junit.platform:junit-platform-runner:$junit_platform_version"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 
 }
 
@@ -104,5 +99,3 @@ task unzipKotlinJs(type: Copy) {
 
 processResources.dependsOn( copyWebResources )
 processResources.dependsOn( unzipKotlinJs )
-
-//run.dependsOn assemble

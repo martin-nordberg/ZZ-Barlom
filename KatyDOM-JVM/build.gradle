@@ -1,15 +1,13 @@
 
 buildscript {
 
-    ext.kotlin_version = '1.2.30'
-
     repositories {
         mavenCentral()
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
     }
 
 }
@@ -24,22 +22,18 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    testCompile 'org.junit.platform:junit-platform-runner:1.1.0'
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testCompile "org.junit.platform:junit-platform-runner:$junit_platform_version"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 
 }
 
