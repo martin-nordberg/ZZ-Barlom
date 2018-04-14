@@ -62,13 +62,13 @@ class Uuid(
         val nybble7 = uuidStr[7]
         val nybble6 = uuidStr[6]
 
-        return nybble6 != 'F' && nybble7 != 'F'
+        return nybble6 != 'F' || nybble7 != 'F'
 
     }
 
     fun nextInReservedBlock(): Uuid {
 
-        check(hasNextInReservedBlock()) { "Reserved block exhausetd." }
+        check(hasNextInReservedBlock()) { "Reserved block exhausted." }
 
         val nybble7 = uuidStr[7]
         when (nybble7) {

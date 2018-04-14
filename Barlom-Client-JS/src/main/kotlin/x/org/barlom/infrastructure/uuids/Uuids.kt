@@ -3,10 +3,9 @@
 // Apache 2.0 License
 //
 
-package js.org.barlom.infrastructure.uuids
+package x.org.barlom.infrastructure.uuids
 
 import org.w3c.xhr.XMLHttpRequest
-import x.org.barlom.infrastructure.uuids.Uuid
 
 /**
  * Makes a version 1 UUID.
@@ -42,6 +41,8 @@ fun makeUuid(): Uuid {
     val result = nextUuid!!
 
     nextUuid = if (result.hasNextInReservedBlock()) result.nextInReservedBlock() else null
+
+    console.log( "NEXT UUID: ", nextUuid.toString())
 
     return result
 

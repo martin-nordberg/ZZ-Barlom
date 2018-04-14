@@ -11,7 +11,7 @@ import o.org.barlom.domain.metamodel.api.actions.PackageActions
 import o.org.barlom.domain.metamodel.api.actions.VertexTypeActions
 import o.org.barlom.domain.metamodel.api.vertices.*
 import x.org.barlom.infrastructure.uuids.Uuid
-import js.org.barlom.infrastructure.uuids.makeUuid
+import x.org.barlom.infrastructure.uuids.makeUuid
 import o.org.barlom.presentation.client.actions.GeneralActions
 import o.org.barlom.presentation.client.actions.leftpanels.browse.BrowsePanelActions
 import o.org.barlom.presentation.client.actions.rightpanels.links.RelatedElementsPanelAction
