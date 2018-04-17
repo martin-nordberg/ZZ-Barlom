@@ -167,6 +167,10 @@ class VLinkedList<T : Any> {
      */
     operator fun get(index: Int): T {
 
+        if ( index < 0 ) {
+            throw IndexOutOfBoundsException()
+        }
+
         var i = 0
         var link = _firstLink.get()
 
@@ -304,7 +308,7 @@ class VLinkedList<T : Any> {
      */
     fun removeAt(index: Int): T {
 
-        if (index > size) {
+        if (index >= size || index < 0) {
             throw IndexOutOfBoundsException()
         }
 
@@ -340,7 +344,7 @@ class VLinkedList<T : Any> {
      */
     operator fun set(index: Int, value: T): T {
 
-        if (index > size) {
+        if (index >= size || index < 0) {
             throw IndexOutOfBoundsException()
         }
 

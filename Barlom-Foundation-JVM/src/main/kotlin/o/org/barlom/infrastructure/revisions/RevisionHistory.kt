@@ -74,9 +74,7 @@ class RevisionHistory(
      * @param task the work to be done reading from the latest revision as of the start of the call.
      */
     fun <T> review(task: () -> T): T {
-
         return review(_lastRevision.get().revisionNumber, task)
-
     }
 
     /**
@@ -87,7 +85,10 @@ class RevisionHistory(
      */
     fun <T> review(revisionNumber: Long, task: () -> T): T {
 
-        // TODO: check that the revision number is in range
+        // Check that the revision number is in range
+        require( revisionNumber > 0 && revisionNumber <= _lastRevision.get().revisionNumber ) {
+            "Revision number out of bounds."
+        }
 
         if (_revisionNumberOfCurrentThread.get() != null) {
             // TODO: maybe it's useful to nest with same revision number?

@@ -5,9 +5,7 @@
 
 package jvm.org.barlom.infrastructure.revisions
 
-import o.org.barlom.infrastructure.revisions.RevisionHistory
-import o.org.barlom.infrastructure.revisions.V
-import o.org.barlom.infrastructure.revisions.increment
+import o.org.barlom.infrastructure.revisions.*
 import org.junit.jupiter.api.Test
 import kotlin.test.*
 
@@ -84,6 +82,14 @@ class RevisionHistoryTests {
 
         checkRev2()
         checkRev1()
+
+        assertFailsWith(IllegalArgumentException::class) {
+            revHistory.review(-1) {}
+        }
+
+        assertFailsWith(IllegalArgumentException::class) {
+            revHistory.review(4) {}
+        }
 
     }
 
@@ -267,6 +273,71 @@ class RevisionHistoryTests {
 
         }
 
+        assertEquals("Rev #1", revHistory.lastRevision.description)
+        assertEquals(1, revHistory.lastRevision.revisionNumber)
+        assertEquals("Rev #0", revHistory.lastRevision.priorRevision?.description)
+        assertEquals(0L, revHistory.lastRevision.priorRevision?.revisionNumber)
+        assertNull(revHistory.lastRevision.priorRevision?.priorRevision)
+
+        checkRev1()
+
+    }
+
+
+    @Test
+    fun `A revision limits transaction retries`() {
+
+        val revHistory = RevisionHistory("Rev #0")
+
+        var s0: Sample? = null
+
+        revHistory.update(2) {
+            s0 = Sample()
+            assertEquals(revHistory,RevisionHistory.currentlyInUse)
+            "Rev #1"
+        }
+
+        assertFailsWith(IllegalStateException::class) {
+            RevisionHistory.transactionOfCurrentThread
+        }
+
+        val s = s0!!
+
+        assertEquals("Rev #1", revHistory.lastRevision.description)
+        assertEquals(1, revHistory.lastRevision.revisionNumber)
+        assertEquals("Rev #0", revHistory.lastRevision.priorRevision?.description)
+        assertEquals(0L, revHistory.lastRevision.priorRevision?.revisionNumber)
+        assertNull(revHistory.lastRevision.priorRevision?.priorRevision)
+
+        fun checkRev1() = revHistory.review(1) {
+            assertFailsWith(IllegalStateException::class) {
+                RevisionHistory.currentlyInUse
+            }
+            assertFailsWith(IllegalStateException::class) {
+                revHistory.review {}
+            }
+            assertEquals(1, s.value.get())
+            assertEquals("one", s.name.get())
+            assertFalse(s.isEven.get())
+        }
+
+        checkRev1()
+
+        var count = 0
+
+        assertFailsWith(MaximumRetriesExceededException::class) {
+
+            revHistory.update(2) {
+                s.value.set(2)
+                s.name.set("two")
+                s.isEven.set(true)
+                count += 1
+                throw WriteConflictException()
+            }
+
+        }
+
+        assertEquals(3, count)
         assertEquals("Rev #1", revHistory.lastRevision.description)
         assertEquals(1, revHistory.lastRevision.revisionNumber)
         assertEquals("Rev #0", revHistory.lastRevision.priorRevision?.description)

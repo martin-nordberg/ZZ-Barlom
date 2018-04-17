@@ -8,9 +8,7 @@ package jvm.org.barlom.infrastructure.revisions
 import o.org.barlom.infrastructure.revisions.RevisionHistory
 import o.org.barlom.infrastructure.revisions.VLinkedList
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 /**
  * Tests of class VLinkedList.
@@ -40,6 +38,22 @@ class VLinkedListTests {
             assertEquals(0, list.asList().size)
             assertTrue(list.isEmpty())
             assertFalse(list.isNotEmpty())
+            assertFalse(list.remove(40))
+            assertNull(list.find { it == 7 })
+            assertEquals(-1,list.indexOf(2))
+            assertEquals(-1,list.lastIndexOf(2))
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list[-1]
+            }
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list[0]
+            }
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list[-1] = 1
+            }
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list[0] = 4
+            }
         }
 
         checkRev1()
@@ -91,14 +105,19 @@ class VLinkedListTests {
         checkRev1()
 
         // remove one; add one new and one duplicate
+        var removed = false
+        var notRemoved = false
         revHistory.update(2) {
-            list.remove(20)
+            removed = list.remove(20)
             list.add(30)
             list.add(40)
+            notRemoved = !list.remove(21)
             "Rev #4"
         }
 
         assertEquals(4, revHistory.lastRevision.revisionNumber)
+        assertTrue(removed)
+        assertTrue(notRemoved)
 
         fun checkRev4() = revHistory.review(4) {
 
@@ -166,9 +185,11 @@ class VLinkedListTests {
             assertEquals(0, list.indexOf(40))
             assertEquals(1, list.indexOf(30))
             assertEquals(3, list.indexOf(10))
+            assertEquals(-1, list.indexOf(11))
             assertEquals(0, list.lastIndexOf(40))
             assertEquals(2, list.lastIndexOf(30))
             assertEquals(3, list.lastIndexOf(10))
+            assertEquals(-1, list.lastIndexOf(11))
 
         }
 
@@ -304,6 +325,12 @@ class VLinkedListTests {
             assertEquals(10, list.removeAt(0))
             assertEquals(40, list.removeAt(2))
             assertEquals(90, list.removeAt(6))
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list.removeAt(6)
+            }
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list.removeAt(-1)
+            }
             "Rev #3"
         }
 
@@ -315,6 +342,12 @@ class VLinkedListTests {
             assertEquals(60, list[3])
             assertEquals(70, list[4])
             assertEquals(80, list[5])
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list[-1]
+            }
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list[6]
+            }
         }
 
         // replace several items
@@ -323,6 +356,9 @@ class VLinkedListTests {
             assertEquals(30, list.set(1, 35))
             assertEquals(70, list.set(4, 75))
             assertEquals(80, list.set(5, 85))
+            assertFailsWith(IndexOutOfBoundsException::class) {
+                list.set(6,95)
+            }
             "Rev #4"
         }
 
@@ -354,6 +390,50 @@ class VLinkedListTests {
             assertEquals(85, i.next())
 
             assertFalse(i.hasNext())
+
+        }
+
+        revHistory.review {
+
+            val x = list.find {
+                it == 75
+            }
+
+            assertEquals(75,x)
+
+            val y = list.find {
+                it == 40
+            }
+
+            assertNull(y)
+
+        }
+
+        revHistory.review {
+
+            var count = 0
+
+            list.forEach { count += 1 }
+
+            assertEquals( 6, count )
+
+        }
+
+        revHistory.review {
+
+            var count = 0
+
+            list.forEachWhile {
+                if ( it == 60 ) {
+                    false
+                }
+                else {
+                    count += 1
+                    true
+                }
+            }
+
+            assertEquals( 3, count )
 
         }
 

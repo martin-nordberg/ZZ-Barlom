@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2014-2017 Martin E. Nordberg III
+// (C) Copyright 2014-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -115,27 +115,6 @@ open class VHashSet<T : Any>(
 
             for (entry in list) {
                 action(entry)
-            }
-
-        }
-
-    }
-
-    /**
-     * Performs the given [action] on each item in the set. Quits early if action() returns false.
-     * Note that the order of iteration is unlikely to be meaningful since it is based on hash code modulo table size
-     * and then by reverse order of insertion for the same hashcode modulo table size.
-     */
-    fun forEachWhile(action: (T) -> Boolean) {
-
-        for (list in _table) {
-
-            for (entry in list) {
-
-                if (!action(entry)) {
-                    return
-                }
-
             }
 
         }

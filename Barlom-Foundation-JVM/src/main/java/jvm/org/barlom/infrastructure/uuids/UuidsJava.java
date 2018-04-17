@@ -144,7 +144,6 @@ public class UuidsJava {
     /**
      * The last used time value. Tracks time but with atomic increments when needed to avoid duplicates.
      */
-    @SuppressWarnings( "FieldMayBeFinal" )
     private static AtomicLong prevTime100ns = new AtomicLong( Long.MIN_VALUE );
 
 }
