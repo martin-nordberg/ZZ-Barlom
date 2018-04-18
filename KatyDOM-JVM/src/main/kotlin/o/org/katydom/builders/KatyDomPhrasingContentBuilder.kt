@@ -62,6 +62,30 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
+     * Adds an abbr element with any global attributes as the next child of the element under construction.
+     */
+    fun abbr(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomAbbr(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                        tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
      * Creates a new attributes content builder for the given child [element].
      */
     internal fun attributesContent(element: KatyDomHtmlElement<Msg>): KatyDomAttributesContentBuilder<Msg> {
@@ -132,6 +156,30 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
+     * Adds a cite element with any global attributes as the next child of the element under construction.
+     */
+    fun cite(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomCite(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                        tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
      * Adds a comment node as the next child of the element under construction.
      * @param nodeValue the text within the node.
      * @param key unique key for this comment within its parent node.
@@ -162,6 +210,54 @@ open class KatyDomPhrasingContentBuilder<Msg>(
         element.addChildNode(
             KatyDomDataList(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                             tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds a dfn element with any global attributes as the next child of the element under construction.
+     */
+    fun dfn(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomDfn(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                       tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds an em element with any global attributes as the next child of the element under construction.
+     */
+    fun em(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomEm(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                      tabindex, title, translate, defineContent)
         )
     }
 
@@ -1003,6 +1099,54 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
+     * Adds a q element with any global attributes as the next child of the element under construction.
+     */
+    fun q(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomQ(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                     tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds an s element with any global attributes as the next child of the element under construction.
+     */
+    fun s(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomS(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                     tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
      * Adds a select element with any global attributes as the next child of the element under construction.
      */
     fun select(
@@ -1032,6 +1176,30 @@ open class KatyDomPhrasingContentBuilder<Msg>(
             KatyDomSelect(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
                           hidden, lang, multiple, name, required, size, spellcheck, style,
                           tabindex, title, translate, value, defineContent)
+        )
+    }
+
+    /**
+     * Adds a small element with any global attributes as the next child of the element under construction.
+     */
+    fun small(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomSmall(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                         tabindex, title, translate, defineContent)
         )
     }
 
@@ -1069,6 +1237,30 @@ open class KatyDomPhrasingContentBuilder<Msg>(
         element.addChildNode(
             KatyDomSpan(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
                         tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds a strong element with any global attributes as the next child of the element under construction.
+     */
+    fun strong(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomStrong(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                          tabindex, title, translate, defineContent)
         )
     }
 
