@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomAttributesContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an input type="file" element.
@@ -39,9 +39,7 @@ internal class KatyDomInputFile<Msg>(
     value: String?,
     defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "INPUT"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
 
@@ -62,7 +60,11 @@ internal class KatyDomInputFile<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "INPUT"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

@@ -8,12 +8,12 @@ package o.org.katydom.builders
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.api.Event2Message
 import o.org.katydom.api.MouseEvent2Message
-import x.org.katydom.dom.events.Event
-import x.org.katydom.dom.events.MouseEvent
 import o.org.katydom.types.EEventType
 import o.org.katydom.types.EMouseEventType
+import x.org.katydom.dom.events.Event
+import x.org.katydom.dom.events.MouseEvent
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * KatyDOM content builder for attributes and event handlers available to all nodes. Serves as a base class for more
@@ -96,6 +96,16 @@ open class KatyDomAttributesContentBuilder<Msg>(
     }
 
     /**
+     * Adds an event handler for blur events.
+     * @param handler the callback that listens to blur events.
+     */
+    fun onblur(handler: Event2Message<Msg>) {
+        element.addEventHandler(EEventType.BLUR) { e: Event ->
+            dispatchMessages(handler(e))
+        }
+    }
+
+    /**
      * Adds an event handler for change events.
      * @param handler the callback that listens to change events.
      */
@@ -115,17 +125,7 @@ open class KatyDomAttributesContentBuilder<Msg>(
         }
     }
 
-    /**
-     * Adds an event handler for blur events.
-     * @param handler the callback that listens to blur events.
-     */
-    fun onblur(handler: Event2Message<Msg>) {
-        element.addEventHandler(EEventType.BLUR) { e: Event ->
-            dispatchMessages(handler(e))
-        }
-    }
-
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

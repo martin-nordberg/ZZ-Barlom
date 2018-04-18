@@ -10,7 +10,7 @@ import x.org.katydom.dom.Document
 import x.org.katydom.dom.Node
 import x.org.katydom.dom.Text
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual DOM node for a plain text node.
@@ -22,13 +22,15 @@ internal class KatyDomText<Msg>(
 
 ) : KatyDomNode<Msg>(null) {
 
-    override val nodeName = "#text"
-
     init {
         this.freeze()
     }
 
-////
+    ////
+
+    override val nodeName = "#text"
+
+    ////
 
     override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
         val childText = document.createTextNode(nodeValue)
@@ -46,8 +48,10 @@ internal class KatyDomText<Msg>(
 
     override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>) {
 
-        if (domElement !is Text) throw IllegalArgumentException("DOM node expected to be text.")
-        if (priorElement !is KatyDomText) throw IllegalArgumentException("KatyDOM node expected to be KatyDOM text.")
+        require(domElement is Text) { "DOM node expected to be text." }
+        if (priorElement !is KatyDomText) {
+            throw IllegalArgumentException("KatyDOM node expected to be KatyDOM text.")
+        }
 
         if (nodeValue != priorElement.nodeValue) {
             domElement.nodeValue = nodeValue
@@ -57,4 +61,4 @@ internal class KatyDomText<Msg>(
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for a label element.
@@ -31,9 +31,7 @@ internal class KatyDomLabel<Msg>(
     translate: Boolean?,
     defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "LABEL"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
@@ -45,7 +43,11 @@ internal class KatyDomLabel<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "LABEL"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

@@ -5,6 +5,8 @@
 
 package o.org.katydom.types
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Enumeration of allowed values for the rel or rev attribute of an <a> or <area> tag.
  * See https://www.w3.org/TR/html51/links.html#allowed-keywords-and-their-meanings.
@@ -25,18 +27,21 @@ enum class EAnchorHtmlLinkType {
 
     fun toHtmlString(): String {
         return when (this) {
-            ALTERNATE -> "alternate"
-            AUTHOR -> "author"
-            BOOKMARK -> "bookmark"
-            HELP -> "help"
-            LICENSE -> "license"
-            NEXT -> "next"
-            NOFOLLOW -> "nofollow"
+            ALTERNATE  -> "alternate"
+            AUTHOR     -> "author"
+            BOOKMARK   -> "bookmark"
+            HELP       -> "help"
+            LICENSE    -> "license"
+            NEXT       -> "next"
+            NOFOLLOW   -> "nofollow"
             NOREFERRER -> "noreferrer"
-            PREV -> "prev"
-            SEARCH -> "search"
-            TAG -> "tag"
+            PREV       -> "prev"
+            SEARCH     -> "search"
+            TAG        -> "tag"
         }
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

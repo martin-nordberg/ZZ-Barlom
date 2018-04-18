@@ -5,18 +5,17 @@
 
 package o.org.katydom.abstractnodes
 
-// Note: these are needed in JVM but not JS:
 import o.org.katydom.api.EventCancellationException
 import o.org.katydom.api.EventHandler
 import o.org.katydom.api.MouseEventHandler
+import o.org.katydom.types.EEventType
+import o.org.katydom.types.EMouseEventType
 import x.org.katydom.dom.Document
 import x.org.katydom.dom.Node
 import x.org.katydom.dom.events.Event
 import x.org.katydom.dom.events.MouseEvent
-import o.org.katydom.types.EEventType
-import o.org.katydom.types.EMouseEventType
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Topmost abstract base class for KatyDOM virtual DOM. Corresponds to DOM Node.
@@ -24,11 +23,87 @@ import o.org.katydom.types.EMouseEventType
  */
 abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
-    /** Returns the key for this node. If none provided, uses the node name. */
+    /**
+     * States in the lifecycle of a node.
+     */
+    protected enum class EState {
+        /** The node is still open for its attributes to be set by one of the KatyDOM builders. */
+        ADDING_ATTRIBUTES,
+        /** The node is being modified for event handling. */
+        ADDING_EVENT_HANDLERS,
+        /** The node's children are still under construction. */
+        ADDING_CHILD_NODES,
+        /** The node has been fully defined and is ready to be established in the real DOM. */
+        CONSTRUCTED,
+        /** The node has been established in the real DOM (either the first edition or replacing a prior edition). */
+        ESTABLISHED,
+        /** The node has been replaced by a newer edition in the real DOM. */
+        PATCHED_REPLACED,
+        /** The node does not appear in a newer edition. */
+        PATCHED_REMOVED
+    }
+
+    ////
+
+    /** A map of child nodes by their key. */
+    private val childNodesByKey: MutableMap<Any, KatyDomNode<Msg>> = hashMapOf()
+
+    /** The established DOM node after this node has been established or patched. */
+    private var domNode: Node? = null
+
+    /** A map of registered event handlers. */
+    private val eventHandlers: MutableMap<String, EventHandler> = mutableMapOf()
+
+    /** The first child node within this node. Starts as Nothing, meaning no children. */
+    private var firstChildNode: KatyDomNode<Msg>? = null
+
+    /** The last child node within this node. Starts as Nothing, meaning no children. */
+    private var lastChildNode: KatyDomNode<Msg>? = null
+
+    /** The next sibling node within this node. Points to Nothing from last child in the list. */
+    private var nextSiblingNode: KatyDomNode<Msg>? = null
+
+    /** The previous sibling node within this node. Linked to Nothing for first child in the list. */
+    private var prevSiblingNode: KatyDomNode<Msg>? = null
+
+    /** Flag set to true once the node is fully constructed. */
+    private var state: EState = EState.ADDING_ATTRIBUTES
+
+    ////
+
+    /** Whether this node is still having its attributes set. */
+    protected val isAddingAttributes
+        get() = state == EState.ADDING_ATTRIBUTES
+
+    /** Whether this node is still being built. */
+    protected val isAddingChildNodes
+        get() = state == EState.ADDING_CHILD_NODES
+
+    /** Whether this node is still having its event handlers set. */
+    protected val isAddingEventHandlers
+        get() = state == EState.ADDING_EVENT_HANDLERS
+
+    /** Whether this node is fully constructed. */
+    protected val isConstructed
+        get() = state == EState.CONSTRUCTED
+
+    /** Whether this node has been established in the real DOM. */
+    protected val isEstablished
+        get() = state == EState.ESTABLISHED
+
+    /** Whether this node has been removed from a later edition in the real DOM. */
+    protected val isPatchedRemoved
+        get() = state == EState.PATCHED_REMOVED
+
+    /** Whether this node has been replaced by a later edition in the real DOM. */
+    protected val isPatchedReplaced
+        get() = state == EState.PATCHED_REPLACED
+
+    /** The key for this node. If none provided, uses the node name. */
     val key: Any
         get() = _key ?: nodeName
 
-    /** Returns the first and only child node in this node. (Exception if there is none or more than one.) */
+    /** The first and only child node in this node. (Exception if there is none or more than one.) */
     val soleChildNode: KatyDomNode<Msg>
         get() {
 
@@ -42,11 +117,7 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
     /** The name of this node (usually the HTML tag name, otherwise a pseudo tag name like "#text"). */
     abstract val nodeName: String
 
-    override fun toString(): String {
-        return "<" + nodeName.toLowerCase() + ">"
-    }
-
-////
+    ////
 
     /**
      * Adds a new child node to this node.
@@ -92,33 +163,6 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
     }
 
     /**
-     * Adds a mouse event handler for the given type of mouse event.
-     * @param eventType the kind of event
-     * @param handler the callback when the vent occurs
-     */
-    internal fun addMouseEventHandler(eventType: EMouseEventType, handler: MouseEventHandler) {
-
-        if (isAddingAttributes) {
-            freezeAttributes()
-            state = EState.ADDING_CHILD_NODES
-        }
-        else {
-            check(isAddingEventHandlers) { "KatyDOM node's event handlers must be defined before its child nodes." }
-        }
-
-        eventHandlers[eventType.domName] =
-            { event: Event ->
-                try {
-                    handler(event as MouseEvent)
-                }
-                catch (exception: EventCancellationException) {
-                    event.preventDefault()
-                }
-            }
-
-    }
-
-    /**
      * Adds a general event handler for the given type of event.
      * @param eventType the kind of event
      * @param handler the callback when the vent occurs
@@ -146,11 +190,40 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
     }
 
     /**
+     * Adds a mouse event handler for the given type of mouse event.
+     * @param eventType the kind of event
+     * @param handler the callback when the vent occurs
+     */
+    internal fun addMouseEventHandler(eventType: EMouseEventType, handler: MouseEventHandler) {
+
+        if (isAddingAttributes) {
+            freezeAttributes()
+            state = EState.ADDING_CHILD_NODES
+        }
+        else {
+            check(isAddingEventHandlers) { "KatyDOM node's event handlers must be defined before its child nodes." }
+        }
+
+        eventHandlers[eventType.domName] =
+            { event: Event ->
+                try {
+                    handler(event as MouseEvent)
+                }
+                catch (exception: EventCancellationException) {
+                    event.preventDefault()
+                }
+            }
+
+    }
+
+    /**
      * Performs extra handling after a [childNode] has been added.
      */
     protected open fun afterAddChildNode(childNode: KatyDomNode<Msg>) {
 
     }
+
+    protected abstract fun createDomNode(document: Document, domNode: Node, domChild: Node?)
 
     /**
      * Sets the attributes and child nodes of a newly created real DOM node to match this virtual DOM node.
@@ -178,6 +251,82 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
         this.domNode = domNode
 
         state = EState.ESTABLISHED
+
+    }
+
+    /**
+     * Performs the DOM element configuration needed by a derived class.
+     * @param domElement the real DOM element being built.
+     */
+    protected abstract fun establishAttributes(domElement: Node)
+
+    /**
+     * Establishes child nodes in the given DOM node matching the child nodes of this KatyDOM node.
+     */
+    private fun establishChildNodes(domNode: Node) {
+
+        val document = checkNotNull(domNode.ownerDocument, { "DOM element must have an owner document." })
+
+        var childNode = firstChildNode
+
+        while (childNode != null) {
+
+            childNode.createDomNode(document, domNode, null)
+
+            childNode = childNode.nextSiblingNode
+
+        }
+    }
+
+    /**
+     * Establishes event handlers for the given domNode from the event handlers of this KatyDOM node.
+     */
+    private fun establishEventHandlers(domNode: Node) {
+
+        for ((key, eventHandler) in eventHandlers) {
+            domNode.addEventListener(
+                key,
+                eventHandler
+            )
+        }
+
+    }
+
+    /**
+     * Freezes the content of this node. Makes any further attempt to add child nodes or attributes fail.
+     */
+    protected fun freeze() {
+
+        check(state <= EState.CONSTRUCTED) { "KatyDOM node already fully constructed." }
+
+        if (isAddingAttributes) {
+            freezeAttributes()
+        }
+
+        state = EState.CONSTRUCTED
+
+    }
+
+    /**
+     * Removes the scaffolding of a derived class. Override as needed. Base class method does nothing.
+     */
+    protected abstract fun freezeAttributes()
+
+    /**
+     * Whether this KatyDOM node matches the given KatyDOM node for purposes of patching.
+     * @param otherNode the node to compare with.
+     */
+    private fun matches(otherNode: KatyDomNode<Msg>?): Boolean {
+
+        if (otherNode == null) {
+            return false
+        }
+
+        if (nodeName != otherNode.nodeName) {
+            return false
+        }
+
+        return key == otherNode.key
 
     }
 
@@ -249,142 +398,12 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
     }
 
-////
-
-    /**
-     * States in the lifecycle of a node.
-     */
-    protected enum class EState {
-        /** The node is still open for its attributes to be set by one of the KatyDOM builders. */
-        ADDING_ATTRIBUTES,
-        /** The node is being modified for event handling. */
-        ADDING_EVENT_HANDLERS,
-        /** The node's children are still under construction. */
-        ADDING_CHILD_NODES,
-        /** The node has been fully defined and is ready to be established in the real DOM. */
-        CONSTRUCTED,
-        /** The node has been established in the real DOM (either the first edition or replacing a prior edition). */
-        ESTABLISHED,
-        /** The node has been replaced by a newer edition in the real DOM. */
-        PATCHED_REPLACED,
-        /** The node does not appear in a newer edition. */
-        PATCHED_REMOVED
-    }
-
-    protected abstract fun createDomNode(document: Document, domNode: Node, domChild: Node?)
-
-    /**
-     * Performs the DOM element configuration needed by a derived class.
-     * @param domElement the real DOM element being built.
-     */
-    protected abstract fun establishAttributes(domElement: Node)
-
-    /**
-     * Freezes the content of this node. Makes any further attempt to add child nodes or attributes fail.
-     */
-    protected fun freeze() {
-
-        check(state <= EState.CONSTRUCTED) { "KatyDOM node already fully constructed." }
-
-        if (isAddingAttributes) {
-            freezeAttributes()
-        }
-
-        state = EState.CONSTRUCTED
-
-    }
-
-    /**
-     * Removes the scaffolding of a derived class. Override as needed. Base class method does nothing.
-     */
-    protected abstract fun freezeAttributes()
-
-    /** Whether this node is still having its attributes set. */
-    protected val isAddingAttributes
-        get() = state == EState.ADDING_ATTRIBUTES
-
-    /** Whether this node is still being built. */
-    protected val isAddingChildNodes
-        get() = state == EState.ADDING_CHILD_NODES
-
-    /** Whether this node is still having its event handlers set. */
-    protected val isAddingEventHandlers
-        get() = state == EState.ADDING_EVENT_HANDLERS
-
-    /** Whether this node is fully constructed. */
-    protected val isConstructed
-        get() = state == EState.CONSTRUCTED
-
-    /** Whether this node has been established in the real DOM. */
-    protected val isEstablished
-        get() = state == EState.ESTABLISHED
-
-    /** Whether this node has been removed from a later edition in the real DOM. */
-    protected val isPatchedRemoved
-        get() = state == EState.PATCHED_REMOVED
-
-    /** Whether this node has been replaced by a later edition in the real DOM. */
-    protected val isPatchedReplaced
-        get() = state == EState.PATCHED_REPLACED
-
     /**
      * Performs the patch needed by a derived class. Override as needed. Base class method does nothing.
      * @param domElement the real DOM node being patched.
      * @param priorElement the prior edition of this KatyDOM node from which to compute the patch.
      */
     protected abstract fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>)
-
-////
-
-    /**
-     * Establishes child nodes in the given DOM node matching the child nodes of this KatyDOM node.
-     */
-    private fun establishChildNodes(domNode: Node) {
-
-        val document = checkNotNull(domNode.ownerDocument, { "DOM element must have an owner document." })
-
-        var childNode = firstChildNode
-
-        while (childNode != null) {
-
-            childNode.createDomNode(document, domNode, null)
-
-            childNode = childNode.nextSiblingNode
-
-        }
-    }
-
-    /**
-     * Establishes event handlers for the given domNode from the event handlers of this KatyDOM node.
-     */
-    private fun establishEventHandlers(domNode: Node) {
-
-        for ((key, eventHandler) in eventHandlers) {
-            domNode.addEventListener(
-                key,
-                eventHandler
-            )
-        }
-
-    }
-
-    /**
-     * Whether this KatyDOM node matches the given KatyDOM node for purposes of patching.
-     * @param otherNode the node to compare with.
-     */
-    private fun matches(otherNode: KatyDomNode<Msg>?): Boolean {
-
-        if (otherNode == null) {
-            return false
-        }
-
-        if (nodeName != otherNode.nodeName) {
-            return false
-        }
-
-        return key == otherNode.key
-
-    }
 
     /**
      * Patches the child nodes of the DOM with changes between this node and the prior node.
@@ -524,29 +543,10 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
     }
 
-    /** A map of child nodes by their key. */
-    private val childNodesByKey: MutableMap<Any, KatyDomNode<Msg>> = hashMapOf()
-
-    /** The established DOM node after this node has been established or patched. */
-    private var domNode: Node? = null
-
-    /** A map of registered event handlers. */
-    private val eventHandlers: MutableMap<String, EventHandler> = mutableMapOf()
-
-    /** The first child node within this node. Starts as Nothing, meaning no children. */
-    private var firstChildNode: KatyDomNode<Msg>? = null
-
-    /** The last child node within this node. Starts as Nothing, meaning no children. */
-    private var lastChildNode: KatyDomNode<Msg>? = null
-
-    /** The next sibling node within this node. Points to Nothing from last child in the list. */
-    private var nextSiblingNode: KatyDomNode<Msg>? = null
-
-    /** The previous sibling node within this node. Linked to Nothing for first child in the list. */
-    private var prevSiblingNode: KatyDomNode<Msg>? = null
-
-    /** Flag set to true once the node is fully constructed. */
-    private var state: EState = EState.ADDING_ATTRIBUTES
+    override fun toString(): String {
+        return "<" + nodeName.toLowerCase() + ">"
+    }
 
 }
 
+//---------------------------------------------------------------------------------------------------------------------

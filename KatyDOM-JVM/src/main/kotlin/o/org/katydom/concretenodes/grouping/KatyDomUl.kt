@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.builders.KatyDomListItemContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an unordered list <ul> element.
@@ -31,16 +31,18 @@ internal class KatyDomUl<Msg>(
     translate: Boolean?,
     defineContent: KatyDomListItemContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "UL"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.listItemContent(false, this).defineContent()
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "UL"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

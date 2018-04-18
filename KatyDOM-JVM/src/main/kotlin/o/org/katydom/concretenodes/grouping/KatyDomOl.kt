@@ -11,7 +11,7 @@ import o.org.katydom.builders.KatyDomListItemContentBuilder
 import o.org.katydom.types.EDirection
 import o.org.katydom.types.EOrderedListType
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an ordered list <ol> element.
@@ -35,9 +35,7 @@ internal class KatyDomOl<Msg>(
     type: EOrderedListType?,
     defineContent: KatyDomListItemContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "OL"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         setBooleanAttribute("reversed", reversed)
@@ -48,7 +46,11 @@ internal class KatyDomOl<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "OL"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

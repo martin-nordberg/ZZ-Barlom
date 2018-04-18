@@ -5,10 +5,17 @@
 
 package o.org.katydom.infrastructure
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Implementation of MutableSet<T> that throws an error for every operation.
  */
 class UnusedSet<T> : MutableSet<T> {
+
+    override val size: Int
+        get() = throw UnsupportedOperationException("Attempted to use unused set.")
+
+    ////
 
     override fun add(element: T): Boolean {
         throw UnsupportedOperationException("Attempted to use unused set.")
@@ -19,6 +26,18 @@ class UnusedSet<T> : MutableSet<T> {
     }
 
     override fun clear() {
+        throw UnsupportedOperationException("Attempted to use unused set.")
+    }
+
+    override fun contains(element: T): Boolean {
+        throw UnsupportedOperationException("Attempted to use unused set.")
+    }
+
+    override fun containsAll(elements: Collection<T>): Boolean {
+        throw UnsupportedOperationException("Attempted to use unused set.")
+    }
+
+    override fun isEmpty(): Boolean {
         throw UnsupportedOperationException("Attempted to use unused set.")
     }
 
@@ -38,19 +57,7 @@ class UnusedSet<T> : MutableSet<T> {
         throw UnsupportedOperationException("Attempted to use unused set.")
     }
 
-    override val size: Int
-        get() = throw UnsupportedOperationException("Attempted to use unused set.")
-
-    override fun contains(element: T): Boolean {
-        throw UnsupportedOperationException("Attempted to use unused set.")
-    }
-
-    override fun containsAll(elements: Collection<T>): Boolean {
-        throw UnsupportedOperationException("Attempted to use unused set.")
-    }
-
-    override fun isEmpty(): Boolean {
-        throw UnsupportedOperationException("Attempted to use unused set.")
-    }
-
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

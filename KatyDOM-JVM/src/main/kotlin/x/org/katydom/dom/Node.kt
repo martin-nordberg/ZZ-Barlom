@@ -7,6 +7,8 @@ package /*jvm*/x.org.katydom.dom
 
 import x.org.katydom.dom.events.Event
 
+//---------------------------------------------------------------------------------------------------------------------
+
 interface Node {
 
     val firstChild: Node?
@@ -36,3 +38,6 @@ interface Node {
     fun removeEventListener(eventName: String, eventHandler: (Event) -> Unit)
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

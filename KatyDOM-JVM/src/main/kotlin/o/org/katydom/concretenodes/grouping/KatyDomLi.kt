@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.builders.KatyDomListItemContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an <li> element.
@@ -32,9 +32,7 @@ internal class KatyDomLi<Msg>(
     value: Int?,
     defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "LI"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
 
@@ -48,6 +46,10 @@ internal class KatyDomLi<Msg>(
 
     }
 
+    ////
+
+    override val nodeName = "LI"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

@@ -9,6 +9,8 @@ import x.org.katydom.dom.Node
 import x.org.katydom.dom.events.Event
 
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Implementation of Node for producing HTML text (server side or testing).
  */
@@ -19,6 +21,8 @@ abstract class KDomNode : Node {
     private var _nextSibling: KDomNode? = null
 
     private var _parentNode: KDomNode? = null
+
+    ////
 
     override val firstChild
         get() = _firstChild
@@ -41,6 +45,8 @@ abstract class KDomNode : Node {
 
     override val parentNode
         get() = _parentNode
+
+    ////
 
     override fun addEventListener(eventName: String, eventHandler: (Event) -> Unit) {
         // do nothing in JVM
@@ -124,3 +130,6 @@ abstract class KDomNode : Node {
     abstract fun toHtmlString(indent: Int = 0): String
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

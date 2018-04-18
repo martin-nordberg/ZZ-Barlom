@@ -9,7 +9,7 @@ import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an <article> element.
@@ -30,15 +30,17 @@ internal class KatyDomArticle<Msg>(
     translate: Boolean?,
     defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "ARTICLE"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.withMainNotAllowed(this).defineContent()
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "ARTICLE"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

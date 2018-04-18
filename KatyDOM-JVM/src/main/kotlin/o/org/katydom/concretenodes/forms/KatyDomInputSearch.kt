@@ -11,7 +11,7 @@ import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 import o.org.katydom.types.EInputMode
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an input type="search" element.
@@ -48,9 +48,7 @@ internal class KatyDomInputSearch<Msg>(
     value: String?,
     defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "INPUT"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
@@ -82,7 +80,11 @@ internal class KatyDomInputSearch<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "INPUT"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomAttributesContentBuilder
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an <hr> element.
@@ -31,15 +31,17 @@ internal class KatyDomHr<Msg>(
     translate: Boolean?,
     defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "HR"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.attributesContent(this).defineAttributes()
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "HR"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

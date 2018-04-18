@@ -5,6 +5,8 @@
 
 package o.org.katydom.types
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Enumeration of allowed values for the enctype attribute for a form element.
  * See https://www.w3.org/TR/html51/sec-forms.html#element-attrdef-submitbuttonelements-formenctype.
@@ -18,9 +20,12 @@ enum class EFormEncodingType {
     fun toHtmlString(): String {
         return when (this) {
             MULTIPART_FORM_DATA  -> "multipart/form-data"
-            TEXT_PLAIN -> "text/plain"
+            TEXT_PLAIN           -> "text/plain"
             WWW_FORM_URL_ENCODED -> "application/x-www-form-urlencoded"
         }
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

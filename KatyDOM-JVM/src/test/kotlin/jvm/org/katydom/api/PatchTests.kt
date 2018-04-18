@@ -5,8 +5,10 @@
 
 package jvm.org.katydom.api
 
-import org.junit.jupiter.api.Test
 import o.org.katydom.api.katyDom
+import org.junit.jupiter.api.Test
+
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Tests of the virtual DOM patch function.
@@ -343,8 +345,8 @@ class PatchTests {
             section("#mysection") {
 
                 h1 {
-                    span( ".pink") {
-                        text( "A Heading" )
+                    span(".pink") {
+                        text("A Heading")
                     }
                 }
 
@@ -372,7 +374,7 @@ class PatchTests {
             section("#mysection") {
 
                 h6 {
-                    text( "An Unstyled Heading" )
+                    text("An Unstyled Heading")
                 }
 
                 span("#theStuff") {
@@ -491,3 +493,6 @@ class PatchTests {
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

@@ -5,7 +5,13 @@
 
 package o.org.katydom.builders
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
- * Annotation marks KDom content list builders so that they are local to the node being built.
+ * Annotation marks KatyDom content list builders so that they are local to the node being built.
  */
-@DslMarker annotation class KatyDomContentBuilderDsl
+@DslMarker
+annotation class KatyDomContentBuilderDsl
+
+//---------------------------------------------------------------------------------------------------------------------
+

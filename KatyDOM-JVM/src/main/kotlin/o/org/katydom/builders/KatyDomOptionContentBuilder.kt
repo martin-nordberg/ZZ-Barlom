@@ -11,7 +11,7 @@ import o.org.katydom.concretenodes.forms.KatyDomOptionGroup
 import o.org.katydom.concretenodes.text.KatyDomComment
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 class KatyDomOptionContentBuilder<Msg>(
 
@@ -24,6 +24,13 @@ class KatyDomOptionContentBuilder<Msg>(
     dispatchMessages: (messages: Iterable<Msg>) -> Unit
 
 ) : KatyDomAttributesContentBuilder<Msg>(element, dispatchMessages) {
+
+    /**
+     * Creates a new attributes content builder for the given child [element].
+     */
+    internal fun attributesContent(element: KatyDomHtmlElement<Msg>): KatyDomAttributesContentBuilder<Msg> {
+        return KatyDomAttributesContentBuilder(element, dispatchMessages)
+    }
 
     /**
      * Adds a comment node as the next child of the element under construction.
@@ -122,15 +129,6 @@ class KatyDomOptionContentBuilder<Msg>(
         )
     }
 
-////
-
-    /**
-     * Creates a new attributes content builder for the given child [element].
-     */
-    internal fun attributesContent(element: KatyDomHtmlElement<Msg>): KatyDomAttributesContentBuilder<Msg> {
-        return KatyDomAttributesContentBuilder(element, dispatchMessages)
-    }
-
     /**
      * Creates a new text content builder for the given child [element].
      */
@@ -165,4 +163,5 @@ class KatyDomOptionContentBuilder<Msg>(
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
+

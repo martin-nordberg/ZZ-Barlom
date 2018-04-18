@@ -12,7 +12,7 @@ import o.org.katydom.types.EDirection
 import o.org.katydom.types.EFormEncodingType
 import o.org.katydom.types.EFormSubmissionMethod
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an input type="image" element.
@@ -46,9 +46,7 @@ internal class KatyDomInputImageButton<Msg>(
     width: Int?,
     defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "INPUT"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         setAttribute("alt", alt)
@@ -71,7 +69,11 @@ internal class KatyDomInputImageButton<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "INPUT"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

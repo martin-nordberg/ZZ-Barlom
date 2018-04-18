@@ -11,7 +11,7 @@ import o.org.katydom.types.EDirection
 import o.org.katydom.types.EFormEncodingType
 import o.org.katydom.types.EFormSubmissionMethod
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for a form element.
@@ -40,9 +40,7 @@ internal class KatyDomForm<Msg>(
     translate: Boolean?,
     defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir, hidden, lang,
-                                spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "FORM"
+                            spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.contentRestrictions.confirmFormAllowed()
@@ -60,7 +58,11 @@ internal class KatyDomForm<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "FORM"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomAttributesContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an input type="time" element.
@@ -43,9 +43,7 @@ internal class KatyDomInputTime<Msg>(
     value: String?,
     defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "INPUT"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
@@ -69,7 +67,11 @@ internal class KatyDomInputTime<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "INPUT"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

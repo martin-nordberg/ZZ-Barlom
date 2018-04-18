@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EAnchorHtmlLinkType
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an anchor <a> element.
@@ -38,13 +38,11 @@ internal class KatyDomA<Msg>(
     type: String?,
     defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "A"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         phrasingContent.contentRestrictions.confirmAnchorAllowed()
-        if( href!=null ) {
+        if (href != null) {
             phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
         }
 
@@ -67,6 +65,10 @@ internal class KatyDomA<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "A"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

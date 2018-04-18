@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an <h6> element.
@@ -31,15 +31,17 @@ internal class KatyDomH6<Msg>(
     translate: Boolean?,
     defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "H6"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.phrasingContent(this).defineContent()
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "H6"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

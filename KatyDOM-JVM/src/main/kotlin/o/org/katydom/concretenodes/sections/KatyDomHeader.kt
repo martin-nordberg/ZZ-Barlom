@@ -9,7 +9,7 @@ import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for a <header> element.
@@ -30,9 +30,7 @@ internal class KatyDomHeader<Msg>(
     translate: Boolean?,
     defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "HEADER"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.contentRestrictions.confirmHeaderAllowed()
@@ -41,6 +39,10 @@ internal class KatyDomHeader<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "HEADER"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

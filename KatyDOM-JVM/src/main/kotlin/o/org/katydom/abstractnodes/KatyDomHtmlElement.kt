@@ -5,11 +5,11 @@
 
 package o.org.katydom.abstractnodes
 
+import o.org.katydom.types.EDirection
 import x.org.katydom.dom.Document
 import x.org.katydom.dom.Node
-import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Abstract KatyDOM class corresponding to a DOM HTMLElement node.
@@ -42,14 +42,6 @@ abstract class KatyDomHtmlElement<Msg>(
     translate: Boolean? = null
 ) : KatyDomElement<Msg>(selector, key, style, tabindex) {
 
-    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
-
-        val childElement = document.createElement(nodeName)
-        establish(childElement)
-        domNode.insertBefore(childElement, domChild)
-
-    }
-
     init {
         setAttribute("accesskey", accesskey)
         setTrueFalseAttribute("contenteditable", contenteditable)
@@ -61,7 +53,15 @@ abstract class KatyDomHtmlElement<Msg>(
         setYesNoAttribute("translate", translate)
     }
 
+    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+
+        val childElement = document.createElement(nodeName)
+        establish(childElement)
+        domNode.insertBefore(childElement, domChild)
+
+    }
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

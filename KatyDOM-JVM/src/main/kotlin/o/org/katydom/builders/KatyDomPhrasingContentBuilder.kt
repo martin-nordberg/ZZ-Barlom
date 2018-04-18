@@ -11,7 +11,7 @@ import o.org.katydom.concretenodes.grouping.KatyDomDataList
 import o.org.katydom.concretenodes.text.*
 import o.org.katydom.types.*
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual DOM builder for the case of HTML "phrasing content".
@@ -59,6 +59,13 @@ open class KatyDomPhrasingContentBuilder<Msg>(
             KatyDomA(this, selector, key, accesskey, contenteditable, dir, download, hidden, href, hreflang, lang,
                      rel, rev, spellcheck, style, tabindex, target, title, translate, type, defineContent)
         )
+    }
+
+    /**
+     * Creates a new attributes content builder for the given child [element].
+     */
+    internal fun attributesContent(element: KatyDomHtmlElement<Msg>): KatyDomAttributesContentBuilder<Msg> {
+        return KatyDomAttributesContentBuilder(element, dispatchMessages)
     }
 
     /**
@@ -988,6 +995,14 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
+     * Creates a new option content builder for the given child [element] that has the same restrictions
+     * as this builder.
+     */
+    internal fun optionContent(element: KatyDomHtmlElement<Msg>): KatyDomOptionContentBuilder<Msg> {
+        return KatyDomOptionContentBuilder(element, contentRestrictions, dispatchMessages)
+    }
+
+    /**
      * Adds a select element with any global attributes as the next child of the element under construction.
      */
     fun select(
@@ -1107,23 +1122,6 @@ open class KatyDomPhrasingContentBuilder<Msg>(
         )
     }
 
-////
-
-    /**
-     * Creates a new attributes content builder for the given child [element].
-     */
-    internal fun attributesContent(element: KatyDomHtmlElement<Msg>): KatyDomAttributesContentBuilder<Msg> {
-        return KatyDomAttributesContentBuilder(element, dispatchMessages)
-    }
-
-    /**
-     * Creates a new option content builder for the given child [element] that has the same restrictions
-     * as this builder.
-     */
-    internal fun optionContent(element: KatyDomHtmlElement<Msg>): KatyDomOptionContentBuilder<Msg> {
-        return KatyDomOptionContentBuilder(element, contentRestrictions, dispatchMessages)
-    }
-
     /**
      * Creates a new text content builder for the given child [element].
      */
@@ -1182,8 +1180,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
         )
     }
 
-
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

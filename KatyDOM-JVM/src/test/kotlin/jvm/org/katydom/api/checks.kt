@@ -12,10 +12,12 @@ import x.org.katydom.kdom.KDomDocument
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Builds the DOM for a given KatyDOM node and checks the HTML output against what's expected.
  */
-internal fun <Message> checkBuild(expectedHtml: String, vdomNode: KatyDomNode<Message>) {
+internal fun <Msg> checkBuild(expectedHtml: String, vdomNode: KatyDomNode<Msg>) {
 
     val body = KDomDocument().createElement("body")
     val div = body.ownerDocument.createElement("div")
@@ -24,7 +26,7 @@ internal fun <Message> checkBuild(expectedHtml: String, vdomNode: KatyDomNode<Me
 
     assertEquals(div, body.firstChild)
 
-    val lifecycle = makeKatyDomLifecycle<Message>()
+    val lifecycle = makeKatyDomLifecycle<Msg>()
 
     if (vdomNode is KatyDomHtmlElement) {
         lifecycle.build(div, vdomNode)
@@ -34,11 +36,13 @@ internal fun <Message> checkBuild(expectedHtml: String, vdomNode: KatyDomNode<Me
 
 }
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Builds the DOM for a given KatyDOM node and checks the HTML output against what's expected before and after a patch.
  */
-internal fun <Message> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<Message>, expectedHtml1: String,
-                                  vdomNode1: KatyDomNode<Message>) {
+internal fun <Msg> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<Msg>, expectedHtml1: String,
+                              vdomNode1: KatyDomNode<Msg>) {
 
     val body = KDomDocument().createElement("body")
     val div = body.ownerDocument.createElement("div")
@@ -47,7 +51,7 @@ internal fun <Message> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<
 
     assertEquals(div, body.firstChild)
 
-    val lifecycle = makeKatyDomLifecycle<Message>()
+    val lifecycle = makeKatyDomLifecycle<Msg>()
 
     if (vdomNode1 is KatyDomHtmlElement && vdomNode2 is KatyDomHtmlElement) {
         lifecycle.build(div, vdomNode1)
@@ -63,4 +67,6 @@ internal fun <Message> checkPatch(expectedHtml2: String, vdomNode2: KatyDomNode<
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
 

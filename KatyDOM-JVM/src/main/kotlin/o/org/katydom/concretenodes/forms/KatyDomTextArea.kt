@@ -12,7 +12,7 @@ import o.org.katydom.types.EDirection
 import o.org.katydom.types.EInputMode
 import o.org.katydom.types.EWrapType
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for a textarea element.
@@ -48,9 +48,7 @@ internal class KatyDomTextArea<Msg>(
     wrap: EWrapType?,
     defineContent: KatyDomTextContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "TEXTAREA"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
@@ -80,7 +78,11 @@ internal class KatyDomTextArea<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "TEXTAREA"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

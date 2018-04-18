@@ -9,13 +9,15 @@ import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.api.KatyDomLifecycle
 import x.org.katydom.dom.Element
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Implementation of the KatyDOM lifecycle to build and patch a real DOM tree from an initial and changed virtual DOM
  * tree.
  */
-internal class KatyDomLifecycleImpl<Message> : KatyDomLifecycle<Message> {
+internal class KatyDomLifecycleImpl<Msg> : KatyDomLifecycle<Msg> {
 
-    override fun build(domElement: Element, katyDomElement: KatyDomHtmlElement<Message>) {
+    override fun build(domElement: Element, katyDomElement: KatyDomHtmlElement<Msg>) {
 
         val document = domElement.ownerDocument!!
 
@@ -32,8 +34,11 @@ internal class KatyDomLifecycleImpl<Message> : KatyDomLifecycle<Message> {
 
     }
 
-    override fun patch(oldKatyDomElement: KatyDomHtmlElement<Message>, newKatyDomElement: KatyDomHtmlElement<Message>) {
+    override fun patch(oldKatyDomElement: KatyDomHtmlElement<Msg>, newKatyDomElement: KatyDomHtmlElement<Msg>) {
         newKatyDomElement.patch(oldKatyDomElement)
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

@@ -14,7 +14,7 @@ import o.org.katydom.types.EFormEncodingType
 import o.org.katydom.types.EFormSubmissionMethod
 import o.org.katydom.types.EOrderedListType
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual DOM builder for the normal case of HTML "flow content".
@@ -423,6 +423,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
+     * Creates a new phrasing content builder for the given child [element] that has the same restrictions
+     * as this builder.
+     */
+    internal fun listItemContent(isOrdered: Boolean,
+                                 element: KatyDomHtmlElement<Msg>): KatyDomListItemContentBuilder<Msg> {
+        return KatyDomListItemContentBuilder(
+            this,
+            isOrdered,
+            element,
+            dispatchMessages
+        )
+    }
+
+    /**
      * Adds a main element with any global attributes as the next child of the element under construction.
      */
     fun main(
@@ -526,6 +540,18 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
+     * Creates a new phrasing content builder for the given child [element] that has the same restrictions
+     * as this builder.
+     */
+    internal fun phrasingContent(element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
+        return KatyDomPhrasingContentBuilder(
+            element,
+            contentRestrictions,
+            dispatchMessages
+        )
+    }
+
+    /**
      * Adds a section element with any global attributes as the next child of the element under construction.
      */
     fun section(
@@ -574,52 +600,6 @@ class KatyDomFlowContentBuilder<Msg>(
         )
     }
 
-
-    // TODO: Figure out how to map messages and element construction
-//    fun <InnerMessage> withMessagesMapped(
-//        mapMessage: (InnerMessage) -> Message,
-//        defineContent: KatyDomFlowContentBuilder<InnerMessage>.() -> Unit
-//    ) {
-//
-//        val innerDispatch : (Iterable<InnerMessage>) -> Unit = { messages: Iterable<InnerMessage> ->
-//            dispatchMessages( messages.map { m -> mapMessage(m) } )
-//        }
-//
-//        // TODO: Need something like IKatyDomElement with forwarding of methods plus mapping of messages
-//
-//        val builder = KatyDomFlowContentBuilder<InnerMessage>(element,contentRestrictions,innerDispatch)
-//
-//        builder.defineContent()
-//
-//    }
-
-////
-
-    /**
-     * Creates a new phrasing content builder for the given child [element] that has the same restrictions
-     * as this builder.
-     */
-    internal fun listItemContent(isOrdered: Boolean,
-                                 element: KatyDomHtmlElement<Msg>): KatyDomListItemContentBuilder<Msg> {
-        return KatyDomListItemContentBuilder(
-            this,
-            isOrdered,
-            element,
-            dispatchMessages
-        )
-    }
-
-    /**
-     * Creates a new phrasing content builder for the given child [element] that has the same restrictions
-     * as this builder.
-     */
-    internal fun phrasingContent(element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
-        return KatyDomPhrasingContentBuilder(
-            element,
-            contentRestrictions,
-            dispatchMessages
-        )
-    }
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
@@ -670,6 +650,24 @@ class KatyDomFlowContentBuilder<Msg>(
         )
     }
 
+    // TODO: Figure out how to map messages and element construction
+//    fun <InnerMsg> withMessagesMapped(
+//        mapMessage: (InnerMsg) -> Msg,
+//        defineContent: KatyDomFlowContentBuilder<InnerMsg>.() -> Unit
+//    ) {
+//
+//        val innerDispatch : (Iterable<InnerMsg>) -> Unit = { messages: Iterable<InnerMsg> ->
+//            dispatchMessages( messages.map { m -> mapMessage(m) } )
+//        }
+//
+//        // TODO: Need something like IKatyDomElement with forwarding of methods plus mapping of messages
+//
+//        val builder = KatyDomFlowContentBuilder<InnerMsg>(element,contentRestrictions,innerDispatch)
+//
+//        builder.defineContent()
+//
+//    }
+
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
@@ -684,5 +682,5 @@ class KatyDomFlowContentBuilder<Msg>(
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

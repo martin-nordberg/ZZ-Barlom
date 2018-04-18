@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomOptionContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for a select element.
@@ -39,9 +39,7 @@ internal class KatyDomSelect<Msg>(
     value: String?,
     defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "SELECT"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         phrasingContent.contentRestrictions.confirmInteractiveContentAllowed()
@@ -61,7 +59,11 @@ internal class KatyDomSelect<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "SELECT"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

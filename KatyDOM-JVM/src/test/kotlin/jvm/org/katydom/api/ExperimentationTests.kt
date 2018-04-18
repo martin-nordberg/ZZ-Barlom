@@ -5,9 +5,11 @@
 
 package jvm.org.katydom.api
 
-import org.junit.jupiter.api.Test
 import o.org.katydom.api.katyDom
 import o.org.katydom.types.EAnchorHtmlLinkType
+import org.junit.jupiter.api.Test
+
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Tests for quick trials of KatyDOM DSL.
@@ -153,3 +155,6 @@ class ExperimentationTests {
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

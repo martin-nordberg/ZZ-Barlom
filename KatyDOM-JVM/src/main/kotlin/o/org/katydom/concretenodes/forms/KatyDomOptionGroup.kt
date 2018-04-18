@@ -6,10 +6,10 @@
 package o.org.katydom.concretenodes.forms
 
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
-import o.org.katydom.builders.*
+import o.org.katydom.builders.KatyDomOptionContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an optgroup element.
@@ -33,9 +33,7 @@ internal class KatyDomOptionGroup<Msg>(
     translate: Boolean?,
     defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "OPTGROUP"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         optionContent.contentRestrictions.confirmOptionGroupAllowed()
@@ -49,7 +47,11 @@ internal class KatyDomOptionGroup<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "OPTGROUP"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

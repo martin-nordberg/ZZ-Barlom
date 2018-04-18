@@ -5,13 +5,13 @@
 
 package o.org.katydom.abstractnodes
 
+import o.org.katydom.infrastructure.UnusedMap
+import o.org.katydom.infrastructure.UnusedSet
 import x.org.katydom.dom.Element
 import x.org.katydom.dom.Node
 import x.org.katydom.dom.setAttributeAndProperty
-import o.org.katydom.infrastructure.UnusedMap
-import o.org.katydom.infrastructure.UnusedSet
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
@@ -61,6 +61,25 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
     }
 
+    ////
+
+    /** The attributes of this element, mapped from name to value. */
+    private val attributes: MutableMap<String, String> = mutableMapOf()
+
+    /** A list of classes for this element. */
+    private var classList: MutableSet<String> = mutableSetOf()
+
+    /** A list of the data-* properties of this element, keyed without the "data-" prefix. */
+    private var dataset: MutableMap<String, String> = mutableMapOf()
+
+    /** Static placeholders to replace attributes under construction when no longer needed. */
+    private object Unused {
+        val classList = UnusedSet<String>()
+        val dataset = UnusedMap<String, String>()
+    }
+
+    ////
+
     /**
      * Adds a given class to this element.
      * @param className the name of the class to add.
@@ -86,6 +105,64 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
         }
 
         classList.addAll(classes)
+
+    }
+
+    final override fun establishAttributes(domElement: Node) {
+
+        if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
+
+        // Establish other attributes.
+        for ((key, value) in attributes) {
+            domElement.setAttribute(key, value)
+        }
+
+        if (false /*TODO: ...isInstrumented*/) {
+            val debugAttr = nodeCount.toString() + ";" + this.key
+
+            domElement.setAttribute("data-debug", debugAttr)
+            nodeCount += 1
+        }
+
+
+    }
+
+    final override fun freezeAttributes() {
+
+        if (classList.isNotEmpty()) {
+
+            val attrClasses = attributes["class"]
+            if (attrClasses != null) {
+                classList.addAll(attrClasses.split(" "))
+            }
+            attributes["class"] = classList.sorted().joinToString(" ")
+
+        }
+
+        for ((name, value) in dataset) {
+            setAttribute("data-$name", value)
+        }
+
+        classList = Unused.classList
+        dataset = Unused.dataset
+    }
+
+    final override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>) {
+
+        if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
+        if (priorElement !is KatyDomElement) throw IllegalArgumentException("KatyDOM node expected to be element.")
+
+        // Patch other attributes.
+        for ((key, newValue) in attributes) {
+            if (newValue != priorElement.attributes[key]) {
+                domElement.setAttributeAndProperty(key, newValue)
+            }
+        }
+        for ((key, _) in priorElement.attributes) {
+            if (!attributes.contains(key)) {
+                domElement.removeAttribute(key)
+            }
+        }
 
     }
 
@@ -265,66 +342,6 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
     }
 
-////
-
-    final override fun establishAttributes(domElement: Node) {
-
-        if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
-
-        // Establish other attributes.
-        for ((key, value) in attributes) {
-            domElement.setAttribute(key, value)
-        }
-
-        if (false /*TODO: ...isInstrumented*/) {
-            val debugAttr = nodeCount.toString() + ";" + this.key
-
-            domElement.setAttribute("data-debug", debugAttr)
-            nodeCount += 1
-        }
-
-
-    }
-
-    final override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>) {
-
-        if (domElement !is Element) throw IllegalArgumentException("DOM node expected to be an element.")
-        if (priorElement !is KatyDomElement) throw IllegalArgumentException("KatyDOM node expected to be element.")
-
-        // Patch other attributes.
-        for ((key, newValue) in attributes) {
-            if (newValue != priorElement.attributes[key]) {
-                domElement.setAttributeAndProperty(key, newValue)
-            }
-        }
-        for ((key, _) in priorElement.attributes) {
-            if (!attributes.contains(key)) {
-                domElement.removeAttribute(key)
-            }
-        }
-
-    }
-
-    final override fun freezeAttributes() {
-
-        if (classList.isNotEmpty()) {
-
-            val attrClasses = attributes["class"]
-            if (attrClasses != null) {
-                classList.addAll(attrClasses.split(" "))
-            }
-            attributes["class"] = classList.sorted().joinToString(" ")
-
-        }
-
-        for ((name, value) in dataset) {
-            setAttribute("data-$name", value)
-        }
-
-        classList = Unused.classList
-        dataset = Unused.dataset
-    }
-
     override fun toString(): String {
         var result = "<" + nodeName.toLowerCase()
         attributes.forEach { entry ->
@@ -333,22 +350,7 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
         return "$result>"
     }
 
-////
-
-    /** The attributes of this element, mapped from name to value. */
-    private val attributes: MutableMap<String, String> = mutableMapOf()
-
-    /** A list of classes for this element. */
-    private var classList: MutableSet<String> = mutableSetOf()
-
-    /** A list of the data-* properties of this element, keyed without the "data-" prefix. */
-    private var dataset: MutableMap<String, String> = mutableMapOf()
-
-    /** Static placeholders to replace attributes under construction when no longer needed. */
-    private object Unused {
-        val classList = UnusedSet<String>()
-        val dataset = UnusedMap<String, String>()
-    }
+    ////
 
     private companion object {
 
@@ -368,4 +370,4 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

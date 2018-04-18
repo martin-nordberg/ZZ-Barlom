@@ -5,6 +5,8 @@
 
 package o.org.katydom.types
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Enumeration of allowed values for the type attribute of a button element.
  */
@@ -18,10 +20,13 @@ enum class EButtonType {
     fun toHtmlString(): String {
         return when (this) {
             BUTTON -> "button"
-            MENU -> "menu"
-            RESET -> "reset"
+            MENU   -> "menu"
+            RESET  -> "reset"
             SUBMIT -> "submit"
         }
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

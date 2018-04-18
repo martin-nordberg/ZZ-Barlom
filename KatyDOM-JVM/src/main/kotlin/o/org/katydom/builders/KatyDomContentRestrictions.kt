@@ -5,6 +5,8 @@
 
 package o.org.katydom.builders
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Set of restrictions on content. E.g. a header cannot contain a header or footer; a form cannot be nested.
  */
@@ -45,6 +47,8 @@ class KatyDomContentRestrictions(
         original.mainAllowed && mainAllowed,
         original.optionGroupAllowed && optionGroupAllowed
     )
+
+    ////
 
     fun confirmAnchorAllowed() {
         check(anchorAllowed) { "Element type <a> not allowed here" }
@@ -128,3 +132,6 @@ class KatyDomContentRestrictions(
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

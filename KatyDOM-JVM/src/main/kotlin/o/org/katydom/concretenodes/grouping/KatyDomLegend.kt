@@ -10,7 +10,7 @@ import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for a <legend> element.
@@ -31,9 +31,7 @@ internal class KatyDomLegend<Msg>(
     translate: Boolean?,
     defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
-                                hidden, lang, spellcheck, style, tabindex, title, translate) {
-
-    override val nodeName = "LEGEND"
+                            hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
         flowContent.contentRestrictions.confirmLegendAllowed()
@@ -42,6 +40,10 @@ internal class KatyDomLegend<Msg>(
         this.freeze()
     }
 
+    ////
+
+    override val nodeName = "LEGEND"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

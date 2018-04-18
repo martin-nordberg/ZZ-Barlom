@@ -5,6 +5,8 @@
 
 package o.org.katydom.types
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Enumeration of allowed values for the inputmode attribute of an input element.
  * See https://www.w3.org/TR/html51/sec-forms.html#element-attrdef-input-inputmode.
@@ -24,15 +26,18 @@ enum class EInputMode {
     fun toHtmlString(): String {
         return when (this) {
             FULL_WIDTH_LATIN -> "full-width-latin"
-            KANA -> "kana"
-            KANA_NAME -> "kana-name"
-            KATAKANA -> "katakana"
-            LATIN -> "latin"
-            LATIN_NAME -> "latin-name"
-            LATIN_PROSE -> "latin-prose"
-            NUMERIC -> "numeric"
-            VERBATIM -> "verbatim"
+            KANA             -> "kana"
+            KANA_NAME        -> "kana-name"
+            KATAKANA         -> "katakana"
+            LATIN            -> "latin"
+            LATIN_NAME       -> "latin-name"
+            LATIN_PROSE      -> "latin-prose"
+            NUMERIC          -> "numeric"
+            VERBATIM         -> "verbatim"
         }
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

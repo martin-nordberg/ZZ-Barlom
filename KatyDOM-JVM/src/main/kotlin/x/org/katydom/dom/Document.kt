@@ -5,6 +5,8 @@
 
 package /*jvm*/x.org.katydom.dom
 
+//---------------------------------------------------------------------------------------------------------------------
+
 interface Document : Node {
 
     fun createComment(data: String): Comment
@@ -14,3 +16,6 @@ interface Document : Node {
     fun createTextNode(data: String): Text
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

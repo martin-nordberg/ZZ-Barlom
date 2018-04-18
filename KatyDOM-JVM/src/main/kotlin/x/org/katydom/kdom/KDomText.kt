@@ -8,6 +8,8 @@ package /*jvm*/x.org.katydom.kdom
 import x.org.katydom.dom.Text
 import x.org.katydom.infrastructure.indent
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Implementation of DOM Text for generating HTML text for testing or server-side rendering.
  */
@@ -30,6 +32,8 @@ open class KDomText(
             _data = value ?: ""
         }
 
+    ////
+
     override fun toHtmlString(indent: Int): String {
         val result = StringBuilder()
         result.indent(indent)
@@ -38,3 +42,6 @@ open class KDomText(
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

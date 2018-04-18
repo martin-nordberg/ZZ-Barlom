@@ -6,10 +6,12 @@
 package o.org.katydom.concretenodes.forms
 
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
-import o.org.katydom.builders.*
+import o.org.katydom.builders.KatyDomAttributesContentBuilder
+import o.org.katydom.builders.KatyDomOptionContentBuilder
+import o.org.katydom.builders.KatyDomTextContentBuilder
 import o.org.katydom.types.EDirection
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for an option element.
@@ -36,7 +38,8 @@ internal class KatyDomOption<Msg> : KatyDomHtmlElement<Msg> {
         translate: Boolean?,
         value: String,
         defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title,
+              translate) {
 
         setAttributes(disabled, label, selected)
         setAttribute("value", value)
@@ -64,7 +67,8 @@ internal class KatyDomOption<Msg> : KatyDomHtmlElement<Msg> {
         title: String?,
         translate: Boolean?,
         defineContent: KatyDomTextContentBuilder<Msg>.() -> Unit
-    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title, translate) {
+    ) : super(selector, key ?: name, accesskey, contenteditable, dir, hidden, lang, spellcheck, style, tabindex, title,
+              translate) {
 
         setAttributes(disabled, label, selected)
 
@@ -72,21 +76,25 @@ internal class KatyDomOption<Msg> : KatyDomHtmlElement<Msg> {
         this.freeze()
     }
 
-    override val nodeName = "OPTION"
+    ////
 
     private fun setAttributes(
         disabled: Boolean?,
         label: String?,
         selected: Boolean?
     ) {
-        require( label == null || !label.isEmpty() ) { "Attribute label may not be an empty string." }
+        require(label == null || !label.isEmpty()) { "Attribute label may not be an empty string." }
 
         setBooleanAttribute("disabled", disabled)
         setAttribute("label", label)
         setBooleanAttribute("selected", selected)
     }
 
+    ////
+
+    override val nodeName = "OPTION"
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 

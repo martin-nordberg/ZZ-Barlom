@@ -7,6 +7,8 @@ package /*jvm*/x.org.katydom.kdom
 import x.org.katydom.dom.Element
 import x.org.katydom.infrastructure.indent
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
  */
@@ -17,6 +19,8 @@ class KDomElement(
 
     private val _attributes: MutableMap<String, String> = sortedMapOf()
 
+    ////
+
     override var nodeValue: String?
         get() = null
         set(value) {}
@@ -25,6 +29,8 @@ class KDomElement(
         get() {
             return nodeName.toLowerCase()
         }
+
+    ////
 
     override fun removeAttribute(name: String) {
         _attributes.remove(name)
@@ -69,7 +75,7 @@ class KDomElement(
 
     }
 
-////
+    ////
 
     private companion object {
         val elementsWithoutEndTags = hashSetOf(
@@ -78,4 +84,6 @@ class KDomElement(
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
 

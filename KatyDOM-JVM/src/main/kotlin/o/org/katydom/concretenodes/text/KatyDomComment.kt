@@ -10,7 +10,7 @@ import x.org.katydom.dom.Comment
 import x.org.katydom.dom.Document
 import x.org.katydom.dom.Node
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual DOM node for a comment node.
@@ -25,15 +25,17 @@ internal class KatyDomComment<Msg>(
 
 ) : KatyDomNode<Msg>(key) {
 
-    override val nodeName = "#comment"
-
-    val nodeValue = _nodeValue
-
     init {
         this.freeze()
     }
 
-////
+    ////
+
+    override val nodeName = "#comment"
+
+    val nodeValue = _nodeValue
+
+    ////
 
     override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
         val childComment = document.createComment(nodeValue)
@@ -51,9 +53,10 @@ internal class KatyDomComment<Msg>(
 
     override fun patchAttributes(domElement: Node, priorElement: KatyDomNode<Msg>) {
 
-        if (domElement !is Comment) throw IllegalArgumentException("DOM node expected to be comment.")
-        if (priorElement !is KatyDomComment) throw IllegalArgumentException(
-            "KatyDOM node expected to be KatyDOM comment.")
+        require(domElement is Comment) { "DOM node expected to be comment." }
+        if (priorElement !is KatyDomComment) {
+            throw IllegalArgumentException("KatyDOM node expected to be KatyDOM comment.")
+        }
 
         if (nodeValue != priorElement.nodeValue) {
             domElement.nodeValue = nodeValue
@@ -63,4 +66,4 @@ internal class KatyDomComment<Msg>(
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

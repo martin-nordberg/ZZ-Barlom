@@ -10,6 +10,8 @@ import x.org.katydom.dom.Document
 import x.org.katydom.dom.Text
 
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
  */
@@ -22,6 +24,8 @@ class KDomDocument : KDomNode(), Document {
         set(value) {}
 
     override val ownerDocument = this
+
+    ////
 
     override fun createComment(data: String): Comment {
         return KDomComment(this, data)
@@ -40,3 +44,6 @@ class KDomDocument : KDomNode(), Document {
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

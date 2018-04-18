@@ -5,6 +5,8 @@
 
 package o.org.katydom.types
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Enumeration of allowed values for the dir attribute.
  * See https://www.w3.org/TR/html5/dom.html#the-dir-attribute.
@@ -24,3 +26,6 @@ enum class EDirection {
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+

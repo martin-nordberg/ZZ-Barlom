@@ -10,7 +10,7 @@ import o.org.katydom.abstractnodes.KatyDomNode
 import o.org.katydom.builders.KatyDomContentRestrictions
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Virtual node for the parent pseudo element of an application. The pseudo element allows only one child node to be
@@ -18,9 +18,18 @@ import o.org.katydom.builders.KatyDomFlowContentBuilder
  */
 internal class KatyDomAppPseudoNode<Msg> :
     KatyDomHtmlElement<Msg>(null, null, null, null, null,
-                                null, null, null, null, null, null, null) {
+                            null, null, null, null, null, null, null) {
 
     override val nodeName = "!APPLICATION"
+
+    ////
+
+    override fun afterAddChildNode(childNode: KatyDomNode<Msg>) {
+
+        // Allow only one child node
+        freeze()
+
+    }
 
     /**
      * Fills this node with the content that is the whole application. The [defineContent] function should add
@@ -40,13 +49,7 @@ internal class KatyDomAppPseudoNode<Msg> :
 
     }
 
-    override fun afterAddChildNode(childNode: KatyDomNode<Msg>) {
-
-        // Allow only one child node
-        freeze()
-
-    }
-
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
+
