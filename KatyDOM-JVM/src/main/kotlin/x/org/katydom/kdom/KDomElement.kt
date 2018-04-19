@@ -79,7 +79,7 @@ class KDomElement(
 
     private companion object {
         val elementsWithoutEndTags = hashSetOf(
-            "br", "hr"
+            "br", "hr", "input", "wbr"
         )
     }
 

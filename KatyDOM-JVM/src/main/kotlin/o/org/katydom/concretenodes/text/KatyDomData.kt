@@ -12,9 +12,9 @@ import o.org.katydom.types.EDirection
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Virtual node for a <strong> element.
+ * Virtual node for a <data> element.
  */
-internal class KatyDomStrong<Msg>(
+internal class KatyDomData<Msg>(
     phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
@@ -28,18 +28,20 @@ internal class KatyDomStrong<Msg>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
+    value: String,
     defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                             hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
+        setAttribute("value", value)
         phrasingContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }
 
     ////
 
-    override val nodeName = "STRONG"
+    override val nodeName = "DATA"
 
 }
 

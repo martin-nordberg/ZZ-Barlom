@@ -12,9 +12,9 @@ import o.org.katydom.types.EDirection
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Virtual node for a <strong> element.
+ * Virtual node for a <code> element.
  */
-internal class KatyDomStrong<Msg>(
+internal class KatyDomCode<Msg>(
     phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
@@ -39,7 +39,7 @@ internal class KatyDomStrong<Msg>(
 
     ////
 
-    override val nodeName = "STRONG"
+    override val nodeName = "CODE"
 
 }
 

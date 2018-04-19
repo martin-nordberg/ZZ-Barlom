@@ -1,27 +1,26 @@
 //
-// (C) Copyright 2017-2018 Martin E. Nordberg III
+// (C) Copyright 2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
-package o.org.katydom.concretenodes.grouping
+package o.org.katydom.concretenodes.text
 
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
-import o.org.katydom.builders.KatyDomOptionContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Virtual node for a <datalist> element.
+ * Virtual node for a <bdo> element.
  */
-internal class KatyDomDataList<Msg>(
-    flowContent: KatyDomPhrasingContentBuilder<Msg>,
+internal class KatyDomBdo<Msg>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
     contenteditable: Boolean?,
-    dir: EDirection?,
+    dir: EDirection,
     hidden: Boolean?,
     lang: String?,
     spellcheck: Boolean?,
@@ -29,18 +28,19 @@ internal class KatyDomDataList<Msg>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
+    defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                             hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
-        flowContent.optionContent(this).defineContent()
+        require(dir != EDirection.AUTO) { "Attribute dir must be ltr or rtl in a <bdo> element." }
+        phrasingContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }
 
     ////
 
-    override val nodeName = "DATALIST"
+    override val nodeName = "BDO"
 
 }
 
