@@ -6,7 +6,9 @@
 package o.org.katydom.builders
 
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
+import o.org.katydom.concretenodes.forms.KatyDomFieldSet
 import o.org.katydom.concretenodes.forms.KatyDomForm
+import o.org.katydom.concretenodes.forms.KatyDomLegend
 import o.org.katydom.concretenodes.grouping.*
 import o.org.katydom.concretenodes.sections.*
 import o.org.katydom.types.EDirection
@@ -142,8 +144,10 @@ class KatyDomFlowContentBuilder<Msg>(
         defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomFieldSet(this, selector, key, accesskey, contenteditable, dir, disabled, form, hidden, lang,
-                            name, spellcheck, style, tabindex, title, translate, defineContent)
+            KatyDomFieldSet(this, selector, key, accesskey, contenteditable, dir,
+                            disabled, form, hidden, lang,
+                            name, spellcheck, style, tabindex, title, translate,
+                            defineContent)
         )
     }
 
@@ -417,7 +421,8 @@ class KatyDomFlowContentBuilder<Msg>(
         defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomLegend(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck,
+            KatyDomLegend(this, selector, key, accesskey, contenteditable, dir,
+                          hidden, lang, spellcheck,
                           style, tabindex, title, translate, defineContent)
         )
     }

@@ -7,7 +7,6 @@ package o.org.katydom.builders
 
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.concretenodes.forms.*
-import o.org.katydom.concretenodes.forms.KatyDomDataList
 import o.org.katydom.concretenodes.text.*
 import o.org.katydom.types.*
 
@@ -62,7 +61,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds an abbr element with any global attributes as the next child of the element under construction.
+     * Adds an abbr element with its attributes as the next child of the element under construction.
      */
     fun abbr(
         selector: String? = null,
@@ -93,7 +92,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a b element with any global attributes as the next child of the element under construction.
+     * Adds a b element with its attributes as the next child of the element under construction.
      */
     fun b(
         selector: String? = null,
@@ -117,7 +116,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a bdi element with any global attributes as the next child of the element under construction.
+     * Adds a bdi element with its attributes as the next child of the element under construction.
      */
     fun bdi(
         selector: String? = null,
@@ -141,7 +140,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a bdo element with dir and any global attributes as the next child of the element under construction.
+     * Adds a bdo element with its attributes as the next child of the element under construction.
      */
     fun bdo(
         selector: String? = null,
@@ -228,7 +227,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a cite element with any global attributes as the next child of the element under construction.
+     * Adds a cite element with its attributes as the next child of the element under construction.
      */
     fun cite(
         selector: String? = null,
@@ -252,7 +251,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a code element with any global attributes as the next child of the element under construction.
+     * Adds a code element with its attributes as the next child of the element under construction.
      */
     fun code(
         selector: String? = null,
@@ -286,7 +285,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a data element with any global attributes as the next child of the element under construction.
+     * Adds a data element with its attributes as the next child of the element under construction.
      */
     fun data(
         selector: String? = null,
@@ -311,7 +310,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a datalist element with any global attributes as the next child of the element under construction.
+     * Adds a datalist element with its attributes as the next child of the element under construction.
      */
     fun datalist(
         selector: String? = null,
@@ -330,13 +329,13 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     ) {
         element.addChildNode(
             KatyDomDataList(this, selector, key, accesskey, contenteditable, dir,
-                                                              hidden, lang, spellcheck, style,
-                                                              tabindex, title, translate, defineContent)
+                            hidden, lang, spellcheck, style,
+                            tabindex, title, translate, defineContent)
         )
     }
 
     /**
-     * Adds a dfn element with any global attributes as the next child of the element under construction.
+     * Adds a dfn element with its attributes as the next child of the element under construction.
      */
     fun dfn(
         selector: String? = null,
@@ -360,7 +359,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds an em element with any global attributes as the next child of the element under construction.
+     * Adds an em element with its attributes as the next child of the element under construction.
      */
     fun em(
         selector: String? = null,
@@ -384,7 +383,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds an i element with any global attributes as the next child of the element under construction.
+     * Adds an i element with its attributes as the next child of the element under construction.
      */
     fun i(
         selector: String? = null,
@@ -1212,7 +1211,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a kbd element with any global attributes as the next child of the element under construction.
+     * Adds a kbd element with its attributes as the next child of the element under construction.
      */
     fun kbd(
         selector: String? = null,
@@ -1261,7 +1260,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a mark element with any global attributes as the next child of the element under construction.
+     * Adds a mark element with its attributes as the next child of the element under construction.
      */
     fun mark(
         selector: String? = null,
@@ -1285,6 +1284,36 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
+     * Adds a meter element with its attributes as the next child of the element under construction.
+     */
+    fun meter(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        high: String? = null,
+        lang: String? = null,
+        low: String? = null,
+        max: String? = null,
+        min: String? = null,
+        optimum: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        value: String? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomMeter(this, selector, key, accesskey, contenteditable, dir, hidden, high, lang,
+                         low, max, min, optimum, spellcheck, style, tabindex, title, translate, value, defineContent)
+        )
+    }
+
+    /**
      * Creates a new option content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
@@ -1293,7 +1322,61 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a q element with any global attributes as the next child of the element under construction.
+     * Adds an output element with given attributes as the next child of the element under construction.
+     */
+    fun output(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        disabled: Boolean? = null,
+        `for`: String? = null,
+        form: String? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        name: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomOutput(this, selector, key, accesskey, contenteditable, dir, disabled, `for`, form,
+                          hidden, lang, name, spellcheck, style, tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds a progress element with its attributes as the next child of the element under construction.
+     */
+    fun progress(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        max: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        value: String? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomProgress(this, selector, key, accesskey, contenteditable, dir, hidden, lang, max,
+                            spellcheck, style, tabindex, title, translate, value, defineContent)
+        )
+    }
+
+    /**
+     * Adds a q element with its attributes as the next child of the element under construction.
      */
     fun q(
         selector: String? = null,
@@ -1317,7 +1400,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds an s element with any global attributes as the next child of the element under construction.
+     * Adds an s element with its attributes as the next child of the element under construction.
      */
     fun s(
         selector: String? = null,
@@ -1341,7 +1424,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a samp element with any global attributes as the next child of the element under construction.
+     * Adds a samp element with its attributes as the next child of the element under construction.
      */
     fun samp(
         selector: String? = null,
@@ -1365,7 +1448,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a select element with any global attributes as the next child of the element under construction.
+     * Adds a select element with its attributes as the next child of the element under construction.
      */
     fun select(
         selector: String? = null,
@@ -1398,7 +1481,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a small element with any global attributes as the next child of the element under construction.
+     * Adds a small element with its attributes as the next child of the element under construction.
      */
     fun small(
         selector: String? = null,
@@ -1422,7 +1505,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a span element with any global attributes as the next child of the element under construction.
+     * Adds a span element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -1459,7 +1542,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a strong element with any global attributes as the next child of the element under construction.
+     * Adds a strong element with its attributes as the next child of the element under construction.
      */
     fun strong(
         selector: String? = null,
@@ -1483,7 +1566,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a sub element with any global attributes as the next child of the element under construction.
+     * Adds a sub element with its attributes as the next child of the element under construction.
      */
     fun sub(
         selector: String? = null,
@@ -1507,7 +1590,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a sup element with any global attributes as the next child of the element under construction.
+     * Adds a sup element with its attributes as the next child of the element under construction.
      */
     fun sup(
         selector: String? = null,
@@ -1637,7 +1720,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a u element with any global attributes as the next child of the element under construction.
+     * Adds a u element with its attributes as the next child of the element under construction.
      */
     fun u(
         selector: String? = null,
@@ -1661,7 +1744,7 @@ open class KatyDomPhrasingContentBuilder<Msg>(
     }
 
     /**
-     * Adds a var element with any global attributes as the next child of the element under construction.
+     * Adds a var element with its attributes as the next child of the element under construction.
      */
     fun `var`(
         selector: String? = null,
@@ -1750,6 +1833,18 @@ open class KatyDomPhrasingContentBuilder<Msg>(
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no meter element allowed.
+     */
+    internal fun withMeterNotAllowed(element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
+        return KatyDomPhrasingContentBuilder(
+            element,
+            contentRestrictions.withMeterNotAllowed(),
+            dispatchMessages
+        )
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
      * as this builder.
      */
     internal open fun withNoAddedRestrictions(
@@ -1757,6 +1852,18 @@ open class KatyDomPhrasingContentBuilder<Msg>(
         return KatyDomPhrasingContentBuilder(
             element,
             contentRestrictions,
+            dispatchMessages
+        )
+    }
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder plus no progress element allowed.
+     */
+    internal fun withProgressNotAllowed(element: KatyDomHtmlElement<Msg>): KatyDomPhrasingContentBuilder<Msg> {
+        return KatyDomPhrasingContentBuilder(
+            element,
+            contentRestrictions.withProgressNotAllowed(),
             dispatchMessages
         )
     }

@@ -19,11 +19,13 @@ class KatyDomContentRestrictions(
     private val labelAllowed: Boolean,
     private var legendAllowed: Boolean,
     private val mainAllowed: Boolean,
-    private val optionGroupAllowed: Boolean
+    private val meterAllowed: Boolean,
+    private val optionGroupAllowed: Boolean,
+    private val progressAllowed: Boolean
 ) {
 
     constructor()
-        : this(true, true, true, true, true, true, false, true, true)
+        : this(true, true, true, true, true, true, false, true, true, true, true)
 
     constructor(
         original: KatyDomContentRestrictions,
@@ -35,7 +37,9 @@ class KatyDomContentRestrictions(
         labelAllowed: Boolean = true,
         legendAllowed: Boolean = false,
         mainAllowed: Boolean = true,
-        optionGroupAllowed: Boolean = true
+        meterAllowed: Boolean = true,
+        optionGroupAllowed: Boolean = true,
+        progressAllowed: Boolean = true
     ) : this(
         original.anchorAllowed && anchorAllowed,
         original.footerAllowed && footerAllowed,
@@ -45,7 +49,10 @@ class KatyDomContentRestrictions(
         original.labelAllowed && labelAllowed,
         legendAllowed,
         original.mainAllowed && mainAllowed,
-        original.optionGroupAllowed && optionGroupAllowed
+        original.meterAllowed && meterAllowed,
+        original.optionGroupAllowed && optionGroupAllowed,
+        original.progressAllowed && progressAllowed
+
     )
 
     ////
@@ -83,8 +90,16 @@ class KatyDomContentRestrictions(
         check(mainAllowed) { "Element type <main> not allowed here." }
     }
 
+    fun confirmMeterAllowed() {
+        check(mainAllowed) { "Element type <meter> not allowed here." }
+    }
+
     fun confirmOptionGroupAllowed() {
         check(optionGroupAllowed) { "Element type <optgroup> not allowed here." }
+    }
+
+    fun confirmProgressAllowed() {
+        check(progressAllowed) { "Element type <progress> not allowed here." }
     }
 
     fun withAnchorInteractiveContentNotAllowed(): KatyDomContentRestrictions {
@@ -127,8 +142,16 @@ class KatyDomContentRestrictions(
         return KatyDomContentRestrictions(this, mainAllowed = false)
     }
 
+    fun withMeterNotAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(this, meterAllowed = false)
+    }
+
     fun withOptionGroupNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, optionGroupAllowed = false)
+    }
+
+    fun withProgressNotAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(this, progressAllowed = false)
     }
 
 }

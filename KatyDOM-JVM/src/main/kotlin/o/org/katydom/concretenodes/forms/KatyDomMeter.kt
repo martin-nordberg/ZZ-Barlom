@@ -1,53 +1,62 @@
 //
-// (C) Copyright 2017-2018 Martin E. Nordberg III
+// (C) Copyright 2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
-package o.org.katydom.concretenodes.grouping
+package o.org.katydom.concretenodes.forms
 
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
-import o.org.katydom.builders.KatyDomFlowContentBuilder
+import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Virtual node for a <fieldset> element.
+ * Virtual node for a meter element.
  */
-internal class KatyDomFieldSet<Msg>(
-    flowContent: KatyDomFlowContentBuilder<Msg>,
+internal class KatyDomMeter<Msg>(
+    phrasingContent: KatyDomPhrasingContentBuilder<Msg>,
     selector: String?,
     key: Any?,
     accesskey: String?,
     contenteditable: Boolean?,
     dir: EDirection?,
-    disabled: Boolean?,
-    form: String?,
     hidden: Boolean?,
+    high: String?,
     lang: String?,
-    name: String?,
+    low: String?,
+    max: String?,
+    min: String?,
+    optimum: String?,
     spellcheck: Boolean?,
     style: String?,
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
+    value: String?,
+    defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                             hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
-        setBooleanAttribute("disabled", disabled)
-        setAttribute("form", form)
-        setAttribute("name", name)
+        phrasingContent.contentRestrictions.confirmMeterAllowed()
 
-        flowContent.withLegendAllowed(this).defineContent()
+        setAttribute("high", high)
+        setAttribute("low", low)
+        setAttribute("max", max)
+        setAttribute("min", min)
+        setAttribute("optimum", optimum)
+        setAttribute("value", value)
+
+        phrasingContent.withMeterNotAllowed(this).defineContent()
         this.freeze()
     }
 
     ////
 
-    override val nodeName = "FIELDSET"
+    override val nodeName = "METER"
 
 }
 
 //---------------------------------------------------------------------------------------------------------------------
+
