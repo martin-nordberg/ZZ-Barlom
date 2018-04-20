@@ -51,7 +51,7 @@ class KatyDomFlowContentBuilder<Msg>(
 ) : KatyDomPhrasingContentBuilder<Msg>(element, contentRestrictions, dispatchMessages) {
 
     /**
-     * Adds an article element with any global attributes as the next child of the element under construction.
+     * Adds an article element with its attributes as the next child of the element under construction.
      */
     fun article(
         selector: String? = null,
@@ -75,7 +75,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds an aside element with any global attributes as the next child of the element under construction.
+     * Adds an aside element with its attributes as the next child of the element under construction.
      */
     fun aside(
         selector: String? = null,
@@ -99,7 +99,32 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a div element with any global attributes as the next child of the element under construction.
+     * Adds a blockquote element with its attributes as the next child of the element under construction.
+     */
+    fun blockquote(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        cite: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomBlockQuote(this, selector, key, accesskey, cite, contenteditable, dir, hidden, lang, spellcheck, style,
+                              tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds a div element with its attributes as the next child of the element under construction.
      */
     fun div(
         selector: String? = null,
@@ -123,7 +148,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a fieldset element with any global attributes as the next child of the element under construction.
+     * Adds a fieldset element with its attributes as the next child of the element under construction.
      */
     fun fieldset(
         selector: String? = null,
@@ -152,7 +177,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a footer element with any global attributes as the next child of the element under construction.
+     * Adds a footer element with its attributes as the next child of the element under construction.
      */
     fun footer(
         selector: String? = null,
@@ -209,7 +234,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a first level heading element with any global attributes as the next child of the element under construction.
+     * Adds a first level heading element with its attributes as the next child of the element under construction.
      */
     fun h1(
         selector: String? = null,
@@ -233,7 +258,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a second level heading element with any global attributes as the next child of the element under construction.
+     * Adds a second level heading element with its attributes as the next child of the element under construction.
      */
     fun h2(
         selector: String? = null,
@@ -257,7 +282,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a third level heading element with any global attributes as the next child of the element under construction.
+     * Adds a third level heading element with its attributes as the next child of the element under construction.
      */
     fun h3(
         selector: String? = null,
@@ -281,7 +306,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a fourth level heading element with any global attributes as the next child of the element under construction.
+     * Adds a fourth level heading element with its attributes as the next child of the element under construction.
      */
     fun h4(
         selector: String? = null,
@@ -305,7 +330,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a fifth level heading element with any global attributes as the next child of the element under construction.
+     * Adds a fifth level heading element with its attributes as the next child of the element under construction.
      */
     fun h5(
         selector: String? = null,
@@ -329,7 +354,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a sixth level heading element with any global attributes as the next child of the element under construction.
+     * Adds a sixth level heading element with its attributes as the next child of the element under construction.
      */
     fun h6(
         selector: String? = null,
@@ -353,7 +378,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a header element with any global attributes as the next child of the element under construction.
+     * Adds a header element with its attributes as the next child of the element under construction.
      */
     fun header(
         selector: String? = null,
@@ -442,7 +467,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a main element with any global attributes as the next child of the element under construction.
+     * Adds a main element with its attributes as the next child of the element under construction.
      */
     fun main(
         selector: String? = null,
@@ -466,7 +491,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a nav element with any global attributes as the next child of the element under construction.
+     * Adds a nav element with its attributes as the next child of the element under construction.
      */
     fun nav(
         selector: String? = null,
@@ -521,7 +546,7 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a paragraph element with any global attributes as the next child of the element under construction.
+     * Adds a paragraph element with its attributes as the next child of the element under construction.
      */
     fun p(
         selector: String? = null,
@@ -557,7 +582,31 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a section element with any global attributes as the next child of the element under construction.
+     * Adds a pre element with its attributes as the next child of the element under construction.
+     */
+    fun pre(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomPre(this, selector, key, accesskey, contenteditable, dir, hidden, lang, spellcheck, style,
+                       tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds a section element with its attributes as the next child of the element under construction.
      */
     fun section(
         selector: String? = null,
