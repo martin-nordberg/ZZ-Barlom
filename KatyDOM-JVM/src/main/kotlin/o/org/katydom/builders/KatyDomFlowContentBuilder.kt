@@ -118,7 +118,8 @@ class KatyDomFlowContentBuilder<Msg>(
         defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomBlockQuote(this, selector, key, accesskey, cite, contenteditable, dir, hidden, lang, spellcheck, style,
+            KatyDomBlockQuote(this, selector, key, accesskey, cite, contenteditable, dir, hidden, lang, spellcheck,
+                              style,
                               tabindex, title, translate, defineContent)
         )
     }
@@ -173,6 +174,54 @@ class KatyDomFlowContentBuilder<Msg>(
                             disabled, form, hidden, lang,
                             name, spellcheck, style, tabindex, title, translate,
                             defineContent)
+        )
+    }
+
+    /**
+     * Adds a figcaption element with its attributes as the next child of the element under construction.
+     */
+    fun figCaption(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomFigCaption(this, selector, key, accesskey, contenteditable, dir,
+                              hidden, lang, spellcheck, style, tabindex, title, translate, defineContent)
+        )
+    }
+
+    /**
+     * Adds a figcaption element with its attributes as the next child of the element under construction.
+     */
+    fun figure(
+        selector: String? = null,
+        key: Any? = null,
+        accesskey: String? = null,
+        contenteditable: Boolean? = null,
+        dir: EDirection? = null,
+        hidden: Boolean? = null,
+        lang: String? = null,
+        spellcheck: Boolean? = null,
+        style: String? = null,
+        tabindex: Int? = null,
+        title: String? = null,
+        translate: Boolean? = null,
+        defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
+    ) {
+        element.addChildNode(
+            KatyDomFigure(this, selector, key, accesskey, contenteditable, dir,
+                          hidden, lang, spellcheck, style, tabindex, title, translate, defineContent)
         )
     }
 
@@ -654,6 +703,19 @@ class KatyDomFlowContentBuilder<Msg>(
         )
     }
 
+
+    /**
+     * Creates a new content builder for the given child [element] that has the same restrictions
+     * as this builder but figcaption elements are allowed.
+     */
+    internal fun withFigCaptionAllowed(
+        element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
+        return KatyDomFlowContentBuilder(
+            element,
+            contentRestrictions.withFigCaptionAllowed(),
+            dispatchMessages
+        )
+    }
 
     /**
      * Creates a new content builder for the given child [element] that has the same restrictions

@@ -1,21 +1,20 @@
 //
-// (C) Copyright 2017-2018 Martin E. Nordberg III
+// (C) Copyright 2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
-package o.org.katydom.concretenodes.forms
+package o.org.katydom.concretenodes.grouping
 
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.types.EDirection
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Virtual node for a <legend> element.
+ * Virtual node for a <figcaption> element.
  */
-internal class KatyDomLegend<Msg>(
+internal class KatyDomFigCaption<Msg>(
     flowContent: KatyDomFlowContentBuilder<Msg>,
     selector: String?,
     key: Any?,
@@ -29,20 +28,19 @@ internal class KatyDomLegend<Msg>(
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    defineContent: KatyDomPhrasingContentBuilder<Msg>.() -> Unit
+    defineContent: KatyDomFlowContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key, accesskey, contenteditable, dir,
                             hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
-        flowContent.contentRestrictions.confirmLegendAllowedThenDisallow()
-
-        flowContent.phrasingContent(this).defineContent()
+        flowContent.contentRestrictions.confirmFigCaptionAllowedThenDisallow()
+        flowContent.withNoAddedRestrictions(this).defineContent()
         this.freeze()
     }
 
     ////
 
-    override val nodeName = "LEGEND"
+    override val nodeName = "FIGCAPTION"
 
 }
 

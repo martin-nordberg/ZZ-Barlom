@@ -12,12 +12,13 @@ package o.org.katydom.builders
  */
 class KatyDomContentRestrictions(
     private val anchorAllowed: Boolean,
+    private var figCaptionProhibited: Boolean,
     private val footerAllowed: Boolean,
     private val formAllowed: Boolean,
     private val headerAllowed: Boolean,
     private val interactiveContentAllowed: Boolean,
     private val labelAllowed: Boolean,
-    private var legendAllowed: Boolean,
+    private var legendProhibited: Boolean,
     private val mainAllowed: Boolean,
     private val meterAllowed: Boolean,
     private val optionGroupAllowed: Boolean,
@@ -25,40 +26,59 @@ class KatyDomContentRestrictions(
 ) {
 
     constructor()
-        : this(true, true, true, true, true, true, false, true, true, true, true)
+        : this(
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+    )
 
     constructor(
         original: KatyDomContentRestrictions,
         anchorAllowed: Boolean = true,
+        figCaptionProhibited: Boolean = true,
         footerAllowed: Boolean = true,
         formAllowed: Boolean = true,
         headerAllowed: Boolean = true,
         interactiveContentAllowed: Boolean = true,
         labelAllowed: Boolean = true,
-        legendAllowed: Boolean = false,
+        legendProhibited: Boolean = false,
         mainAllowed: Boolean = true,
         meterAllowed: Boolean = true,
         optionGroupAllowed: Boolean = true,
         progressAllowed: Boolean = true
     ) : this(
         original.anchorAllowed && anchorAllowed,
+        original.figCaptionProhibited && figCaptionProhibited,
         original.footerAllowed && footerAllowed,
         original.formAllowed && formAllowed,
         original.headerAllowed && headerAllowed,
         original.interactiveContentAllowed && interactiveContentAllowed,
         original.labelAllowed && labelAllowed,
-        legendAllowed,
+        original.legendProhibited && legendProhibited,
         original.mainAllowed && mainAllowed,
         original.meterAllowed && meterAllowed,
         original.optionGroupAllowed && optionGroupAllowed,
         original.progressAllowed && progressAllowed
-
     )
 
     ////
 
     fun confirmAnchorAllowed() {
         check(anchorAllowed) { "Element type <a> not allowed here" }
+    }
+
+    fun confirmFigCaptionAllowedThenDisallow() {
+        check(!figCaptionProhibited) { "Element type <figcaption> not allowed here." }
+        figCaptionProhibited = true
     }
 
     fun confirmFooterAllowed() {
@@ -81,9 +101,9 @@ class KatyDomContentRestrictions(
         check(labelAllowed) { "Element type <label> not allowed here." }
     }
 
-    fun confirmLegendAllowed() {
-        check(legendAllowed) { "Element type <legend> not allowed here." }
-        legendAllowed = false
+    fun confirmLegendAllowedThenDisallow() {
+        check(!legendProhibited) { "Element type <legend> not allowed here." }
+        legendProhibited = true
     }
 
     fun confirmMainAllowed() {
@@ -107,6 +127,13 @@ class KatyDomContentRestrictions(
             this,
             anchorAllowed = false,
             interactiveContentAllowed = false
+        )
+    }
+
+    fun withFigCaptionAllowed(): KatyDomContentRestrictions {
+        return KatyDomContentRestrictions(
+            this,
+            figCaptionProhibited = false
         )
     }
 
@@ -135,7 +162,7 @@ class KatyDomContentRestrictions(
     }
 
     fun withLegendAllowed(): KatyDomContentRestrictions {
-        return KatyDomContentRestrictions(this, legendAllowed = true)
+        return KatyDomContentRestrictions(this, legendProhibited = false)
     }
 
     fun withMainNotAllowed(): KatyDomContentRestrictions {
