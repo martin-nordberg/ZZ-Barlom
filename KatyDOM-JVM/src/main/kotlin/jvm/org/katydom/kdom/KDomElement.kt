@@ -2,10 +2,10 @@
 // (C) Copyright 2017-2018 Martin E. Nordberg III
 // Apache 2.0 License
 //
-package /*jvm*/x.org.katydom.kdom
+package jvm.org.katydom.kdom
 
+import jvm.org.katydom.infrastructure.indent
 import x.org.katydom.dom.Element
-import x.org.katydom.infrastructure.indent
 
 //---------------------------------------------------------------------------------------------------------------------
 

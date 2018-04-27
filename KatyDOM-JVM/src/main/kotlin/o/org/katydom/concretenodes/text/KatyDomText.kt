@@ -32,10 +32,10 @@ internal class KatyDomText<Msg>(
 
     ////
 
-    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+    override fun createDomNode(document: Document, parentDomNode: Node, followingDomChild: Node?) {
         val childText = document.createTextNode(nodeValue)
         establish(childText)
-        domNode.insertBefore(childText, domChild)
+        parentDomNode.insertBefore(childText, followingDomChild)
     }
 
     override fun establishAttributes(domElement: Node) {

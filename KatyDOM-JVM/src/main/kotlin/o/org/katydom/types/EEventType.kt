@@ -12,8 +12,13 @@ package o.org.katydom.types
  */
 enum class EEventType {
 
+    /** A "blur" event. */
     BLUR,
+
+    /** A "change" event. */
     CHANGE,
+
+    /** A "focus" event. */
     FOCUS;
 
     /**

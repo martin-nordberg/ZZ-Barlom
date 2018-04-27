@@ -37,10 +37,10 @@ internal class KatyDomComment<Msg>(
 
     ////
 
-    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+    override fun createDomNode(document: Document, parentDomNode: Node, followingDomChild: Node?) {
         val childComment = document.createComment(nodeValue)
         establish(childComment)
-        domNode.insertBefore(childComment, domChild)
+        parentDomNode.insertBefore(childComment, followingDomChild)
     }
 
     override fun establishAttributes(domElement: Node) {

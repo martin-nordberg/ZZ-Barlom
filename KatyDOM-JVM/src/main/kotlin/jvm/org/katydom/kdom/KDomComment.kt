@@ -3,15 +3,16 @@
 // Apache 2.0 License
 //
 
-package /*jvm*/x.org.katydom.kdom
+package jvm.org.katydom.kdom
 
+import jvm.org.katydom.infrastructure.indent
 import x.org.katydom.dom.Comment
-import x.org.katydom.infrastructure.indent
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Implementation of DOM Text for generating HTML text for testing or server-side rendering.
+ * Implementation of DOM Comment for generating HTML text for testing or server-side rendering.
+ * @constructor Constructs a new HTML comment element in given [ownerDocument] with given [_data] inside the comment.
  */
 open class KDomComment(
     override val ownerDocument: KDomDocument,
@@ -24,7 +25,7 @@ open class KDomComment(
             _data = value
         }
 
-    override val nodeName = "#text"
+    override val nodeName = "#comment"
 
     override var nodeValue: String?
         get() = _data

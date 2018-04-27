@@ -13,16 +13,34 @@ package o.org.katydom.types
  */
 enum class EInputMode {
 
+    /** Input mode "full-width-latin". */
     FULL_WIDTH_LATIN,
+
+    /** Input mode "kana". */
     KANA,
+
+    /** Input mode "kana-name". */
     KANA_NAME,
+
+    /** Input mode "katakana". */
     KATAKANA,
+
+    /** Input mode "latin". */
     LATIN,
+
+    /** Input mode "latin-name". */
     LATIN_NAME,
+
+    /** Input mode "latin-prose". */
     LATIN_PROSE,
+
+    /** Input mode "numeric". */
     NUMERIC,
+
+    /** Input mode "verbatim". */
     VERBATIM;
 
+    /** @return the HTML attribute text corresponding to this input mode. */
     fun toHtmlString(): String {
         return when (this) {
             FULL_WIDTH_LATIN -> "full-width-latin"

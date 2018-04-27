@@ -10,7 +10,7 @@ package o.org.katydom.infrastructure
 /**
  * Implementation of MutableSet<T> that throws an error for every operation.
  */
-class UnusedSet<T> : MutableSet<T> {
+internal class UnusedSet<T> : MutableSet<T> {
 
     override val size: Int
         get() = throw UnsupportedOperationException("Attempted to use unused set.")

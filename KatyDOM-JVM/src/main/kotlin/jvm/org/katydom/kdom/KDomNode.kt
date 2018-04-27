@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package /*jvm*/x.org.katydom.kdom
+package jvm.org.katydom.kdom
 
 import x.org.katydom.dom.Node
 import x.org.katydom.dom.events.Event
@@ -68,22 +68,22 @@ abstract class KDomNode : Node {
         return _firstChild != null
     }
 
-    override fun insertBefore(newChild: Node, refChild: Node?): KDomNode {
+    override fun insertBefore(newChild: Node, followingChild: Node?): KDomNode {
 
         val result = newChild as KDomNode
 
         result._parentNode?.removeChild(result)
 
-        if (refChild == null || _firstChild == null) {
+        if (followingChild == null || _firstChild == null) {
             return appendChild(newChild)
         }
 
-        if (_firstChild == refChild) {
+        if (_firstChild == followingChild) {
             _firstChild = result
         }
         else {
             var child = _firstChild
-            while (child != null && child._nextSibling != null && child._nextSibling != refChild) {
+            while (child != null && child._nextSibling != null && child._nextSibling != followingChild) {
                 child = child._nextSibling
             }
 
@@ -95,7 +95,7 @@ abstract class KDomNode : Node {
             }
         }
 
-        result._nextSibling = refChild as KDomNode
+        result._nextSibling = followingChild as KDomNode
         result.setParentNode(this)
         return result
 
@@ -127,6 +127,9 @@ abstract class KDomNode : Node {
         _parentNode = parentNode
     }
 
+    /**
+     * Converts this element to HTML text, starting from the given level of indentation - [indent] spaces.
+     */
     abstract fun toHtmlString(indent: Int = 0): String
 
 }

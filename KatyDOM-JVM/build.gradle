@@ -2,10 +2,12 @@
 buildscript {
 
     repositories {
+        jcenter()
         mavenCentral()
     }
 
     dependencies {
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
     }
@@ -19,6 +21,7 @@ buildDir = '../build/KatyDOM-JVM'
 
 apply plugin: 'kotlin'
 apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'org.jetbrains.dokka'
 
 sourceCompatibility = 1.8
 
@@ -47,4 +50,26 @@ compileTestKotlin {
 
 junitPlatform {
     details 'tree'
+}
+
+dokka {
+
+    includes = [
+        'src/main/kotlin/module.md',
+        'src/main/kotlin/o/org/katydom/abstractnodes/package.md',
+        'src/main/kotlin/o/org/katydom/api/package.md',
+        'src/main/kotlin/o/org/katydom/builders/package.md',
+        'src/main/kotlin/o/org/katydom/types/package.md'
+    ]
+
+    moduleName = 'KatyDOM-JVM'
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/documentation"
+
+    linkMapping {
+        dir = "src/main/kotlin"
+        url = "https://github.com/martin-nordberg/Barlom/tree/master/KatyDOM-JVM/src/main/kotlin"
+        suffix = "#L"
+    }
+
 }

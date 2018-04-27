@@ -12,11 +12,19 @@ package o.org.katydom.types
  */
 enum class EButtonType {
 
+    /** Simple button. */
     BUTTON,
+
+    /** Button in a menu. */
     MENU,
+
+    /** Button to submit a form. */
     RESET,
+
+    /** Button to reset a form. */
     SUBMIT;
 
+    /** @return the attribute value corresponding to this button type. */
     fun toHtmlString(): String {
         return when (this) {
             BUTTON -> "button"

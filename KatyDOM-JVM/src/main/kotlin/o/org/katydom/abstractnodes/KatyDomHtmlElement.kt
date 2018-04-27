@@ -12,8 +12,12 @@ import x.org.katydom.dom.Node
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Abstract KatyDOM class corresponding to a DOM HTMLElement node.
- * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
+ * Abstract KatyDOM class corresponding to a DOM HTMLElement node. Accepts the global attributes available
+ * to most HTML tags.
+ * @param Msg the type of message returned by events from this element when an Elm-like architecture is in use.
+ *
+ * @constructor Constructs a new HTML element with given attributes.
+ * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
  * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
  * @param accesskey a string specifying the HTML accesskey value.
  * @param contenteditable whether the element has editable content.
@@ -53,11 +57,11 @@ abstract class KatyDomHtmlElement<Msg>(
         setYesNoAttribute("translate", translate)
     }
 
-    override fun createDomNode(document: Document, domNode: Node, domChild: Node?) {
+    override fun createDomNode(document: Document, parentDomNode: Node, followingDomChild: Node?) {
 
         val childElement = document.createElement(nodeName)
         establish(childElement)
-        domNode.insertBefore(childElement, domChild)
+        parentDomNode.insertBefore(childElement, followingDomChild)
 
     }
 

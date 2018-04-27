@@ -19,7 +19,11 @@ import x.org.katydom.dom.events.MouseEvent
 
 /**
  * Topmost abstract base class for KatyDOM virtual DOM. Corresponds to DOM Node.
- * @param _key a key for this KatyDOM node that is unique among all the siblings of this node.
+ * @param Msg the type of message returned by events from this element when an Elm-like architecture is in use.
+ *
+ * @constructor Constructs a new node with given [_key] or with the node name as key if [_key] is null.
+ * @param _key a key for this KatyDOM node that is unique among all the siblings of this node. If [_key]
+ *             is null, then the node name becomes the key.
  */
 abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
@@ -223,7 +227,11 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
     }
 
-    protected abstract fun createDomNode(document: Document, domNode: Node, domChild: Node?)
+    /**
+     * Creates a new DOM node within the given [document] that is a child node of [parentDomNode] and is inserted
+     * just before the given [followingDomChild] or at the end of the child list if [followingDomChild] is null.
+     */
+    protected abstract fun createDomNode(document: Document, parentDomNode: Node, followingDomChild: Node?)
 
     /**
      * Sets the attributes and child nodes of a newly created real DOM node to match this virtual DOM node.
@@ -543,6 +551,10 @@ abstract class KatyDomNode<Msg>(private val _key: Any?) {
 
     }
 
+    /**
+     * Converts this node to a string for debugging purposes. The output looks like an HTML tag with no attributes:
+     * `<sometag>`.
+     */
     override fun toString(): String {
         return "<" + nodeName.toLowerCase() + ">"
     }

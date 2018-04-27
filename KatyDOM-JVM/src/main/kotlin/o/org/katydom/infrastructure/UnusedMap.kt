@@ -10,7 +10,7 @@ package o.org.katydom.infrastructure
 /**
  * Implementation of MutableMap<K,V> that throws an exception for every operation.
  */
-class UnusedMap<K, V> : MutableMap<K, V> {
+internal class UnusedMap<K, V> : MutableMap<K, V> {
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
         get() = throw UnsupportedOperationException("Attempted to use unused map.")

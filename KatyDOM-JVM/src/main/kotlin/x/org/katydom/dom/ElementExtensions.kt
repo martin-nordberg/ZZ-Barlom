@@ -7,6 +7,10 @@ package /*jvm*/x.org.katydom.dom
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Sets both the attribute and the property of a DOM element named [key] to [value]. For the JVM, only attributes
+ * are relevant. (The JavaScript code updates both).
+ */
 fun Element.setAttributeAndProperty(key: String, value: String) {
     this.setAttribute(key, value)
 }

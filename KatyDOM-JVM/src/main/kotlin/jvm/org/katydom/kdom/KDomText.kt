@@ -3,10 +3,10 @@
 // Apache 2.0 License
 //
 
-package /*jvm*/x.org.katydom.kdom
+package jvm.org.katydom.kdom
 
+import jvm.org.katydom.infrastructure.indent
 import x.org.katydom.dom.Text
-import x.org.katydom.infrastructure.indent
 
 //---------------------------------------------------------------------------------------------------------------------
 

@@ -25,6 +25,9 @@ class KatyDomContentRestrictions(
     private val progressAllowed: Boolean
 ) {
 
+    /**
+     * Constructs a new content restriction object with default starting point for the restrictions.
+     */
     constructor()
         : this(
         true,
@@ -41,6 +44,10 @@ class KatyDomContentRestrictions(
         true
     )
 
+    /**
+     * Clones a given [original] content restriction object with the oppotunity to override specific restrictions
+     * to make the result more restricted than the original.
+     */
     constructor(
         original: KatyDomContentRestrictions,
         anchorAllowed: Boolean = true,
@@ -72,56 +79,111 @@ class KatyDomContentRestrictions(
 
     ////
 
+    /**
+     * Confirms that an `<a>` element is allowed.
+     * @throws IllegalStateException if `<a>` is not allowed.
+     */
     fun confirmAnchorAllowed() {
         check(anchorAllowed) { "Element type <a> not allowed here" }
     }
 
+    /**
+     * Confirms that a `<figcaption>` element is allowed. As a side effect disallows additional `<figcaption>` elements
+     * after this one. I.e. enforces at most one `<figcaption>` per `<figure>`.
+     * @throws IllegalStateException if `<figcaption>` is not allowed.
+     */
     fun confirmFigCaptionAllowedThenDisallow() {
         check(!figCaptionProhibited) { "Element type <figcaption> not allowed here." }
         figCaptionProhibited = true
     }
 
+    /**
+     * Checks that a `<footer>` element is allowed in the content.
+     * @throws IllegalStateException if `<footer>` is not allowed.
+     */
     fun confirmFooterAllowed() {
         check(footerAllowed) { "Element type <footer> not allowed here." }
     }
 
+    /**
+     * Checks that a `<form>` element is allowed in the content, i.e. it would not be nested inside another `<form>`.
+     * @throws IllegalStateException if `<form>` is not allowed.
+     */
     fun confirmFormAllowed() {
         check(formAllowed) { "Element type <form> not allowed here. (Form elements cannot be nested.)" }
     }
 
+    /**
+     * Checks that a `<header>` element is allowed in the content.
+     * @throws IllegalStateException if `<header>` is not allowed.
+     */
     fun confirmHeaderAllowed() {
         check(headerAllowed) { "Element type <header> not allowed here." }
     }
 
+    /**
+     * Checks that interactive content is allowed in the content.
+     * @throws IllegalStateException if interactive content is not allowed.
+     */
     fun confirmInteractiveContentAllowed() {
         check(interactiveContentAllowed) { "Interactive content not allowed here." }
     }
 
+    /**
+     * Checks that a `<label>` element is allowed in the content.
+     * @throws IllegalStateException if `<label>` is not allowed.
+     */
     fun confirmLabelAllowed() {
         check(labelAllowed) { "Element type <label> not allowed here." }
     }
 
+    /**
+     * Confirms that a `<legend>` element is allowed, i.e. the content is inside a `<fieldset>` element. As a side
+     * effect disallows additional `<legend>` elements after this one. I.e. enforces at most one `<legend>` per
+     * `<fieldset>`.
+     * @throws IllegalStateException if `<legend>` is not allowed.
+     */
     fun confirmLegendAllowedThenDisallow() {
         check(!legendProhibited) { "Element type <legend> not allowed here." }
         legendProhibited = true
     }
 
+    /**
+     * Checks that a `<main>` element is allowed in the content.
+     * @throws IllegalStateException if `<main>` is not allowed.
+     */
     fun confirmMainAllowed() {
         check(mainAllowed) { "Element type <main> not allowed here." }
     }
 
+    /**
+     * Checks that a `<meter>` element is allowed in the content.
+     * @throws IllegalStateException if `<meter>` is not allowed.
+     */
     fun confirmMeterAllowed() {
         check(mainAllowed) { "Element type <meter> not allowed here." }
     }
 
+    /**
+     * Checks that an `<optgroup>` element is allowed in the content, i.e. the content of a `<select>` element is
+     * being built.
+     * @throws IllegalStateException if `<optgroup>` is not allowed.
+     */
     fun confirmOptionGroupAllowed() {
         check(optionGroupAllowed) { "Element type <optgroup> not allowed here." }
     }
 
+    /**
+     * Checks that a `<progress>` element is allowed in the content.
+     * @throws IllegalStateException if `<progress>` is not allowed.
+     */
     fun confirmProgressAllowed() {
         check(progressAllowed) { "Element type <progress> not allowed here." }
     }
 
+    /**
+     * Clones this content restriction object but with `<a>` elements and interactive content disallowed.
+     */
     fun withAnchorInteractiveContentNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             this,
@@ -130,6 +192,10 @@ class KatyDomContentRestrictions(
         )
     }
 
+    /**
+     * Clones this content restriction object but with `<figcaption>` elements no longer prohibited (i.e. inside
+     * a `<figure>` element.
+     */
     fun withFigCaptionAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             this,
@@ -137,6 +203,9 @@ class KatyDomContentRestrictions(
         )
     }
 
+    /**
+     * Clones this content restriction object but with `<footer>`, `<header>`, and `<main>` elements disallowed.
+     */
     fun withFooterHeaderMainNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             this,
@@ -146,10 +215,17 @@ class KatyDomContentRestrictions(
         )
     }
 
+    /**
+     * Clones this content restriction object but with `<form>` elements disallowed. (A `<form>` element cannot
+     * be nested.)
+     */
     fun withFormNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, formAllowed = false)
     }
 
+    /**
+     * Clones this content restriction object but with interactive content disallowed.
+     */
     fun withInteractiveContentNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(
             this,
@@ -157,26 +233,46 @@ class KatyDomContentRestrictions(
         )
     }
 
+    /**
+     * Clones this content restriction object but with `<label>` elements disallowed. (A `<label>` element cannot
+     * be nested.)
+     */
     fun withLabelNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, labelAllowed = false)
     }
 
+    /**
+     * Clones this content restriction object but with `<legend>` elements no longer prohibited. (A single `<legend>`
+     * element can appear inside a `<fieldset>` element).
+     */
     fun withLegendAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, legendProhibited = false)
     }
 
+    /**
+     * Clones this content restriction object but with `<main>` elements disallowed.
+     */
     fun withMainNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, mainAllowed = false)
     }
 
+    /**
+     * Clones this content restriction object but with `<meter>` elements disallowed.
+     */
     fun withMeterNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, meterAllowed = false)
     }
 
+    /**
+     * Clones this content restriction object but with `<optgroup>` elements disallowed.
+     */
     fun withOptionGroupNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, optionGroupAllowed = false)
     }
 
+    /**
+     * Clones this content restriction object but with `<progress>` elements disallowed.
+     */
     fun withProgressNotAllowed(): KatyDomContentRestrictions {
         return KatyDomContentRestrictions(this, progressAllowed = false)
     }

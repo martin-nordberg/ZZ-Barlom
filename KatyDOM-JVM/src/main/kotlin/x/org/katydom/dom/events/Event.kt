@@ -7,8 +7,14 @@ package /*jvm*/x.org.katydom.dom.events
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Interface to a DOM event.
+ */
 interface Event {
+
+    /** Prevents the default handling of the event. Does nothing on the JVM. */
     fun preventDefault()
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

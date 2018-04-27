@@ -12,6 +12,9 @@ import o.org.katydom.types.EDirection
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Builder DSL to create the contents of a list (a `<ul>` or `<ol>` element).
+ */
 class KatyDomListItemContentBuilder<Msg>(
 
     internal val flowContent: KatyDomFlowContentBuilder<Msg>,
@@ -36,7 +39,7 @@ class KatyDomListItemContentBuilder<Msg>(
     }
 
     /**
-     * Adds an li element with any global attributes as the next child of the element under construction.
+     * Adds an `<li>` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifiying the HTML accesskey value.

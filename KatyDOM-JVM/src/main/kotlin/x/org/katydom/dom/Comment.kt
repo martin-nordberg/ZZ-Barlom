@@ -7,8 +7,12 @@ package /*jvm*/x.org.katydom.dom
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Interface to an HTML comment element (for testing or server-side generation).
+ */
 interface Comment : Node {
 
+    /** The text insde the comment. */
     var data: String
 
 }

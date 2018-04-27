@@ -12,9 +12,13 @@ package o.org.katydom.types
  */
 enum class EWrapType {
 
+    /** Wrap type "hard". */
     HARD,
+
+    /** Wrap type "soft". */
     SOFT;
 
+    /** @return the HTML attribute text value corresponding to this wrap type. */
     fun toHtmlString(): String {
         return when (this) {
             HARD -> "hard"

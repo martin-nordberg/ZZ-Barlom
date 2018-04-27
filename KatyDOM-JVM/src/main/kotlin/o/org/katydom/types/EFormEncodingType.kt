@@ -13,10 +13,16 @@ package o.org.katydom.types
  */
 enum class EFormEncodingType {
 
+    /** Encoding type "multipart/form-data". */
     MULTIPART_FORM_DATA,
+
+    /** Encoding type "text/plain". */
     TEXT_PLAIN,
+
+    /** Encoding type "application/x-www-form-urlencoded". */
     WWW_FORM_URL_ENCODED;
 
+    /** @return the corresponding HTML attribute value for this encoding type. */
     fun toHtmlString(): String {
         return when (this) {
             MULTIPART_FORM_DATA  -> "multipart/form-data"

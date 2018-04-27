@@ -13,14 +13,31 @@ package o.org.katydom.types
  */
 enum class EMouseEventType {
 
+    /** Mouse event type "click". */
     CLICK,
+
+    /** Mouse event type "dblclick". */
     DBL_CLICK,
+
+    /** Mouse event type "mousedown". */
     MOUSE_DOWN,
+
+    /** Mouse event type "mouseenter". */
     MOUSE_ENTER,
+
+    /** Mouse event type "mouseleave". */
     MOUSE_LEAVE,
+
+    /** Mouse event type "mousemove". */
     MOUSE_MOVE,
+
+    /** Mouse event type "mouseout". */
     MOUSE_OUT,
+
+    /** Mouse event type "mouseover". */
     MOUSE_OVER,
+
+    /** Mouse event type "mouseup". */
     MOUSE_UP;
 
     /**

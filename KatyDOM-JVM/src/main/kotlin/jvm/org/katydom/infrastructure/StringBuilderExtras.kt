@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package /*jvm*/x.org.katydom.infrastructure
+package jvm.org.katydom.infrastructure
 
 //---------------------------------------------------------------------------------------------------------------------
 

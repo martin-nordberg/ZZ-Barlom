@@ -13,18 +13,40 @@ package o.org.katydom.types
  */
 enum class EAnchorHtmlLinkType {
 
+    /** Attribute value "alternate". */
     ALTERNATE,
+
+    /** Attribute value "author". */
     AUTHOR,
+
+    /** Attribute value "bookmark". */
     BOOKMARK,
+
+    /** Attribute value "help". */
     HELP,
+
+    /** Attribute value "license". */
     LICENSE,
+
+    /** Attribute value "next". */
     NEXT,
+
+    /** Attribute value "nofollow". */
     NOFOLLOW,
+
+    /** Attribute value "noreferrer". */
     NOREFERRER,
+
+    /** Attribute value "prev". */
     PREV,
+
+    /** Attribute value "search". */
     SEARCH,
+
+    /** Attribute value "tag". */
     TAG;
 
+    /** @return the HTML attribute value of this anchor link type. */
     fun toHtmlString(): String {
         return when (this) {
             ALTERNATE  -> "alternate"

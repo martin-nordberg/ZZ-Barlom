@@ -5,10 +5,10 @@
 
 package jvm.org.katydom.api
 
+import jvm.org.katydom.kdom.KDomDocument
 import o.org.katydom.abstractnodes.KatyDomHtmlElement
 import o.org.katydom.abstractnodes.KatyDomNode
 import o.org.katydom.api.makeKatyDomLifecycle
-import x.org.katydom.kdom.KDomDocument
 import kotlin.test.assertEquals
 import kotlin.test.fail
 

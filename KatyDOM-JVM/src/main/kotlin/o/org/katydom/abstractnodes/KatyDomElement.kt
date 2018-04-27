@@ -15,6 +15,7 @@ import x.org.katydom.dom.setAttributeAndProperty
 
 /**
  * Abstract class representing a KatyDom virtual element. Corresponds to DOM Element.
+ * @param Msg the type of message returned by events from this element when an Elm-like architecture is in use.
  */
 abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
@@ -25,28 +26,30 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
         if (selectorPieces != null && selectorPieces.isNotEmpty()) {
 
-            var firstClassIdx = 0
-
             if (selectorPieces[0].startsWith("#")) {
                 setAttribute("id", selectorPieces[0].substring(1))
-                firstClassIdx = 1
             }
             else if (selectorPieces[0].isEmpty()) {
-                // TODO: Warning: selector should start with "." or "#"; "." assumed.
-                firstClassIdx = 1
+                check(selectorPieces[0].isEmpty()) {
+                    "Selector should start with '#' or '.'."
+                }
             }
 
-            classList.addAll(selectorPieces.subList(firstClassIdx, selectorPieces.size))
+            classList.addAll(selectorPieces.subList(1, selectorPieces.size))
 
         }
 
     }
 
     /**
-     * Constructs a new element with global attributes beyond id and class.
-     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class".
-     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
-     * @param style a string containing CSS for this element.
+     * Constructs a new element with global attributes beyond ID and class.
+     * @param selector The "selector" for the element, e.g. "#myid.my-class.my-other-class". The selector can combine
+     *                 an optional element ID (starting with "#") with zero or more class names (each starting with
+     *                 ".").
+     * @param key a virtual DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     *            If key is null, the key is taken as the ID given in the [selector]. If there is no ID, then the key
+     *            becomes the node name in base class KatyDomNode.
+     * @param style a string containing CSS for this element (the style element of the eventual HTML element).
      * @param tabindex the tab index for the element.
      */
     constructor(
@@ -342,6 +345,10 @@ abstract class KatyDomElement<Msg> : KatyDomNode<Msg> {
 
     }
 
+    /**
+     * Converts this element to a string for debugging purposes. The output looks like an HTML opening tag:
+     * `<sometag attr1="value1" attr2="value2">`
+     */
     override fun toString(): String {
         var result = "<" + nodeName.toLowerCase()
         attributes.forEach { entry ->

@@ -13,10 +13,16 @@ package o.org.katydom.types
  */
 enum class EDirection {
 
+    /** The "ltr" attribute value. */
     LEFT_TO_RIGHT,
+
+    /** The "rtl" attribute value. */
     RIGHT_TO_LEFT,
+
+    /** The "auto" attribute value. */
     AUTO;
 
+    /** @return the HTML attribute text for this direction. */
     fun toHtmlString(): String {
         return when (this) {
             LEFT_TO_RIGHT -> "ltr"

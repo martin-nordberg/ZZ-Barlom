@@ -13,9 +13,13 @@ package o.org.katydom.types
  */
 enum class EFormSubmissionMethod {
 
+    /** Submission method "get". */
     GET,
+
+    /** Submission method "post". */
     POST;
 
+    /** @return the HTML attribute text for this submission method. */
     fun toHtmlString(): String {
         return when (this) {
             GET  -> "get"

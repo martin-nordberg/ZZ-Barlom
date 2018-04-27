@@ -13,6 +13,9 @@ import o.org.katydom.types.EDirection
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Builder DSL to create the contents of a `<select>` element.
+ */
 class KatyDomOptionContentBuilder<Msg>(
 
     element: KatyDomHtmlElement<Msg>,

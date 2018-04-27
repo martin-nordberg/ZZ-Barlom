@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package /*jvm*/x.org.katydom.kdom
+package jvm.org.katydom.kdom
 
 import x.org.katydom.dom.Comment
 import x.org.katydom.dom.Document
