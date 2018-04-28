@@ -34,7 +34,7 @@ internal class KatyDomUl<Msg>(
                             hidden, lang, spellcheck, style, tabindex, title, translate) {
 
     init {
-        flowContent.listItemContent(false, this).defineContent()
+        flowContent.listItemContent(this).defineContent()
         this.freeze()
     }
 

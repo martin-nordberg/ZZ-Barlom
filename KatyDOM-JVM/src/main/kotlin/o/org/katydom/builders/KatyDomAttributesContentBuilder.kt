@@ -18,17 +18,16 @@ import x.org.katydom.dom.events.MouseEvent
 /**
  * KatyDOM content builder for attributes and event handlers available to all nodes. Serves as a base class for more
  * specialized content builders that also add child nodes of the right types for given context.
+ *
+ * @constructor Constructs a new attribute content builder for the given element.
+ * @param element the element whose content is being built.
+ * @param dispatchMessages dispatcher of event handling results for when we want event handling to be reactive or Elm-like.
  */
 @Suppress("unused")
 @KatyDomContentBuilderDsl
-open class KatyDomAttributesContentBuilder<Msg>(
-
-    /** The element whose attributes are being set. */
+open class KatyDomAttributesContentBuilder<Msg> internal constructor(
     protected val element: KatyDomHtmlElement<Msg>,
-
-    /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
     protected val dispatchMessages: (Iterable<Msg>) -> Unit
-
 ) {
 
     /**
@@ -58,7 +57,8 @@ open class KatyDomAttributesContentBuilder<Msg>(
     }
 
     /**
-     * Adds multiple classes to the content being built.
+     * Adds multiple classes to the content being built. For each pair in [pairs] the named class is added
+     * to the element if the paired value is true.
      * @param pairs a list of the classes (first) and on/off flags (second) for the classes to add.
      */
     fun classes(vararg pairs: Pair<String, Boolean>) {

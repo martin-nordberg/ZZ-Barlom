@@ -42,7 +42,7 @@ internal class KatyDomOl<Msg>(
         setNumberAttribute("start", start)
         setAttribute("type", type?.toHtmlString())
 
-        flowContent.listItemContent(true, this).defineContent()
+        flowContent.listItemContent(this).defineContent()
         this.freeze()
     }
 

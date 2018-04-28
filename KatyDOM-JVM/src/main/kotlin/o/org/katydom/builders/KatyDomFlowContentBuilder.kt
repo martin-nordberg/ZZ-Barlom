@@ -21,37 +21,33 @@ import o.org.katydom.types.EOrderedListType
 /**
  * Virtual DOM builder for the normal case of HTML "flow content".
  *
- * Typical global attribute parameters for builder methods:
- *  selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
- *  key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
- *  accesskey a string specifying the HTML accesskey value.
- *  contenteditable whether the element has editable content.
- *  dir the left-to-right direction of text inside this element.
- *  hidden true if the element is to be hidden.
- *  lang the language of text within this element.
- *  spellcheck whether the element is subject to spell checking.
- *  style a string containing CSS for this element.
- *  tabindex the tab index for the element.
- *  title a tool tip for the element.
- *  translate whether to translate text within this element.
- *  defineContent a DSL-style lambda that builds the child nodes of the new element.
+ * @constructor Constructs a flow content builder for given [element] and [contentRestrictions].
+ * @param element the element whose content is being built.
+ * @param contentRestrictions restrictions on content enforced at run time.
+ * @param dispatchMessages dispatcher of event handling results for when we want event handling to be reactive or Elm-like.
  */
 @Suppress("unused")
-class KatyDomFlowContentBuilder<Msg>(
-
-    /** The element whose content is being built. */
+class KatyDomFlowContentBuilder<Msg> internal constructor(
     element: KatyDomHtmlElement<Msg>,
-
-    /** Restrictions on content enforced at run time. */
     contentRestrictions: KatyDomContentRestrictions,
-
-    /** Dispatcher of event handling results for when we want event handling to be reactive or Elm-like. */
     dispatchMessages: (messages: Iterable<Msg>) -> Unit
-
 ) : KatyDomPhrasingContentBuilder<Msg>(element, contentRestrictions, dispatchMessages) {
 
     /**
-     * Adds an article element with its attributes as the next child of the element under construction.
+     * Adds an `<article>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun article(
         selector: String? = null,
@@ -75,7 +71,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds an aside element with its attributes as the next child of the element under construction.
+     * Adds an `<aside>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun aside(
         selector: String? = null,
@@ -99,7 +108,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a blockquote element with its attributes as the next child of the element under construction.
+     * Adds a `<blockquote>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun blockquote(
         selector: String? = null,
@@ -125,7 +147,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a div element with its attributes as the next child of the element under construction.
+     * Adds a `<div>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun div(
         selector: String? = null,
@@ -149,7 +184,23 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a fieldset element with its attributes as the next child of the element under construction.
+     * Adds a `<fieldset>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param disabled true if the fieldset is to be made disabled.
+     * @param form the ID of the form containing this fieldset.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param name the name of this fieldset within the form.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun fieldset(
         selector: String? = null,
@@ -178,7 +229,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a figcaption element with its attributes as the next child of the element under construction.
+     * Adds a `<figcaption>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun figCaption(
         selector: String? = null,
@@ -202,7 +266,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a figcaption element with its attributes as the next child of the element under construction.
+     * Adds a `<figure>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun figure(
         selector: String? = null,
@@ -226,7 +303,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a footer element with its attributes as the next child of the element under construction.
+     * Adds a `<footer>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun footer(
         selector: String? = null,
@@ -250,7 +340,28 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a form element with its attributes as the next child of the element under construction.
+     * Adds a `<form>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param acceptCharset the character encoding to use for form submission.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param action the URL for form submission.
+     * @param autocomplete default for autofill setting of fields in the form.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param enctype form data encoding to use for form submission.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param method whether to GET or POST the submission.
+     * @param name the name of the form.
+     * @param novalidate true to bypass form validation before submission.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param target the window (browsing context) to submit the form in.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun form(
         selector: String? = null,
@@ -284,6 +395,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a first level heading element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun h1(
         selector: String? = null,
@@ -308,6 +432,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a second level heading element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun h2(
         selector: String? = null,
@@ -332,6 +469,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a third level heading element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun h3(
         selector: String? = null,
@@ -356,6 +506,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a fourth level heading element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun h4(
         selector: String? = null,
@@ -380,6 +543,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a fifth level heading element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun h5(
         selector: String? = null,
@@ -404,6 +580,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a sixth level heading element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun h6(
         selector: String? = null,
@@ -428,6 +617,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a header element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun header(
         selector: String? = null,
@@ -452,6 +654,18 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds an hr element as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun hr(
@@ -476,8 +690,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a legend element as the next child of the element under construction.
-     * @param defineContent a DSL-style lambda that adds any inner content to the new element.
+     * Adds a `<legend>` element as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun legend(
         selector: String? = null,
@@ -503,13 +729,25 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Creates a new phrasing content builder for the given child [element] that has the same restrictions
-     * as this builder.
+     * as this builder. The list items to be produced are ordered.
      */
-    internal fun listItemContent(isOrdered: Boolean,
-                                 element: KatyDomHtmlElement<Msg>): KatyDomListItemContentBuilder<Msg> {
+    internal fun listItemContent(element: KatyDomOl<Msg>): KatyDomListItemContentBuilder<Msg> {
         return KatyDomListItemContentBuilder(
             this,
-            isOrdered,
+            true,
+            element,
+            dispatchMessages
+        )
+    }
+
+    /**
+     * Creates a new phrasing content builder for the given child [element] that has the same restrictions
+     * as this builder. The list items to be produced are unordered.
+     */
+    internal fun listItemContent(element: KatyDomUl<Msg>): KatyDomListItemContentBuilder<Msg> {
+        return KatyDomListItemContentBuilder(
+            this,
+            false,
             element,
             dispatchMessages
         )
@@ -517,6 +755,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a main element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun main(
         selector: String? = null,
@@ -541,6 +792,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a nav element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun nav(
         selector: String? = null,
@@ -564,11 +828,24 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds an ol element as the next child of the element under construction. Allows setting all global HTML
+     * Adds an `<ol>` element as the next child of the element under construction. Allows setting all global HTML
      * attributes.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
      * @param reversed whether the list is to appear in reverse order.
+     * @param spellcheck whether the element is subject to spell checking.
      * @param start the numeric value for the first list item.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
      * @param type the type of list counter to use.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun ol(
         selector: String? = null,
@@ -596,6 +873,19 @@ class KatyDomFlowContentBuilder<Msg>(
 
     /**
      * Adds a paragraph element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun p(
         selector: String? = null,
@@ -631,7 +921,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a pre element with its attributes as the next child of the element under construction.
+     * Adds a `<pre>` (pre-formatted) element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun pre(
         selector: String? = null,
@@ -655,7 +958,20 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a section element with its attributes as the next child of the element under construction.
+     * Adds a `<section>` element with its attributes as the next child of the element under construction.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun section(
         selector: String? = null,
@@ -679,8 +995,21 @@ class KatyDomFlowContentBuilder<Msg>(
     }
 
     /**
-     * Adds a new ul element as the next child of the element under construction. Allows setting all global HTML
-     * attributes.
+     * Adds a new `<ul>` element (unordered list) as the next child of the element under construction. Allows setting
+     * all global HTML attributes.
+     * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
+     * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accesskey a string specifying the HTML accesskey value.
+     * @param contenteditable whether the element has editable content.
+     * @param dir the left-to-right direction of text inside this element.
+     * @param hidden true if the element is to be hidden.
+     * @param lang the language of text within this element.
+     * @param spellcheck whether the element is subject to spell checking.
+     * @param style a string containing CSS for this element.
+     * @param tabindex the tab index for the element.
+     * @param title a tool tip for the element.
+     * @param translate whether to translate text within this element.
+     * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun ul(
         selector: String? = null,
@@ -709,7 +1038,8 @@ class KatyDomFlowContentBuilder<Msg>(
      * as this builder but figcaption elements are allowed.
      */
     internal fun withFigCaptionAllowed(
-        element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
+        element: KatyDomHtmlElement<Msg>
+    ): KatyDomFlowContentBuilder<Msg> {
         return KatyDomFlowContentBuilder(
             element,
             contentRestrictions.withFigCaptionAllowed(),
@@ -722,7 +1052,8 @@ class KatyDomFlowContentBuilder<Msg>(
      * as this builder plus no footer, header or main elements allowed.
      */
     internal fun withFooterHeaderMainNotAllowed(
-        element: KatyDomHtmlElement<Msg>): KatyDomFlowContentBuilder<Msg> {
+        element: KatyDomHtmlElement<Msg>
+    ): KatyDomFlowContentBuilder<Msg> {
         return KatyDomFlowContentBuilder(
             element,
             contentRestrictions.withFooterHeaderMainNotAllowed(),
