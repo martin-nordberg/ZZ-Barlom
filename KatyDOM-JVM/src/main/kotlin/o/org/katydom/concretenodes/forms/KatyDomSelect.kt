@@ -20,6 +20,7 @@ internal class KatyDomSelect<Msg>(
     selector: String?,
     key: Any?,
     accesskey: String?,
+    autocomplete: String?,
     autofocus: Boolean?,
     contenteditable: Boolean?,
     dir: EDirection?,
@@ -46,6 +47,7 @@ internal class KatyDomSelect<Msg>(
 
         require(size == null || size >= 0) { "Attribute size must be non-negative." }
 
+        setAttribute("autocomplete", autocomplete)
         setBooleanAttribute("autofocus", autofocus)
         setBooleanAttribute("disabled", disabled)
         setAttribute("form", form)

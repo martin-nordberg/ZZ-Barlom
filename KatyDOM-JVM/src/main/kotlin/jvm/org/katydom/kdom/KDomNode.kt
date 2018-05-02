@@ -12,7 +12,7 @@ import x.org.katydom.dom.events.Event
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Implementation of Node for producing HTML text (server side or testing).
+ * Implementation of DOM Node for producing HTML text (server side or testing).
  */
 abstract class KDomNode : Node {
 

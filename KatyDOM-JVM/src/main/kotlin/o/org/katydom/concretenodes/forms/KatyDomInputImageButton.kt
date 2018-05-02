@@ -37,12 +37,11 @@ internal class KatyDomInputImageButton<Msg>(
     lang: String?,
     name: String?,
     spellcheck: Boolean?,
-    src: String?,
+    src: String,
     style: String?,
     tabindex: Int?,
     title: String?,
     translate: Boolean?,
-    value: String?,
     width: Int?,
     defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
 ) : KatyDomHtmlElement<Msg>(selector, key ?: name, accesskey, contenteditable, dir,
@@ -60,7 +59,6 @@ internal class KatyDomInputImageButton<Msg>(
         setNumberAttribute("height", height)
         setAttribute("name", name)
         setAttribute("src", src)
-        setAttribute("value", value)
         setNumberAttribute("width", width)
 
         setAttribute("type", "image")

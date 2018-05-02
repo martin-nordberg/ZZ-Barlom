@@ -25,7 +25,9 @@ import x.org.katydom.dom.events.MouseEvent
  * @param _key a key for this KatyDOM node that is unique among all the siblings of this node. If [_key]
  *             is null, then the node name becomes the key.
  */
-abstract class KatyDomNode<Msg>(private val _key: Any?) {
+abstract class KatyDomNode<Msg>(
+    private val _key: Any?
+) {
 
     /**
      * States in the lifecycle of a node.

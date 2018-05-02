@@ -16,6 +16,9 @@ import o.org.katydom.lifecycle.KatyDomLifecycleImpl
 
 /**
  * Primary entry point for building a virtual DOM tree.
+ * @param Msg the type of message returned by events from this element when an Elm-like architecture is in use.
+ * @param dispatchMessages function that takes in a sequence of messages and completes a cycle in the virtual and
+ *                         real DOM update circle.
  * @param defineContent function that builds one root DOM node and its contents.
  * @return the root DOM node after it has been built by the provided function.
  */
@@ -33,6 +36,8 @@ fun <Msg> katyDom(
 /**
  * Helper function for defining a component that builds one or more child DOM nodes. This helper is for HTML that is
  * generally available anywhere in the tree (so called "flow content").
+ * @param Msg the type of message returned by events from this element when an Elm-like architecture is in use.
+ * @param builder the builder that will provide the context for new content within the component.
  * @param defineContent function that defines the one or more nodes of the component.
  * @return a function that builds the nodes as part of a larger tree.
  */
@@ -45,6 +50,7 @@ fun <Msg> katyDomComponent(builder: KatyDomFlowContentBuilder<Msg>,
 
 /**
  * Helper function for defining a component consisting of one or more list item elements.
+ * @param builder the list item builder that will provide the context for new content within the component.
  * @param defineContent the function defining one or more <li> elements.
  * @return a function that builds the nodes as part of a larger tree.
  */
@@ -57,6 +63,7 @@ fun <Msg> katyDomListItemComponent(builder: KatyDomListItemContentBuilder<Msg>,
 
 /**
  * Helper function for defining a component consisting of phrasing content.
+ * @param builder the phrasing content builder that will provide the context for new content within the component.
  * @param defineContent the function defining one or more elements.
  * @return a function that builds the nodes as part of a larger tree.
  */

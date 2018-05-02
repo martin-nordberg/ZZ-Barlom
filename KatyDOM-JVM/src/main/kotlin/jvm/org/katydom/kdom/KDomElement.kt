@@ -10,7 +10,7 @@ import x.org.katydom.dom.Element
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Implementation of DOM Document for generating HTML text for testing or server-side rendering.
+ * Implementation of DOM Element for generating HTML text for testing or server-side rendering.
  */
 class KDomElement(
     override val ownerDocument: KDomDocument,

@@ -272,7 +272,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds a button element with given attributes as the next child of the element under construction.
+     * Adds a `<button>` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -280,13 +280,22 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
      * @param disabled true to make the element disabled in the browser display.
+     * @param form the form acted upon by this button.
+     * @param formaction the form action to be triggered by the button.
+     * @param formenctype the encoding type to be used for form data submitted by this button.
+     * @param formmethod the choice of GET or POST for submitting the form's data.
+     * @param formnovalidate true to skip form field validation when this button is clicked.
+     * @param formtarget the target window (browser context) for form submission
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this button as a form field.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param type the type of button.
+     * @param value the value of the button for form field submission.
      * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun button(
@@ -305,7 +314,6 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         formtarget: String? = null,
         hidden: Boolean? = null,
         lang: String? = null,
-        menu: String? = null,
         name: String? = null,
         spellcheck: Boolean? = null,
         style: String? = null,
@@ -318,13 +326,13 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     ) {
         element.addChildNode(
             KatyDomButton(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form, formaction,
-                          formenctype, formmethod, formnovalidate, formtarget, hidden, lang, menu,
+                          formenctype, formmethod, formnovalidate, formtarget, hidden, lang,
                           name, spellcheck, style, tabindex, title, translate, type, value, defineContent)
         )
     }
 
     /**
-     * Adds a cite element with its attributes as the next child of the element under construction.
+     * Adds a `<cite>` element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -361,7 +369,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds a code element with its attributes as the next child of the element under construction.
+     * Adds a `<code>` element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -399,7 +407,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
 
     /**
      * Adds a comment node as the next child of the element under construction.
-     * @param nodeValue the text within the node.
+     * @param nodeValue the text within the comment.
      * @param key unique key for this comment within its parent node.
      */
     fun comment(nodeValue: String,
@@ -408,7 +416,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds a data element with its attributes as the next child of the element under construction.
+     * Adds a `<data>` element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -421,6 +429,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value of the data element.
      * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun data(
@@ -446,7 +455,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds a datalist element with its attributes as the next child of the element under construction.
+     * Adds a `<datalist>` element with its attributes as the next child of the element under construction.
      * View the specification: https://www.w3.org/TR/html5/sec-forms.html#the-datalist-element.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
@@ -485,7 +494,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds a dfn element with its attributes as the next child of the element under construction.
+     * Adds a `<dfn>` element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -522,7 +531,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an em element with its attributes as the next child of the element under construction.
+     * Adds an `<em>` element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -559,7 +568,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an i element with its attributes as the next child of the element under construction.
+     * Adds an `<i>` element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -596,19 +605,23 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an input type="button" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="button">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the field value to submit if this button is pressed.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputButton(
@@ -637,19 +650,26 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an input type="checkbox" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="checkbox">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autofocus true if the field is to automtically receive the keyboard focus.
+     * @param checked true if the checkbox is checked.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
+     * @param required true if the checkbox must be checkedfor the form to validate.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value of the field when the chekbox is checked.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputCheckbox(
@@ -667,7 +687,6 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         name: String? = null,
         required: Boolean? = null,
         spellcheck: Boolean? = null,
-        step: String? = null,
         style: String? = null,
         tabindex: Int? = null,
         title: String? = null,
@@ -678,25 +697,32 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         element.addChildNode(
             KatyDomInputCheckbox(this, selector, key, accesskey, autofocus, checked, contenteditable, dir,
                                  disabled, form, hidden, lang, name, required,
-                                 spellcheck, step, style, tabindex, title, translate,
+                                 spellcheck, style, tabindex, title, translate,
                                  value, defineAttributes)
         )
     }
 
     /**
-     * Adds an input type="color" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="color">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param list the ID of a datalist of colors.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value a valid lower case color name.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputColor(
@@ -714,7 +740,6 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         list: String? = null,
         name: String? = null,
         spellcheck: Boolean? = null,
-        step: String? = null,
         style: String? = null,
         tabindex: Int? = null,
         title: String? = null,
@@ -725,25 +750,37 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         element.addChildNode(
             KatyDomInputColor(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir,
                               disabled, form, hidden, lang, list, name,
-                              spellcheck, step, style, tabindex, title, translate,
+                              spellcheck, style, tabindex, title, translate,
                               value, defineAttributes)
         )
     }
 
     /**
-     * Adds an input type="date" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="date">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param list a list of values to pick from.
+     * @param max the latest date allowed to be chosen.
+     * @param min the earliest date allowed to be chosen.
+     * @param name the name of this field for form submissions.
+     * @param readonly true if the date field is displayed but not editable by the user.
+     * @param required true if the field may not be left blank in a valid form submission.
      * @param spellcheck whether the element is subject to spell checking.
+     * @param step the step value for incrementing or decrementing the date in steps.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value of the field.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputDate(
@@ -782,19 +819,31 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an input type="datetime-local" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="datetime-local">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param list a list of values to pick from.
+     * @param max the latest date allowed to be chosen.
+     * @param min the earliest date allowed to be chosen.
+     * @param name the name of this field for form submissions.
+     * @param readonly true if the date field is displayed but not editable by the user.
+     * @param required true if the field may not be left blank in a valid form submission.
      * @param spellcheck whether the element is subject to spell checking.
+     * @param step the step value for incrementing or decrementing the date in steps.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value of the field.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputDateTimeLocal(
@@ -837,10 +886,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -887,19 +941,27 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an input type="file" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="file">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
+     * @param accept a string describing the type of files that can be uploaded.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param multiple true to allow multiple files to be uploaded; otherwise only one file can be uploaded.
+     * @param name the name of this field for form submissions.
+     * @param required true to indicate that a file must be uploaded for the form to validate.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the file name that has been uplaoded.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputFile(
@@ -940,13 +1002,17 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param accesskey a string specifying the HTML accesskey value.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value of the hidden field.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputHidden(
@@ -975,15 +1041,26 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an input type="image" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="image">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param alt text to be displayed as an alternative to the image.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
+     * @param formaction the form action to be triggered by the button.
+     * @param formenctype the encoding type to be used for form data submitted by this button.
+     * @param formmethod the choice of GET or POST for submitting the form's data.
+     * @param formnovalidate true to skip form field validation when this button is clicked.
+     * @param formtarget the target window (browser context) for form submission
+     * @param height the height of the image in pixels.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
+     * @param src a URL from which to retrieve the image.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
@@ -1009,12 +1086,11 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         lang: String? = null,
         name: String? = null,
         spellcheck: Boolean? = null,
-        src: String? = null,
+        src: String,
         style: String? = null,
         tabindex: Int? = null,
         title: String? = null,
         translate: Boolean? = null,
-        value: String? = null,
         width: Int? = null,
         defineAttributes: KatyDomAttributesContentBuilder<Msg>.() -> Unit
     ) {
@@ -1022,25 +1098,37 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
             KatyDomInputImageButton(this, selector, key, accesskey, alt, contenteditable, dir, disabled, form,
                                     formaction,
                                     formenctype, formmethod, formnovalidate, formtarget, height, hidden, lang,
-                                    name, spellcheck, src, style, tabindex, title, translate, value, width,
+                                    name, spellcheck, src, style, tabindex, title, translate, width,
                                     defineAttributes)
         )
     }
 
     /**
-     * Adds an input type="month" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="month">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param list a list of values to pick from.
+     * @param max the latest month allowed to be chosen.
+     * @param min the earliest month allowed to be chosen.
+     * @param name the name of this field for form submissions.
+     * @param readonly true if the month field is displayed but not editable by the user.
+     * @param required true if the field may not be left blank in a valid form submission.
      * @param spellcheck whether the element is subject to spell checking.
+     * @param step the step value for incrementing or decrementing the date in steps.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param the value for this field.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputMonth(
@@ -1079,19 +1167,32 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an input type="number" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="number">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param list a list of values to pick from.
+     * @param max the largest number allowed to be chosen.
+     * @param min the smallest number allowed to be chosen.
+     * @param name the name of this field for form submissions.
+     * @param placeholder text to show in the field when it has no user-entered value.
+     * @param readonly true if the field is displayed but not editable by the user.
+     * @param required true if the field may not be left blank in a valid form submission.
      * @param spellcheck whether the element is subject to spell checking.
+     * @param step the increment or decrement to apply to the value when editing it in steps.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value of the field.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun <T : Number> inputNumber(
@@ -1131,19 +1232,33 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds an input type="password" element with given attributes as the next child of the element under construction.
+     * Adds an `<input type="password">` element with given attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
+     * @param inputmode the input mode for the password entry. See [EInputMode].
      * @param lang the language of text within this element.
+     * @param maxlength the maximum length of text that may be entered for the form to validate.
+     * @param minlength the minimum length of text that must be entered for the form to validate.
+     * @param name the name of this field for form submissions.
+     * @param pattern a regular expression for validating this field.
+     * @param placeholder text to display in the field when its value is empty.
+     * @param readonly true if the field is displayed but may not be edited by a user.
+     * @param required true if the filed must have a value for the form to validate.
+     * @param size the number of visible characters in the field.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the value of the field.
      * @param defineAttributes a DSL-style lambda that adds any nonstandard attributes to the new element.
      */
     fun inputPassword(
@@ -1188,10 +1303,14 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1235,10 +1354,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1286,8 +1410,11 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param accesskey a string specifying the HTML accesskey value.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1325,10 +1452,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1382,8 +1514,11 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param accesskey a string specifying the HTML accesskey value.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1427,10 +1562,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1480,10 +1620,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1535,10 +1680,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1586,10 +1736,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1639,10 +1794,15 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
+     * @param disabled whether this field is disabled for user interaction.
+     * @param form the ID of the form this field is part of.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1857,6 +2017,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param dir the left-to-right direction of text inside this element.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -1890,7 +2051,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
     }
 
     /**
-     * Adds a progress element with its attributes as the next child of the element under construction.
+     * Adds a `<progress>` element with its attributes as the next child of the element under construction.
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
@@ -1898,11 +2059,13 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param dir the left-to-right direction of text inside this element.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param max the upper limit for the progress value.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
      * @param title a tool tip for the element.
      * @param translate whether to translate text within this element.
+     * @param value the current degree of progress.
      * @param defineContent a DSL-style lambda that builds the child nodes of the new element.
      */
     fun progress(
@@ -2044,10 +2207,13 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.
@@ -2059,6 +2225,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         selector: String? = null,
         key: Any? = null,
         accesskey: String? = null,
+        autocomplete: String? = null,
         autofocus: Boolean? = null,
         contenteditable: Boolean? = null,
         dir: EDirection? = null,
@@ -2079,7 +2246,7 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
         defineContent: KatyDomOptionContentBuilder<Msg>.() -> Unit
     ) {
         element.addChildNode(
-            KatyDomSelect(this, selector, key, accesskey, autofocus, contenteditable, dir, disabled, form,
+            KatyDomSelect(this, selector, key, accesskey, autocomplete, autofocus, contenteditable, dir, disabled, form,
                           hidden, lang, multiple, name, required, size, spellcheck, style,
                           tabindex, title, translate, value, defineContent)
         )
@@ -2283,10 +2450,13 @@ open class KatyDomPhrasingContentBuilder<Msg> internal constructor(
      * @param selector the "selector" for the element, e.g. "#myid.my-class.my-other-class".
      * @param key a non-DOM key for this KatyDOM element that is unique among all the siblings of this element.
      * @param accesskey a string specifying the HTML accesskey value.
+     * @param autocomplete a hint describing the value that can be prefilled into this field by a browser.
+     * @param autofocus true if the field is to automatically receive keyboard focus.
      * @param contenteditable whether the element has editable content.
      * @param dir the left-to-right direction of text inside this element.
      * @param hidden true if the element is to be hidden.
      * @param lang the language of text within this element.
+     * @param name the name of this field for form submissions.
      * @param spellcheck whether the element is subject to spell checking.
      * @param style a string containing CSS for this element.
      * @param tabindex the tab index for the element.

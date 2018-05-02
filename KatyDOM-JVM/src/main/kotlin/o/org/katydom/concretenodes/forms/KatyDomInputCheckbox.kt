@@ -31,7 +31,6 @@ internal class KatyDomInputCheckbox<Msg>(
     name: String?,
     required: Boolean?,
     spellcheck: Boolean?,
-    step: String?,
     style: String?,
     tabindex: Int?,
     title: String?,
@@ -51,7 +50,6 @@ internal class KatyDomInputCheckbox<Msg>(
         setAttribute("form", form)
         setAttribute("name", name)
         setBooleanAttribute("required", required)
-        setAttribute("step", step)
         setAttribute("value", value)
 
         setAttribute("type", "checkbox")

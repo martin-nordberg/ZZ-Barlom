@@ -31,7 +31,6 @@ internal class KatyDomInputColor<Msg>(
     list: String?,
     name: String?,
     spellcheck: Boolean?,
-    step: String?,
     style: String?,
     tabindex: Int?,
     title: String?,
@@ -51,7 +50,6 @@ internal class KatyDomInputColor<Msg>(
         setAttribute("form", form)
         setAttribute("list", list)
         setAttribute("name", name)
-        setAttribute("step", step)
         setAttribute("value", value)
 
         setAttribute("type", "color")

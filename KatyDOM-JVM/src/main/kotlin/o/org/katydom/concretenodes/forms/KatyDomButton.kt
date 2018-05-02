@@ -34,7 +34,6 @@ internal class KatyDomButton<Msg>(
     formtarget: String?,
     hidden: Boolean?,
     lang: String?,
-    menu: String?,
     name: String?,
     spellcheck: Boolean?,
     style: String?,
@@ -56,11 +55,9 @@ internal class KatyDomButton<Msg>(
         setAttribute("formmethod", formmethod?.toHtmlString())
         setBooleanAttribute("formnovalidate", formnovalidate)
         setAttribute("formtarget", formtarget)
-        setAttribute("menu", menu)
         setAttribute("name", name)
-        setAttribute("value", value)
-
         setAttribute("type", type?.toHtmlString())
+        setAttribute("value", value)
 
         phrasingContent.withInteractiveContentNotAllowed(this).defineContent()
         this.freeze()

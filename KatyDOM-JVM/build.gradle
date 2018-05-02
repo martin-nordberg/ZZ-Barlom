@@ -56,10 +56,14 @@ dokka {
 
     includes = [
         'src/main/kotlin/module.md',
+        'src/main/kotlin/jvm/org/katydom/infrastructure/package.md',
+        'src/main/kotlin/jvm/org/katydom/kdom/package.md',
         'src/main/kotlin/o/org/katydom/abstractnodes/package.md',
         'src/main/kotlin/o/org/katydom/api/package.md',
         'src/main/kotlin/o/org/katydom/builders/package.md',
-        'src/main/kotlin/o/org/katydom/types/package.md'
+        'src/main/kotlin/o/org/katydom/types/package.md',
+        'src/main/kotlin/x/org/katydom/dom/package.md',
+        'src/main/kotlin/x/org/katydom/dom/events/package.md'
     ]
 
     moduleName = 'KatyDOM-JVM'
