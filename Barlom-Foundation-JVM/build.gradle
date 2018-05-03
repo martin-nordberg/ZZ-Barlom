@@ -15,7 +15,7 @@ buildscript {
 group 'org.barlom'
 version '1.0-SNAPSHOT'
 
-buildDir = '../build/Barlom-Foundation-JVM'
+buildDir = "$buildRoot/Barlom-Foundation-JVM"
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
