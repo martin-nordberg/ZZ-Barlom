@@ -11,9 +11,9 @@ import o.org.barlom.domain.metamodel.api.vertices.EdgeAttributeType
 import o.org.barlom.domain.metamodel.api.vertices.VertexAttributeType
 import js.org.barlom.presentation.client.messages.Message
 import o.org.katydom.api.katyDomComponent
-import o.org.katydom.api.katyDomListItemComponent
+import o.org.katydom.api.katyDomListItemsComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.builders.KatyDomListItemContentBuilder
+import o.org.katydom.builders.KatyDomOrderedListContentBuilder
 
 /** Generates the path to the focused element. */
 fun viewFocusedElementPath(
@@ -28,10 +28,10 @@ fun viewFocusedElementPath(
 
         @Suppress("RedundantUnitReturnType")
         fun viewPath(
-            builder: KatyDomListItemContentBuilder<Message>,
+            builder: KatyDomOrderedListContentBuilder<Message>,
             element: AbstractNamedElement,
             bold: Boolean = false
-        ): Unit = katyDomListItemComponent(builder) {
+        ): Unit = katyDomListItemsComponent(builder) {
 
             when (element) {
                 is AbstractPackagedElement ->
