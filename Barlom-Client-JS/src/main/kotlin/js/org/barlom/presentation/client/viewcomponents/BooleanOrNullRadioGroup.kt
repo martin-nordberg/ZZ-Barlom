@@ -8,18 +8,31 @@ package js.org.barlom.presentation.client.viewcomponents
 import o.org.barlom.domain.metamodel.api.types.EBooleanOrNull
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
- * Builds the view for a set of radio buttons for an optional Boolean value.
+ * Builds the view for a set of three radio buttons for an optional Boolean value.
+ * Typically they are "Yes", "No", and "N/A".
+ * @param builder the virtual DOM builder creating the new radio group.
+ * @param name the name of the field for the radio button group.
+ * @param legend the label for the group as a whole.
+ * @param currentValue the value of the variable that will set which radio button is checked.
+ * @param trueLabel the label to use for the yes/true radio button.
+ * @param falseLabel the label to use for the no/false radio button.
+ * @param nullLabel the label to use for the null radio button.
+ * @param disabled if true the buttons are all disabled (grayed out)
+ * @param changeValue a handler to call whenever a "change" event occurs for the radio button group.
  */
-fun <Message> viewBooleanOrNullRadioGroup(
-    builder: KatyDomFlowContentBuilder<Message>,
+fun <Msg> viewBooleanOrNullRadioGroup(
+    builder: KatyDomFlowContentBuilder<Msg>,
     name: String,
     legend: String,
     currentValue: Boolean?,
     trueLabel: String = "Yes",
     falseLabel: String = "No",
     nullLabel: String = "N/A",
-    changeValue: (Boolean?) -> Iterable<Message>
+    disabled: Boolean = false,
+    changeValue: (Boolean?) -> Iterable<Msg>
 ) = viewRadioGroup(
     builder,
     name,
@@ -27,12 +40,13 @@ fun <Message> viewBooleanOrNullRadioGroup(
     EBooleanOrNull.fromBoolean(currentValue),
     EBooleanOrNull::valueOf,
     listOf(
-        RadioConfig(false, EBooleanOrNull.TRUE, trueLabel),
-        RadioConfig(false, EBooleanOrNull.FALSE, falseLabel),
-        RadioConfig(false, EBooleanOrNull.NULL, nullLabel)
+        RadioConfig(EBooleanOrNull.TRUE, trueLabel, disabled),
+        RadioConfig(EBooleanOrNull.FALSE, falseLabel, disabled),
+        RadioConfig(EBooleanOrNull.NULL, nullLabel, disabled)
     )
 ) { newDefaultValue ->
     changeValue(newDefaultValue.toBoolean())
 }
 
+//---------------------------------------------------------------------------------------------------------------------
 

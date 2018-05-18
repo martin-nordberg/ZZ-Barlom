@@ -9,23 +9,41 @@ import o.org.katydom.api.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import kotlin.math.roundToInt
 
-data class IntegerInputConfig<Message>(
-    val disabled: Boolean,
+//---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Configuration for half of an integer input range, either the minimum field or the maximum field.
+ */
+data class IntegerInputConfig<out Msg>(
+
+    /** The value to set in the field. */
     val value: Int?,
+
+    /** A unique ID that contributes to the virtual DOM key of the field (not an HTML id attribute). */
     val id: String,
-    val placeholder: String,
-    val changeValue: (Int?) -> Iterable<Message>
+
+    /** Placeholder text to use when the field is empty. */
+    val placeholder: String? = null,
+
+    /** Whether the field is disabled (grayed out). */
+    val disabled: Boolean = false,
+
+    /** A callback triggered when a "blur" event occurs for the field. */
+    val changeValue: (Int?) -> Iterable<Msg>
+
 )
+
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Builds the view for a grouped block of integer text inputs.
  */
-fun <Message> viewInputIntegerRange(
-    builder: KatyDomFlowContentBuilder<Message>,
+fun <Msg> viewInputIntegerRange(
+    builder: KatyDomFlowContentBuilder<Msg>,
     name: String,
     legend: String,
-    minNumberInput: IntegerInputConfig<Message>,
-    maxNumberInput: IntegerInputConfig<Message>
+    minNumberInput: IntegerInputConfig<Msg>,
+    maxNumberInput: IntegerInputConfig<Msg>
 ) = katyDomComponent(builder) {
 
     fieldset("#$name-field.o-fieldset") {
@@ -97,4 +115,6 @@ fun <Message> viewInputIntegerRange(
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
 

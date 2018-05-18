@@ -8,22 +8,42 @@ package js.org.barlom.presentation.client.viewcomponents
 import o.org.katydom.api.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 
-data class TextInputConfig<Message>(
-    val disabled: Boolean,
+//---------------------------------------------------------------------------------------------------------------------
+
+/** Configuration for one in a group of text inputs. */
+data class TextInputConfig<out Msg>(
+
+    /** The value for the input field. */
     val value: String?,
+
+    /** A unique ID that contributes to the virtual DOM key of the field (not its HTML id attribute). */
     val id: String,
-    val placeholder: String,
-    val changeValue: (String) -> Iterable<Message>
+
+    /** Placeholder text to appear in the field when it is blank. */
+    val placeholder: String? = null,
+
+    /** Whether the field is disabled (grayed out). */
+    val disabled: Boolean = false,
+
+    /** Callback triggered by a "change" event for the field. */
+    val changeValue: (String) -> Iterable<Msg>
+
 )
+
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Builds the view for a grouped block of text inputs.
+ * @param builder the virtual DOM builder creating the new fields.
+ * @param name the name of the input field group.
+ * @param legend the user-visible label for the field group.
+ * @param textInputs configuration of the individual fields.
  */
-fun <Message> viewInputTextGroup(
-    builder: KatyDomFlowContentBuilder<Message>,
+fun <Msg> viewInputTextGroup(
+    builder: KatyDomFlowContentBuilder<Msg>,
     name: String,
     legend: String,
-    textInputs: List<TextInputConfig<Message>>
+    textInputs: List<TextInputConfig<Msg>>
 ) = katyDomComponent(builder) {
 
     fieldset("#$name-field.o-fieldset") {
@@ -70,4 +90,6 @@ fun <Message> viewInputTextGroup(
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
 

@@ -5,14 +5,14 @@
 
 package js.org.barlom.presentation.client.views.rightpanels.forms
 
-import o.org.barlom.domain.metamodel.api.actions.*
-import o.org.barlom.domain.metamodel.api.types.*
-import o.org.barlom.domain.metamodel.api.vertices.*
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.ModelActionMessage
 import js.org.barlom.presentation.client.viewcomponents.*
-import o.org.katydom.builders.KatyDomFlowContentBuilder
+import o.org.barlom.domain.metamodel.api.actions.*
+import o.org.barlom.domain.metamodel.api.types.*
+import o.org.barlom.domain.metamodel.api.vertices.*
 import o.org.katydom.api.katyDomComponent
+import o.org.katydom.builders.KatyDomFlowContentBuilder
 
 
 fun viewPropertiesForm(
@@ -136,8 +136,8 @@ private fun viewAbstractnessField(
     edgeType.abstractness,
     EAbstractness::valueOf,
     listOf(
-        RadioConfig(isRoot, EAbstractness.ABSTRACT, "Abstract"),
-        RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
+        RadioConfig(EAbstractness.ABSTRACT, "Abstract", isRoot),
+        RadioConfig(EAbstractness.CONCRETE, "Concrete", isRoot)
     )
 ) { abstractness ->
     listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeAbstractness(edgeType, abstractness)))
@@ -155,8 +155,8 @@ private fun viewAbstractnessField(
     vertexType.abstractness,
     EAbstractness::valueOf,
     listOf(
-        RadioConfig(isRoot, EAbstractness.ABSTRACT, "Abstract"),
-        RadioConfig(isRoot, EAbstractness.CONCRETE, "Concrete")
+        RadioConfig(EAbstractness.ABSTRACT, "Abstract", isRoot),
+        RadioConfig(EAbstractness.CONCRETE, "Concrete", isRoot)
     )
 ) { abstractness ->
     listOf<Message>(ModelActionMessage(VertexTypeActions.changeAbstractness(vertexType, abstractness)))
@@ -230,9 +230,9 @@ private fun viewCyclicityField(
     edgeType.cyclicity,
     ECyclicity::valueOf,
     listOf(
-        RadioConfig(isRoot, ECyclicity.ACYCLIC, "Allowed"),
-        RadioConfig(isRoot, ECyclicity.POTENTIALLY_CYCLIC, "Not Allowed"),
-        RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ECyclicity.UNCONSTRAINED, "Unconstrained")
+        RadioConfig(ECyclicity.POTENTIALLY_CYCLIC, "Allowed", isRoot),
+        RadioConfig(ECyclicity.ACYCLIC, "Not Allowed", isRoot),
+        RadioConfig(ECyclicity.UNCONSTRAINED, "Unconstrained", isRoot || edgeType.abstractness.isConcrete())
     )
 ) { cyclicity ->
     listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeCyclicity(edgeType, cyclicity)))
@@ -366,10 +366,10 @@ private fun viewForwardReverseNameFields(
     "directed-names",
     "Directed Names (Forward, Reverse):",
     listOf(
-        TextInputConfig(isRoot, edgeType.forwardName, "forward-name", "forward") { forwardName ->
+        TextInputConfig(edgeType.forwardName, "forward-name", "forward", isRoot) { forwardName ->
             listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeForwardName(edgeType, forwardName)))
         },
-        TextInputConfig(isRoot, edgeType.reverseName, "reverse-name", "reverse") { reverseName ->
+        TextInputConfig(edgeType.reverseName, "reverse-name", "reverse", isRoot) { reverseName ->
             listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeReverseName(edgeType, reverseName)))
         }
     )
@@ -386,8 +386,8 @@ private fun viewLabelDefaultingField(
     vertexAttributeType.labelDefaulting,
     ELabelDefaulting::valueOf,
     listOf(
-        RadioConfig(false, ELabelDefaulting.DEFAULT_LABEL, "Yes"),
-        RadioConfig(false, ELabelDefaulting.NOT_DEFAULT_LABEL, "No")
+        RadioConfig(ELabelDefaulting.DEFAULT_LABEL, "Yes"),
+        RadioConfig(ELabelDefaulting.NOT_DEFAULT_LABEL, "No")
     )
 ) { labelDefaulting ->
     listOf<Message>(
@@ -403,10 +403,10 @@ private fun viewMinMaxDegreeFields(
     builder,
     "degree",
     "Degree (Minimum, Maximum):",
-    IntegerInputConfig(isRoot, edgeType.minDegree, "min-degree", "minimum") { minDegree ->
+    IntegerInputConfig(edgeType.minDegree, "min-degree", "minimum", isRoot) { minDegree ->
         listOf<Message>(ModelActionMessage(UndirectedEdgeTypeActions.changeMinDegree(edgeType, minDegree)))
     },
-    IntegerInputConfig(isRoot, edgeType.maxDegree, "max-degree", "maximum") { maxDegree ->
+    IntegerInputConfig(edgeType.maxDegree, "max-degree", "maximum", isRoot) { maxDegree ->
         listOf<Message>(ModelActionMessage(UndirectedEdgeTypeActions.changeMaxDegree(edgeType, maxDegree)))
     }
 )
@@ -420,10 +420,10 @@ private fun viewMinMaxHeadInDegreeFields(
     builder,
     "head-in-degree",
     "Head In-Degree (Minimum, Maximum):",
-    IntegerInputConfig(isRoot, edgeType.minHeadInDegree, "min-head-in-degree", "minimum") { minHeadInDegree ->
+    IntegerInputConfig(edgeType.minHeadInDegree, "min-head-in-degree", "minimum", isRoot) { minHeadInDegree ->
         listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMinHeadInDegree(edgeType, minHeadInDegree)))
     },
-    IntegerInputConfig(isRoot, edgeType.maxHeadInDegree, "max-head-in-degree", "maximum") { maxHeadInDegree ->
+    IntegerInputConfig(edgeType.maxHeadInDegree, "max-head-in-degree", "maximum", isRoot) { maxHeadInDegree ->
         listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMaxHeadInDegree(edgeType, maxHeadInDegree)))
     }
 )
@@ -436,10 +436,10 @@ private fun viewMinMaxLengthFields(
     builder,
     "length",
     "Length (Minimum, Maximum):",
-    IntegerInputConfig(false, constrainedString.minLength, "min-length", "minimum") { minLength ->
+    IntegerInputConfig(constrainedString.minLength, "min-length", "minimum") { minLength ->
         listOf<Message>(ModelActionMessage(ConstrainedStringActions.changeMinLength(constrainedString, minLength)))
     },
-    IntegerInputConfig(false, constrainedString.maxLength, "max-length", "maximum") { maxLength ->
+    IntegerInputConfig(constrainedString.maxLength, "max-length", "maximum") { maxLength ->
         listOf<Message>(ModelActionMessage(ConstrainedStringActions.changeMaxLength(constrainedString, maxLength)))
     }
 )
@@ -453,10 +453,10 @@ private fun viewMinMaxTailOutDegreeFields(
     builder,
     "tail-out-degree",
     "Tail Out-Degree (Minimum, Maximum):",
-    IntegerInputConfig(isRoot, edgeType.minTailOutDegree, "min-tail-out-degree", "minimum") { minTailOutDegree ->
+    IntegerInputConfig(edgeType.minTailOutDegree, "min-tail-out-degree", "minimum", isRoot) { minTailOutDegree ->
         listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMinTailOutDegree(edgeType, minTailOutDegree)))
     },
-    IntegerInputConfig(isRoot, edgeType.maxTailOutDegree, "max-tail-out-degree", "maximum") { maxTailOutDegree ->
+    IntegerInputConfig(edgeType.maxTailOutDegree, "max-tail-out-degree", "maximum", isRoot) { maxTailOutDegree ->
         listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeMaxTailOutDegree(edgeType, maxTailOutDegree)))
     }
 )
@@ -469,10 +469,10 @@ private fun viewMinMaxValueFields(
     builder,
     "value-limits",
     "Value Limits (Minimum, Maximum):",
-    DoubleInputConfig(false, constrainedFloat64.minValue, "min-value", "minimum") { minValue ->
+    DoubleInputConfig(constrainedFloat64.minValue, "min-value", "minimum") { minValue ->
         listOf<Message>(ModelActionMessage(ConstrainedFloat64Actions.changeMinValue(constrainedFloat64, minValue)))
     },
-    DoubleInputConfig(false, constrainedFloat64.maxValue, "max-value", "maximum") { maxValue ->
+    DoubleInputConfig(constrainedFloat64.maxValue, "max-value", "maximum") { maxValue ->
         listOf<Message>(ModelActionMessage(ConstrainedFloat64Actions.changeMaxValue(constrainedFloat64, maxValue)))
     }
 )
@@ -485,10 +485,10 @@ private fun viewMinMaxValueFields(
     builder,
     "value-limits",
     "Value Limits (Minimum, Maximum):",
-    IntegerInputConfig(false, constrainedInteger32.minValue, "min-value", "minimum") { minValue ->
+    IntegerInputConfig(constrainedInteger32.minValue, "min-value", "minimum") { minValue ->
         listOf<Message>(ModelActionMessage(ConstrainedInteger32Actions.changeMinValue(constrainedInteger32, minValue)))
     },
-    IntegerInputConfig(false, constrainedInteger32.maxValue, "max-value", "maximum") { maxValue ->
+    IntegerInputConfig(constrainedInteger32.maxValue, "max-value", "maximum") { maxValue ->
         listOf<Message>(ModelActionMessage(ConstrainedInteger32Actions.changeMaxValue(constrainedInteger32, maxValue)))
     }
 )
@@ -505,9 +505,9 @@ private fun viewMultiEdgednessField(
     edgeType.multiEdgedness,
     EMultiEdgedness::valueOf,
     listOf(
-        RadioConfig(isRoot, EMultiEdgedness.MULTI_EDGES_ALLOWED, "Allowed"),
-        RadioConfig(isRoot, EMultiEdgedness.MULTI_EDGES_NOT_ALLOWED, "Not Allowed"),
-        RadioConfig(isRoot || edgeType.abstractness.isConcrete(), EMultiEdgedness.UNCONSTRAINED, "Unconstrained")
+        RadioConfig(EMultiEdgedness.MULTI_EDGES_ALLOWED, "Allowed", isRoot),
+        RadioConfig(EMultiEdgedness.MULTI_EDGES_NOT_ALLOWED, "Not Allowed", isRoot),
+        RadioConfig(EMultiEdgedness.UNCONSTRAINED, "Unconstrained", isRoot || edgeType.abstractness.isConcrete())
     )
 ) { multiEdgedness ->
     listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeMultiEdgedness(edgeType, multiEdgedness)))
@@ -541,8 +541,8 @@ private fun viewOptionalityField(
     edgeAttributeType.optionality,
     EAttributeOptionality::valueOf,
     listOf(
-        RadioConfig(false, EAttributeOptionality.REQUIRED, "Required"),
-        RadioConfig(false, EAttributeOptionality.OPTIONAL, "Optional")
+        RadioConfig(EAttributeOptionality.REQUIRED, "Required"),
+        RadioConfig(EAttributeOptionality.OPTIONAL, "Optional")
     )
 ) { optionality ->
     listOf<Message>(ModelActionMessage(EdgeAttributeTypeActions.changeOptionality(edgeAttributeType, optionality)))
@@ -559,8 +559,8 @@ private fun viewOptionalityField(
     vertexAttributeType.optionality,
     EAttributeOptionality::valueOf,
     listOf(
-        RadioConfig(false, EAttributeOptionality.REQUIRED, "Required"),
-        RadioConfig(false, EAttributeOptionality.OPTIONAL, "Optional")
+        RadioConfig(EAttributeOptionality.REQUIRED, "Required"),
+        RadioConfig(EAttributeOptionality.OPTIONAL, "Optional")
     )
 ) { optionality ->
     listOf<Message>(ModelActionMessage(VertexAttributeTypeActions.changeOptionality(vertexAttributeType, optionality)))
@@ -592,10 +592,10 @@ private fun viewRoleNameFields(
     "role-names",
     "Role Names (Head, Tail):",
     listOf(
-        TextInputConfig(isRoot, edgeType.headRoleName, "head-role-name", "head") { headRoleName ->
+        TextInputConfig(edgeType.headRoleName, "head-role-name", "head", isRoot) { headRoleName ->
             listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeHeadRoleName(edgeType, headRoleName)))
         },
-        TextInputConfig(isRoot, edgeType.tailRoleName, "tail-role-name", "tail") { tailRoleName ->
+        TextInputConfig(edgeType.tailRoleName, "tail-role-name", "tail", isRoot) { tailRoleName ->
             listOf<Message>(ModelActionMessage(DirectedEdgeTypeActions.changeTailRoleName(edgeType, tailRoleName)))
         }
     )
@@ -613,9 +613,9 @@ private fun viewSelfLoopingField(
     edgeType.selfLooping,
     ESelfLooping::valueOf,
     listOf(
-        RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_ALLOWED, "Allowed"),
-        RadioConfig(isRoot, ESelfLooping.SELF_LOOPS_NOT_ALLOWED, "Not Allowed"),
-        RadioConfig(isRoot || edgeType.abstractness.isConcrete(), ESelfLooping.UNCONSTRAINED, "Unconstrained")
+        RadioConfig(ESelfLooping.SELF_LOOPS_ALLOWED, "Allowed", isRoot),
+        RadioConfig(ESelfLooping.SELF_LOOPS_NOT_ALLOWED, "Not Allowed", isRoot),
+        RadioConfig(ESelfLooping.UNCONSTRAINED, "Unconstrained", isRoot || edgeType.abstractness.isConcrete())
     )
 ) { selfLooping ->
     listOf<Message>(ModelActionMessage(AbstractEdgeTypeActions.changeSelfLooping(edgeType, selfLooping)))

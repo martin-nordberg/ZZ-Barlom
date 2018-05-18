@@ -9,21 +9,23 @@ import o.org.katydom.api.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import kotlin.math.min
 
+//---------------------------------------------------------------------------------------------------------------------
+
 /**
  * Builds the view for a single string text input.
  */
-fun <Message> viewTextAreaField(
-    builder: KatyDomFlowContentBuilder<Message>,
+fun <Msg> viewTextAreaField(
+    builder: KatyDomFlowContentBuilder<Msg>,
     name: String,
     id: String,
     label: String,
     currentValue: String,
     placeholder: String,
     disabled: Boolean,
-    changeValue: (String) -> Iterable<Message>
+    changeValue: (String) -> Iterable<Msg>
 ) = katyDomComponent(builder) {
 
-    val height = min( 8.5, currentValue.filter { it == '\n' }.length * 1.7 + 3.5 )
+    val height = min(8.5, currentValue.filter { it == '\n' }.length * 1.7 + 3.5)
 
     label("#$name-field.c-label.o-form-element") {
 
@@ -47,11 +49,13 @@ fun <Message> viewTextAreaField(
 
             // TODO: onkeypress, if enter then update the value for new height
 
-            text( currentValue )
+            text(currentValue)
 
         }
 
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
 

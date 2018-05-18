@@ -8,23 +8,42 @@ package js.org.barlom.presentation.client.viewcomponents
 import o.org.katydom.api.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 
-data class RadioConfig<out T>(
-    val disabled: Boolean,
-    val value: T,
-    val label: String
+//---------------------------------------------------------------------------------------------------------------------
+
+/** Configuration of one radio button in a group. */
+data class RadioConfig<out Enum>(
+
+    /** The value of the field (group) when the radio button is checked. */
+    val value: Enum,
+
+    /** The user-visible label for this radio button. */
+    val label: String,
+
+    /** Whether the radio button is disabled. */
+    val disabled: Boolean = false
+
 )
+
+//---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Builds the view for a generic set of radio buttons.
+ * @param builder the virtual DOM builder creating the new radio group.
+ * @param name the name of the field for the radio button group.
+ * @param legend the label for the group as a whole.
+ * @param currentValue the value of the variable that will set which radio button is checked.
+ * @param toEnum a function that converts a string value to the corresponding Enum instance.
+ * @param radios the configuration of each radio button in the group.
+ * @param changeValue a handler to call whenever a "change" event occurs for the radio button group.
  */
-fun <Enum,Message> viewRadioGroup(
-    builder: KatyDomFlowContentBuilder<Message>,
+fun <Enum, Msg> viewRadioGroup(
+    builder: KatyDomFlowContentBuilder<Msg>,
     name: String,
     legend: String,
     currentValue: Enum,
-    toT: (String) -> Enum,
+    toEnum: (String) -> Enum,
     radios: List<RadioConfig<Enum>>,
-    changeValue: (Enum) -> Iterable<Message>
+    changeValue: (Enum) -> Iterable<Msg>
 ) = katyDomComponent(builder) {
 
     fieldset("#$name-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
@@ -50,7 +69,7 @@ fun <Enum,Message> viewRadioGroup(
 
                     onchange { event ->
 
-                        val newValue = toT(event.target.asDynamic().value as String)
+                        val newValue = toEnum(event.target.asDynamic().value as String)
 
                         changeValue(newValue)
 
@@ -67,4 +86,6 @@ fun <Enum,Message> viewRadioGroup(
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
 
