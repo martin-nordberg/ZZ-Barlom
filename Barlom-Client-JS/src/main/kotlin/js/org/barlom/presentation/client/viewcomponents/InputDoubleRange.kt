@@ -69,7 +69,7 @@ fun <Msg> viewInputDoubleRange(
                     ".c-field",
                     key = name + "-" + minNumberInput.id,
                     disabled = minNumberInput.disabled,
-                    min = 0,
+                    min = 0.0,
                     max = maxNumberInput.value,
                     placeholder = minNumberInput.placeholder,
                     value = minNumberInput.value
