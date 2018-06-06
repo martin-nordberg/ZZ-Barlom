@@ -13,7 +13,7 @@ import js.org.barlom.presentation.client.messages.Message
 import o.org.katydom.api.katyDomComponent
 import o.org.katydom.api.katyDomListItemsComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.builders.KatyDomOrderedListContentBuilder
+import o.org.katydom.builders.details.KatyDomOrderedListContentBuilder
 
 /** Generates the path to the focused element. */
 fun viewFocusedElementPath(
