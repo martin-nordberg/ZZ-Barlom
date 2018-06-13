@@ -9,7 +9,7 @@ import o.org.barlom.domain.metamodel.api.vertices.*
 import o.org.barlom.presentation.client.actions.leftpanels.browse.BrowsePanelActions
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.leftpanels.browse.BrowsePanelActionMessage
-import o.org.katydom.builders.details.KatyDomUnorderedListContentBuilder
+import o.org.katydom.builders.lists.KatyDomUnorderedListContentBuilder
 import o.org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
 import js.org.barlom.presentation.client.views.listitems.viewListItem
 import o.org.katydom.api.katyDomComponent
