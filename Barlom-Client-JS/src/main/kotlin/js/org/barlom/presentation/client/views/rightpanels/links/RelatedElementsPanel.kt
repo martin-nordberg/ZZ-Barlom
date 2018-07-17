@@ -26,6 +26,8 @@ import js.org.barlom.presentation.client.views.listitems.viewListItem
 import js.org.barlom.presentation.client.views.listitems.viewListItemIcon
 import o.org.katydom.api.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
+import o.org.katydom.eventhandling.onblur
+import o.org.katydom.eventhandling.onclick
 
 /**
  * Builds the right panel with lists of elements related to the focused element.

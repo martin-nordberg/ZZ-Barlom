@@ -12,6 +12,7 @@ import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType.*
 import o.org.katydom.api.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
+import o.org.katydom.eventhandling.onclick
 
 /** Shows one of the nav items at the top of the left panel. */
 fun viewLeftPanelNavItem(

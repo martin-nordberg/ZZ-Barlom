@@ -15,6 +15,7 @@ import js.org.barlom.presentation.client.views.listitems.viewListItem
 import o.org.katydom.api.katyDomComponent
 import o.org.katydom.api.katyDomListItemsComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
+import o.org.katydom.eventhandling.onclick
 
 
 /** Generates a tree item for a given [constrainedDataType]. */

@@ -13,6 +13,7 @@ import o.org.katydom.api.katyDomComponent
 import o.org.katydom.api.katyDomPhrasingComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
+import o.org.katydom.eventhandling.onclick
 import kotlin.reflect.KClass
 
 
