@@ -6,16 +6,16 @@
 package js.org.barlom.presentation.client.views.rightpanels
 
 import js.org.barlom.presentation.client.messages.Message
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.eventhandling.onclick
 import o.org.barlom.presentation.client.state.rightpanels.ERightPanelType
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onclick
 
 /** Shows one of the nav items at the top of the right panel. */
 fun viewRightPanelNavItem(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     panelType: ERightPanelType
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     val toolTip = toolTip(panelType)
 

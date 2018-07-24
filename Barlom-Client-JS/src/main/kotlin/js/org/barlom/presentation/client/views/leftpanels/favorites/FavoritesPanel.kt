@@ -7,16 +7,16 @@ package js.org.barlom.presentation.client.views.leftpanels.favorites
 
 import o.org.barlom.domain.metamodel.api.model.Model
 import js.org.barlom.presentation.client.messages.Message
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
 
 /**
  * Generates the favorites panel view from the latest application state. Wires event handlers to be dispatched as actions.
  */
 fun viewFavoritesPanel(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     m: Model
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     div(".o-panel.o-panel--nav-top.u-pillar-box--small.left-panel") {
 

@@ -9,21 +9,21 @@ import o.org.barlom.domain.metamodel.api.vertices.*
 import o.org.barlom.presentation.client.actions.leftpanels.browse.BrowsePanelActions
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.leftpanels.browse.BrowsePanelActionMessage
-import o.org.katydom.builders.lists.KatyDomUnorderedListContentBuilder
 import o.org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
 import js.org.barlom.presentation.client.views.listitems.viewListItem
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.application.katyDomListItemsComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onclick
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.application.katydidListItemsComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.builders.lists.KatydidUnorderedListContentBuilder
+import o.katydid.vdom.eventhandling.onclick
 
 
 /** Generates a tree item for a given [constrainedDataType]. */
 fun viewConstrainedDataTypeTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     constrainedDataType: ConstrainedDataType,
     browsePanelState: BrowsePanelState
-) = katyDomListItemsComponent(builder) {
+) = katydidListItemsComponent(builder) {
 
     val isFocused = constrainedDataType == browsePanelState.focusedElement
 
@@ -44,10 +44,10 @@ fun viewConstrainedDataTypeTreeItem(
 
 /** Generates a tree item for a given [directedEdgeType]. */
 fun viewDirectedEdgeTypeTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     directedEdgeType: DirectedEdgeType,
     browsePanelState: BrowsePanelState
-) = katyDomListItemsComponent(builder) {
+) = katydidListItemsComponent(builder) {
 
     val hasChildren = directedEdgeType.attributeTypes.isNotEmpty()
 
@@ -105,10 +105,10 @@ fun viewDirectedEdgeTypeTreeItem(
 
 /** Generates a tree item for a given [edgeAttributeType]. */
 fun viewEdgeAttributeTypeTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     edgeAttributeType: EdgeAttributeType,
     browsePanelState: BrowsePanelState
-) = katyDomListItemsComponent(builder) {
+) = katydidListItemsComponent(builder) {
 
     val isFocused = edgeAttributeType == browsePanelState.focusedElement
 
@@ -131,10 +131,10 @@ fun viewEdgeAttributeTypeTreeItem(
 /** Generates a tree item for a given package [pkg]. */
 @Suppress("RedundantUnitReturnType")
 fun viewPackageTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     pkg: Package,
     browsePanelState: BrowsePanelState
-): Unit = katyDomListItemsComponent(builder) {
+): Unit = katydidListItemsComponent(builder) {
 
     val hasChildren = pkg.containsElements
 
@@ -178,10 +178,10 @@ fun viewPackageTreeItem(
 
 /** Fills in the child items of a package. */
 private fun viewPackageChildTreeItems(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     pkg: Package,
     browsePanelState: BrowsePanelState
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     ul(".c-tree") {
 
@@ -216,10 +216,10 @@ private fun viewPackageChildTreeItems(
 
 /** Generates a tree item for a given package [pkg]. */
 fun viewRootPackageTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     pkg: Package,
     browsePanelState: BrowsePanelState
-) = katyDomListItemsComponent(builder) {
+) = katydidListItemsComponent(builder) {
 
     require(pkg.isRoot) { "Root package expected." }
 
@@ -248,10 +248,10 @@ fun viewRootPackageTreeItem(
 
 /** Generates a tree item for a given [undirectedEdgeType]. */
 fun viewUndirectedEdgeTypeTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     undirectedEdgeType: UndirectedEdgeType,
     browsePanelState: BrowsePanelState
-) = katyDomListItemsComponent(builder) {
+) = katydidListItemsComponent(builder) {
 
     val hasChildren = undirectedEdgeType.attributeTypes.isNotEmpty()
 
@@ -309,10 +309,10 @@ fun viewUndirectedEdgeTypeTreeItem(
 
 /** Generates a tree item for a given [vertexAttributeType]. */
 fun viewVertexAttributeTypeTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     vertexAttributeType: VertexAttributeType,
     browsePanelState: BrowsePanelState
-) = katyDomListItemsComponent(builder) {
+) = katydidListItemsComponent(builder) {
 
     val isFocused = vertexAttributeType == browsePanelState.focusedElement
 
@@ -334,10 +334,10 @@ fun viewVertexAttributeTypeTreeItem(
 
 /** Generates a tree item for a given [vertexType]. */
 fun viewVertexTypeTreeItem(
-    builder: KatyDomUnorderedListContentBuilder<Message>,
+    builder: KatydidUnorderedListContentBuilder<Message>,
     vertexType: VertexType,
     browsePanelState: BrowsePanelState
-) = katyDomListItemsComponent(builder) {
+) = katydidListItemsComponent(builder) {
 
     val hasChildren = vertexType.attributeTypes.isNotEmpty()
 

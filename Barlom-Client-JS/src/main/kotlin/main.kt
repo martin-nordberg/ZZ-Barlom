@@ -3,10 +3,9 @@
 // Apache 2.0 License
 //
 
+import js.katydid.vdom.api.runApplication
 import x.org.barlom.infrastructure.uuids.prefetchUuid
 import js.org.barlom.presentation.client.application.Application
-//TODO: import org.barlom.presentation.tests.runTests
-import js.org.katydom.api.runApplication
 
 
 /**

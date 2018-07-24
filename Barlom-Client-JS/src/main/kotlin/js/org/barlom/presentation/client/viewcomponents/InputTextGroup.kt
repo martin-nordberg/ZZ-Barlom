@@ -5,9 +5,10 @@
 
 package js.org.barlom.presentation.client.viewcomponents
 
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onblur
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.eventhandling.onblur
+
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -41,11 +42,11 @@ data class TextInputConfig<out Msg>(
  * @param textInputs configuration of the individual fields.
  */
 fun <Msg> viewInputTextGroup(
-    builder: KatyDomFlowContentBuilder<Msg>,
+    builder: KatydidFlowContentBuilder<Msg>,
     name: String,
     legend: String,
     textInputs: List<TextInputConfig<Msg>>
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     fieldset("#$name-field.o-fieldset") {
 

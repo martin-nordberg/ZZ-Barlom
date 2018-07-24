@@ -5,9 +5,10 @@
 
 package js.org.barlom.presentation.client.viewcomponents
 
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onchange
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.eventhandling.onchange
+
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -38,14 +39,14 @@ data class RadioConfig<out Enum>(
  * @param changeValue a handler to call whenever a "change" event occurs for the radio button group.
  */
 fun <Enum, Msg> viewRadioGroup(
-    builder: KatyDomFlowContentBuilder<Msg>,
+    builder: KatydidFlowContentBuilder<Msg>,
     name: String,
     legend: String,
     currentValue: Enum,
     toEnum: (String) -> Enum,
     radios: List<RadioConfig<Enum>>,
     changeValue: (Enum) -> Iterable<Msg>
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     fieldset("#$name-fieldset.o-fieldset.c-list.c-list--inline.c-list--unstyled") {
 

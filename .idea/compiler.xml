@@ -16,6 +16,10 @@
       <module name="Barlom-Foundation-JVM_test" target="1.8" />
       <module name="Barlom-Server-JVM_main" target="1.8" />
       <module name="Barlom-Server-JVM_test" target="1.8" />
+      <module name="Katydid-VDOM-JS_main" target="1.8" />
+      <module name="Katydid-VDOM-JS_test" target="1.8" />
+      <module name="Katydid-VDOM-JVM_main" target="1.8" />
+      <module name="Katydid-VDOM-JVM_test" target="1.8" />
       <module name="KatyDOM-JS_main" target="1.8" />
       <module name="KatyDOM-JS_test" target="1.8" />
       <module name="KatyDOM-JVM_main" target="1.8" />

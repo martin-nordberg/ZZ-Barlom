@@ -5,9 +5,9 @@
 
 package js.org.barlom.presentation.client.viewcomponents
 
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onblur
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.eventhandling.onblur
 import kotlin.math.min
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ import kotlin.math.min
  * Builds the view for a single string text input.
  */
 fun <Msg> viewTextAreaField(
-    builder: KatyDomFlowContentBuilder<Msg>,
+    builder: KatydidFlowContentBuilder<Msg>,
     name: String,
     id: String,
     label: String,
@@ -24,7 +24,7 @@ fun <Msg> viewTextAreaField(
     placeholder: String,
     disabled: Boolean,
     changeValue: (String) -> Iterable<Msg>
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     val height = min(8.5, currentValue.filter { it == '\n' }.length * 1.7 + 3.5)
 

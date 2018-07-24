@@ -5,6 +5,7 @@
 
 package js.org.barlom.presentation.client.application
 
+import js.katydid.vdom.api.KatydidApplication
 import o.org.barlom.infrastructure.revisions.RevisionHistory
 import o.org.barlom.presentation.client.ApplicationState
 import js.org.barlom.presentation.client.messages.ActionMessage
@@ -19,10 +20,9 @@ import js.org.barlom.presentation.client.views.rightpanels.links.viewRelatedElem
 import js.org.barlom.presentation.client.views.rightpanels.viewRightPanelNavItem
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 import o.org.barlom.presentation.client.state.rightpanels.ERightPanelType
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import js.org.katydom.api.KatyDomApplication
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
 
-class Application : KatyDomApplication<ApplicationState, Message> {
+class Application : KatydidApplication<ApplicationState, Message> {
 
     override fun initialize(): ApplicationState {
 
@@ -149,7 +149,7 @@ class Application : KatyDomApplication<ApplicationState, Message> {
 
     }
 
-    override fun view(applicationState: ApplicationState): KatyDomFlowContentBuilder<Message>.() -> Unit {
+    override fun view(applicationState: ApplicationState): KatydidFlowContentBuilder<Message>.() -> Unit {
 
         val m = applicationState.model
         val ui = applicationState.uiState

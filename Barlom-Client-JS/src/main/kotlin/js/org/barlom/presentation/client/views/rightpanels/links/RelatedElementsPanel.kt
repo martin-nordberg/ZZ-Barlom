@@ -24,19 +24,19 @@ import js.org.barlom.presentation.client.messages.rightpanels.links.RelatedEleme
 import o.org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 import js.org.barlom.presentation.client.views.listitems.viewListItem
 import js.org.barlom.presentation.client.views.listitems.viewListItemIcon
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onblur
-import o.org.katydom.eventhandling.onclick
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.eventhandling.onblur
+import o.katydid.vdom.eventhandling.onclick
 
 /**
  * Builds the right panel with lists of elements related to the focused element.
  */
 fun viewRelatedElements(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     relatedElementsPanelState: RelatedElementsPanelState,
     focusedElement: AbstractNamedElement
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     form("#related-elements-form.form--related-elements", action = "javascript:void(0);") {
 
@@ -71,9 +71,9 @@ fun viewRelatedElements(
  * Shows lists of the different kinds of child elements in a directed edge type.
  */
 private fun viewDirectedEdgeTypeChildElements(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     focusedElement: DirectedEdgeType
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     viewChildElements(
         this,
@@ -104,9 +104,9 @@ private fun viewDirectedEdgeTypeChildElements(
  * Shows lists of the different kinds of child elements in a package.
  */
 private fun viewPackageChildElements(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     focusedElement: Package
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     viewChildElements(
         this,
@@ -195,9 +195,9 @@ private fun viewPackageChildElements(
  * Shows lists of the packages consuming a package.
  */
 private fun viewPackageConsumers(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     focusedElement: Package
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     viewChildElements(
         this,
@@ -215,10 +215,10 @@ private fun viewPackageConsumers(
  * Shows a list of the supplier packages for a package.
  */
 private fun viewPackageSuppliers(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     relatedElementsPanelState: RelatedElementsPanelState,
     focusedElement: Package
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     val newSupplierPackagePath = relatedElementsPanelState.newSupplierPackagePath
 
@@ -254,9 +254,9 @@ private fun viewPackageSuppliers(
  * Shows lists of the different kinds of child elements in an undirected edge type.
  */
 private fun viewUndirectedEdgeTypeChildElements(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     focusedElement: UndirectedEdgeType
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     viewChildElements(
         this,
@@ -286,9 +286,9 @@ private fun viewUndirectedEdgeTypeChildElements(
  * Shows lists of the different kinds of child elements in a vertex type.
  */
 private fun viewVertexTypeChildElements(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     focusedElement: VertexType
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     viewChildElements(
         this,
@@ -351,13 +351,13 @@ data class AddElementConfig<in Parent>(
  * Shows a list of child elements for given parent.
  */
 private inline fun <Parent: AbstractDocumentedElement, reified Child : AbstractNamedElement> viewChildElements(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     parent: Parent,
     noinline getChildElements: Parent.() -> List<Child>,
     label: String,
     name: String,
     addButtons: List<AddElementConfig<Parent>>
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     // Label the list.
     label("#$name-label.c-label.o-form-element") {
@@ -433,14 +433,14 @@ data class AddConnectionConfig<in Parent>(
  * Shows a list of connected elements for a given [parent] element.
  */
 private fun <Element, ConnectedElement : AbstractNamedElement> viewConnectedElements(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     parent: Element,
     getConnectedElements: Element.() -> List<ConnectedElement>,
     getPotentialConnectedElements: Element.() -> List<ConnectedElement>,
     label: String,
     name: String,
     addButtons: List<AddConnectionConfig<Element>>
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     // Label the list.
     label("#$name-label.c-label.o-form-element") {

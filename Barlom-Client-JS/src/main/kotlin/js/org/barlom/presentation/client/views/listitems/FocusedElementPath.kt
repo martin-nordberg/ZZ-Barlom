@@ -10,16 +10,16 @@ import o.org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import o.org.barlom.domain.metamodel.api.vertices.EdgeAttributeType
 import o.org.barlom.domain.metamodel.api.vertices.VertexAttributeType
 import js.org.barlom.presentation.client.messages.Message
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.application.katyDomListItemsComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.builders.lists.KatyDomOrderedListContentBuilder
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.application.katydidListItemsComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.builders.lists.KatydidOrderedListContentBuilder
 
 /** Generates the path to the focused element. */
 fun viewFocusedElementPath(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     focusedElement: AbstractNamedElement?
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     if (focusedElement == null) {
         text("Choose an element in the left panel.")
@@ -28,10 +28,10 @@ fun viewFocusedElementPath(
 
         @Suppress("RedundantUnitReturnType")
         fun viewPath(
-            builder: KatyDomOrderedListContentBuilder<Message>,
+            builder: KatydidOrderedListContentBuilder<Message>,
             element: AbstractNamedElement,
             bold: Boolean = false
-        ): Unit = katyDomListItemsComponent(builder) {
+        ): Unit = katydidListItemsComponent(builder) {
 
             when (element) {
                 is AbstractPackagedElement ->

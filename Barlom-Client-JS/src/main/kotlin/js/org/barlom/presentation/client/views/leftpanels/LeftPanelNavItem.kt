@@ -8,22 +8,22 @@ package js.org.barlom.presentation.client.views.leftpanels
 import o.org.barlom.presentation.client.actions.leftpanels.LeftPanelActions
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.UiActionMessage
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.eventhandling.onclick
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType.*
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onclick
 
 /** Shows one of the nav items at the top of the left panel. */
 fun viewLeftPanelNavItem(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     panelType: ELeftPanelType,
     focusedPanelType: ELeftPanelType
 ) {
 
     val toolTip = toolTip(panelType)
 
-    katyDomComponent(builder) {
+    katydidComponent(builder) {
 
         span(".c-nav__item.c-tooltip.c-tooltip--bottom", toolTip) {
 

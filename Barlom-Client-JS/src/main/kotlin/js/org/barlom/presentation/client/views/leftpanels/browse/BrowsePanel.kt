@@ -7,18 +7,18 @@ package js.org.barlom.presentation.client.views.leftpanels.browse
 
 import o.org.barlom.domain.metamodel.api.model.Model
 import js.org.barlom.presentation.client.messages.Message
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
 import o.org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
 
 /**
  * Generates the browse panel view from the latest application state. Wires event handlers to be dispatched as actions.
  */
 fun viewBrowsePanel(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     m: Model,
     browsePanelState: BrowsePanelState
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     comment("The Browse Panel", "c1")
 

@@ -81,7 +81,7 @@ task copyWebResources(type: Copy) {
         from('../build/Barlom-Client-JS/classes/kotlin/main')
         from('../build/Barlom-Domain-JS/classes/kotlin/main')
         from('../build/Barlom-Foundation-JS/classes/kotlin/main')
-        from('../build/KatyDOM-JS/classes/kotlin/main')
+        from('../build/Katydid-VDOM-JS/classes/kotlin/main')
         include('**/*.*')
     }
 

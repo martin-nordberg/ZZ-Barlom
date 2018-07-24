@@ -9,11 +9,11 @@ import o.org.barlom.domain.metamodel.api.vertices.*
 import o.org.barlom.presentation.client.actions.GeneralActions
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.UiActionMessage
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.application.katyDomPhrasingComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.builders.KatyDomPhrasingContentBuilder
-import o.org.katydom.eventhandling.onclick
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.application.katydidPhrasingComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.builders.KatydidPhrasingContentBuilder
+import o.katydid.vdom.eventhandling.onclick
 import kotlin.reflect.KClass
 
 
@@ -21,9 +21,9 @@ import kotlin.reflect.KClass
  * Generates the icon and clickable name for an abstract [element].
  */
 fun viewListItem(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     element: AbstractNamedElement
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     span(".c-link", element.id) {
 
@@ -42,10 +42,10 @@ fun viewListItem(
 
 
 fun <T : AbstractNamedElement> viewListItemIcon(
-    builder: KatyDomPhrasingContentBuilder<Message>,
+    builder: KatydidPhrasingContentBuilder<Message>,
     elementClass: KClass<T>,
     isRoot: Boolean
-) = katyDomPhrasingComponent(builder) {
+) = katydidPhrasingComponent(builder) {
 
     span(".mdi", "icon") {
 

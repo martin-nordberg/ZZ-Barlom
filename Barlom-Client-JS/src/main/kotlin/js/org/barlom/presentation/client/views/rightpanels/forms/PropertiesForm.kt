@@ -8,17 +8,17 @@ package js.org.barlom.presentation.client.views.rightpanels.forms
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.ModelActionMessage
 import js.org.barlom.presentation.client.viewcomponents.*
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
 import o.org.barlom.domain.metamodel.api.actions.*
 import o.org.barlom.domain.metamodel.api.types.*
 import o.org.barlom.domain.metamodel.api.vertices.*
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
 
 
 fun viewPropertiesForm(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     focusedElement: AbstractNamedElement
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     val isRoot = focusedElement is Package && focusedElement.isRoot ||
         focusedElement is VertexType && focusedElement.isRoot ||
@@ -126,7 +126,7 @@ fun viewPropertiesForm(
 
 
 private fun viewAbstractnessField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -145,7 +145,7 @@ private fun viewAbstractnessField(
 
 
 private fun viewAbstractnessField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     vertexType: VertexType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -164,7 +164,7 @@ private fun viewAbstractnessField(
 
 
 private fun viewConnectedHeadVertexTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -183,7 +183,7 @@ private fun viewConnectedHeadVertexTypeField(
 
 
 private fun viewConnectedTailVertexTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -202,7 +202,7 @@ private fun viewConnectedTailVertexTypeField(
 
 
 private fun viewConnectedVertexTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: UndirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -220,7 +220,7 @@ private fun viewConnectedVertexTypeField(
 
 
 private fun viewCyclicityField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -240,7 +240,7 @@ private fun viewCyclicityField(
 
 
 private fun viewDataTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeAttributeType: EdgeAttributeType
 ) = viewInputTextFieldWithDataList(
     builder,
@@ -257,7 +257,7 @@ private fun viewDataTypeField(
 
 
 private fun viewDataTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     vertexAttributeType: VertexAttributeType
 ) = viewInputTextFieldWithDataList(
     builder,
@@ -274,7 +274,7 @@ private fun viewDataTypeField(
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedBoolean: ConstrainedBoolean
 ) = viewBooleanOrNullRadioGroup(
     builder,
@@ -291,7 +291,7 @@ private fun viewDefaultValueField(
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedFloat64: ConstrainedFloat64
 ) = viewInputDoubleField(
     builder,
@@ -308,7 +308,7 @@ private fun viewDefaultValueField(
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedFloat64: ConstrainedInteger32
 ) = viewInputIntegerField(
     builder,
@@ -325,7 +325,7 @@ private fun viewDefaultValueField(
 
 
 private fun viewDefaultValueField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedString: ConstrainedString
 ) = viewInputTextField(
     builder,
@@ -341,7 +341,7 @@ private fun viewDefaultValueField(
 
 
 private fun viewDescriptionField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     element: AbstractDocumentedElement,
     isRoot: Boolean
 ) = viewTextAreaField(
@@ -358,7 +358,7 @@ private fun viewDescriptionField(
 
 
 private fun viewForwardReverseNameFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextGroup(
@@ -377,7 +377,7 @@ private fun viewForwardReverseNameFields(
 
 
 private fun viewLabelDefaultingField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     vertexAttributeType: VertexAttributeType
 ) = viewRadioGroup(
     builder,
@@ -396,7 +396,7 @@ private fun viewLabelDefaultingField(
 
 
 private fun viewMinMaxDegreeFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: UndirectedEdgeType,
     isRoot: Boolean
 ) = viewInputIntegerRange(
@@ -413,7 +413,7 @@ private fun viewMinMaxDegreeFields(
 
 
 private fun viewMinMaxHeadInDegreeFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputIntegerRange(
@@ -430,7 +430,7 @@ private fun viewMinMaxHeadInDegreeFields(
 
 
 private fun viewMinMaxLengthFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedString: ConstrainedString
 ) = viewInputIntegerRange(
     builder,
@@ -446,7 +446,7 @@ private fun viewMinMaxLengthFields(
 
 
 private fun viewMinMaxTailOutDegreeFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputIntegerRange(
@@ -463,7 +463,7 @@ private fun viewMinMaxTailOutDegreeFields(
 
 
 private fun viewMinMaxValueFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedFloat64: ConstrainedFloat64
 ) = viewInputDoubleRange(
     builder,
@@ -479,7 +479,7 @@ private fun viewMinMaxValueFields(
 
 
 private fun viewMinMaxValueFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedInteger32: ConstrainedInteger32
 ) = viewInputIntegerRange(
     builder,
@@ -495,7 +495,7 @@ private fun viewMinMaxValueFields(
 
 
 private fun viewMultiEdgednessField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -515,7 +515,7 @@ private fun viewMultiEdgednessField(
 
 
 private fun viewNameField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     namedElement: AbstractNamedElement,
     isRoot: Boolean
 ) = viewInputTextField(
@@ -532,7 +532,7 @@ private fun viewNameField(
 
 
 private fun viewOptionalityField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeAttributeType: EdgeAttributeType
 ) = viewRadioGroup(
     builder,
@@ -550,7 +550,7 @@ private fun viewOptionalityField(
 
 
 private fun viewOptionalityField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     vertexAttributeType: VertexAttributeType
 ) = viewRadioGroup(
     builder,
@@ -568,7 +568,7 @@ private fun viewOptionalityField(
 
 
 private fun viewPatternField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     constrainedString: ConstrainedString
 ) = viewInputTextField(
     builder,
@@ -584,7 +584,7 @@ private fun viewPatternField(
 
 
 private fun viewRoleNameFields(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextGroup(
@@ -603,7 +603,7 @@ private fun viewRoleNameFields(
 
 
 private fun viewSelfLoopingField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: AbstractEdgeType,
     isRoot: Boolean
 ) = viewRadioGroup(
@@ -623,7 +623,7 @@ private fun viewSelfLoopingField(
 
 
 private fun viewSuperTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: DirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -641,7 +641,7 @@ private fun viewSuperTypeField(
 
 
 private fun viewSuperTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     edgeType: UndirectedEdgeType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(
@@ -659,7 +659,7 @@ private fun viewSuperTypeField(
 
 
 private fun viewSuperTypeField(
-    builder: KatyDomFlowContentBuilder<Message>,
+    builder: KatydidFlowContentBuilder<Message>,
     vertexType: VertexType,
     isRoot: Boolean
 ) = viewInputTextFieldWithDataList(

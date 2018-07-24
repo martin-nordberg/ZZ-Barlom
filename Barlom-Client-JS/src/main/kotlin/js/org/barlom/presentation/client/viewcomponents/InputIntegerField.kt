@@ -5,9 +5,9 @@
 
 package js.org.barlom.presentation.client.viewcomponents
 
-import o.org.katydom.application.katyDomComponent
-import o.org.katydom.builders.KatyDomFlowContentBuilder
-import o.org.katydom.eventhandling.onblur
+import o.katydid.vdom.application.katydidComponent
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
+import o.katydid.vdom.eventhandling.onblur
 import kotlin.math.roundToInt
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ import kotlin.math.roundToInt
  * @param changeValue a handler to call whenever a "blur" event occurs for the field.
  */
 fun <Msg> viewInputIntegerField(
-    builder: KatyDomFlowContentBuilder<Msg>,
+    builder: KatydidFlowContentBuilder<Msg>,
     name: String,
     id: String,
     label: String,
@@ -32,7 +32,7 @@ fun <Msg> viewInputIntegerField(
     placeholder: String? = null,
     disabled: Boolean = false,
     changeValue: (Int?) -> Iterable<Msg>
-) = katyDomComponent(builder) {
+) = katydidComponent(builder) {
 
     label("#$name-field.c-label.o-form-element") {
 

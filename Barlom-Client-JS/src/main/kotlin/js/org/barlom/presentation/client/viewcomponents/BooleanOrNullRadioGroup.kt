@@ -5,8 +5,8 @@
 
 package js.org.barlom.presentation.client.viewcomponents
 
+import o.katydid.vdom.builders.KatydidFlowContentBuilder
 import o.org.barlom.domain.metamodel.api.types.EBooleanOrNull
-import o.org.katydom.builders.KatyDomFlowContentBuilder
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ import o.org.katydom.builders.KatyDomFlowContentBuilder
  * @param changeValue a handler to call whenever a "change" event occurs for the radio button group.
  */
 fun <Msg> viewBooleanOrNullRadioGroup(
-    builder: KatyDomFlowContentBuilder<Msg>,
+    builder: KatydidFlowContentBuilder<Msg>,
     name: String,
     legend: String,
     currentValue: Boolean?,

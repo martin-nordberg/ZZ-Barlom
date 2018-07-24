@@ -24,12 +24,12 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM.iml" group="Barlom-Server-JVM" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" group="Barlom-Server-JVM" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" group="Barlom-Server-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2120454336/KatyDOM-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/-2120454336/KatyDOM-JS.iml" group="KatyDOM-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2120454336/KatyDOM-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-2120454336/KatyDOM-JS_main.iml" group="KatyDOM-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2120454336/KatyDOM-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-2120454336/KatyDOM-JS_test.iml" group="KatyDOM-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1309574806/KatyDOM-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/-1309574806/KatyDOM-JVM.iml" group="KatyDOM-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1309574806/KatyDOM-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1309574806/KatyDOM-JVM_main.iml" group="KatyDOM-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1309574806/KatyDOM-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1309574806/KatyDOM-JVM_test.iml" group="KatyDOM-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/105386445/Katydid-VDOM-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/105386445/Katydid-VDOM-JS.iml" group="Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/105386445/Katydid-VDOM-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/105386445/Katydid-VDOM-JS_main.iml" group="Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/105386445/Katydid-VDOM-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/105386445/Katydid-VDOM-JS_test.iml" group="Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1027987331/Katydid-VDOM-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/-1027987331/Katydid-VDOM-JVM.iml" group="Katydid-VDOM-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1027987331/Katydid-VDOM-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1027987331/Katydid-VDOM-JVM_main.iml" group="Katydid-VDOM-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1027987331/Katydid-VDOM-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1027987331/Katydid-VDOM-JVM_test.iml" group="Katydid-VDOM-JVM" />
     </modules>
   </component>
 </project>
