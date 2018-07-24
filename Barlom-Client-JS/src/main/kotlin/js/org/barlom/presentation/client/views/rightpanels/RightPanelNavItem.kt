@@ -7,7 +7,7 @@ package js.org.barlom.presentation.client.views.rightpanels
 
 import js.org.barlom.presentation.client.messages.Message
 import o.org.barlom.presentation.client.state.rightpanels.ERightPanelType
-import o.org.katydom.api.katyDomComponent
+import o.org.katydom.application.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.eventhandling.onclick
 

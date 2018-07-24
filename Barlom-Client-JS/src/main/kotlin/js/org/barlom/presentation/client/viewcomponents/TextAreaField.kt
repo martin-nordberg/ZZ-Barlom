@@ -5,7 +5,7 @@
 
 package js.org.barlom.presentation.client.viewcomponents
 
-import o.org.katydom.api.katyDomComponent
+import o.org.katydom.application.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.eventhandling.onblur
 import kotlin.math.min

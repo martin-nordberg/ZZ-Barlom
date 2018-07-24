@@ -10,7 +10,7 @@ import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.UiActionMessage
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType.*
-import o.org.katydom.api.katyDomComponent
+import o.org.katydom.application.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.eventhandling.onclick
 

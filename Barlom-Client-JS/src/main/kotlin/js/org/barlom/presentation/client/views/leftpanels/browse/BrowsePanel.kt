@@ -8,7 +8,7 @@ package js.org.barlom.presentation.client.views.leftpanels.browse
 import o.org.barlom.domain.metamodel.api.model.Model
 import js.org.barlom.presentation.client.messages.Message
 import o.org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
-import o.org.katydom.api.katyDomComponent
+import o.org.katydom.application.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 
 /**

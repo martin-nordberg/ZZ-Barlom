@@ -18,13 +18,13 @@ import js.org.barlom.presentation.client.views.listitems.viewFocusedElementPath
 import js.org.barlom.presentation.client.views.rightpanels.forms.viewPropertiesForm
 import js.org.barlom.presentation.client.views.rightpanels.links.viewRelatedElements
 import js.org.barlom.presentation.client.views.rightpanels.viewRightPanelNavItem
-import o.org.katydom.abstractnodes.KatyDomHtmlElement
-import o.org.katydom.api.katyDom
+import o.org.katydom.elements.AbstractKatyDomHtmlElement
+import o.org.katydom.application.katyDom
 
 /**
  * Generates the view from the latest application state. Wires event handlers to be dispatched as actions.
  */
-fun view(appState: ApplicationState): KatyDomHtmlElement<Message> {
+fun view(appState: ApplicationState): AbstractKatyDomHtmlElement<Message> {
 
     val m = appState.model
     val ui = appState.uiState

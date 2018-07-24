@@ -10,8 +10,8 @@ import o.org.barlom.domain.metamodel.api.vertices.AbstractPackagedElement
 import o.org.barlom.domain.metamodel.api.vertices.EdgeAttributeType
 import o.org.barlom.domain.metamodel.api.vertices.VertexAttributeType
 import js.org.barlom.presentation.client.messages.Message
-import o.org.katydom.api.katyDomComponent
-import o.org.katydom.api.katyDomListItemsComponent
+import o.org.katydom.application.katyDomComponent
+import o.org.katydom.application.katyDomListItemsComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.builders.lists.KatyDomOrderedListContentBuilder
 

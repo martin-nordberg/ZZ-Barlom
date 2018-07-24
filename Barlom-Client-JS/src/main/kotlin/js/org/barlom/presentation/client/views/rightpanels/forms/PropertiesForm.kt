@@ -11,7 +11,7 @@ import js.org.barlom.presentation.client.viewcomponents.*
 import o.org.barlom.domain.metamodel.api.actions.*
 import o.org.barlom.domain.metamodel.api.types.*
 import o.org.barlom.domain.metamodel.api.vertices.*
-import o.org.katydom.api.katyDomComponent
+import o.org.katydom.application.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 
 

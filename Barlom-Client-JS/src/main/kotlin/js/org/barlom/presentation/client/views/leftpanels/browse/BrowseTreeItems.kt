@@ -12,8 +12,8 @@ import js.org.barlom.presentation.client.messages.leftpanels.browse.BrowsePanelA
 import o.org.katydom.builders.lists.KatyDomUnorderedListContentBuilder
 import o.org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
 import js.org.barlom.presentation.client.views.listitems.viewListItem
-import o.org.katydom.api.katyDomComponent
-import o.org.katydom.api.katyDomListItemsComponent
+import o.org.katydom.application.katyDomComponent
+import o.org.katydom.application.katyDomListItemsComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.eventhandling.onclick
 

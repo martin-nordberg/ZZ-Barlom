@@ -9,8 +9,8 @@ import o.org.barlom.domain.metamodel.api.vertices.*
 import o.org.barlom.presentation.client.actions.GeneralActions
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.UiActionMessage
-import o.org.katydom.api.katyDomComponent
-import o.org.katydom.api.katyDomPhrasingComponent
+import o.org.katydom.application.katyDomComponent
+import o.org.katydom.application.katyDomPhrasingComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.builders.KatyDomPhrasingContentBuilder
 import o.org.katydom.eventhandling.onclick

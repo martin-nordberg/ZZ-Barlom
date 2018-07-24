@@ -24,7 +24,7 @@ import js.org.barlom.presentation.client.messages.rightpanels.links.RelatedEleme
 import o.org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 import js.org.barlom.presentation.client.views.listitems.viewListItem
 import js.org.barlom.presentation.client.views.listitems.viewListItemIcon
-import o.org.katydom.api.katyDomComponent
+import o.org.katydom.application.katyDomComponent
 import o.org.katydom.builders.KatyDomFlowContentBuilder
 import o.org.katydom.eventhandling.onblur
 import o.org.katydom.eventhandling.onclick
