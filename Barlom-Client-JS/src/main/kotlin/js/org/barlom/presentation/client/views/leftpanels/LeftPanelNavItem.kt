@@ -8,9 +8,9 @@ package js.org.barlom.presentation.client.views.leftpanels
 import o.org.barlom.presentation.client.actions.leftpanels.LeftPanelActions
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.UiActionMessage
+import o.katydid.events.eventhandling.onclick
 import o.katydid.vdom.application.katydidComponent
 import o.katydid.vdom.builders.KatydidFlowContentBuilder
-import o.katydid.vdom.eventhandling.onclick
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType
 import o.org.barlom.presentation.client.state.leftpanels.ELeftPanelType.*
 

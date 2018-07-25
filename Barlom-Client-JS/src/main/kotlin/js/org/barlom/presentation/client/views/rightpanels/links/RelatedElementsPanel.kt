@@ -24,10 +24,10 @@ import js.org.barlom.presentation.client.messages.rightpanels.links.RelatedEleme
 import o.org.barlom.presentation.client.state.rightpanels.RelatedElementsPanelState
 import js.org.barlom.presentation.client.views.listitems.viewListItem
 import js.org.barlom.presentation.client.views.listitems.viewListItemIcon
+import o.katydid.events.eventhandling.onblur
+import o.katydid.events.eventhandling.onclick
 import o.katydid.vdom.application.katydidComponent
 import o.katydid.vdom.builders.KatydidFlowContentBuilder
-import o.katydid.vdom.eventhandling.onblur
-import o.katydid.vdom.eventhandling.onclick
 
 /**
  * Builds the right panel with lists of elements related to the focused element.

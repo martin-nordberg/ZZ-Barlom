@@ -30,6 +30,7 @@ dependencies {
     compile project( ":Barlom-Domain-JS" )
     compile project( ":Barlom-Foundation-JS" )
     compile project( ":Katydid-VDOM-JS" )
+    compile project( ":Katydid-Events-JS" )
 
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 

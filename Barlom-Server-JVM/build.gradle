@@ -82,6 +82,7 @@ task copyWebResources(type: Copy) {
         from('../build/Barlom-Domain-JS/classes/kotlin/main')
         from('../build/Barlom-Foundation-JS/classes/kotlin/main')
         from('../build/Katydid-VDOM-JS/classes/kotlin/main')
+        from('../build/Katydid-Events-JS/classes/kotlin/main')
         include('**/*.*')
     }
 

@@ -11,11 +11,11 @@ import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.leftpanels.browse.BrowsePanelActionMessage
 import o.org.barlom.presentation.client.state.leftpanels.browse.BrowsePanelState
 import js.org.barlom.presentation.client.views.listitems.viewListItem
+import o.katydid.events.eventhandling.onclick
 import o.katydid.vdom.application.katydidComponent
 import o.katydid.vdom.application.katydidListItemsComponent
 import o.katydid.vdom.builders.KatydidFlowContentBuilder
 import o.katydid.vdom.builders.lists.KatydidUnorderedListContentBuilder
-import o.katydid.vdom.eventhandling.onclick
 
 
 /** Generates a tree item for a given [constrainedDataType]. */

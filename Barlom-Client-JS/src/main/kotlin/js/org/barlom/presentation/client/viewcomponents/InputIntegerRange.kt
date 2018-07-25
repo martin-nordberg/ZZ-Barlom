@@ -5,9 +5,9 @@
 
 package js.org.barlom.presentation.client.viewcomponents
 
+import o.katydid.events.eventhandling.onblur
 import o.katydid.vdom.application.katydidComponent
 import o.katydid.vdom.builders.KatydidFlowContentBuilder
-import o.katydid.vdom.eventhandling.onblur
 import kotlin.math.roundToInt
 
 //---------------------------------------------------------------------------------------------------------------------

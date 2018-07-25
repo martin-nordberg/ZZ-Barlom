@@ -9,11 +9,11 @@ import o.org.barlom.domain.metamodel.api.vertices.*
 import o.org.barlom.presentation.client.actions.GeneralActions
 import js.org.barlom.presentation.client.messages.Message
 import js.org.barlom.presentation.client.messages.UiActionMessage
+import o.katydid.events.eventhandling.onclick
 import o.katydid.vdom.application.katydidComponent
 import o.katydid.vdom.application.katydidPhrasingComponent
 import o.katydid.vdom.builders.KatydidFlowContentBuilder
 import o.katydid.vdom.builders.KatydidPhrasingContentBuilder
-import o.katydid.vdom.eventhandling.onclick
 import kotlin.reflect.KClass
 
 
