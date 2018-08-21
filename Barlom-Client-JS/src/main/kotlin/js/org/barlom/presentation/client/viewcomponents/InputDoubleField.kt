@@ -49,7 +49,7 @@ fun <Msg> viewInputDoubleField(
 
             onblur { event ->
 
-                val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
+                val newValue: Double? = event.getTargetAttribute<String>("value").toDoubleOrNull()
 
                 changeValue(newValue)
 

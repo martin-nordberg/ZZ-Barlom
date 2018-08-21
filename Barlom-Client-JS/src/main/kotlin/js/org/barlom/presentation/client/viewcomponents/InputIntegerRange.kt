@@ -74,8 +74,8 @@ fun <Msg> viewInputIntegerRange(
 
                     onblur { event ->
 
-                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
-                        event.target.asDynamic().value = newValue
+                        val newValue: Int? = event.getTargetAttribute<String>("value").toDoubleOrNull()?.roundToInt()
+                        event.setTargetAttribute("value", newValue)
 
                         minNumberInput.changeValue(newValue)
 
@@ -100,8 +100,8 @@ fun <Msg> viewInputIntegerRange(
 
                     onblur { event ->
 
-                        val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
-                        event.target.asDynamic().value = newValue
+                        val newValue: Int? = event.getTargetAttribute<String>("value").toDoubleOrNull()?.roundToInt()
+                        event.setTargetAttribute("value", newValue)
 
                         maxNumberInput.changeValue(newValue)
 

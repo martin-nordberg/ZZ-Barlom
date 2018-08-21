@@ -49,8 +49,8 @@ fun <Msg> viewInputIntegerField(
 
             onblur { event ->
 
-                val newValue: Int? = (event.target.asDynamic().value as String).toDoubleOrNull()?.roundToInt()
-                event.target.asDynamic().value = newValue
+                val newValue: Int? = event.getTargetAttribute<String>("value").toDoubleOrNull()?.roundToInt()
+                event.setTargetAttribute("value", newValue)
 
                 changeValue(newValue)
 

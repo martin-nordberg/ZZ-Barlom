@@ -69,7 +69,7 @@ fun <Msg> viewInputTextFieldWithDataList(
 
             onblur { event ->
 
-                val newValue: String = event.target.asDynamic().value as String
+                val newValue: String = event.getTargetAttribute("value")
 
                 changeValue(newValue)
 

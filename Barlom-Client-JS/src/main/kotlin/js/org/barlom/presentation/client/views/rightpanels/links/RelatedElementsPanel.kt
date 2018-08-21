@@ -510,7 +510,7 @@ private fun <Element, ConnectedElement : AbstractNamedElement> viewConnectedElem
 
                             onblur { event ->
 
-                                val newValue: String = event.target.asDynamic().value as String
+                                val newValue: String = event.getTargetAttribute("value")
 
                                 if (newValue.isNotBlank()) {
 

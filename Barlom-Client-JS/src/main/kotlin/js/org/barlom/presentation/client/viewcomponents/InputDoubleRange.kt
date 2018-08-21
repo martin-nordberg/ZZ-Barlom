@@ -79,7 +79,7 @@ fun <Msg> viewInputDoubleRange(
 
                     onblur { event ->
 
-                        val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
+                        val newValue: Double? = event.getTargetAttribute<String>("value").toDoubleOrNull()
 
                         minNumberInput.changeValue(newValue)
 
@@ -104,7 +104,7 @@ fun <Msg> viewInputDoubleRange(
 
                     onblur { event ->
 
-                        val newValue: Double? = (event.target.asDynamic().value as String).toDoubleOrNull()
+                        val newValue: Double? = event.getTargetAttribute<String>("value").toDoubleOrNull()
 
                         maxNumberInput.changeValue(newValue)
 

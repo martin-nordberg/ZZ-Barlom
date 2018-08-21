@@ -71,7 +71,7 @@ fun <Enum, Msg> viewRadioGroup(
 
                     onchange { event ->
 
-                        val newValue = toEnum(event.target.asDynamic().value as String)
+                        val newValue = toEnum(event.getTargetAttribute<String>("value"))
 
                         changeValue(newValue)
 

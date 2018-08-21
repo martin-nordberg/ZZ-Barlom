@@ -42,7 +42,7 @@ fun <Msg> viewTextAreaField(
 
             onblur { event ->
 
-                val newValue: String = event.target.asDynamic().value as String
+                val newValue: String = event.getTargetAttribute("value")
 
                 changeValue(newValue)
 

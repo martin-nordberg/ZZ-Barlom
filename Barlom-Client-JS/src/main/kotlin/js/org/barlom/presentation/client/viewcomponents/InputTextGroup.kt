@@ -75,7 +75,7 @@ fun <Msg> viewInputTextGroup(
 
                         onblur { event ->
 
-                            val newValue: String = event.target.asDynamic().value as String
+                            val newValue: String = event.getTargetAttribute("value")
 
                             textInput.changeValue(newValue)
 
