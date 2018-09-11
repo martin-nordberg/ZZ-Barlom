@@ -7,7 +7,6 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
     }
 
 }
@@ -18,14 +17,13 @@ version '1.0-SNAPSHOT'
 buildDir = "$buildRoot/Barlom-Server-JVM"
 
 apply plugin: 'kotlin'
-apply plugin: 'org.junit.platform.gradle.plugin'
 apply plugin: 'application'
 
 mainClassName = 'jvm.org.barlom.presentation.server.main.ApplicationKt'
 
 defaultTasks 'run'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.10
 
 repositories {
     jcenter()
@@ -46,7 +44,6 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "org.junit.jupiter:junit-jupiter-api:$junit_version"
-    testCompile "org.junit.platform:junit-platform-runner:$junit_platform_version"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 
@@ -62,8 +59,8 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-junitPlatform {
-    details 'tree'
+test {
+    useJUnitPlatform()
 }
 
 kotlin {
