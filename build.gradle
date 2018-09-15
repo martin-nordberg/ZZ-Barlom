@@ -10,7 +10,8 @@ subprojects {
 
     ext.junit_version = '5.2.0'
 
-    ext.kotlin_version = '1.2.61'
+    ext.kotlin_gradle_version = '1.2.61'
+    ext.kotlin_version = '1.2.70'
 
     ext.ktor_version = '0.9.2'
 
