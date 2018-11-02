@@ -7,13 +7,13 @@ package jvm.org.barlom.presentation.server.main
 
 import io.ktor.application.call
 import io.ktor.application.install
-import io.ktor.content.default
-import io.ktor.content.files
-import io.ktor.content.static
-import io.ktor.content.staticRootFolder
 import io.ktor.features.CallLogging
 import io.ktor.features.ConditionalHeaders
 import io.ktor.http.ContentType
+import io.ktor.http.content.default
+import io.ktor.http.content.files
+import io.ktor.http.content.static
+import io.ktor.http.content.staticRootFolder
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
