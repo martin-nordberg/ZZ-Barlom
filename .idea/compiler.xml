@@ -2,24 +2,24 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="Barlom-Client-JS_main" target="1.10" />
-      <module name="Barlom-Client-JS_test" target="1.10" />
-      <module name="Barlom-Client-JVM_main" target="1.10" />
-      <module name="Barlom-Client-JVM_test" target="1.10" />
-      <module name="Barlom-Domain-JS_main" target="1.10" />
-      <module name="Barlom-Domain-JS_test" target="1.10" />
-      <module name="Barlom-Domain-JVM_main" target="1.10" />
-      <module name="Barlom-Domain-JVM_test" target="1.10" />
-      <module name="Barlom-Foundation-JS_main" target="1.10" />
-      <module name="Barlom-Foundation-JS_test" target="1.10" />
-      <module name="Barlom-Foundation-JVM_main" target="1.10" />
-      <module name="Barlom-Foundation-JVM_test" target="1.10" />
-      <module name="Barlom-Server-JVM_main" target="1.10" />
-      <module name="Barlom-Server-JVM_test" target="1.10" />
-      <module name="Katydid-Events-JS_main" target="1.10" />
-      <module name="Katydid-Events-JS_test" target="1.10" />
-      <module name="Katydid-VDOM-JS_main" target="1.10" />
-      <module name="Katydid-VDOM-JS_test" target="1.10" />
+      <module name="Barlom-Client-JS_main" target="1.8" />
+      <module name="Barlom-Client-JS_test" target="1.8" />
+      <module name="Barlom-Client-JVM_main" target="1.8" />
+      <module name="Barlom-Client-JVM_test" target="1.8" />
+      <module name="Barlom-Domain-JS_main" target="1.8" />
+      <module name="Barlom-Domain-JS_test" target="1.8" />
+      <module name="Barlom-Domain-JVM_main" target="1.8" />
+      <module name="Barlom-Domain-JVM_test" target="1.8" />
+      <module name="Barlom-Foundation-JS_main" target="1.8" />
+      <module name="Barlom-Foundation-JS_test" target="1.8" />
+      <module name="Barlom-Foundation-JVM_main" target="1.8" />
+      <module name="Barlom-Foundation-JVM_test" target="1.8" />
+      <module name="Barlom-Server-JVM_main" target="1.8" />
+      <module name="Barlom-Server-JVM_test" target="1.8" />
+      <module name="Katydid-Events-JS_main" target="1.8" />
+      <module name="Katydid-Events-JS_test" target="1.8" />
+      <module name="Katydid-VDOM-JS_main" target="1.8" />
+      <module name="Katydid-VDOM-JS_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

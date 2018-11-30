@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 
 }
@@ -18,7 +18,7 @@ buildDir = "$buildRoot/Barlom-Client-JVM"
 
 apply plugin: 'kotlin'
 
-sourceCompatibility = 1.10
+sourceCompatibility = 1.8
 
 dependencies {
 
