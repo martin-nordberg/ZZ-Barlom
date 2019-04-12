@@ -2,34 +2,34 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS.iml" group="Barlom-Client-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_main.iml" group="Barlom-Client-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_test.iml" group="Barlom-Client-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM.iml" group="Barlom-Client-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_main.iml" group="Barlom-Client-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_test.iml" group="Barlom-Client-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS.iml" group="Barlom-Domain-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_main.iml" group="Barlom-Domain-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_test.iml" group="Barlom-Domain-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM.iml" group="Barlom-Domain-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_main.iml" group="Barlom-Domain-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_test.iml" group="Barlom-Domain-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS.iml" group="Barlom-Foundation-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_main.iml" group="Barlom-Foundation-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_test.iml" group="Barlom-Foundation-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM.iml" group="Barlom-Foundation-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_main.iml" group="Barlom-Foundation-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_test.iml" group="Barlom-Foundation-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM.iml" group="Barlom-Server-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" group="Barlom-Server-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" group="Barlom-Server-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS.iml" group="Katydid-Events-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_main.iml" group="Katydid-Events-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_test.iml" group="Katydid-Events-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS.iml" group="Katydid-VDOM-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_main.iml" group="Katydid-VDOM-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_test.iml" group="Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom.iml" group="Barlom" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS.iml" group="Barlom/Barlom-Client-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_main.iml" group="Barlom/Barlom-Client-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JS/Barlom-Client-JS_test.iml" group="Barlom/Barlom-Client-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM.iml" group="Barlom/Barlom-Client-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_main.iml" group="Barlom/Barlom-Client-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Client-JVM/Barlom-Client-JVM_test.iml" group="Barlom/Barlom-Client-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS.iml" group="Barlom/Barlom-Domain-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_main.iml" group="Barlom/Barlom-Domain-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JS/Barlom-Domain-JS_test.iml" group="Barlom/Barlom-Domain-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM.iml" group="Barlom/Barlom-Domain-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_main.iml" group="Barlom/Barlom-Domain-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Domain-JVM/Barlom-Domain-JVM_test.iml" group="Barlom/Barlom-Domain-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS.iml" group="Barlom/Barlom-Foundation-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_main.iml" group="Barlom/Barlom-Foundation-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JS/Barlom-Foundation-JS_test.iml" group="Barlom/Barlom-Foundation-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM.iml" group="Barlom/Barlom-Foundation-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_main.iml" group="Barlom/Barlom-Foundation-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Foundation-JVM/Barlom-Foundation-JVM_test.iml" group="Barlom/Barlom-Foundation-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM.iml" group="Barlom/Barlom-Server-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" group="Barlom/Barlom-Server-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" group="Barlom/Barlom-Server-JVM" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS.iml" group="Barlom/Katydid-Events-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_main.iml" group="Barlom/Katydid-Events-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_test.iml" group="Barlom/Katydid-Events-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS.iml" group="Barlom/Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_main.iml" group="Barlom/Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_test.iml" group="Barlom/Katydid-VDOM-JS" />
     </modules>
   </component>
 </project>

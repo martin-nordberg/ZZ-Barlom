@@ -6,6 +6,7 @@
 package js.org.barlom.presentation.client.application
 
 import js.katydid.vdom.api.KatydidApplication
+import js.katydid.vdom.api.KatydidApplicationCycle
 import o.org.barlom.infrastructure.revisions.RevisionHistory
 import o.org.barlom.presentation.client.ApplicationState
 import js.org.barlom.presentation.client.messages.ActionMessage
@@ -24,7 +25,7 @@ import o.katydid.vdom.builders.KatydidFlowContentBuilder
 
 class Application : KatydidApplication<ApplicationState, Message> {
 
-    override fun initialize(): ApplicationState {
+    override fun initialize(): KatydidApplicationCycle<ApplicationState, Message> {
 
         // Create the revision history for the application.
         val revHistory = RevisionHistory("Initial model")
@@ -133,16 +134,16 @@ class Application : KatydidApplication<ApplicationState, Message> {
             "Initialized application state."
         }
 
-        return result
+        return KatydidApplicationCycle(result)
 
     }
 
-    override fun update(applicationState: ApplicationState, message: Message): ApplicationState {
+    override fun update(applicationState: ApplicationState, message: Message): KatydidApplicationCycle<ApplicationState, Message> {
 
         if (message is ActionMessage) {
             val actionDescription = message.executeAction(applicationState)
             console.log(actionDescription)
-            return applicationState
+            return KatydidApplicationCycle(applicationState)
         }
 
         TODO("Update function not yet implemented for non-action messages")
