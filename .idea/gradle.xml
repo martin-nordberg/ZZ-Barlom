@@ -15,8 +15,9 @@
             <option value="$PROJECT_DIR$/Barlom-Foundation-JS" />
             <option value="$PROJECT_DIR$/Barlom-Foundation-JVM" />
             <option value="$PROJECT_DIR$/Barlom-Server-JVM" />
-            <option value="$PROJECT_DIR$/../Katydid/Katydid-Events-JS" />
-            <option value="$PROJECT_DIR$/../Katydid/Katydid-VDOM-JS" />
+            <option value="$PROJECT_DIR$/Katydid-CSS-JS" />
+            <option value="$PROJECT_DIR$/Katydid-Events-JS" />
+            <option value="$PROJECT_DIR$/Katydid-VDOM-JS" />
           </set>
         </option>
       </GradleProjectSettings>

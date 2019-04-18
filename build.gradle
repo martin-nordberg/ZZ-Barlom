@@ -28,9 +28,6 @@ subprojects {
     ext.log4j_version = '2.11.0'
 
 
-    group 'org.barlom'
-    version '1.0-SNAPSHOT'
-
     repositories {
         jcenter()
         mavenCentral()

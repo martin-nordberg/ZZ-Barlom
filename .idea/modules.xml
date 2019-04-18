@@ -24,12 +24,15 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM.iml" group="Barlom/Barlom-Server-JVM" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_main.iml" group="Barlom/Barlom-Server-JVM" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Barlom-Server-JVM/Barlom-Server-JVM_test.iml" group="Barlom/Barlom-Server-JVM" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS.iml" group="Barlom/Katydid-Events-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_main.iml" group="Barlom/Katydid-Events-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1152939302/Katydid-Events-JS_test.iml" group="Barlom/Katydid-Events-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS.iml" group="Barlom/Katydid-VDOM-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_main.iml" group="Barlom/Katydid-VDOM-JS" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/278515015/Katydid-VDOM-JS_test.iml" group="Barlom/Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-CSS-JS/Katydid-CSS-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-CSS-JS/Katydid-CSS-JS.iml" group="Barlom/Katydid-CSS-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-CSS-JS/Katydid-CSS-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-CSS-JS/Katydid-CSS-JS_main.iml" group="Barlom/Katydid-CSS-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-CSS-JS/Katydid-CSS-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-CSS-JS/Katydid-CSS-JS_test.iml" group="Barlom/Katydid-CSS-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-Events-JS/Katydid-Events-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-Events-JS/Katydid-Events-JS.iml" group="Barlom/Katydid-Events-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-Events-JS/Katydid-Events-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-Events-JS/Katydid-Events-JS_main.iml" group="Barlom/Katydid-Events-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-Events-JS/Katydid-Events-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-Events-JS/Katydid-Events-JS_test.iml" group="Barlom/Katydid-Events-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-VDOM-JS/Katydid-VDOM-JS.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-VDOM-JS/Katydid-VDOM-JS.iml" group="Barlom/Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-VDOM-JS/Katydid-VDOM-JS_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-VDOM-JS/Katydid-VDOM-JS_main.iml" group="Barlom/Katydid-VDOM-JS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Katydid-VDOM-JS/Katydid-VDOM-JS_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Katydid-VDOM-JS/Katydid-VDOM-JS_test.iml" group="Barlom/Katydid-VDOM-JS" />
     </modules>
   </component>
 </project>
