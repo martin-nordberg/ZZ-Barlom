@@ -4,8 +4,8 @@
 //
 
 import js.katydid.vdom.api.runApplication
-import x.org.barlom.infrastructure.uuids.prefetchUuid
-import js.org.barlom.presentation.client.application.Application
+import x.barlom.infrastructure.uuids.prefetchUuid
+import js.barlom.presentation.client.application.Application
 
 
 /**

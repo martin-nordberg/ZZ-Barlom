@@ -1,8 +1,8 @@
 package org.barlomx.infrastructure.uuids
 
-import x.org.barlom.infrastructure.uuids.Uuid
-import x.org.barlom.infrastructure.uuids.makeUuid
-import x.org.barlom.infrastructure.uuids.prefetchUuid
+import x.barlom.infrastructure.uuids.Uuid
+import x.barlom.infrastructure.uuids.makeUuid
+import x.barlom.infrastructure.uuids.prefetchUuid
 import kotlin.browser.window
 
 fun testUuids( qunit: dynamic ) {

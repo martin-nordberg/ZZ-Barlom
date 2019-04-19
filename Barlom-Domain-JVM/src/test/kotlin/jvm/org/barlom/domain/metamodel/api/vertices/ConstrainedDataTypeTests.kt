@@ -5,11 +5,11 @@
 
 package jvm.org.barlom.domain.metamodel.api.vertices
 
-import o.org.barlom.domain.metamodel.api.model.Model
-import o.org.barlom.domain.metamodel.api.types.EDataType
-import x.org.barlom.infrastructure.platform.DateTime
-import o.org.barlom.infrastructure.revisions.RevisionHistory
-import x.org.barlom.infrastructure.uuids.makeUuid
+import o.barlom.domain.metamodel.api.model.Model
+import o.barlom.domain.metamodel.api.types.EDataType
+import x.barlom.infrastructure.platform.DateTime
+import o.barlom.infrastructure.revisions.RevisionHistory
+import x.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

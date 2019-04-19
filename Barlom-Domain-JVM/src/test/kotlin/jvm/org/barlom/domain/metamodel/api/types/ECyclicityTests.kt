@@ -5,7 +5,7 @@
 
 package jvm.org.barlom.domain.metamodel.api.types
 
-import o.org.barlom.domain.metamodel.api.types.ECyclicity
+import o.barlom.domain.metamodel.api.types.ECyclicity
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

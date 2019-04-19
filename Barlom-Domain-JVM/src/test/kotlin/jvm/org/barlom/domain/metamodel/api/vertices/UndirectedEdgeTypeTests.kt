@@ -5,13 +5,13 @@
 
 package jvm.org.barlom.domain.metamodel.api.vertices
 
-import o.org.barlom.domain.metamodel.api.model.Model
-import o.org.barlom.domain.metamodel.api.types.EAbstractness
-import o.org.barlom.domain.metamodel.api.types.ECyclicity
-import o.org.barlom.domain.metamodel.api.types.EMultiEdgedness
-import o.org.barlom.domain.metamodel.api.types.ESelfLooping
-import o.org.barlom.infrastructure.revisions.RevisionHistory
-import x.org.barlom.infrastructure.uuids.makeUuid
+import o.barlom.domain.metamodel.api.model.Model
+import o.barlom.domain.metamodel.api.types.EAbstractness
+import o.barlom.domain.metamodel.api.types.ECyclicity
+import o.barlom.domain.metamodel.api.types.EMultiEdgedness
+import o.barlom.domain.metamodel.api.types.ESelfLooping
+import o.barlom.infrastructure.revisions.RevisionHistory
+import x.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

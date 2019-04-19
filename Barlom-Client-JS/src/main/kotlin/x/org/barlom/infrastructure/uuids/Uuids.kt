@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package x.org.barlom.infrastructure.uuids
+package x.barlom.infrastructure.uuids
 
 import org.w3c.xhr.XMLHttpRequest
 
