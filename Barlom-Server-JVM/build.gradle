@@ -6,7 +6,7 @@ buildDir = "$buildRoot/Barlom-Server-JVM"
 
 apply plugin: 'application'
 
-mainClassName = 'jvm.org.barlom.presentation.server.main.ApplicationKt'
+mainClassName = 'jvm.barlom.presentation.server.main.ApplicationKt'
 
 defaultTasks 'run'
 
