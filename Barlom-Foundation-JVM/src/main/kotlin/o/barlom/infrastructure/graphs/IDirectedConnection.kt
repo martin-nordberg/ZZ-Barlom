@@ -7,12 +7,12 @@ package o.barlom.infrastructure.graphs
 
 //---------------------------------------------------------------------------------------------------------------------
 
-interface IDirectedConnection<Connection, FromConcept, ToConcept>
+interface IDirectedConnection<Connection, FromConcept : IConcept<FromConcept>, ToConcept: IConcept<ToConcept>>
     : IConnection<Connection> {
 
-    val fromConcept: FromConcept
+    val fromConceptId: Id<FromConcept>
 
-    val toConcept: ToConcept
+    val toConceptId: Id<ToConcept>
 
 }
 

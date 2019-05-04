@@ -5,19 +5,17 @@
 
 package i.barlom.infrastructure.graphs
 
-import o.barlom.infrastructure.graphs.IConcept
-import o.barlom.infrastructure.graphs.IConnection
-import x.barlom.infrastructure.uuids.Uuid
-
 //---------------------------------------------------------------------------------------------------------------------
 
 data class GraphData(
 
-    val concepts: MutableMap<Uuid, IConcept<*>> = mutableMapOf(),
+    val concepts: ConceptMap = ConceptMap(),
 
-    val connectionsFrom: MutableMap<Uuid, MutableSet<IConnection<*>>> = mutableMapOf(),
+    val connections: ConnectionMap = ConnectionMap(),
 
-    val connectionsTo: MutableMap<Uuid, MutableSet<IConnection<*>>> = mutableMapOf()
+    val connectionsFrom: ConceptConnectionMap = ConceptConnectionMap(),
+
+    val connectionsTo: ConceptConnectionMap = ConceptConnectionMap()
 
 )
 
