@@ -14,6 +14,9 @@ import i.barlom.infrastructure.graphs.GraphWrapper
  */
 interface IGraph {
 
+    /** Whether this graph retains a link to an earlier version that is still being read. */
+    val hasPredecessor: Boolean
+
     /** Whether this graph is still available for reading. (True until stopReading() has been called.) */
     val isReadable: Boolean
 
@@ -77,7 +80,7 @@ interface IGraph {
      * Only one such writeable graph can ever be created from this starting point.
      * @return the new writeable graph
      */
-    fun startWriting(): IWriteableGraph
+    fun startWriting(): IWritableGraph
 
     /**
      * Marks this graph as no longer in use. Allows coalescence with the writeable graph that has been

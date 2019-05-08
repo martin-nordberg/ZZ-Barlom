@@ -16,20 +16,19 @@ internal class ReadableGraph(
 
 ) : IGraphImpl {
 
-    private var _isReadable = true
+    override val hasPredecessor
+        get() = throw IllegalStateException( "Method should be handled by wrapper." )
 
-    ////
+    override val isReadable =
+        true
 
-    override val isReadable: Boolean
-        get() = _isReadable
-
-    override val isWriteable: Boolean =
+    override val isWritable =
         false
 
-    override val numConcepts: Int
+    override val numConcepts
         get() = data.concepts.size
 
-    override val numConnections: Int
+    override val numConnections
         get() = data.connections.size
 
     ////
@@ -43,25 +42,13 @@ internal class ReadableGraph(
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> addConnection(connection: E) =
         throw IllegalStateException( "Graph is not writeable." )
 
-    override fun <V : IConcept<V>> concept(conceptId: Id<V>): V? {
+    override fun <V : IConcept<V>> concept(conceptId: Id<V>): V? =
+        data.concepts[conceptId.uuid] as V?
 
-        require(isReadable)
-
-        return data.concepts[conceptId.uuid] as V?
-
-    }
-
-    override fun <E : IConnection<E>> connection(connectionId: Id<E>): E? {
-
-        require(isReadable)
-
-        return data.connections[connectionId.uuid] as E?
-
-    }
+    override fun <E : IConnection<E>> connection(connectionId: Id<E>): E? =
+        data.connections[connectionId.uuid] as E?
 
     override fun <V : IConcept<V>> connections(conceptId: Id<V>): Set<IConnection<*>> {
-
-        require(isReadable)
 
         val result = ConnectionMap()
 
@@ -96,14 +83,14 @@ internal class ReadableGraph(
     override fun <E : IConnection<E>> removeConnection(connectionId: Id<E>) =
         throw IllegalStateException( "Graph is not writeable." )
 
-    override fun startWriting(): IWriteableGraph =
+    override fun startWriting() =
         throw IllegalStateException( "Method should be handled by wrapper." )
 
     override fun stopReading() {
-        _isReadable = false
+        throw IllegalStateException( "Method should be handled by wrapper." )
     }
 
-    override fun stopWriting(): IGraph =
+    override fun stopWriting() =
         throw IllegalStateException( "Graph is not writeable." )
 
     override fun <V : IConcept<V>> updateConcept(concept: V) =
@@ -127,8 +114,7 @@ internal class ReadableGraph(
         removedConnectionsFrom: ConceptConnectionMap,
         addedConnectionsTo: ConceptConnectionMap,
         updatedConnectionsTo: ConceptConnectionMap,
-        removedConnectionsTo: ConceptConnectionMap,
-        isReadable: Boolean
+        removedConnectionsTo: ConceptConnectionMap
     ) {
 
         with(data) {
@@ -150,8 +136,6 @@ internal class ReadableGraph(
             connectionsTo.removeAll(removedConnectionsTo)
 
         }
-
-        _isReadable = isReadable
 
     }
 

@@ -10,11 +10,11 @@ package o.barlom.infrastructure.graphs
 /**
  * Interface to a graph that is undergoing change.
  */
-interface IWriteableGraph
+interface IWritableGraph
     : IGraph {
 
     /** Whether this graph is still available for writing. (True until stopWriting() has been called.) */
-    val isWriteable: Boolean
+    val isWritable: Boolean
 
     ////
 

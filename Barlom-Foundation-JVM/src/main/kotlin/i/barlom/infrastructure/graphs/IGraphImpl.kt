@@ -5,7 +5,7 @@
 
 package i.barlom.infrastructure.graphs
 
-import o.barlom.infrastructure.graphs.IWriteableGraph
+import o.barlom.infrastructure.graphs.IWritableGraph
 import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -13,7 +13,7 @@ import x.barlom.infrastructure.uuids.Uuid
 /**
  * Interface adding implementation details for a graph.
  */
-internal interface IGraphImpl : IWriteableGraph {
+internal interface IGraphImpl : IWritableGraph {
 
     fun mappedConnectionsFrom(conceptUuid: Uuid): ConnectionMap
 

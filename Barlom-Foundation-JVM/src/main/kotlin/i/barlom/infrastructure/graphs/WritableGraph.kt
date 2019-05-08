@@ -10,11 +10,11 @@ import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
-internal class WriteableGraph(
+internal class WritableGraph(
 
     private val originalGraph: IGraphImpl
 
-) : IWriteableGraph, IGraphImpl {
+) : IWritableGraph, IGraphImpl {
 
     private val addedConcepts = ConceptMap()
 
@@ -24,9 +24,7 @@ internal class WriteableGraph(
 
     private val addedConnectionsTo = ConceptConnectionMap()
 
-    private var _isReadable = true
-
-    private var _isWriteable = true
+    private var _isWritable = true
 
     private val removedConcepts = HashSet<Uuid>()
 
@@ -46,19 +44,22 @@ internal class WriteableGraph(
 
     ////
 
-    override val isReadable: Boolean
-        get() = _isReadable
+    override val hasPredecessor
+        get() = throw IllegalStateException( "Method should be handled by wrapper." )
 
-    override val isWriteable: Boolean
-        get() = _isWriteable
+    override val isReadable
+        get() = true
+
+    override val isWritable
+        get() = _isWritable
 
     ////
 
-    override val numConcepts: Int
+    override val numConcepts
         get() =
             originalGraph.numConcepts + addedConcepts.size - removedConcepts.size
 
-    override val numConnections: Int
+    override val numConnections
         get() =
             originalGraph.numConnections + addedConnections.size - removedConnections.size
 
@@ -66,7 +67,7 @@ internal class WriteableGraph(
 
     override fun <V : IConcept<V>> addConcept(concept: V) {
 
-        require(_isWriteable)
+        require(_isWritable)
         require(!containsConcept(concept)) { "Concept $concept already added." }
 
         val conceptUuid = concept.id.uuid
@@ -80,7 +81,7 @@ internal class WriteableGraph(
 
     override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E) {
 
-        require(_isWriteable)
+        require(_isWritable)
         require(!containsConnectionWithId(connection.id))
 
         val fromConceptUuid = connection.fromConceptId.uuid
@@ -103,7 +104,7 @@ internal class WriteableGraph(
 
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> addConnection(connection: E) {
 
-        require(_isWriteable)
+        require(_isWritable)
         require(!containsConnection(connection))
 
         val conceptAUuid = connection.conceptIdA.uuid
@@ -130,7 +131,7 @@ internal class WriteableGraph(
 
     internal fun coalesceIntoPredecessor(precedingGraph:ReadableGraph) {
 
-        require(!_isWriteable)
+        require(!_isWritable)
 
         precedingGraph.coalesceWithSuccessor(
             addedConcepts,
@@ -144,15 +145,12 @@ internal class WriteableGraph(
             removedConnectionsFrom,
             addedConnectionsTo,
             updatedConnectionsTo,
-            removedConnectionsTo,
-            _isReadable
+            removedConnectionsTo
         )
 
     }
 
     override fun <V : IConcept<V>> concept(conceptId: Id<V>): V? {
-
-        require(_isReadable)
 
         val conceptUuid = conceptId.uuid
 
@@ -168,8 +166,6 @@ internal class WriteableGraph(
 
     override fun <E : IConnection<E>> connection(connectionId: Id<E>): E? {
 
-        require(_isReadable)
-
         val connectionUuid = connectionId.uuid
 
         if (removedConnections.contains(connectionUuid)) {
@@ -183,8 +179,6 @@ internal class WriteableGraph(
     }
 
     override fun <V : IConcept<V>> connections(conceptId: Id<V>): Set<IConnection<*>> {
-
-        require(_isReadable)
 
         val result = ConnectionMap()
 
@@ -209,8 +203,6 @@ internal class WriteableGraph(
 
     override fun <V : IConcept<V>> containsConceptWithId(conceptId: Id<V>): Boolean {
 
-        require(_isReadable)
-
         val conceptUuid = conceptId.uuid
 
         return ( originalGraph.containsConceptWithId(conceptId) || addedConcepts.containsUuid(conceptUuid) ) &&
@@ -219,8 +211,6 @@ internal class WriteableGraph(
     }
 
     override fun <E : IConnection<E>> containsConnectionWithId(connectionId: Id<E>): Boolean {
-
-        require(_isReadable)
 
         val connectionUuid = connectionId.uuid
 
@@ -269,13 +259,9 @@ internal class WriteableGraph(
 
     }
 
-    internal fun notifyOriginalStoppedReading(graphData: GraphData) {
-
-    }
-
     override fun <V : IConcept<V>> removeConcept(conceptId: Id<V>) {
 
-        require(_isWriteable)
+        require(_isWritable)
 
         if ( containsConceptWithId(conceptId) ) {
 
@@ -301,7 +287,7 @@ internal class WriteableGraph(
 
     override fun <E : IConnection<E>> removeConnection(connectionId: Id<E>) {
 
-        require(_isWriteable)
+        require(_isWritable)
 
         val connection = connection(connectionId)
 
@@ -362,22 +348,17 @@ internal class WriteableGraph(
 
     }
 
-    override fun startWriting(): IWriteableGraph =
+    override fun startWriting(): Nothing =
         throw IllegalStateException( "Method should be handled by wrapper." )
 
-    override fun stopReading() {
-
-        require(!_isWriteable)
-
-        _isReadable = false
-
-    }
+    override fun stopReading(): Nothing =
+        throw IllegalStateException( "Method should be handled by wrapper." )
 
     override fun stopWriting(): IGraph {
 
-        require(_isWriteable)
+        require(_isWritable)
 
-        _isWriteable = false
+        _isWritable = false
 
         return this
 
@@ -385,7 +366,7 @@ internal class WriteableGraph(
 
     override fun <V : IConcept<V>> updateConcept(concept: V) {
 
-        require(_isWriteable)
+        require(_isWritable)
 
         val conceptUuid = concept.id.uuid
 
@@ -413,7 +394,7 @@ internal class WriteableGraph(
 
     override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> updateConnection(connection: E) {
 
-        require(_isWriteable)
+        require(_isWritable)
 
         val connectionUuid = connection.id.uuid
 
@@ -454,7 +435,7 @@ internal class WriteableGraph(
 
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> updateConnection(connection: E) {
 
-        require(_isWriteable)
+        require(_isWritable)
 
         val connectionUuid = connection.id.uuid
 
