@@ -7,7 +7,7 @@ package i.barlom.infrastructure.graphs
 
 //---------------------------------------------------------------------------------------------------------------------
 
-data class GraphData(
+internal data class GraphData(
 
     val concepts: ConceptMap = ConceptMap(),
 

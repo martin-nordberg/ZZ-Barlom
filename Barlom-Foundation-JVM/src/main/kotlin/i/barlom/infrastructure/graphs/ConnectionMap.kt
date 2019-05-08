@@ -14,7 +14,7 @@ import x.barlom.infrastructure.uuids.Uuid
  * Defines a map where connections are mapped by their own UUID.
  */
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-class ConnectionMap
+internal class ConnectionMap
     : Set<IConnection<*>> {
 
     /** The ordinary inner map doing all the work. */

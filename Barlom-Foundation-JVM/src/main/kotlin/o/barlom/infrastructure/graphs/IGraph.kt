@@ -5,12 +5,17 @@
 
 package o.barlom.infrastructure.graphs
 
+import i.barlom.infrastructure.graphs.GraphWrapper
+
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Interface to a property graph consisting of concepts linked by connections.
  */
 interface IGraph {
+
+    /** Whether this graph is still available for reading. (True until stopReading() has been called.) */
+    val isReadable: Boolean
 
     /** The number of concepts in the graph. */
     val numConcepts: Int
@@ -19,12 +24,6 @@ interface IGraph {
     val numConnections: Int
 
     ////
-
-    /**
-     * Establishes a new graph that is writeable, starting from the current state of this read-only graph.
-     * @return the new writeable graph
-     */
-    fun beginTransaction(): IWriteableGraph
 
     /**
      * @return the concept in this graph with given ID [conceptId].
@@ -73,6 +72,24 @@ interface IGraph {
      */
     fun isNotEmpty() : Boolean
 
+    /**
+     * Establishes a new graph that is writeable, starting from the current state of this read-only graph.
+     * Only one such writeable graph can ever be created from this starting point.
+     * @return the new writeable graph
+     */
+    fun startWriting(): IWriteableGraph
+
+    /**
+     * Marks this graph as no longer in use. Allows coalescence with the writeable graph that has been
+     * constructed with this graph as its starting point.
+     */
+    fun stopReading()
+
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+
+fun graphOf(): IGraph =
+    GraphWrapper()
 
 //---------------------------------------------------------------------------------------------------------------------

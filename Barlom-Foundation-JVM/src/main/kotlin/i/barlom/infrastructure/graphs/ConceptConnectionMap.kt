@@ -13,7 +13,7 @@ import x.barlom.infrastructure.uuids.Uuid
 /**
  * Defines a map where connections are mapped by concept UUID plus their own UUID.
  */
-class ConceptConnectionMap {
+internal class ConceptConnectionMap {
 
     /** The ordinary inner map doing all the work. */
     private val connectionsByConcept = HashMap<Uuid, ConnectionMap>()

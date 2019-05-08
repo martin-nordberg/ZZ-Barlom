@@ -13,6 +13,11 @@ package o.barlom.infrastructure.graphs
 interface IWriteableGraph
     : IGraph {
 
+    /** Whether this graph is still available for writing. (True until stopWriting() has been called.) */
+    val isWriteable: Boolean
+
+    ////
+
     /**
      * Adds a [concept] to the graph.
      */
@@ -27,11 +32,6 @@ interface IWriteableGraph
      * Adds an undirected [connection] to the graph. The connected concepts must have already been added to the graph.
      */
     fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> addConnection(connection: E)
-
-    /**
-     * Returns a read-only graph consolidating all the changes made to this writeable graph.
-     */
-    fun commit(): IGraph
 
     /**
      * Removes the given [concept] and all its connections from this graph.
@@ -50,10 +50,9 @@ interface IWriteableGraph
     fun <E : IConnection<E>> removeConnection(connectionId: Id<E>)
 
     /**
-     * Abandons the changes made to this graph and returns the original read-only graph just as it was prior to
-     * the modifications.
+     * Returns a read-only graph consolidating all the changes made to this writeable graph.
      */
-    fun rollBack(): IGraph
+    fun stopWriting(): IGraph
 
     /**
      * Replaces a concept already in the graph with an updated edition, [concept].

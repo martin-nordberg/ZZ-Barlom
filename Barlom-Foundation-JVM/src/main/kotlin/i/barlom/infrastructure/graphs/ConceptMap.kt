@@ -13,7 +13,7 @@ import x.barlom.infrastructure.uuids.Uuid
 /**
  * Defines a map where concepts are mapped by their own UUID.
  */
-class ConceptMap {
+internal class ConceptMap {
 
     /** The ordinary inner map doing all the work. */
     private val conceptsByUuid = HashMap<Uuid, IConcept<*>>()
