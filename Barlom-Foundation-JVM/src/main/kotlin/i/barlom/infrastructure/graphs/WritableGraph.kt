@@ -150,6 +150,7 @@ internal class WritableGraph(
 
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <V : IConcept<V>> concept(conceptId: Id<V>): V? {
 
         val conceptUuid = conceptId.uuid
@@ -164,6 +165,7 @@ internal class WritableGraph(
 
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <E : IConnection<E>> connection(connectionId: Id<E>): E? {
 
         val connectionUuid = connectionId.uuid
@@ -420,7 +422,7 @@ internal class WritableGraph(
 
             require(existingConnection != null)
             require(connection.javaClass === existingConnection.javaClass)
-            existingConnection as IDirectedConnection<*,*,*>
+//            existingConnection as IDirectedConnection<*,*,*>
             require(connection.fromConceptId == existingConnection.fromConceptId)
             require(connection.toConceptId == existingConnection.toConceptId)
 

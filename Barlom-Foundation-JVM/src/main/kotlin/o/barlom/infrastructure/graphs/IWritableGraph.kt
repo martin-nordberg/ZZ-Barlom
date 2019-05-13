@@ -8,7 +8,7 @@ package o.barlom.infrastructure.graphs
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Interface to a graph that is undergoing change.
+ * A property graph that is undergoing change.
  */
 interface IWritableGraph
     : IGraph {
@@ -50,7 +50,7 @@ interface IWritableGraph
     fun <E : IConnection<E>> removeConnection(connectionId: Id<E>)
 
     /**
-     * Returns a read-only graph consolidating all the changes made to this writeable graph.
+     * Returns a read-only graph consolidating all the changes made to this writable graph.
      */
     fun stopWriting(): IGraph
 

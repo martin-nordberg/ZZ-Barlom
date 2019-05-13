@@ -10,7 +10,7 @@ import i.barlom.infrastructure.graphs.GraphWrapper
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Interface to a property graph consisting of concepts linked by connections.
+ * A property graph consisting of concepts (vertices or nodes) linked by connections (edges or links).
  */
 interface IGraph {
 
@@ -76,9 +76,9 @@ interface IGraph {
     fun isNotEmpty() : Boolean
 
     /**
-     * Establishes a new graph that is writeable, starting from the current state of this read-only graph.
-     * Only one such writeable graph can ever be created from this starting point.
-     * @return the new writeable graph
+     * Establishes a new graph that is writable, starting from the current state of this read-only graph.
+     * Only one such writable graph can ever be created from this starting point.
+     * @return the new writable graph
      */
     fun startWriting(): IWritableGraph
 
@@ -92,6 +92,7 @@ interface IGraph {
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/** Creates an empty graph. */
 fun graphOf(): IGraph =
     GraphWrapper()
 

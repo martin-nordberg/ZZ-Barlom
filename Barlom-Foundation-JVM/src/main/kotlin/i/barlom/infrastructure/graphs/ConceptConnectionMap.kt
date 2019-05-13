@@ -11,7 +11,8 @@ import x.barlom.infrastructure.uuids.Uuid
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Defines a map where connections are mapped by concept UUID plus their own UUID.
+ * Defines a map where connections are mapped by concept UUID plus connection UUID. The connection UUID always
+ * comes from the connection.
  */
 internal class ConceptConnectionMap {
 
@@ -20,48 +21,45 @@ internal class ConceptConnectionMap {
 
     ////
 
+    /** @return the connections for given concept UUID [conceptUuid]. */
     operator fun get(conceptUuid: Uuid) : Set<IConnection<*>> =
         connectionsByConcept[conceptUuid] ?: ConnectionMap()
 
+    /** @return the map of connections for given concept UUID [conceptUuid]. */
     fun getMap(conceptUuid: Uuid) : ConnectionMap =
         connectionsByConcept[conceptUuid] ?: ConnectionMap()
 
-    fun put(conceptUuid: Uuid, connection: IConnection<*>) {
+    /** Adds a [connection] that is linked to concept with UUID [conceptUuid] to this map. */
+    fun put(conceptUuid: Uuid, connection: IConnection<*>) =
         connectionsByConcept.getOrPut(conceptUuid) { ConnectionMap() }.put(connection)
-    }
 
-    fun putAll(conceptUuid: Uuid, addedConnections: ConnectionMap) {
-
+    /** Merges in a map of connections for the concept with given UUID [conceptUuid]. */
+    fun putAll(conceptUuid: Uuid, addedConnections: ConnectionMap) =
         addedConnections.forEach { connection ->
             put( conceptUuid, connection)
         }
 
-    }
-
-    fun putAll(addedConnections: ConceptConnectionMap) {
-
+    /** Merges into this map another entire concept/conception map, [addedConnections]. */
+    fun putAll(addedConnections: ConceptConnectionMap) =
         addedConnections.connectionsByConcept.forEach { (conceptUuid, connections) ->
             putAll(conceptUuid,connections)
         }
 
-    }
-
+    /** Removes from this map a connection with UUID [connectionUuid] linked to concept with UUID [conceptUuid]. */
     fun remove(conceptUuid: Uuid, connectionUuid: Uuid) =
         connectionsByConcept[conceptUuid]?.remove(connectionUuid)
 
-    fun removeAll(removedConnections: ConceptConnectionMap) {
-
+    /** Removes from this map another entire concept/conception map, [removedConnections]. */
+    fun removeAll(removedConnections: ConceptConnectionMap) =
         removedConnections.connectionsByConcept.forEach { (uuid, connections) ->
             connections.forEach { connection ->
                 connectionsByConcept[uuid]?.remove(connection.id.uuid)
             }
         }
 
-    }
-
-    fun removeConcept(conceptUuid: Uuid) {
+    /** Removes from this map the concept with UUID [conceptUuid] along with all its connections. */
+    fun removeConcept(conceptUuid: Uuid) =
         connectionsByConcept.remove(conceptUuid)
-    }
 
 }
 

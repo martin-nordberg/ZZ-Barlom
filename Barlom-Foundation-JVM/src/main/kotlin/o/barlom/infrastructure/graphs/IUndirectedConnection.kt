@@ -7,11 +7,16 @@ package o.barlom.infrastructure.graphs
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * An undirected connection (edge or link) from one concept (vertex or node) to another in a property graph.
+ */
 interface IUndirectedConnection<Connection, Concept: IConcept<Concept>>
     : IConnection<Connection> {
 
+    /** The first concept connected by this connection. */
     val conceptIdA: Id<Concept>
 
+    /** The second concept connected by this connection. */
     val conceptIdB: Id<Concept>
 
 }

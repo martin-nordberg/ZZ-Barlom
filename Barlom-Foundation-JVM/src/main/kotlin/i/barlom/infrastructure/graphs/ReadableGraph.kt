@@ -10,6 +10,7 @@ import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/** A graph with fixed state. Operations to modify the graph result in IllegalStateException throws. */
 internal class ReadableGraph(
 
     private val data: GraphData = GraphData()
@@ -42,9 +43,11 @@ internal class ReadableGraph(
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> addConnection(connection: E) =
         throw IllegalStateException( "Graph is not writeable." )
 
+    @Suppress("UNCHECKED_CAST")
     override fun <V : IConcept<V>> concept(conceptId: Id<V>): V? =
         data.concepts[conceptId.uuid] as V?
 
+    @Suppress("UNCHECKED_CAST")
     override fun <E : IConnection<E>> connection(connectionId: Id<E>): E? =
         data.connections[connectionId.uuid] as E?
 

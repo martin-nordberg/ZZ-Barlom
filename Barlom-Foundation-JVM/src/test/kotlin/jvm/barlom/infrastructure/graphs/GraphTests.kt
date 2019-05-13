@@ -38,15 +38,18 @@ class GraphTests {
 
         check(g1)
 
-        g1.stopWriting()
+        val g2 = g1.stopWriting()
 
         assertTrue(g0.isReadable)
         assertFalse(g0.hasPredecessor)
         assertTrue(g1.isReadable)
         assertFalse(g1.isWritable)
         assertTrue(g1.hasPredecessor)
+        assertTrue(g2.isReadable)
+        assertTrue(g2.hasPredecessor)
 
         check(g1)
+        check(g2)
 
         g0.stopReading()
 
@@ -55,8 +58,11 @@ class GraphTests {
         assertTrue(g1.isReadable)
         assertFalse(g1.isWritable)
         assertFalse(g1.hasPredecessor)
+        assertTrue(g2.isReadable)
+        assertFalse(g2.hasPredecessor)
 
         check(g1)
+        check(g2)
 
         ////
 
@@ -83,15 +89,18 @@ class GraphTests {
 
         check(gB)
 
-        gB.stopWriting()
+        val gC = gB.stopWriting()
 
         assertFalse(gA.isReadable)
         assertFalse(gA.hasPredecessor)
         assertTrue(gB.isReadable)
         assertFalse(gB.isWritable)
         assertFalse(gB.hasPredecessor)
+        assertTrue(gC.isReadable)
+        assertFalse(gC.hasPredecessor)
 
         check(gB)
+        check(gC)
 
     }
 
