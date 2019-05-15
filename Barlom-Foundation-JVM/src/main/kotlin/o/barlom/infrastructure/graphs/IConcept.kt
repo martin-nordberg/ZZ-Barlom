@@ -12,6 +12,9 @@ package o.barlom.infrastructure.graphs
  */
 interface IConcept<Concept> {
 
+    /** The name of the concrete concept type Concept. */
+    val conceptTypeName: String
+
     /** The unique ID of the concept. */
     val id: Id<Concept>
 

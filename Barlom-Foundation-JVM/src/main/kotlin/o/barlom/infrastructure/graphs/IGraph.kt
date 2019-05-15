@@ -29,6 +29,13 @@ interface IGraph {
     ////
 
     /**
+     * @return an independent deep copy of this graph.
+     * Note: concept and connection objects are assumed to be immutable and are not cloned, the clone duplicates
+     * their membership in the new graph.
+     */
+    fun clone(): IGraph
+
+    /**
      * @return the concept in this graph with given ID [conceptId].
      */
     fun <V : IConcept<V>> concept(conceptId: Id<V>): V?
@@ -68,12 +75,12 @@ interface IGraph {
     /**
      * @return true if this graph contains no concepts (or connections).
      */
-    fun isEmpty() : Boolean
+    fun isEmpty(): Boolean
 
     /**
      * @return true if this graph contains at least one concept.
      */
-    fun isNotEmpty() : Boolean
+    fun isNotEmpty(): Boolean
 
     /**
      * Establishes a new graph that is writable, starting from the current state of this read-only graph.

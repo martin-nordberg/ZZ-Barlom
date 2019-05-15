@@ -12,6 +12,9 @@ package o.barlom.infrastructure.graphs
  */
 interface IConnection<Connection> {
 
+    /** The name of the concrete connection type Connection. */
+    val connectionTypeName: String
+
     /** The unique ID of the connection. */
     val id: Id<Connection>
 

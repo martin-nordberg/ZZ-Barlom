@@ -20,12 +20,16 @@ import kotlin.test.assertTrue
 @Suppress("RemoveRedundantBackticks")
 class GraphTests {
 
+    private fun runWriteCheckTest(check: (IGraph) -> Unit, write: (IWritableGraph) -> Unit) =
+        runWriteCheckTest(graphOf(), check, write)
+
     private fun runWriteCheckTest(
+        initialGraph: IGraph,
         check: (IGraph) -> Unit,
         write: (IWritableGraph) -> Unit
-    ) {
+    ): IGraph {
 
-        val g0 = graphOf()
+        val g0 = initialGraph.clone()
         val g1 = g0.startWriting()
 
         write(g1)
@@ -66,7 +70,7 @@ class GraphTests {
 
         ////
 
-        val gA = graphOf()
+        val gA = initialGraph.clone()
         val gB = gA.startWriting()
 
         write(gB)
@@ -99,8 +103,21 @@ class GraphTests {
         assertTrue(gC.isReadable)
         assertFalse(gC.hasPredecessor)
 
+        assertFalse(g0.isReadable)
+        assertFalse(g0.hasPredecessor)
+        assertTrue(g1.isReadable)
+        assertFalse(g1.isWritable)
+        assertFalse(g1.hasPredecessor)
+        assertTrue(g2.isReadable)
+        assertFalse(g2.hasPredecessor)
+
+        check(g1)
+        check(g2)
+
         check(gB)
         check(gC)
+
+        return gC
 
     }
 
@@ -185,7 +202,30 @@ class GraphTests {
         val concept2b = concept2a.copy()
         val concept2c = concept2b.copy()
 
-        fun check(g: IGraph) =
+        fun checkB(g: IGraph) =
+            with(g) {
+                assertEquals(2, numConcepts)
+                assertEquals(0, numConnections)
+                assertFalse(isEmpty())
+                assertTrue(isNotEmpty())
+                assertTrue(containsConcept(concept1))
+                assertFalse(containsConcept(concept2))
+                assertFalse(containsConcept(concept2a))
+                assertTrue(containsConcept(concept2b))
+                assertEquals(concept1, concept(concept1.id))
+                assertEquals(concept2b, concept(concept2.id))
+            }
+
+        val gb = runWriteCheckTest(::checkB) { g ->
+            with(g) {
+                addConcept(concept1)
+                addConcept(concept2)
+                updateConcept(concept2a)
+                updateConcept(concept2b)
+            }
+        }
+
+        fun checkC(g: IGraph) =
             with(g) {
                 assertEquals(2, numConcepts)
                 assertEquals(0, numConnections)
@@ -200,20 +240,18 @@ class GraphTests {
                 assertEquals(concept2c, concept(concept2.id))
             }
 
-        runWriteCheckTest(::check) { g ->
+        runWriteCheckTest(gb, ::checkC) { g ->
             with(g) {
-                addConcept(concept1)
-                addConcept(concept2)
-                updateConcept(concept2a)
-                updateConcept(concept2b)
                 updateConcept(concept2c)
             }
         }
 
+        checkB(gb)
+
     }
 
     @Test
-    fun `A graph can have concepts removed`() {
+    fun `A graph can have concepts removed immediately`() {
 
         val concept1 = SampleConcept()
         val concept2 = SampleConcept()
@@ -234,6 +272,93 @@ class GraphTests {
             with(g) {
                 addConcept(concept1)
                 addConcept(concept2)
+                removeConcept(concept2)
+            }
+        }
+
+    }
+
+    @Test
+    fun `A graph can have concepts with connections removed later`() {
+
+        val concept1 = SampleConcept()
+        val concept2 = SampleConcept()
+        val concept3 = SampleConcept()
+        val connection12 = SampleUndirectedConnection(concept1.id, concept2.id)
+        val connection13 = SampleUndirectedConnection(concept1.id, concept3.id)
+        val connection23 = SampleUndirectedConnection(concept2.id, concept3.id)
+
+        fun checkAdded(g: IGraph) =
+            with(g) {
+                assertEquals(3, numConcepts)
+                assertEquals(3, numConnections)
+                assertFalse(isEmpty())
+                assertTrue(isNotEmpty())
+                assertTrue(containsConcept(concept1))
+                assertTrue(containsConcept(concept2))
+                assertTrue(containsConcept(concept3))
+                assertTrue(containsConnection(connection12))
+                assertTrue(containsConnection(connection13))
+                assertTrue(containsConnection(connection23))
+                assertEquals(2, connections(concept1.id).size)
+                assertEquals(2, connections(concept2.id).size)
+                assertEquals(2, connections(concept2.id).size)
+                assertTrue(connections(concept1.id).contains(connection12))
+                assertTrue(connections(concept1.id).contains(connection13))
+                assertTrue(connections(concept2.id).contains(connection12))
+                assertTrue(connections(concept2.id).contains(connection23))
+                assertTrue(connections(concept3.id).contains(connection13))
+                assertTrue(connections(concept3.id).contains(connection23))
+                assertEquals(concept1, concept(concept1.id))
+                assertEquals(concept2, concept(concept2.id))
+                assertEquals(concept3, concept(concept3.id))
+                assertEquals(connection12, connection(connection12.id))
+                assertEquals(connection13, connection(connection13.id))
+                assertEquals(connection23, connection(connection23.id))
+            }
+
+        val gb = runWriteCheckTest(::checkAdded) { g ->
+            with(g) {
+                addConcept(concept1)
+                addConcept(concept2)
+                addConcept(concept3)
+                addConnection(connection12)
+                addConnection(connection13)
+                addConnection(connection23)
+            }
+        }
+
+        fun checkRemoved(g: IGraph) =
+            with(g) {
+                assertEquals(2, numConcepts)
+                assertEquals(1, numConnections)
+                assertFalse(isEmpty())
+                assertTrue(isNotEmpty())
+                assertTrue(containsConcept(concept1))
+                assertFalse(containsConcept(concept2))
+                assertTrue(containsConcept(concept3))
+                assertFalse(containsConnection(connection12))
+                assertTrue(containsConnection(connection13))
+                assertFalse(containsConnection(connection23))
+                assertEquals(1, connections(concept1.id).size)
+                assertEquals(0, connections(concept2.id).size)
+                assertEquals(1, connections(concept3.id).size)
+                assertFalse(connections(concept1.id).contains(connection12))
+                assertTrue(connections(concept1.id).contains(connection13))
+                assertFalse(connections(concept2.id).contains(connection12))
+                assertFalse(connections(concept2.id).contains(connection23))
+                assertTrue(connections(concept3.id).contains(connection13))
+                assertFalse(connections(concept3.id).contains(connection23))
+                assertEquals(concept1, concept(concept1.id))
+                assertEquals(null, concept(concept2.id))
+                assertEquals(concept3, concept(concept3.id))
+                assertEquals(null, connection(connection12.id))
+                assertEquals(connection13, connection(connection13.id))
+                assertEquals(null, connection(connection23.id))
+            }
+
+        runWriteCheckTest(gb, ::checkRemoved) { g ->
+            with(g) {
                 removeConcept(concept2)
             }
         }
@@ -332,28 +457,57 @@ class GraphTests {
     }
 
     @Test
-    fun `A graph can have directed connections added`() {
+    fun `A graph can have directed connections added and removed`() {
 
         val concept1 = SampleConcept()
         val concept2 = SampleConcept()
-        val connection = SampleDirectedConnection(concept1.id, concept2.id)
+        val concept3 = SampleConcept()
+        val connection12 = SampleDirectedConnection(concept1.id, concept2.id)
+        val connection13 = SampleDirectedConnection(concept1.id, concept3.id)
 
-        fun check(g: IGraph) =
+        fun checkAdded(g: IGraph) =
             with(g) {
-                assertEquals(2, numConcepts)
-                assertEquals(1, numConnections)
-                assertEquals(1, connections(concept1.id).size)
+                assertEquals(3, numConcepts)
+                assertEquals(2, numConnections)
+                assertEquals(2, connections(concept1.id).size)
                 assertEquals(1, connections(concept2.id).size)
-                assertTrue(containsConnection(connection))
-                assertTrue(connections(concept1.id).contains(connection))
-                assertTrue(connections(concept2.id).contains(connection))
+                assertEquals(1, connections(concept3.id).size)
+                assertTrue(containsConnection(connection12))
+                assertTrue(containsConnection(connection13))
+                assertTrue(connections(concept1.id).contains(connection12))
+                assertTrue(connections(concept2.id).contains(connection12))
+                assertTrue(connections(concept1.id).contains(connection13))
+                assertTrue(connections(concept3.id).contains(connection13))
             }
 
-        runWriteCheckTest(::check) { g ->
+        val gb = runWriteCheckTest(::checkAdded) { g ->
             with(g) {
                 addConcept(concept1)
                 addConcept(concept2)
-                addConnection(connection)
+                addConcept(concept3)
+                addConnection(connection12)
+                addConnection(connection13)
+            }
+        }
+
+        fun checkRemoved(g: IGraph) =
+            with(g) {
+                assertEquals(3, numConcepts)
+                assertEquals(1, numConnections)
+                assertEquals(1, connections(concept1.id).size)
+                assertEquals(0, connections(concept2.id).size)
+                assertEquals(1, connections(concept3.id).size)
+                assertFalse(containsConnection(connection12))
+                assertTrue(containsConnection(connection13))
+                assertFalse(connections(concept1.id).contains(connection12))
+                assertTrue(connections(concept1.id).contains(connection13))
+                assertFalse(connections(concept2.id).contains(connection12))
+                assertTrue(connections(concept3.id).contains(connection13))
+            }
+
+        runWriteCheckTest(gb, ::checkRemoved) { g ->
+            with(g) {
+                removeConnection(connection12.id)
             }
         }
 
@@ -396,11 +550,15 @@ class GraphTests {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-data class SampleConcept (
+data class SampleConcept(
 
     override val id: Id<SampleConcept> = Id(makeUuid())
 
-) : IConcept<SampleConcept>
+) : IConcept<SampleConcept> {
+
+    override val conceptTypeName: String = "SampleConcept"
+
+}
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -408,7 +566,11 @@ data class SampleUndirectedConnection(
     override val conceptIdA: Id<SampleConcept>,
     override val conceptIdB: Id<SampleConcept>,
     override val id: Id<SampleUndirectedConnection> = Id(makeUuid())
-) : IUndirectedConnection<SampleUndirectedConnection, SampleConcept>
+) : IUndirectedConnection<SampleUndirectedConnection, SampleConcept> {
+
+    override val connectionTypeName: String = "SampleUndirectedConnection"
+
+}
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -416,7 +578,11 @@ data class SampleDirectedConnection(
     override val fromConceptId: Id<SampleConcept>,
     override val toConceptId: Id<SampleConcept>,
     override val id: Id<SampleDirectedConnection> = Id(makeUuid())
-) : IDirectedConnection<SampleDirectedConnection, SampleConcept, SampleConcept>
+) : IDirectedConnection<SampleDirectedConnection, SampleConcept, SampleConcept> {
+
+    override val connectionTypeName: String = "SampleDirectedConnection"
+
+}
 
 //---------------------------------------------------------------------------------------------------------------------
 

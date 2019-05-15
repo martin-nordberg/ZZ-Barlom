@@ -22,10 +22,10 @@ internal class GraphWrapper(
 
     /** The graph wrapped by this wrapper. */
     private var innerGraph: IGraphImpl =
-        if ( initiatingGraph == null ) ReadableGraph() else WritableGraph(initiatingGraph.innerGraph )
+        if (initiatingGraph == null) ReadableGraph() else WritableGraph(initiatingGraph.innerGraph)
 
     /** Whether the wrapped graph remains readable through this wrapper. */
-    private var _isReadable: Boolean = true
+    private var isStillReading: Boolean = true
 
     /** The prior edition of the graph. */
     private var predecessorGraph: GraphWrapper? = initiatingGraph
@@ -39,7 +39,7 @@ internal class GraphWrapper(
         get() = predecessorGraph != null
 
     override val isReadable
-        get() = _isReadable
+        get() = isStillReading
 
     override val isWritable
         get() = innerGraph.isWritable
@@ -78,44 +78,53 @@ internal class GraphWrapper(
         innerGraph = p.innerGraph
         predecessorGraph = null
 
-        if (!isReadable && successorGraph!=null) {
+        if (!isReadable && successorGraph != null) {
             successorGraph!!.coalesceWithPredecessor()
         }
 
     }
 
+    override fun clone(): IGraph {
+        require(isReadable)
+        require(!hasPredecessor)
+
+        val result = GraphWrapper(null)
+        result.innerGraph = innerGraph.clone() as IGraphImpl
+        return result
+    }
+
     override fun <V : IConcept<V>> concept(conceptId: Id<V>): V? {
-        require(_isReadable)
+        require(isReadable)
         return innerGraph.concept(conceptId)
     }
 
     override fun <E : IConnection<E>> connection(connectionId: Id<E>): E? {
-        require(_isReadable)
+        require(isReadable)
         return innerGraph.connection(connectionId)
     }
 
     override fun <V : IConcept<V>> connections(conceptId: Id<V>): Set<IConnection<*>> {
-        require(_isReadable)
+        require(isReadable)
         return innerGraph.connections(conceptId)
     }
 
     override fun <V : IConcept<V>> containsConceptWithId(conceptId: Id<V>): Boolean {
-        require(_isReadable)
+        require(isReadable)
         return innerGraph.containsConceptWithId(conceptId)
     }
 
     override fun <E : IConnection<E>> containsConnectionWithId(connectionId: Id<E>): Boolean {
-        require(_isReadable)
+        require(isReadable)
         return innerGraph.containsConnectionWithId(connectionId)
     }
 
     override fun isEmpty(): Boolean {
-        require(_isReadable)
+        require(isReadable)
         return innerGraph.isEmpty()
     }
 
     override fun isNotEmpty(): Boolean {
-        require(_isReadable)
+        require(isReadable)
         return innerGraph.isNotEmpty()
     }
 
@@ -141,9 +150,9 @@ internal class GraphWrapper(
 
     override fun stopReading() {
 
-        require(_isReadable)
+        require(isReadable)
 
-        _isReadable = false
+        isStillReading = false
 
         if (successorGraph?.isWritable == false && predecessorGraph == null) {
             successorGraph?.coalesceWithPredecessor()

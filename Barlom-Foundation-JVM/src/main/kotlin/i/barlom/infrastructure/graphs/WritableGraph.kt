@@ -24,7 +24,7 @@ internal class WritableGraph(
 
     private val addedConnectionsTo = ConceptConnectionMap()
 
-    private var _isWritable = true
+    private var isStillWriting = true
 
     private val removedConcepts = HashSet<Uuid>()
 
@@ -45,13 +45,13 @@ internal class WritableGraph(
     ////
 
     override val hasPredecessor
-        get() = throw IllegalStateException( "Method should be handled by wrapper." )
+        get() = throw IllegalStateException("Method should be handled by wrapper.")
 
     override val isReadable
         get() = true
 
     override val isWritable
-        get() = _isWritable
+        get() = isStillWriting
 
     ////
 
@@ -67,7 +67,7 @@ internal class WritableGraph(
 
     override fun <V : IConcept<V>> addConcept(concept: V) {
 
-        require(_isWritable)
+        require(isWritable)
         require(!containsConcept(concept)) { "Concept $concept already added." }
 
         val conceptUuid = concept.id.uuid
@@ -81,8 +81,10 @@ internal class WritableGraph(
 
     override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E) {
 
-        require(_isWritable)
+        require(isWritable)
         require(!containsConnectionWithId(connection.id))
+        require(containsConceptWithId(connection.fromConceptId))
+        require(containsConceptWithId(connection.toConceptId))
 
         val fromConceptUuid = connection.fromConceptId.uuid
         val toConceptUuid = connection.toConceptId.uuid
@@ -104,8 +106,10 @@ internal class WritableGraph(
 
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> addConnection(connection: E) {
 
-        require(_isWritable)
+        require(isWritable)
         require(!containsConnection(connection))
+        require(containsConceptWithId(connection.conceptIdA))
+        require(containsConceptWithId(connection.conceptIdB))
 
         val conceptAUuid = connection.conceptIdA.uuid
         val conceptBUuid = connection.conceptIdB.uuid
@@ -129,9 +133,12 @@ internal class WritableGraph(
 
     }
 
-    internal fun coalesceIntoPredecessor(precedingGraph:ReadableGraph) {
+    override fun clone() =
+        throw IllegalStateException("Method should be handled by wrapper.")
 
-        require(!_isWritable)
+    internal fun coalesceIntoPredecessor(precedingGraph: ReadableGraph) {
+
+        require(!isStillWriting)
 
         precedingGraph.coalesceWithSuccessor(
             addedConcepts,
@@ -207,7 +214,7 @@ internal class WritableGraph(
 
         val conceptUuid = conceptId.uuid
 
-        return ( originalGraph.containsConceptWithId(conceptId) || addedConcepts.containsUuid(conceptUuid) ) &&
+        return (originalGraph.containsConceptWithId(conceptId) || addedConcepts.containsUuid(conceptUuid)) &&
             !removedConcepts.contains(conceptUuid)
 
     }
@@ -216,12 +223,12 @@ internal class WritableGraph(
 
         val connectionUuid = connectionId.uuid
 
-        return ( originalGraph.containsConnectionWithId(connectionId) || addedConnections.containsUuid(connectionUuid) ) &&
+        return (originalGraph.containsConnectionWithId(connectionId) || addedConnections.containsUuid(connectionUuid)) &&
             !removedConnections.contains(connectionUuid)
 
     }
 
-    override fun isEmpty() : Boolean =
+    override fun isEmpty(): Boolean =
         numConcepts == 0
 
     override fun isNotEmpty() =
@@ -231,10 +238,10 @@ internal class WritableGraph(
 
         val result = ConnectionMap()
 
-        result.putAll( originalGraph.mappedConnectionsFrom(conceptUuid) )
+        result.putAll(originalGraph.mappedConnectionsFrom(conceptUuid))
 
-        result.putAll( addedConnectionsFrom.getMap(conceptUuid) )
-        result.putAll( updatedConnectionsFrom.getMap(conceptUuid) )
+        result.putAll(addedConnectionsFrom.getMap(conceptUuid))
+        result.putAll(updatedConnectionsFrom.getMap(conceptUuid))
 
         removedConnectionsFrom.getMap(conceptUuid).forEach { connection ->
             result.remove(connection.id.uuid)
@@ -248,10 +255,10 @@ internal class WritableGraph(
 
         val result = ConnectionMap()
 
-        result.putAll( originalGraph.mappedConnectionsTo(conceptUuid) )
+        result.putAll(originalGraph.mappedConnectionsTo(conceptUuid))
 
-        result.putAll( addedConnectionsTo.getMap(conceptUuid) )
-        result.putAll( updatedConnectionsTo.getMap(conceptUuid) )
+        result.putAll(addedConnectionsTo.getMap(conceptUuid))
+        result.putAll(updatedConnectionsTo.getMap(conceptUuid))
 
         removedConnectionsTo.getMap(conceptUuid).forEach { connection ->
             result.remove(connection.id.uuid)
@@ -263,52 +270,66 @@ internal class WritableGraph(
 
     override fun <V : IConcept<V>> removeConcept(conceptId: Id<V>) {
 
-        require(_isWritable)
+        require(isWritable)
 
-        if ( containsConceptWithId(conceptId) ) {
+        if (containsConceptWithId(conceptId)) {
 
             val conceptUuid = conceptId.uuid
 
-            if ( updatedConcepts.remove(conceptUuid) != null ) {
-                updatedConnectionsFrom.removeConcept(conceptUuid)
-                updatedConnectionsTo.removeConcept(conceptUuid)
-            }
-            else if ( addedConcepts.remove(conceptUuid) == null ) {
-                addedConnectionsFrom.removeConcept(conceptUuid)
-                addedConnectionsTo.removeConcept(conceptUuid)
+            if (updatedConcepts.remove(conceptUuid) == null && addedConcepts.remove(conceptUuid) == null) {
+                removedConcepts.add(conceptUuid)
             }
 
-            removedConnectionsFrom.putAll(conceptUuid,originalGraph.mappedConnectionsFrom(conceptUuid))
-            removedConnectionsTo.putAll(conceptUuid,originalGraph.mappedConnectionsTo(conceptUuid))
+            updatedConnectionsFrom.removeConcept(conceptUuid)
+            updatedConnectionsTo.removeConcept(conceptUuid)
+
+            addedConnectionsFrom.removeConcept(conceptUuid)
+            addedConnectionsTo.removeConcept(conceptUuid)
+
+            for (connection in originalGraph.connections(conceptId)) {
+                removedConnections.add(connection.id.uuid)
+                if (connection is IDirectedConnection<*, *, *>) {
+                    removedConnectionsFrom.put(connection.fromConceptId.uuid, connection)
+                    removedConnectionsTo.put(connection.toConceptId.uuid, connection)
+                }
+                else {
+                    connection as IUndirectedConnection<*, *>
+                    removedConnectionsFrom.put(connection.conceptIdA.uuid, connection)
+                    removedConnectionsFrom.put(connection.conceptIdB.uuid, connection)
+                    removedConnectionsTo.put(connection.conceptIdA.uuid, connection)
+                    removedConnectionsTo.put(connection.conceptIdB.uuid, connection)
+                }
+            }
 
         }
 
         check(!containsConceptWithId(conceptId))
+        check(connections(conceptId).isEmpty())
 
     }
 
     override fun <E : IConnection<E>> removeConnection(connectionId: Id<E>) {
 
-        require(_isWritable)
+        require(isWritable)
 
         val connection = connection(connectionId)
 
-        if ( connection != null) {
+        if (connection != null) {
 
             val connectionUuid = connectionId.uuid
 
-            if ( connection is IDirectedConnection<*,*,*> ) {
+            if (connection is IDirectedConnection<*, *, *>) {
 
                 val fromConceptUuid = connection.fromConceptId.uuid
                 val toConceptUuid = connection.toConceptId.uuid
 
-                if ( updatedConnections.remove(connectionUuid) != null ) {
-                    updatedConnectionsFrom.remove(fromConceptUuid,connectionUuid)
-                    updatedConnectionsTo.remove(toConceptUuid,connectionUuid)
+                if (updatedConnections.remove(connectionUuid) != null) {
+                    updatedConnectionsFrom.remove(fromConceptUuid, connectionUuid)
+                    updatedConnectionsTo.remove(toConceptUuid, connectionUuid)
                 }
-                else if ( addedConnections.remove(connectionUuid) != null ) {
-                    addedConnectionsFrom.remove(fromConceptUuid,connectionUuid)
-                    addedConnectionsTo.remove(toConceptUuid,connectionUuid)
+                else if (addedConnections.remove(connectionUuid) != null) {
+                    addedConnectionsFrom.remove(fromConceptUuid, connectionUuid)
+                    addedConnectionsTo.remove(toConceptUuid, connectionUuid)
                 }
                 else {
                     removedConnections.add(connectionUuid)
@@ -317,22 +338,22 @@ internal class WritableGraph(
                 }
 
             }
-            else if ( connection is IUndirectedConnection<*,*> ) {
+            else if (connection is IUndirectedConnection<*, *>) {
 
                 val conceptAUuid = connection.conceptIdA.uuid
                 val conceptBUuid = connection.conceptIdB.uuid
 
-                if ( updatedConnections.remove(connectionUuid) != null ) {
-                    updatedConnectionsFrom.remove(conceptAUuid,connectionUuid)
-                    updatedConnectionsTo.remove(conceptAUuid,connectionUuid)
-                    updatedConnectionsFrom.remove(conceptBUuid,connectionUuid)
-                    updatedConnectionsTo.remove(conceptBUuid,connectionUuid)
+                if (updatedConnections.remove(connectionUuid) != null) {
+                    updatedConnectionsFrom.remove(conceptAUuid, connectionUuid)
+                    updatedConnectionsTo.remove(conceptAUuid, connectionUuid)
+                    updatedConnectionsFrom.remove(conceptBUuid, connectionUuid)
+                    updatedConnectionsTo.remove(conceptBUuid, connectionUuid)
                 }
-                else if ( addedConnections.remove(connectionUuid) != null ) {
-                    addedConnectionsFrom.remove(conceptAUuid,connectionUuid)
-                    addedConnectionsTo.remove(conceptAUuid,connectionUuid)
-                    addedConnectionsFrom.remove(conceptBUuid,connectionUuid)
-                    addedConnectionsTo.remove(conceptBUuid,connectionUuid)
+                else if (addedConnections.remove(connectionUuid) != null) {
+                    addedConnectionsFrom.remove(conceptAUuid, connectionUuid)
+                    addedConnectionsTo.remove(conceptAUuid, connectionUuid)
+                    addedConnectionsFrom.remove(conceptBUuid, connectionUuid)
+                    addedConnectionsTo.remove(conceptBUuid, connectionUuid)
                 }
                 else {
                     removedConnections.add(connectionUuid)
@@ -351,16 +372,16 @@ internal class WritableGraph(
     }
 
     override fun startWriting(): Nothing =
-        throw IllegalStateException( "Method should be handled by wrapper." )
+        throw IllegalStateException("Method should be handled by wrapper.")
 
     override fun stopReading(): Nothing =
-        throw IllegalStateException( "Method should be handled by wrapper." )
+        throw IllegalStateException("Method should be handled by wrapper.")
 
     override fun stopWriting(): IGraph {
 
-        require(_isWritable)
+        require(isWritable)
 
-        _isWritable = false
+        isStillWriting = false
 
         return this
 
@@ -368,16 +389,16 @@ internal class WritableGraph(
 
     override fun <V : IConcept<V>> updateConcept(concept: V) {
 
-        require(_isWritable)
+        require(isWritable)
 
         val conceptUuid = concept.id.uuid
 
         require(!removedConcepts.contains(conceptUuid))
 
-        var existingConcept : IConcept<*>? = addedConcepts[conceptUuid]
+        var existingConcept = addedConcepts[conceptUuid]
 
         if (existingConcept != null) {
-            require(concept.javaClass === existingConcept.javaClass)
+            require(concept.conceptTypeName == existingConcept.conceptTypeName)
 
             addedConcepts.put(concept)
         }
@@ -385,7 +406,7 @@ internal class WritableGraph(
             existingConcept = originalGraph.concept(concept.id)
 
             require(existingConcept != null)
-            require(concept.javaClass === existingConcept.javaClass)
+            require(concept.conceptTypeName == existingConcept.conceptTypeName)
 
             updatedConcepts.put(concept)
         }
@@ -396,7 +417,7 @@ internal class WritableGraph(
 
     override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> updateConnection(connection: E) {
 
-        require(_isWritable)
+        require(isWritable)
 
         val connectionUuid = connection.id.uuid
 
@@ -407,9 +428,9 @@ internal class WritableGraph(
 
         var existingConnection = addedConnections[connectionUuid]
 
-        if ( existingConnection != null ) {
-            require(connection.javaClass === existingConnection.javaClass)
-            existingConnection as IDirectedConnection<*,*,*>
+        if (existingConnection != null) {
+            require(connection.connectionTypeName == existingConnection.connectionTypeName)
+            existingConnection as IDirectedConnection<*, *, *>
             require(connection.fromConceptId == existingConnection.fromConceptId)
             require(connection.toConceptId == existingConnection.toConceptId)
 
@@ -421,7 +442,7 @@ internal class WritableGraph(
             existingConnection = originalGraph.connection(connection.id)
 
             require(existingConnection != null)
-            require(connection.javaClass === existingConnection.javaClass)
+            require(connection.connectionTypeName == existingConnection.connectionTypeName)
 //            existingConnection as IDirectedConnection<*,*,*>
             require(connection.fromConceptId == existingConnection.fromConceptId)
             require(connection.toConceptId == existingConnection.toConceptId)
@@ -437,7 +458,7 @@ internal class WritableGraph(
 
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> updateConnection(connection: E) {
 
-        require(_isWritable)
+        require(isWritable)
 
         val connectionUuid = connection.id.uuid
 
@@ -448,8 +469,8 @@ internal class WritableGraph(
 
         var existingConnection = addedConnections[connectionUuid]
 
-        if ( existingConnection != null ) {
-            require(connection.javaClass === existingConnection.javaClass)
+        if (existingConnection != null) {
+            require(connection.connectionTypeName == existingConnection.connectionTypeName)
 
             addedConnections.put(connection)
             addedConnectionsFrom.put(conceptAUuid, connection)
@@ -461,7 +482,7 @@ internal class WritableGraph(
             existingConnection = originalGraph.connection(connection.id)
 
             require(existingConnection != null)
-            require(connection.javaClass === existingConnection.javaClass)
+            require(connection.connectionTypeName == existingConnection.connectionTypeName)
 
             updatedConnections.put(connection)
             updatedConnectionsFrom.put(conceptAUuid, connection)

@@ -24,7 +24,23 @@ internal data class GraphData(
     /** Adjacency list for incoming connections (edges) including undirected connections. */
     val connectionsTo: ConceptConnectionMap = ConceptConnectionMap()
 
-)
+) {
+
+    /** @return a deep copy of this graph data. Concepts and connections are assumed to be immutable. */
+    fun clone(): GraphData {
+
+        val result = GraphData()
+
+        result.concepts.putAll(concepts)
+        result.connections.putAll(connections)
+        result.connectionsFrom.putAll(connectionsFrom)
+        result.connectionsTo.putAll(connectionsTo)
+
+        return result
+
+    }
+
+}
 
 //---------------------------------------------------------------------------------------------------------------------
 

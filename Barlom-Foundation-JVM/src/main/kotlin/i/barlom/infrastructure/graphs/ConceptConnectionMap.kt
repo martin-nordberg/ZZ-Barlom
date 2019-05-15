@@ -22,11 +22,11 @@ internal class ConceptConnectionMap {
     ////
 
     /** @return the connections for given concept UUID [conceptUuid]. */
-    operator fun get(conceptUuid: Uuid) : Set<IConnection<*>> =
+    operator fun get(conceptUuid: Uuid): Set<IConnection<*>> =
         connectionsByConcept[conceptUuid] ?: ConnectionMap()
 
     /** @return the map of connections for given concept UUID [conceptUuid]. */
-    fun getMap(conceptUuid: Uuid) : ConnectionMap =
+    fun getMap(conceptUuid: Uuid): ConnectionMap =
         connectionsByConcept[conceptUuid] ?: ConnectionMap()
 
     /** Adds a [connection] that is linked to concept with UUID [conceptUuid] to this map. */
@@ -36,13 +36,13 @@ internal class ConceptConnectionMap {
     /** Merges in a map of connections for the concept with given UUID [conceptUuid]. */
     fun putAll(conceptUuid: Uuid, addedConnections: ConnectionMap) =
         addedConnections.forEach { connection ->
-            put( conceptUuid, connection)
+            put(conceptUuid, connection)
         }
 
     /** Merges into this map another entire concept/conception map, [addedConnections]. */
     fun putAll(addedConnections: ConceptConnectionMap) =
         addedConnections.connectionsByConcept.forEach { (conceptUuid, connections) ->
-            putAll(conceptUuid,connections)
+            putAll(conceptUuid, connections)
         }
 
     /** Removes from this map a connection with UUID [connectionUuid] linked to concept with UUID [conceptUuid]. */
@@ -51,9 +51,9 @@ internal class ConceptConnectionMap {
 
     /** Removes from this map another entire concept/conception map, [removedConnections]. */
     fun removeAll(removedConnections: ConceptConnectionMap) =
-        removedConnections.connectionsByConcept.forEach { (uuid, connections) ->
+        removedConnections.connectionsByConcept.forEach { (conceptUuid, connections) ->
             connections.forEach { connection ->
-                connectionsByConcept[uuid]?.remove(connection.id.uuid)
+                connectionsByConcept[conceptUuid]?.remove(connection.id.uuid)
             }
         }
 

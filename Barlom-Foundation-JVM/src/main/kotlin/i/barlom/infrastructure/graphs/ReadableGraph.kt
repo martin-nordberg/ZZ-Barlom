@@ -18,7 +18,7 @@ internal class ReadableGraph(
 ) : IGraphImpl {
 
     override val hasPredecessor
-        get() = throw IllegalStateException( "Method should be handled by wrapper." )
+        get() = throw IllegalStateException("Method should be handled by wrapper.")
 
     override val isReadable =
         true
@@ -35,13 +35,16 @@ internal class ReadableGraph(
     ////
 
     override fun <V : IConcept<V>> addConcept(concept: V) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> addConnection(connection: E) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
+
+    override fun clone() =
+        ReadableGraph(data.clone())
 
     @Suppress("UNCHECKED_CAST")
     override fun <V : IConcept<V>> concept(conceptId: Id<V>): V? =
@@ -81,29 +84,29 @@ internal class ReadableGraph(
         data.connectionsTo.getMap(conceptUuid)
 
     override fun <V : IConcept<V>> removeConcept(conceptId: Id<V>) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     override fun <E : IConnection<E>> removeConnection(connectionId: Id<E>) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     override fun startWriting() =
-        throw IllegalStateException( "Method should be handled by wrapper." )
+        throw IllegalStateException("Method should be handled by wrapper.")
 
     override fun stopReading() {
-        throw IllegalStateException( "Method should be handled by wrapper." )
+        throw IllegalStateException("Method should be handled by wrapper.")
     }
 
     override fun stopWriting() =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     override fun <V : IConcept<V>> updateConcept(concept: V) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> updateConnection(connection: E) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> updateConnection(connection: E) =
-        throw IllegalStateException( "Graph is not writeable." )
+        throw IllegalStateException("Graph is not writeable.")
 
     fun coalesceWithSuccessor(
         addedConcepts: ConceptMap,
@@ -124,11 +127,11 @@ internal class ReadableGraph(
 
             concepts.putAll(addedConcepts)
             concepts.putAll(updatedConcepts)
-            removedConcepts.forEach { uuid -> concepts.remove(uuid) }
+            removedConcepts.forEach { conceptUuid -> concepts.remove(conceptUuid) }
 
             connections.putAll(addedConnections)
             connections.putAll(updatedConnections)
-            removedConnections.forEach { uuid -> connections.remove(uuid) }
+            removedConnections.forEach { connectionUuid -> connections.remove(connectionUuid) }
 
             connectionsFrom.putAll(addedConnectionsFrom)
             connectionsFrom.putAll(updatedConnectionsFrom)
