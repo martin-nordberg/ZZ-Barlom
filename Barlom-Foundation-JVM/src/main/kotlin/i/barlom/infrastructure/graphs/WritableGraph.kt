@@ -72,8 +72,12 @@ internal class WritableGraph(
 
         val conceptUuid = concept.id.uuid
 
-        addedConcepts.put(concept)
-        removedConcepts.remove(conceptUuid)
+        if ( removedConcepts.remove(conceptUuid) ) {
+            updateConcept(concept)
+        }
+        else {
+            addedConcepts.put(concept)
+        }
 
         check(containsConcept(concept))
 
@@ -272,35 +276,33 @@ internal class WritableGraph(
 
         require(isWritable)
 
-        if (containsConceptWithId(conceptId)) {
+        require(containsConceptWithId(conceptId))
 
-            val conceptUuid = conceptId.uuid
+        val conceptUuid = conceptId.uuid
 
-            if (updatedConcepts.remove(conceptUuid) == null && addedConcepts.remove(conceptUuid) == null) {
-                removedConcepts.add(conceptUuid)
+        if (updatedConcepts.remove(conceptUuid) == null && addedConcepts.remove(conceptUuid) == null) {
+            removedConcepts.add(conceptUuid)
+        }
+
+        updatedConnectionsFrom.removeConcept(conceptUuid)
+        updatedConnectionsTo.removeConcept(conceptUuid)
+
+        addedConnectionsFrom.removeConcept(conceptUuid)
+        addedConnectionsTo.removeConcept(conceptUuid)
+
+        for (connection in originalGraph.connections(conceptId)) {
+            removedConnections.add(connection.id.uuid)
+            if (connection is IDirectedConnection<*, *, *>) {
+                removedConnectionsFrom.put(connection.fromConceptId.uuid, connection)
+                removedConnectionsTo.put(connection.toConceptId.uuid, connection)
             }
-
-            updatedConnectionsFrom.removeConcept(conceptUuid)
-            updatedConnectionsTo.removeConcept(conceptUuid)
-
-            addedConnectionsFrom.removeConcept(conceptUuid)
-            addedConnectionsTo.removeConcept(conceptUuid)
-
-            for (connection in originalGraph.connections(conceptId)) {
-                removedConnections.add(connection.id.uuid)
-                if (connection is IDirectedConnection<*, *, *>) {
-                    removedConnectionsFrom.put(connection.fromConceptId.uuid, connection)
-                    removedConnectionsTo.put(connection.toConceptId.uuid, connection)
-                }
-                else {
-                    connection as IUndirectedConnection<*, *>
-                    removedConnectionsFrom.put(connection.conceptIdA.uuid, connection)
-                    removedConnectionsFrom.put(connection.conceptIdB.uuid, connection)
-                    removedConnectionsTo.put(connection.conceptIdA.uuid, connection)
-                    removedConnectionsTo.put(connection.conceptIdB.uuid, connection)
-                }
+            else {
+                connection as IUndirectedConnection<*, *>
+                removedConnectionsFrom.put(connection.conceptIdA.uuid, connection)
+                removedConnectionsFrom.put(connection.conceptIdB.uuid, connection)
+                removedConnectionsTo.put(connection.conceptIdA.uuid, connection)
+                removedConnectionsTo.put(connection.conceptIdB.uuid, connection)
             }
-
         }
 
         check(!containsConceptWithId(conceptId))
@@ -314,55 +316,53 @@ internal class WritableGraph(
 
         val connection = connection(connectionId)
 
-        if (connection != null) {
+        require(connection != null)
 
-            val connectionUuid = connectionId.uuid
+        val connectionUuid = connectionId.uuid
 
-            if (connection is IDirectedConnection<*, *, *>) {
+        if (connection is IDirectedConnection<*, *, *>) {
 
-                val fromConceptUuid = connection.fromConceptId.uuid
-                val toConceptUuid = connection.toConceptId.uuid
+            val fromConceptUuid = connection.fromConceptId.uuid
+            val toConceptUuid = connection.toConceptId.uuid
 
-                if (updatedConnections.remove(connectionUuid) != null) {
-                    updatedConnectionsFrom.remove(fromConceptUuid, connectionUuid)
-                    updatedConnectionsTo.remove(toConceptUuid, connectionUuid)
-                }
-                else if (addedConnections.remove(connectionUuid) != null) {
-                    addedConnectionsFrom.remove(fromConceptUuid, connectionUuid)
-                    addedConnectionsTo.remove(toConceptUuid, connectionUuid)
-                }
-                else {
-                    removedConnections.add(connectionUuid)
-                    removedConnectionsFrom.put(fromConceptUuid, connection)
-                    removedConnectionsTo.put(toConceptUuid, connection)
-                }
-
+            if (updatedConnections.remove(connectionUuid) != null) {
+                updatedConnectionsFrom.remove(fromConceptUuid, connectionUuid)
+                updatedConnectionsTo.remove(toConceptUuid, connectionUuid)
             }
-            else if (connection is IUndirectedConnection<*, *>) {
+            else if (addedConnections.remove(connectionUuid) != null) {
+                addedConnectionsFrom.remove(fromConceptUuid, connectionUuid)
+                addedConnectionsTo.remove(toConceptUuid, connectionUuid)
+            }
+            else {
+                removedConnections.add(connectionUuid)
+                removedConnectionsFrom.put(fromConceptUuid, connection)
+                removedConnectionsTo.put(toConceptUuid, connection)
+            }
 
-                val conceptAUuid = connection.conceptIdA.uuid
-                val conceptBUuid = connection.conceptIdB.uuid
+        }
+        else if (connection is IUndirectedConnection<*, *>) {
 
-                if (updatedConnections.remove(connectionUuid) != null) {
-                    updatedConnectionsFrom.remove(conceptAUuid, connectionUuid)
-                    updatedConnectionsTo.remove(conceptAUuid, connectionUuid)
-                    updatedConnectionsFrom.remove(conceptBUuid, connectionUuid)
-                    updatedConnectionsTo.remove(conceptBUuid, connectionUuid)
-                }
-                else if (addedConnections.remove(connectionUuid) != null) {
-                    addedConnectionsFrom.remove(conceptAUuid, connectionUuid)
-                    addedConnectionsTo.remove(conceptAUuid, connectionUuid)
-                    addedConnectionsFrom.remove(conceptBUuid, connectionUuid)
-                    addedConnectionsTo.remove(conceptBUuid, connectionUuid)
-                }
-                else {
-                    removedConnections.add(connectionUuid)
-                    removedConnectionsFrom.put(conceptAUuid, connection)
-                    removedConnectionsTo.put(conceptAUuid, connection)
-                    removedConnectionsFrom.put(conceptBUuid, connection)
-                    removedConnectionsTo.put(conceptBUuid, connection)
-                }
+            val conceptAUuid = connection.conceptIdA.uuid
+            val conceptBUuid = connection.conceptIdB.uuid
 
+            if (updatedConnections.remove(connectionUuid) != null) {
+                updatedConnectionsFrom.remove(conceptAUuid, connectionUuid)
+                updatedConnectionsTo.remove(conceptAUuid, connectionUuid)
+                updatedConnectionsFrom.remove(conceptBUuid, connectionUuid)
+                updatedConnectionsTo.remove(conceptBUuid, connectionUuid)
+            }
+            else if (addedConnections.remove(connectionUuid) != null) {
+                addedConnectionsFrom.remove(conceptAUuid, connectionUuid)
+                addedConnectionsTo.remove(conceptAUuid, connectionUuid)
+                addedConnectionsFrom.remove(conceptBUuid, connectionUuid)
+                addedConnectionsTo.remove(conceptBUuid, connectionUuid)
+            }
+            else {
+                removedConnections.add(connectionUuid)
+                removedConnectionsFrom.put(conceptAUuid, connection)
+                removedConnectionsTo.put(conceptAUuid, connection)
+                removedConnectionsFrom.put(conceptBUuid, connection)
+                removedConnectionsTo.put(conceptBUuid, connection)
             }
 
         }
