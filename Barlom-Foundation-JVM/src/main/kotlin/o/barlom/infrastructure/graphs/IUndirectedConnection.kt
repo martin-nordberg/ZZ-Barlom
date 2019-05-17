@@ -8,7 +8,7 @@ package o.barlom.infrastructure.graphs
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An undirected connection (edge or link) from one concept (vertex or node) to another in a property graph.
+ * An undirected connection (edge or link) from one concept (vertex or node) to another in a graph.
  */
 interface IUndirectedConnection<Connection, Concept: IConcept<Concept>>
     : IConnection<Connection> {

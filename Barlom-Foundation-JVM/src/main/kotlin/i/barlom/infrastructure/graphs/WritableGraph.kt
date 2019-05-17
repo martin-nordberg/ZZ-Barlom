@@ -6,6 +6,7 @@
 package i.barlom.infrastructure.graphs
 
 import o.barlom.infrastructure.graphs.*
+import x.barlom.infrastructure.graphs.getClassName
 import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -398,7 +399,7 @@ internal class WritableGraph(
         var existingConcept = addedConcepts[conceptUuid]
 
         if (existingConcept != null) {
-            require(concept.conceptTypeName == existingConcept.conceptTypeName)
+            require(getClassName(concept) == getClassName(existingConcept))
 
             addedConcepts.put(concept)
         }
@@ -406,7 +407,7 @@ internal class WritableGraph(
             existingConcept = originalGraph.concept(concept.id)
 
             require(existingConcept != null)
-            require(concept.conceptTypeName == existingConcept.conceptTypeName)
+            require(getClassName(concept) == getClassName(existingConcept))
 
             updatedConcepts.put(concept)
         }
@@ -429,7 +430,7 @@ internal class WritableGraph(
         var existingConnection = addedConnections[connectionUuid]
 
         if (existingConnection != null) {
-            require(connection.connectionTypeName == existingConnection.connectionTypeName)
+            require(getClassName(connection) == getClassName(existingConnection))
             existingConnection as IDirectedConnection<*, *, *>
             require(connection.fromConceptId == existingConnection.fromConceptId)
             require(connection.toConceptId == existingConnection.toConceptId)
@@ -442,7 +443,7 @@ internal class WritableGraph(
             existingConnection = originalGraph.connection(connection.id)
 
             require(existingConnection != null)
-            require(connection.connectionTypeName == existingConnection.connectionTypeName)
+            require(getClassName(connection) == getClassName(existingConnection))
 //            existingConnection as IDirectedConnection<*,*,*>
             require(connection.fromConceptId == existingConnection.fromConceptId)
             require(connection.toConceptId == existingConnection.toConceptId)
@@ -470,7 +471,7 @@ internal class WritableGraph(
         var existingConnection = addedConnections[connectionUuid]
 
         if (existingConnection != null) {
-            require(connection.connectionTypeName == existingConnection.connectionTypeName)
+            require(getClassName(connection) == getClassName(existingConnection))
 
             addedConnections.put(connection)
             addedConnectionsFrom.put(conceptAUuid, connection)
@@ -482,7 +483,7 @@ internal class WritableGraph(
             existingConnection = originalGraph.connection(connection.id)
 
             require(existingConnection != null)
-            require(connection.connectionTypeName == existingConnection.connectionTypeName)
+            require(getClassName(connection) == getClassName(existingConnection))
 
             updatedConnections.put(connection)
             updatedConnectionsFrom.put(conceptAUuid, connection)

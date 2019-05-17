@@ -10,7 +10,7 @@ import i.barlom.infrastructure.graphs.GraphWrapper
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A property graph consisting of concepts (vertices or nodes) linked by connections (edges or links).
+ * A graph consisting of concepts (vertices or nodes) linked by connections (edges or links).
  */
 interface IGraph {
 

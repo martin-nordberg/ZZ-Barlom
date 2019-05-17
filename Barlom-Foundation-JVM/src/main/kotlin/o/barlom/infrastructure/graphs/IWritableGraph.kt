@@ -8,7 +8,7 @@ package o.barlom.infrastructure.graphs
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A property graph that is undergoing change.
+ * A graph that is undergoing change.
  */
 interface IWritableGraph
     : IGraph {

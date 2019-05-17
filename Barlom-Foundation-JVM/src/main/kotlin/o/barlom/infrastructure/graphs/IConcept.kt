@@ -8,12 +8,9 @@ package o.barlom.infrastructure.graphs
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A concept (vertex or node) in a property graph. Provides the unique ID of the concept.
+ * A concept (vertex or node) in a graph. Provides the unique ID of the concept.
  */
 interface IConcept<Concept> {
-
-    /** The name of the concrete concept type Concept. */
-    val conceptTypeName: String
 
     /** The unique ID of the concept. */
     val id: Id<Concept>
