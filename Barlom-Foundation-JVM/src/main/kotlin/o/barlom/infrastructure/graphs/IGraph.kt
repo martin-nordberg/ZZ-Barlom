@@ -95,6 +95,16 @@ interface IGraph {
      */
     fun stopReading()
 
+    /**
+     * Takes this graph through one standard update cycle via a single callback.
+     */
+    fun update(edit: IWritableGraph.() -> Unit): IGraph {
+        val g = this.startWriting()
+        g.edit()
+        this.stopReading()
+        return g.stopWriting()
+    }
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------
