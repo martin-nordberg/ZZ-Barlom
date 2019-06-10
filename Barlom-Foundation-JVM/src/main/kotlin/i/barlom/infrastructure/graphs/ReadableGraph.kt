@@ -65,6 +65,12 @@ internal class ReadableGraph(
 
     }
 
+    override fun <V : IConcept<V>> connectionsFrom(conceptId: Id<V>): Set<IConnection<*>> =
+        data.connectionsFrom.getMap(conceptId.uuid)
+
+    override fun <V : IConcept<V>> connectionsTo(conceptId: Id<V>): Set<IConnection<*>> =
+        data.connectionsTo.getMap(conceptId.uuid)
+
     override fun <V : IConcept<V>> containsConceptWithId(conceptId: Id<V>): Boolean =
         data.concepts.containsUuid(conceptId.uuid)
 

@@ -28,9 +28,15 @@ internal class ConnectionMap
 
     ////
 
+    /**
+     * @return whether this connection map contains the given [connection].
+     */
     override fun contains(connection: IConnection<*>) =
         connectionsByUuid[connection.id.uuid] === connection
 
+    /**
+     * @return whether al of the given [connections] are contained in this map.
+     */
     override fun containsAll(connections: Collection<IConnection<*>>): Boolean =
         connections.find { connection -> !contains(connection) } == null
 
@@ -58,6 +64,9 @@ internal class ConnectionMap
     fun isNotEmpty() =
         !isEmpty()
 
+    /**
+     * @return an iterator over the connections in this map.
+     */
     override fun iterator(): Iterator<IConnection<*>> =
         connectionsByUuid.values.iterator()
 

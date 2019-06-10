@@ -64,7 +64,7 @@ class Uuid(
 
     fun nextInReservedBlock(): Uuid {
 
-        check(hasNextInReservedBlock()) { "Reserved block of UUIDs exhaused." }
+        check(hasNextInReservedBlock()) { "Reserved block of UUIDs exhausted." }
 
         return Uuid(this.mostSignificantBits + 0x100000000L, this.leastSignificantBits)
 

@@ -19,7 +19,7 @@ import o.barlom.infrastructure.graphs.Id
 data class UndirectedConnectionType(
     override val id: Id<UndirectedConnectionType>,
     override val isRoot: Boolean = false,
-    override val name: String = if (isRoot) "UndirectedConnectionType" else "NewConnectionType",
+    override val name: String = if (isRoot) "RootUndirectedConnectionType" else "NewConnectionType",
     override val description: String = if (isRoot) "Root undirected connection type." else "",
     override val abstractness: EAbstractness = EAbstractness.fromBoolean(isRoot),
     override val cyclicity: ECyclicity = ECyclicity.DEFAULT,

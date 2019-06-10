@@ -18,7 +18,7 @@ internal data class GraphData(
     /** The connections (edges) of the graph. */
     val connections: ConnectionMap = ConnectionMap(),
 
-    /** Adjacency list for outgoing connections (edges) including undirected edges. */
+    /** Adjacency list for outgoing connections (edges) including undirected connections. */
     val connectionsFrom: ConceptConnectionMap = ConceptConnectionMap(),
 
     /** Adjacency list for incoming connections (edges) including undirected connections. */

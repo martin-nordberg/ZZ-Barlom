@@ -108,6 +108,16 @@ internal class GraphWrapper(
         return innerGraph.connections(conceptId)
     }
 
+    override fun <V : IConcept<V>> connectionsFrom(conceptId: Id<V>): Set<IConnection<*>> {
+        require(isReadable)
+        return innerGraph.connectionsFrom(conceptId)
+    }
+
+    override fun <V : IConcept<V>> connectionsTo(conceptId: Id<V>): Set<IConnection<*>> {
+        require(isReadable)
+        return innerGraph.connectionsTo(conceptId)
+    }
+
     override fun <V : IConcept<V>> containsConceptWithId(conceptId: Id<V>): Boolean {
         require(isReadable)
         return innerGraph.containsConceptWithId(conceptId)

@@ -46,9 +46,19 @@ interface IGraph {
     fun <E : IConnection<E>> connection(connectionId: Id<E>): E?
 
     /**
-     * @return the connections linked to the concept with given ID [conceptId].
+     * @return the connections linked to or from the concept with given ID [conceptId].
      */
     fun <V : IConcept<V>> connections(conceptId: Id<V>): Set<IConnection<*>>
+
+    /**
+     * @return the connections linked from the concept with given ID [conceptId].
+     */
+    fun <V : IConcept<V>> connectionsFrom(conceptId: Id<V>): Set<IConnection<*>>
+
+    /**
+     * @return the connections linked from the concept with given ID [conceptId].
+     */
+    fun <V : IConcept<V>> connectionsTo(conceptId: Id<V>): Set<IConnection<*>>
 
     /**
      * @return true if the graph contains the given [concept].

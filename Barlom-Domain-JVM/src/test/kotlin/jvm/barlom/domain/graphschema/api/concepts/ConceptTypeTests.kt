@@ -3,8 +3,9 @@
 // Apache 2.0 License
 //
 
-package jvm.barlom.domain.graphschema.api
+package jvm.barlom.domain.graphschema.api.concepts
 
+import jvm.barlom.domain.graphschema.api.SchemaGraphTests
 import o.barlom.domain.graphschema.api.concepts.ConceptType
 import o.barlom.domain.graphschema.api.concepts.Package
 import o.barlom.domain.graphschema.api.connections.ConceptTypeContainment
@@ -40,8 +41,8 @@ class ConceptTypeTests
 
         fun check(m: Model) =
             with(m.graph) {
-                assertEquals(5, numConcepts)
-                assertEquals(5, numConnections)
+                assertEquals(7, numConcepts)
+                assertEquals(8, numConnections)
                 assertFalse(isEmpty())
                 assertTrue(isNotEmpty())
                 assertTrue(containsConcept(m.rootPackage))

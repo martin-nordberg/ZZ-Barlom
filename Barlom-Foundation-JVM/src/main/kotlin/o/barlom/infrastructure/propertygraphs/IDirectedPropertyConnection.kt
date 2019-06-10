@@ -16,6 +16,6 @@ interface IDirectedPropertyConnection<
     Connection,
     FromConcept : IPropertyConcept<FromConcept>,
     ToConcept : IPropertyConcept<ToConcept>
-    > : IDirectedConnection<Connection, FromConcept, ToConcept>, IPropertyContainer
+> : IDirectedConnection<Connection, FromConcept, ToConcept>, IPropertyContainer
 
 //---------------------------------------------------------------------------------------------------------------------
