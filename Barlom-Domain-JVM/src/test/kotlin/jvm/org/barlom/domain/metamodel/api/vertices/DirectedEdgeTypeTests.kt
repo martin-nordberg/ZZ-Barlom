@@ -11,14 +11,14 @@ import o.barlom.domain.metamodel.api.types.ECyclicity
 import o.barlom.domain.metamodel.api.types.EMultiEdgedness
 import o.barlom.domain.metamodel.api.types.ESelfLooping
 import o.barlom.infrastructure.revisions.RevisionHistory
-import x.barlom.infrastructure.uuids.makeUuid
 import org.junit.jupiter.api.Test
+import x.barlom.infrastructure.uuids.makeUuid
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
- * Tests of DirectedEdgeType.
+ * Tests of DirectedConnectionType.
  */
 @Suppress("RemoveRedundantBackticks")
 class DirectedEdgeTypeTests {

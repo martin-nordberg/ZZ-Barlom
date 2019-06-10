@@ -44,21 +44,6 @@ interface IPropertyContainer {
     fun propertyNames(): Set<String> =
         setOf()
 
-    /** Sets a Boolean property with given [propertyName] to given [value]. */
-    fun setBoolean(propertyName: String, value: Boolean) {
-        // do nothing
-    }
-
-    /** Sets an integer property with given [propertyName] to given [value]. */
-    fun setInt(propertyName: String, value: Int) {
-        // do nothing
-    }
-
-    /** Sets a string property with given [propertyName] to given [value]. */
-    fun setString(propertyName: String, value: String) {
-        // do nothing
-    }
-
 }
 
 //---------------------------------------------------------------------------------------------------------------------

@@ -7,6 +7,7 @@ package o.barlom.domain.graphschema.api.connections
 
 import o.barlom.domain.graphschema.api.concepts.AbstractPackagedConcept
 import o.barlom.domain.graphschema.api.concepts.Package
+import o.barlom.domain.graphschema.api.types.ESharing
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -18,28 +19,30 @@ abstract class AbstractPackagedElementContainment<Connection, ChildConcept : Abs
     : IDirectedPropertyConnection<Connection, Package, ChildConcept> {
 
     /** Whether the contained concept is shared outside the package. */
-    abstract var isShared: Boolean
+    abstract val sharing: ESharing
+
+    val parentPackageId
+        get() = fromConceptId
+
+    val childElementId
+        get() = toConceptId
+
+    ////
 
     override fun get(propertyName: String): Any? =
         when (propertyName) {
-            "isShared" -> isShared
-            else       -> super.get(propertyName)
+            "sharing" -> sharing
+            else      -> super.get(propertyName)
         }
 
     override fun hasProperty(propertyName: String): Boolean =
         when (propertyName) {
-            "isShared" -> true
-            else       -> super.hasProperty(propertyName)
+            "sharing" -> true
+            else      -> super.hasProperty(propertyName)
         }
 
     override fun propertyNames(): Set<String> =
-        super.propertyNames().plus("isShared")
-
-    override fun setBoolean(propertyName: String, value: Boolean) =
-        when (propertyName) {
-            "isShared" -> isShared = value
-            else       -> super.setBoolean(propertyName, value)
-        }
+        super.propertyNames().plus("sharing")
 
 }
 

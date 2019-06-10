@@ -10,7 +10,7 @@ package o.barlom.domain.graphschema.api.concepts
 /**
  * Interface to a concept that is contained in a package.
  */
-abstract class AbstractPackagedConcept<Concept> internal constructor()
+abstract class AbstractPackagedConcept<Concept : AbstractPackagedConcept<Concept>> internal constructor()
     : AbstractNamedConcept<Concept>()
 
 //---------------------------------------------------------------------------------------------------------------------

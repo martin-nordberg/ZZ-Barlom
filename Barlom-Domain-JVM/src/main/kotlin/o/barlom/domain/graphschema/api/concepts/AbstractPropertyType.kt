@@ -5,34 +5,33 @@
 
 package o.barlom.domain.graphschema.api.concepts
 
-import o.barlom.infrastructure.graphs.Id
+import o.barlom.domain.graphschema.api.types.EOptionality
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A package containing concept types and connection types.
+ * The type of a property.
  */
-data class Package(
-    override val id: Id<Package>,
-    val isRoot: Boolean = false,
-    override val name: String = if (isRoot) "Schema" else "newpackage",
-    override val description: String = if (isRoot) "Root package." else ""
-) : AbstractPackagedConcept<Package>() {
+abstract class AbstractPropertyType<ConnectionType : AbstractPropertyType<ConnectionType>>
+    : AbstractPackagedConcept<ConnectionType>() {
+
+    /** Whether this property is required or optional. */
+    abstract val optionality: EOptionality
 
     override fun get(propertyName: String): Any? =
         when (propertyName) {
-            "isRoot" -> isRoot
-            else     -> super.get(propertyName)
+            "optionality" -> optionality
+            else          -> super.get(propertyName)
         }
 
     override fun hasProperty(propertyName: String): Boolean =
         when (propertyName) {
-            "isRoot" -> true
-            else     -> super.hasProperty(propertyName)
+            "optionality" -> true
+            else          -> super.hasProperty(propertyName)
         }
 
     override fun propertyNames(): Set<String> =
-        super.propertyNames().plus("isRoot")
+        super.propertyNames().plus("optionality")
 
 }
 

@@ -12,16 +12,19 @@ import o.barlom.infrastructure.graphs.Id
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A connection from parent package to contained child package.
+ * A connection from consumer package to supplier package.
  */
-data class PackageContainment(
-    override val id: Id<PackageContainment>,
+data class PackageDependency(
+    override val id: Id<PackageDependency>,
     override val fromConceptId: Id<Package>,
     override val toConceptId: Id<Package>,
-    override var sharing: ESharing = ESharing.SHARED
-) : AbstractPackagedElementContainment<PackageContainment, Package>() {
+    override var sharing: ESharing = ESharing.NOT_SHARED
+) : AbstractPackagedElementContainment<PackageDependency, Package>() {
 
-    val childPackageId
+    val consumerPackageId
+        get() = fromConceptId
+
+    val producerPackageId
         get() = toConceptId
 
 }

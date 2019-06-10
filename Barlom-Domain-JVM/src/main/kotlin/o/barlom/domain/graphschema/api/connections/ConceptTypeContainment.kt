@@ -5,6 +5,7 @@
 
 package o.barlom.domain.graphschema.api.connections
 
+import o.barlom.domain.graphschema.api.concepts.ConceptType
 import o.barlom.domain.graphschema.api.concepts.Package
 import o.barlom.domain.graphschema.api.types.ESharing
 import o.barlom.infrastructure.graphs.Id
@@ -12,16 +13,16 @@ import o.barlom.infrastructure.graphs.Id
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A connection from parent package to contained child package.
+ * A connection from parent package to contained child concept type.
  */
-data class PackageContainment(
-    override val id: Id<PackageContainment>,
+data class ConceptTypeContainment(
+    override val id: Id<ConceptTypeContainment>,
     override val fromConceptId: Id<Package>,
-    override val toConceptId: Id<Package>,
+    override val toConceptId: Id<ConceptType>,
     override var sharing: ESharing = ESharing.SHARED
-) : AbstractPackagedElementContainment<PackageContainment, Package>() {
+) : AbstractPackagedElementContainment<ConceptTypeContainment, ConceptType>() {
 
-    val childPackageId
+    val childConceptTypeId
         get() = toConceptId
 
 }
