@@ -9,6 +9,7 @@ import o.barlom.domain.graphschema.api.concepts.ConceptPropertyType
 import o.barlom.domain.graphschema.api.concepts.ConstrainedDataType
 import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -16,7 +17,7 @@ import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
  * A connection from a concept property type to its data type.
  */
 data class ConceptPropertyDataTypeUsage(
-    override val id: Id<ConceptPropertyDataTypeUsage>,
+    override val uuid: Uuid,
     override val fromConceptId: Id<ConceptPropertyType>,
     override val toConceptId: Id<ConstrainedDataType>
 ) : IDirectedPropertyConnection<ConceptPropertyDataTypeUsage, ConceptPropertyType, ConstrainedDataType> {

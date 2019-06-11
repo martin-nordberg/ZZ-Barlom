@@ -6,6 +6,7 @@
 package jvm.barlom.infrastructure.graphs
 
 import o.barlom.infrastructure.graphs.*
+import x.barlom.infrastructure.uuids.Uuid
 import x.barlom.infrastructure.uuids.makeUuid
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -125,7 +126,7 @@ abstract class GraphTests {
 
 data class SampleConcept(
 
-    override val id: Id<SampleConcept> = Id(makeUuid())
+    override val uuid: Uuid = makeUuid()
 
 ) : IConcept<SampleConcept>
 
@@ -134,7 +135,7 @@ data class SampleConcept(
 data class SampleUndirectedConnection(
     override val conceptIdA: Id<SampleConcept>,
     override val conceptIdB: Id<SampleConcept>,
-    override val id: Id<SampleUndirectedConnection> = Id(makeUuid())
+    override val uuid: Uuid = makeUuid()
 ) : IUndirectedConnection<SampleUndirectedConnection, SampleConcept>
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -142,7 +143,7 @@ data class SampleUndirectedConnection(
 data class SampleDirectedConnection(
     override val fromConceptId: Id<SampleConcept>,
     override val toConceptId: Id<SampleConcept>,
-    override val id: Id<SampleDirectedConnection> = Id(makeUuid())
+    override val uuid: Uuid = makeUuid()
 ) : IDirectedConnection<SampleDirectedConnection, SampleConcept, SampleConcept>
 
 //---------------------------------------------------------------------------------------------------------------------

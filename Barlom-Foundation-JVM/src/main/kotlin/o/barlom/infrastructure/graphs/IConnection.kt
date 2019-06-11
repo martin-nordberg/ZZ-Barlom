@@ -10,10 +10,12 @@ package o.barlom.infrastructure.graphs
 /**
  * A connection (edge or link) in a graph. Provides the unique ID of the connection.
  */
-interface IConnection<Connection> {
+interface IConnection<Connection>
+    : Id<Connection> {
 
     /** The unique ID of the connection. */
     val id: Id<Connection>
+        get() = this
 
 }
 

@@ -15,28 +15,28 @@ import o.barlom.infrastructure.graphs.*
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Finds the immediate child packages of a package [parentPackage].
+ * Finds the immediate child packages of a package with ID [parentPackageId].
  */
-fun Model.childPackages(parentPackage: Package): List<Package> =
-    graph.findConceptsConnectedFrom<Package, PackageContainment, Package>(parentPackage.id)
+fun Model.childPackages(parentPackageId: Id<Package>): List<Package> =
+    graph.findConceptsConnectedFrom<Package, PackageContainment, Package>(parentPackageId)
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Tests whether a given [parentPackage] has a given [childPackage].
+ * Tests whether the package with ID [parentPackageId] has a child package with ID [childPackage].
  */
-fun Model.hasChild(parentPackage: Package, childPackage: Package): Boolean =
-    graph.hasConceptConnectedFrom<Package, PackageContainment, Package>(parentPackage.id) { connection ->
-        connection.childElementId == childPackage.id
+fun Model.hasChild(parentPackageId: Id<Package>, childPackageId: Id<Package>): Boolean =
+    graph.hasConceptConnectedFrom<Package, PackageContainment, Package>(parentPackageId) { connection ->
+        connection.childElementId == childPackageId
     }
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Tests whether a [childPackage] has given [parentPackage].
+ * Tests whether the package with ID [childPackageId] has parent with ID [parentPackage].
  */
-fun Model.hasParent(childPackage: Package, parentPackage: Package): Boolean =
-    hasChild(parentPackage, childPackage)
+fun Model.hasParent(childPackageId: Id<Package>, parentPackageId: Id<Package>): Boolean =
+    hasChild(parentPackageId, childPackageId)
 
 //---------------------------------------------------------------------------------------------------------------------
 

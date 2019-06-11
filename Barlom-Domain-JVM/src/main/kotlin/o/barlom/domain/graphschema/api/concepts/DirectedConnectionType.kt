@@ -9,7 +9,7 @@ import o.barlom.domain.graphschema.api.types.EAbstractness
 import o.barlom.domain.graphschema.api.types.ECyclicity
 import o.barlom.domain.graphschema.api.types.EMultiEdgedness
 import o.barlom.domain.graphschema.api.types.ESelfLooping
-import o.barlom.infrastructure.graphs.Id
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ import o.barlom.infrastructure.graphs.Id
  * The type of a directed connection (edge or link).
  */
 data class DirectedConnectionType(
-    override val id: Id<DirectedConnectionType>,
+    override val uuid: Uuid,
     override val isRoot: Boolean = false,
     override val name: String = if (isRoot) "RootDirectedConnectionType" else "NewDirectedConnectionType",
     override val description: String = if (isRoot) "Root directed edge type." else "",

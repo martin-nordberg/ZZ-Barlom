@@ -8,6 +8,7 @@ package o.barlom.domain.graphschema.api.connections
 import o.barlom.domain.graphschema.api.concepts.DirectedConnectionType
 import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
  * An inheritance connection from sub directed connection type to super directed connection type.
  */
 data class DirectedConnectionTypeInheritance(
-    override val id: Id<DirectedConnectionTypeInheritance>,
+    override val uuid: Uuid,
     override val fromConceptId: Id<DirectedConnectionType>,
     override val toConceptId: Id<DirectedConnectionType>
 ) : IDirectedPropertyConnection<DirectedConnectionTypeInheritance, DirectedConnectionType, DirectedConnectionType> {

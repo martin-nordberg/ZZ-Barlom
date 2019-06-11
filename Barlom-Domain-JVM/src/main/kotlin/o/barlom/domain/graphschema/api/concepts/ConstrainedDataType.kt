@@ -6,8 +6,8 @@
 package o.barlom.domain.graphschema.api.concepts
 
 import o.barlom.domain.graphschema.api.types.EDataType
-import o.barlom.infrastructure.graphs.Id
 import x.barlom.infrastructure.platform.DateTime
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ sealed class ConstrainedDataType
 //---------------------------------------------------------------------------------------------------------------------
 
 data class ConstrainedBoolean(
-    override val id: Id<ConstrainedDataType>,
+    override val uuid: Uuid,
     override val name: String,
     override val description: String = ""
 ) : ConstrainedDataType() {
@@ -51,7 +51,7 @@ data class ConstrainedBoolean(
 //---------------------------------------------------------------------------------------------------------------------
 
 data class ConstrainedDateTime(
-    override val id: Id<ConstrainedDataType>,
+    override val uuid: Uuid,
     override val name: String,
     override val description: String = "",
     val maxValue: DateTime? = null,
@@ -86,7 +86,7 @@ data class ConstrainedDateTime(
 //---------------------------------------------------------------------------------------------------------------------
 
 data class ConstrainedFloat64(
-    override val id: Id<ConstrainedDataType>,
+    override val uuid: Uuid,
     override val name: String,
     override val description: String = "",
     val defaultValue: Double? = null,
@@ -120,7 +120,7 @@ data class ConstrainedFloat64(
 //---------------------------------------------------------------------------------------------------------------------
 
 data class ConstrainedInteger32(
-    override val id: Id<ConstrainedDataType>,
+    override val uuid: Uuid,
     override val name: String,
     override val description: String = "",
     val defaultValue: Int? = null,
@@ -154,7 +154,7 @@ data class ConstrainedInteger32(
 //---------------------------------------------------------------------------------------------------------------------
 
 data class ConstrainedString(
-    override val id: Id<ConstrainedDataType>,
+    override val uuid: Uuid,
     override val name: String,
     override val description: String = "",
     val defaultValue: String? = null,
@@ -195,7 +195,7 @@ data class ConstrainedString(
 //---------------------------------------------------------------------------------------------------------------------
 
 data class ConstrainedUuid(
-    override val id: Id<ConstrainedDataType>,
+    override val uuid: Uuid,
     override val name: String,
     override val description: String = ""
 ) : ConstrainedDataType() {

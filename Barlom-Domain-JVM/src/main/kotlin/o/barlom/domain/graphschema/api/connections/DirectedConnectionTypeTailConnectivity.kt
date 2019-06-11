@@ -8,6 +8,7 @@ package o.barlom.domain.graphschema.api.connections
 import o.barlom.domain.graphschema.api.concepts.ConceptType
 import o.barlom.domain.graphschema.api.concepts.DirectedConnectionType
 import o.barlom.infrastructure.graphs.Id
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ import o.barlom.infrastructure.graphs.Id
  * A connection from directed connection type to the concept type at its tail.
  */
 data class DirectedConnectionTypeTailConnectivity(
-    override val id: Id<DirectedConnectionTypeTailConnectivity>,
+    override val uuid: Uuid,
     override val fromConceptId: Id<DirectedConnectionType>,
     override val toConceptId: Id<ConceptType>
 ) : AbstractConnectionTypeConnectivity<DirectedConnectionTypeTailConnectivity, DirectedConnectionType>() {

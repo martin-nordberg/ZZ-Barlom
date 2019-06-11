@@ -6,7 +6,7 @@
 package o.barlom.domain.graphschema.api.concepts
 
 import o.barlom.domain.graphschema.api.types.EAbstractness
-import o.barlom.infrastructure.graphs.Id
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ import o.barlom.infrastructure.graphs.Id
  * The type of a concept (vertex or node).
  */
 data class ConceptType(
-    override val id: Id<ConceptType>,
+    override val uuid: Uuid,
     val isRoot: Boolean = false,
     override val name: String = if (isRoot) "RootConceptType" else "NewConceptType",
     override val description: String = if (isRoot) "Root concept type." else "",

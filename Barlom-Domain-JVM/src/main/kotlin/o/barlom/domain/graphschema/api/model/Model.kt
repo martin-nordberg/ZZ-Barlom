@@ -13,7 +13,6 @@ import o.barlom.domain.graphschema.api.connections.ConceptTypeContainment
 import o.barlom.domain.graphschema.api.connections.DirectedConnectionTypeContainment
 import o.barlom.domain.graphschema.api.connections.UndirectedConnectionTypeContainment
 import o.barlom.infrastructure.graphs.IWritableGraph
-import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.graphs.graphOf
 import x.barlom.infrastructure.uuids.Uuid
 
@@ -32,24 +31,24 @@ class Model(
     var rootUuid = modelUuid
 
     /** The unique ID for the root package within this model. */
-    val rootPackageId: Id<Package> = Id(nextRootUuid())
+    private val rootPackageUuid = nextRootUuid()
 
     /** The unique ID for the root concept type within this model. */
-    val rootConceptTypeId: Id<ConceptType> = Id(nextRootUuid())
+    private val rootConceptTypeUuid = nextRootUuid()
 
     /** The unique ID for the root directed connection type within this model. */
-    val rootUndirectedConnectionTypeId: Id<UndirectedConnectionType> = Id(nextRootUuid())
+    private val rootUndirectedConnectionTypeUuid = nextRootUuid()
 
     /** The unique ID for the root undirected connection type within this model. */
-    val rootDirectedConnectionTypeId: Id<DirectedConnectionType> = Id(nextRootUuid())
+    private val rootDirectedConnectionTypeUuid = nextRootUuid()
 
-    val rootConceptType = ConceptType(rootConceptTypeId, true)
+    val rootConceptType = ConceptType(rootConceptTypeUuid, true)
 
-    val rootDirectedConnectionType = DirectedConnectionType(rootDirectedConnectionTypeId, true)
+    val rootDirectedConnectionType = DirectedConnectionType(rootDirectedConnectionTypeUuid, true)
 
-    val rootPackage = Package(rootPackageId, true)
+    val rootPackage = Package(rootPackageUuid, true)
 
-    val rootUndirectedConnectionType = UndirectedConnectionType(rootUndirectedConnectionTypeId, true)
+    val rootUndirectedConnectionType = UndirectedConnectionType(rootUndirectedConnectionTypeUuid, true)
 
     ////
 
@@ -59,15 +58,12 @@ class Model(
         addConcept(rootDirectedConnectionType)
         addConcept(rootUndirectedConnectionType)
 
-        addConnection(ConceptTypeContainment(Id(nextRootUuid()), rootPackageId, rootConceptTypeId))
-        addConnection(DirectedConnectionTypeContainment(Id(nextRootUuid()), rootPackageId, rootDirectedConnectionTypeId))
-        addConnection(UndirectedConnectionTypeContainment(Id(nextRootUuid()), rootPackageId, rootUndirectedConnectionTypeId))
+        addConnection(ConceptTypeContainment(nextRootUuid(), rootPackage, rootConceptType))
+        addConnection(DirectedConnectionTypeContainment(nextRootUuid(), rootPackage, rootDirectedConnectionType))
+        addConnection(UndirectedConnectionTypeContainment(nextRootUuid(), rootPackage, rootUndirectedConnectionType))
     }
 
     ////
-
-    fun <T> makeId(): Id<T> =
-        Id(makeUuid())
 
     private fun nextRootUuid(): Uuid {
         rootUuid = rootUuid.nextInReservedBlock()

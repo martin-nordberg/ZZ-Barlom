@@ -54,8 +54,8 @@ class ConceptTypeTests
                 assertTrue(containsConnection(ctc1b))
                 assertTrue(containsConnection(cti1a))
                 assertTrue(containsConnection(cti1b))
-                assertEquals(m.rootPackage, concept(m.rootPackageId))
-                assertEquals(m.rootConceptType, concept(m.rootConceptTypeId))
+                assertEquals(m.rootPackage, concept(m.rootPackage.id))
+                assertEquals(m.rootConceptType, concept(m.rootConceptType.id))
                 assertEquals(pkg1, concept(pkg1.id))
                 assertEquals(ct1a, concept(ct1a.id))
                 assertEquals(ct1b, concept(ct1b.id))
@@ -66,19 +66,19 @@ class ConceptTypeTests
             }
 
         runWriteCheckTest(::check) { m, g ->
-            pkg1 = Package(m.makeId(), false, "pkg1")
-            ct1a = ConceptType(m.makeId(), name = "ConceptType1")
-            ct1b = ConceptType(m.makeId(), name = "ConceptType2")
-            ctc1a = ConceptTypeContainment(m.makeId(), pkg1.id, ct1a.id)
-            ctc1b = ConceptTypeContainment(m.makeId(), pkg1.id, ct1b.id)
-            cti1a = ConceptTypeInheritance(m.makeId(), ct1a.id, m.rootConceptTypeId)
-            cti1b = ConceptTypeInheritance(m.makeId(), ct1b.id, m.rootConceptTypeId)
+            pkg1 = Package(m.makeUuid(), false, "pkg1")
+            ct1a = ConceptType(m.makeUuid(), name = "ConceptType1")
+            ct1b = ConceptType(m.makeUuid(), name = "ConceptType2")
+            ctc1a = ConceptTypeContainment(m.makeUuid(), pkg1, ct1a)
+            ctc1b = ConceptTypeContainment(m.makeUuid(), pkg1, ct1b)
+            cti1a = ConceptTypeInheritance(m.makeUuid(), ct1a, m.rootConceptType)
+            cti1b = ConceptTypeInheritance(m.makeUuid(), ct1b, m.rootConceptType)
 
             with(g) {
                 addConcept(pkg1)
                 addConcept(ct1a)
                 addConcept(ct1b)
-                addConnection(PackageContainment(m.makeId(), m.rootPackageId, pkg1.id))
+                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg1.id))
                 addConnection(ctc1a)
                 addConnection(ctc1b)
                 addConnection(cti1a)

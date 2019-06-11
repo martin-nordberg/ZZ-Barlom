@@ -7,7 +7,7 @@ package o.barlom.domain.graphschema.api.concepts
 
 import o.barlom.domain.graphschema.api.types.ELabelDefaulting
 import o.barlom.domain.graphschema.api.types.EOptionality
-import o.barlom.infrastructure.graphs.Id
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ import o.barlom.infrastructure.graphs.Id
  * The type of a concept property.
  */
 data class ConceptPropertyType(
-    override val id: Id<ConceptPropertyType>,
+    override val uuid: Uuid,
     override val name: String,
     override val description: String = "",
     override val optionality: EOptionality = EOptionality.OPTIONAL,

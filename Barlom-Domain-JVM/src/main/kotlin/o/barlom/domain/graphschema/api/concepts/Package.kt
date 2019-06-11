@@ -5,7 +5,7 @@
 
 package o.barlom.domain.graphschema.api.concepts
 
-import o.barlom.infrastructure.graphs.Id
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ import o.barlom.infrastructure.graphs.Id
  * A package containing concept types and connection types.
  */
 data class Package(
-    override val id: Id<Package>,
+    override val uuid: Uuid,
     val isRoot: Boolean = false,
     override val name: String = if (isRoot) "Schema" else "newpackage",
     override val description: String = if (isRoot) "Root package." else ""

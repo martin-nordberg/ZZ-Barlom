@@ -8,6 +8,7 @@ package o.barlom.domain.graphschema.api.connections
 import o.barlom.domain.graphschema.api.concepts.ConceptType
 import o.barlom.domain.graphschema.api.concepts.UndirectedConnectionType
 import o.barlom.infrastructure.graphs.Id
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ import o.barlom.infrastructure.graphs.Id
  * A connection from undirected connection type to concept type.
  */
 data class UndirectedConnectionTypeConnectivity(
-    override val id: Id<UndirectedConnectionTypeConnectivity>,
+    override val uuid: Uuid,
     override val fromConceptId: Id<UndirectedConnectionType>,
     override val toConceptId: Id<ConceptType>
 ) : AbstractConnectionTypeConnectivity<UndirectedConnectionTypeConnectivity, UndirectedConnectionType>() {

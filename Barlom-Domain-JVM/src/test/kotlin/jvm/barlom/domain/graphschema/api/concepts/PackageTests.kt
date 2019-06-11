@@ -12,7 +12,6 @@ import o.barlom.domain.graphschema.api.connections.PackageDependency
 import o.barlom.domain.graphschema.api.model.Model
 import o.barlom.domain.graphschema.api.queries.*
 import o.barlom.domain.graphschema.api.types.ESharing
-import o.barlom.infrastructure.graphs.Id
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -60,7 +59,7 @@ class PackageTests
                 assertTrue(containsConcept(pkg2))
                 assertTrue(containsConcept(pkg3))
                 assertTrue(containsConcept(pkg4))
-                assertEquals(m.rootPackage, concept(m.rootPackageId))
+                assertEquals(m.rootPackage, concept(m.rootPackage.id))
                 assertEquals(pkg1, concept(pkg1.id))
                 assertEquals(pkg2, concept(pkg2.id))
                 assertEquals(pkg3, concept(pkg3.id))
@@ -68,10 +67,10 @@ class PackageTests
             }
 
         runWriteCheckTest(::check) { m, g ->
-            pkg1 = Package(Id(m.makeUuid()), false, "pkg1")
-            pkg2 = Package(Id(m.makeUuid()), false, "pkg2")
-            pkg3 = Package(Id(m.makeUuid()), false, "pkg3")
-            pkg4 = Package(Id(m.makeUuid()), false, "pkg4")
+            pkg1 = Package(m.makeUuid(), false, "pkg1")
+            pkg2 = Package(m.makeUuid(), false, "pkg2")
+            pkg3 = Package(m.makeUuid(), false, "pkg3")
+            pkg4 = Package(m.makeUuid(), false, "pkg4")
 
             with(g) {
                 addConcept(pkg1)
@@ -173,15 +172,15 @@ class PackageTests
             }
 
         runWriteCheckTest(::check) { m, g ->
-            pkg1 = Package(Id(m.makeUuid()), false, "pkg1")
-            pkg1a = Package(Id(m.makeUuid()), false, "pkg1a")
-            pkg1ai = Package(Id(m.makeUuid()), false, "pkg1ai")
-            pkg1b = Package(Id(m.makeUuid()), false, "pkg1b")
+            pkg1 = Package(m.makeUuid(), false, "pkg1")
+            pkg1a = Package(m.makeUuid(), false, "pkg1a")
+            pkg1ai = Package(m.makeUuid(), false, "pkg1ai")
+            pkg1b = Package(m.makeUuid(), false, "pkg1b")
 
-            containment1 = PackageContainment(Id(m.makeUuid()), m.rootPackageId, pkg1.id)
-            containment1a = PackageContainment(Id(m.makeUuid()), pkg1.id, pkg1a.id, ESharing.NOT_SHARED)
-            containment1ai = PackageContainment(Id(m.makeUuid()), pkg1a.id, pkg1ai.id, ESharing.NOT_SHARED)
-            containment1b = PackageContainment(Id(m.makeUuid()), pkg1.id, pkg1b.id)
+            containment1 = PackageContainment(m.makeUuid(), m.rootPackage, pkg1)
+            containment1a = PackageContainment(m.makeUuid(), pkg1, pkg1a, ESharing.NOT_SHARED)
+            containment1ai = PackageContainment(m.makeUuid(), pkg1a, pkg1ai, ESharing.NOT_SHARED)
+            containment1b = PackageContainment(m.makeUuid(), pkg1, pkg1b)
 
             with(g) {
                 addConcept(pkg1)
@@ -223,10 +222,10 @@ class PackageTests
             }
 
         runWriteCheckTest(::check) { m, g ->
-            val pkg1 = Package(Id(m.makeUuid()), false, "pkg1")
-            val pkg2 = Package(Id(m.makeUuid()), false, "pkg2")
-            val pkg3 = Package(Id(m.makeUuid()), false, "pkg3")
-            val pkg4 = Package(Id(m.makeUuid()), false, "pkg4")
+            val pkg1 = Package(m.makeUuid(), false, "pkg1")
+            val pkg2 = Package(m.makeUuid(), false, "pkg2")
+            val pkg3 = Package(m.makeUuid(), false, "pkg3")
+            val pkg4 = Package(m.makeUuid(), false, "pkg4")
 
             with(g) {
                 addConcept(pkg1)
@@ -234,14 +233,14 @@ class PackageTests
                 addConcept(pkg3)
                 addConcept(pkg4)
 
-                addConnection(PackageContainment(Id(m.makeUuid()), m.rootPackageId, pkg1.id))
-                addConnection(PackageContainment(Id(m.makeUuid()), m.rootPackageId, pkg2.id))
-                addConnection(PackageContainment(Id(m.makeUuid()), m.rootPackageId, pkg3.id))
-                addConnection(PackageContainment(Id(m.makeUuid()), m.rootPackageId, pkg4.id))
+                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg1))
+                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg2))
+                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg3))
+                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg4))
 
-                dep12 = PackageDependency(Id(m.makeUuid()), pkg1.id, pkg2.id)
-                dep23 = PackageDependency(Id(m.makeUuid()), pkg2.id, pkg3.id)
-                dep34 = PackageDependency(Id(m.makeUuid()), pkg3.id, pkg4.id)
+                dep12 = PackageDependency(m.makeUuid(), pkg1, pkg2)
+                dep23 = PackageDependency(m.makeUuid(), pkg2, pkg3)
+                dep34 = PackageDependency(m.makeUuid(), pkg3, pkg4)
 
                 addConnection(dep12)
                 addConnection(dep23)

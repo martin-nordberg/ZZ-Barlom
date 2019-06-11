@@ -8,6 +8,7 @@ package o.barlom.domain.graphschema.api.connections
 import o.barlom.domain.graphschema.api.concepts.ConceptType
 import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
+import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
  * A connection from derived (sub) concept type to base (super) concept type.
  */
 data class ConceptTypeInheritance(
-    override val id: Id<ConceptTypeInheritance>,
+    override val uuid: Uuid,
     override val fromConceptId: Id<ConceptType>,
     override val toConceptId: Id<ConceptType>
 ) : IDirectedPropertyConnection<ConceptTypeInheritance, ConceptType, ConceptType> {
