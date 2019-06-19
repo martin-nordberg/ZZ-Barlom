@@ -15,9 +15,9 @@ import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
  * Interface to a connection representing connectivity between connection type and concept type.
  */
 abstract class AbstractConnectionTypeConnectivity<
-    Connection,
+    Connection : AbstractConnectionTypeConnectivity<Connection, ConnectionType>,
     ConnectionType : AbstractConnectionType<ConnectionType>
-    > : IDirectedPropertyConnection<Connection, ConnectionType, ConceptType> {
+> : IDirectedPropertyConnection<Connection, ConnectionType, ConceptType> {
 
     val conceptTypeId
         get() = toConceptId

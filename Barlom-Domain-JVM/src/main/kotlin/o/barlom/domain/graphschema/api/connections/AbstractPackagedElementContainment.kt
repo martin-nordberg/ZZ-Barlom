@@ -15,8 +15,10 @@ import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
 /**
  * Interface to a connection representing containment within a package.
  */
-abstract class AbstractPackagedElementContainment<Connection, ChildConcept : AbstractPackagedConcept<ChildConcept>>
-    : IDirectedPropertyConnection<Connection, Package, ChildConcept> {
+abstract class AbstractPackagedElementContainment<
+    Connection : AbstractPackagedElementContainment<Connection, ChildConcept>,
+    ChildConcept : AbstractPackagedConcept<ChildConcept>
+> : IDirectedPropertyConnection<Connection, Package, ChildConcept> {
 
     /** Whether the contained concept is shared outside the package. */
     abstract val sharing: ESharing

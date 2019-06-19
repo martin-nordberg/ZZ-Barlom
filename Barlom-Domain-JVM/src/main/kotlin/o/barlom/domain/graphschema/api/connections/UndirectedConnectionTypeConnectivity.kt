@@ -7,6 +7,7 @@ package o.barlom.domain.graphschema.api.connections
 
 import o.barlom.domain.graphschema.api.concepts.ConceptType
 import o.barlom.domain.graphschema.api.concepts.UndirectedConnectionType
+import o.barlom.infrastructure.graphs.ConnectionType
 import o.barlom.infrastructure.graphs.Id
 import x.barlom.infrastructure.uuids.Uuid
 
@@ -24,7 +25,13 @@ data class UndirectedConnectionTypeConnectivity(
     val undirectedConnectionTypeId
         get() = fromConceptId
 
-    override val typeName = "UndirectedConnectionTypeConnectivity"
+    override val type = TYPE
+
+    ////
+
+    companion object {
+        val TYPE = ConnectionType<UndirectedConnectionTypeConnectivity>("UndirectedConnectionTypeConnectivity")
+    }
 
 }
 

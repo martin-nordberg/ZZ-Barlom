@@ -35,7 +35,7 @@ internal class ConnectionMap
      * @return whether this connection map contains the given [connection].
      */
     override fun contains(connection: IConnection<*>) =
-        connectionsByTypeAndUuid[connection.typeName]?.get(connection.id.uuid) === connection
+        connectionsByTypeAndUuid[connection.type.typeName]?.get(connection.id.uuid) === connection
 
     /**
      * @return whether al of the given [connections] are contained in this map.
@@ -94,7 +94,7 @@ internal class ConnectionMap
      */
     fun put(connection: IConnection<*>) {
         connectionsByUuid[connection.id.uuid] = connection
-        connectionsByTypeAndUuid.getOrPut(connection.typeName) { HashMap() } [connection.id.uuid] = connection
+        connectionsByTypeAndUuid.getOrPut(connection.type.typeName) { HashMap() } [connection.id.uuid] = connection
     }
 
     /**
@@ -117,10 +117,10 @@ internal class ConnectionMap
         val result = connectionsByUuid.remove(connectionUuid)
 
         if ( result != null ) {
-            val connectionsByType = connectionsByTypeAndUuid[result.typeName]!!
+            val connectionsByType = connectionsByTypeAndUuid[result.type.typeName]!!
             connectionsByType.remove(connectionUuid)
             if ( connectionsByType.isEmpty() ) {
-                connectionsByTypeAndUuid.remove(result.typeName)
+                connectionsByTypeAndUuid.remove(result.type.typeName)
             }
         }
 

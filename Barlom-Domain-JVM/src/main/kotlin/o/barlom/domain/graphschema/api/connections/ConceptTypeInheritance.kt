@@ -6,6 +6,7 @@
 package o.barlom.domain.graphschema.api.connections
 
 import o.barlom.domain.graphschema.api.concepts.ConceptType
+import o.barlom.infrastructure.graphs.ConnectionType
 import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
 import x.barlom.infrastructure.uuids.Uuid
@@ -27,7 +28,13 @@ data class ConceptTypeInheritance(
     val superTypeId
         get() = toConceptId
 
-    override val typeName = "ConceptTypeInheritance"
+    override val type = TYPE
+
+    ////
+
+    companion object {
+        val TYPE = ConnectionType<ConceptTypeInheritance>("ConceptTypeInheritance")
+    }
 
 }
 

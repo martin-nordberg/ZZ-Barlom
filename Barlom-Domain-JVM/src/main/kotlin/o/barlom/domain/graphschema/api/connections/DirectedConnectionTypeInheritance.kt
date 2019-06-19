@@ -6,6 +6,7 @@
 package o.barlom.domain.graphschema.api.connections
 
 import o.barlom.domain.graphschema.api.concepts.DirectedConnectionType
+import o.barlom.infrastructure.graphs.ConnectionType
 import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
 import x.barlom.infrastructure.uuids.Uuid
@@ -27,7 +28,13 @@ data class DirectedConnectionTypeInheritance(
     val superDirectedConnectionTypeId
         get() = toConceptId
 
-    override val typeName = "DirectedConnectionTypeInheritance"
+    override val type = TYPE
+
+    ////
+
+    companion object {
+        val TYPE = ConnectionType<DirectedConnectionTypeInheritance>("DirectedConnectionTypeInheritance")
+    }
 
 }
 

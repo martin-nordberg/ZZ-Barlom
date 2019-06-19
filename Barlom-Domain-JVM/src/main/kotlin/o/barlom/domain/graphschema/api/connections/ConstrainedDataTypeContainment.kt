@@ -8,6 +8,7 @@ package o.barlom.domain.graphschema.api.connections
 import o.barlom.domain.graphschema.api.concepts.ConstrainedDataType
 import o.barlom.domain.graphschema.api.concepts.Package
 import o.barlom.domain.graphschema.api.types.ESharing
+import o.barlom.infrastructure.graphs.ConnectionType
 import o.barlom.infrastructure.graphs.Id
 import x.barlom.infrastructure.uuids.Uuid
 
@@ -26,7 +27,13 @@ data class ConstrainedDataTypeContainment(
     val childConstrainedDataTypeId
         get() = toConceptId
 
-    override val typeName = "ConstrainedDateTypeContainment"
+    override val type = TYPE
+
+    ////
+
+    companion object {
+        val TYPE = ConnectionType<ConstrainedDataTypeContainment>("ConstrainedDataTypeContainment")
+    }
 
 }
 

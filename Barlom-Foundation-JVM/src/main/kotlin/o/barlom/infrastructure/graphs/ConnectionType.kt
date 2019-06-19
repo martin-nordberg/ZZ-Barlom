@@ -8,18 +8,13 @@ package o.barlom.infrastructure.graphs
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A connection (edge or link) in a graph. Provides the unique ID of the connection.
+ * The type of a connection.
  */
-interface IConnection<Connection : IConnection<Connection>>
-    : Id<Connection> {
+data class ConnectionType<Connection:IConnection<Connection>>(
 
-    /** The unique ID of the connection. */
-    val id: Id<Connection>
-        get() = this
+    /** The name of this connection type. */
+    val typeName: String
 
-    /** The type of this connection. */
-    val type: ConnectionType<Connection>
-
-}
+)
 
 //---------------------------------------------------------------------------------------------------------------------

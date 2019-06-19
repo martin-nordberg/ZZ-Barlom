@@ -10,8 +10,11 @@ package o.barlom.infrastructure.graphs
 /**
  * A directed connection (edge or link) from one concept (vertex or node) to another in a graph.
  */
-interface IDirectedConnection<Connection, FromConcept : IConcept<FromConcept>, ToConcept: IConcept<ToConcept>>
-    : IConnection<Connection> {
+interface IDirectedConnection<
+    Connection: IDirectedConnection<Connection,FromConcept,ToConcept>,
+    FromConcept : IConcept<FromConcept>,
+    ToConcept: IConcept<ToConcept>
+> : IConnection<Connection> {
 
     /** The concept at the tails of the connection. */
     val fromConceptId: Id<FromConcept>

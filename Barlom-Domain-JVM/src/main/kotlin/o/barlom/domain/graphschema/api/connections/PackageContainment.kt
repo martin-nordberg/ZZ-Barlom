@@ -7,6 +7,7 @@ package o.barlom.domain.graphschema.api.connections
 
 import o.barlom.domain.graphschema.api.concepts.Package
 import o.barlom.domain.graphschema.api.types.ESharing
+import o.barlom.infrastructure.graphs.ConnectionType
 import o.barlom.infrastructure.graphs.Id
 import x.barlom.infrastructure.uuids.Uuid
 
@@ -25,7 +26,13 @@ data class PackageContainment(
     val childPackageId
         get() = toConceptId
 
-    override val typeName = "PackageContainment"
+    override val type = TYPE
+
+    ////
+
+    companion object {
+        val TYPE = ConnectionType<PackageContainment>("PackageContainment")
+    }
 
 }
 

@@ -7,6 +7,7 @@ package o.barlom.domain.graphschema.api.connections
 
 import o.barlom.domain.graphschema.api.concepts.ConnectionPropertyType
 import o.barlom.domain.graphschema.api.concepts.ConstrainedDataType
+import o.barlom.infrastructure.graphs.ConnectionType
 import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
 import x.barlom.infrastructure.uuids.Uuid
@@ -28,7 +29,13 @@ data class ConnectionPropertyDataTypeUsage(
     val dataTypeId
         get() = toConceptId
 
-    override val typeName = "ConnectionPropertyDateTypeUsage"
+    override val type = TYPE
+
+    ////
+
+    companion object {
+        val TYPE = ConnectionType<ConnectionPropertyDataTypeUsage>("ConnectionPropertyDataTypeUsage")
+    }
 
 }
 

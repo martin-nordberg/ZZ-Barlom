@@ -12,8 +12,10 @@ import o.barlom.domain.graphschema.api.concepts.AbstractConnectionType
 /**
  * Interface to a connection representing containment of a connection type within a package.
  */
-abstract class AbstractConnectionTypeContainment<Connection, ChildConnectionType : AbstractConnectionType<ChildConnectionType>>
-    : AbstractPackagedElementContainment<Connection, ChildConnectionType>() {
+abstract class AbstractConnectionTypeContainment<
+    Connection : AbstractConnectionTypeContainment<Connection, ChildConnectionType>,
+    ChildConnectionType : AbstractConnectionType<ChildConnectionType>
+> : AbstractPackagedElementContainment<Connection, ChildConnectionType>() {
 
     val childConnectionTypeId
         get() = toConceptId
