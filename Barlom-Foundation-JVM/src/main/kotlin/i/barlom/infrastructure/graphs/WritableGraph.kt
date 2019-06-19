@@ -233,17 +233,17 @@ internal class WritableGraph(
 
     }
 
-    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionTypeName: String): Collection<E> {
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 
-        result.addAll(originalGraph.mappedConnectionsFrom<E>(conceptId.uuid, connectionTypeName))
+        result.addAll(originalGraph.mappedConnectionsFrom(conceptId.uuid, connectionType))
 
-        result.addAll(addedConnectionsFrom.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+        result.addAll(addedConnectionsFrom.getMapForConnectionType(conceptId.uuid, connectionType))
 
-        result.addAll(updatedConnectionsFrom.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+        result.addAll(updatedConnectionsFrom.getMapForConnectionType(conceptId.uuid, connectionType))
 
-        removedConnectionsFrom.getMapForConnectionType<E>(conceptId.uuid, connectionTypeName).forEach { connection ->
+        removedConnectionsFrom.getMapForConnectionType(conceptId.uuid, connectionType).forEach { connection ->
             result.remove(connection)
         }
 
@@ -268,17 +268,17 @@ internal class WritableGraph(
         return result
     }
 
-    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionTypeName: String): Collection<E> {
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 
-        result.addAll(originalGraph.mappedConnectionsTo(conceptId.uuid, connectionTypeName))
+        result.addAll(originalGraph.mappedConnectionsTo(conceptId.uuid, connectionType))
 
-        result.addAll(addedConnectionsTo.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+        result.addAll(addedConnectionsTo.getMapForConnectionType(conceptId.uuid, connectionType))
 
-        result.addAll(updatedConnectionsTo.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+        result.addAll(updatedConnectionsTo.getMapForConnectionType(conceptId.uuid, connectionType))
 
-        removedConnectionsTo.getMapForConnectionType<E>(conceptId.uuid, connectionTypeName).forEach { connection ->
+        removedConnectionsTo.getMapForConnectionType<E>(conceptId.uuid, connectionType).forEach { connection ->
             result.remove(connection)
         }
 
@@ -327,16 +327,16 @@ internal class WritableGraph(
 
     }
 
-    override fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionTypeName: String): Collection<E> {
+    override fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 
-        result.addAll(originalGraph.mappedConnectionsFrom(conceptUuid, connectionTypeName))
+        result.addAll(originalGraph.mappedConnectionsFrom(conceptUuid, connectionType))
 
-        result.addAll(addedConnectionsFrom.getMapForConnectionType(conceptUuid, connectionTypeName))
-        result.addAll(updatedConnectionsFrom.getMapForConnectionType(conceptUuid, connectionTypeName))
+        result.addAll(addedConnectionsFrom.getMapForConnectionType(conceptUuid, connectionType))
+        result.addAll(updatedConnectionsFrom.getMapForConnectionType(conceptUuid, connectionType))
 
-        removedConnectionsFrom.getMapForConnectionType<E>(conceptUuid, connectionTypeName).forEach { connection ->
+        removedConnectionsFrom.getMapForConnectionType<E>(conceptUuid, connectionType).forEach { connection ->
             result.remove(connection)
         }
 
@@ -361,16 +361,16 @@ internal class WritableGraph(
 
     }
 
-    override fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionTypeName: String): Collection<E> {
+    override fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 
-        result.addAll(originalGraph.mappedConnectionsTo(conceptUuid, connectionTypeName))
+        result.addAll(originalGraph.mappedConnectionsTo(conceptUuid, connectionType))
 
-        result.addAll(addedConnectionsTo.getMapForConnectionType(conceptUuid, connectionTypeName))
-        result.addAll(updatedConnectionsTo.getMapForConnectionType(conceptUuid, connectionTypeName))
+        result.addAll(addedConnectionsTo.getMapForConnectionType(conceptUuid, connectionType))
+        result.addAll(updatedConnectionsTo.getMapForConnectionType(conceptUuid, connectionType))
 
-        removedConnectionsTo.getMapForConnectionType<E>(conceptUuid, connectionTypeName).forEach { connection ->
+        removedConnectionsTo.getMapForConnectionType<E>(conceptUuid, connectionType).forEach { connection ->
             result.remove(connection)
         }
 

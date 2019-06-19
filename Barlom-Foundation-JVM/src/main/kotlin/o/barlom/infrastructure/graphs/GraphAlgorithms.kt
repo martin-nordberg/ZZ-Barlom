@@ -13,11 +13,11 @@ fun <
     ToConcept : IConcept<ToConcept>
 > IGraph.findConceptConnectedFrom(
     conceptId: Id<FromConcept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): ToConcept? {
 
-    for (connection in connectionsFrom<FromConcept,Connection>(conceptId, connectionTypeName)) {
+    for (connection in connectionsFrom(conceptId, connectionType)) {
         if (connectionPredicate(connection)) {
             return concept(connection.toConceptId) as ToConcept
         }
@@ -35,11 +35,11 @@ fun <
     ToConcept : IConcept<ToConcept>
 > IGraph.findConceptConnectedTo(
     conceptId: Id<ToConcept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): FromConcept? {
 
-    for (connection in connectionsTo<ToConcept,Connection>(conceptId, connectionTypeName)) {
+    for (connection in connectionsTo<ToConcept,Connection>(conceptId, connectionType)) {
         if (connectionPredicate(connection)) {
             return concept(connection.fromConceptId) as FromConcept
         }
@@ -57,13 +57,13 @@ fun <
     ToConcept : IConcept<ToConcept>
 > IGraph.findConceptsConnectedFrom(
     conceptId: Id<FromConcept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): List<ToConcept> {
 
     val result: MutableList<ToConcept> = mutableListOf()
 
-    for (connection in connectionsFrom<FromConcept,Connection>(conceptId,connectionTypeName)) {
+    for (connection in connectionsFrom<FromConcept,Connection>(conceptId,connectionType)) {
         if (connectionPredicate(connection)) {
             result.add(concept(connection.toConceptId) as ToConcept)
         }
@@ -81,13 +81,13 @@ fun <
     ToConcept : IConcept<ToConcept>
 > IGraph.findConceptsConnectedTo(
     conceptId: Id<ToConcept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): List<FromConcept> {
 
     val result: MutableList<FromConcept> = mutableListOf()
 
-    for (connection in connectionsTo<ToConcept,Connection>(conceptId,connectionTypeName)) {
+    for (connection in connectionsTo(conceptId,connectionType)) {
         if (connectionPredicate(connection)) {
             result.add(concept(connection.fromConceptId) as FromConcept)
         }
@@ -104,7 +104,7 @@ fun <
     Connection : IDirectedConnection<Connection, Concept, Concept>
 > IGraph.findTransitiveConceptsConnectedFrom(
     conceptId: Id<Concept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): Set<Concept> {
 
@@ -117,7 +117,7 @@ fun <
         val moreIdsToCheck: MutableSet<Id<Concept>> = mutableSetOf()
 
         for (idToCheck in idsToCheck) {
-            for (connection in connectionsFrom<Concept,Connection>(idToCheck, connectionTypeName)) {
+            for (connection in connectionsFrom<Concept,Connection>(idToCheck, connectionType)) {
                 if (connectionPredicate(connection)) {
 
                     val c = concept(connection.toConceptId) as Concept
@@ -146,7 +146,7 @@ fun <
     Connection : IDirectedConnection<Connection, Concept, Concept>
 > IGraph.findTransitiveConceptsConnectedTo(
     conceptId: Id<Concept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): Set<Concept> {
 
@@ -159,7 +159,7 @@ fun <
         val moreIdsToCheck: MutableSet<Id<Concept>> = mutableSetOf()
 
         for (idToCheck in idsToCheck) {
-            for (connection in connectionsTo<Concept,Connection>(idToCheck, connectionTypeName)) {
+            for (connection in connectionsTo(idToCheck, connectionType)) {
                 if (connectionPredicate(connection)) {
 
                     val c = concept(connection.fromConceptId) as Concept
@@ -189,11 +189,11 @@ fun <
     ToConcept : IConcept<ToConcept>
 > IGraph.hasConceptConnectedFrom(
     conceptId: Id<FromConcept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): Boolean {
 
-    for (connection in connectionsFrom<FromConcept,Connection>(conceptId, connectionTypeName)) {
+    for (connection in connectionsFrom(conceptId, connectionType)) {
         if (connectionPredicate(connection)) {
             return true
         }
@@ -211,11 +211,11 @@ fun <
     ToConcept : IConcept<ToConcept>
 > IGraph.hasConceptConnectedTo(
     conceptId: Id<ToConcept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): Boolean {
 
-    for (connection in connectionsTo<ToConcept,Connection>(conceptId, connectionTypeName)) {
+    for (connection in connectionsTo(conceptId, connectionType)) {
         if (connectionPredicate(connection)) {
             return true
         }
@@ -232,7 +232,7 @@ fun <
     Connection : IDirectedConnection<Connection, Concept, Concept>
 > IGraph.hasTransitiveConceptConnectedFrom(
     conceptId: Id<Concept>,
-    connectionTypeName: String,
+    connectionType: ConnectionType<Connection>,
     connectionPredicate: (Connection) -> Boolean = { true }
 ): Boolean {
 
@@ -246,7 +246,7 @@ fun <
 
         for (idToCheck in idsToCheck) {
 
-            for (connection in connectionsFrom<Concept,Connection>(idToCheck, connectionTypeName)) {
+            for (connection in connectionsFrom(idToCheck, connectionType)) {
 
                 if (connectionPredicate(connection)) {
                     return true
