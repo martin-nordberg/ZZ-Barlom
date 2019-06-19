@@ -33,7 +33,9 @@ data class DirectedConnectionTypeInheritance(
     ////
 
     companion object {
-        val TYPE = ConnectionType<DirectedConnectionTypeInheritance>("DirectedConnectionTypeInheritance")
+        val TYPE = ConnectionType<DirectedConnectionTypeInheritance>(
+            "o.barlom.domain.graphschema.api.connections.DirectedConnectionTypeInheritance"
+        )
     }
 
 }

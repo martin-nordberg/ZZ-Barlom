@@ -30,7 +30,9 @@ data class UndirectedConnectionTypeConnectivity(
     ////
 
     companion object {
-        val TYPE = ConnectionType<UndirectedConnectionTypeConnectivity>("UndirectedConnectionTypeConnectivity")
+        val TYPE = ConnectionType<UndirectedConnectionTypeConnectivity>(
+            "o.barlom.domain.graphschema.api.connections.UndirectedConnectionTypeConnectivity"
+        )
     }
 
 }

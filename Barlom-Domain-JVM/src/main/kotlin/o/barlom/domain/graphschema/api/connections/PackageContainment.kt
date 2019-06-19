@@ -31,7 +31,9 @@ data class PackageContainment(
     ////
 
     companion object {
-        val TYPE = ConnectionType<PackageContainment>("PackageContainment")
+        val TYPE = ConnectionType<PackageContainment>(
+            "o.barlom.domain.graphschema.api.connections.PackageContainment"
+        )
     }
 
 }

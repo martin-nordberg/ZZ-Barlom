@@ -30,7 +30,9 @@ data class DirectedConnectionTypeTailConnectivity(
     ////
 
     companion object {
-        val TYPE = ConnectionType<DirectedConnectionTypeTailConnectivity>("DirectedConnectionTypeTailConnectivity")
+        val TYPE = ConnectionType<DirectedConnectionTypeTailConnectivity>(
+            "o.barlom.domain.graphschema.api.connections.DirectedConnectionTypeTailConnectivity"
+        )
     }
 
 }

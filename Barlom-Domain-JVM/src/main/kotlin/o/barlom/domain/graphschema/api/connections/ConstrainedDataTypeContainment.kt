@@ -32,7 +32,9 @@ data class ConstrainedDataTypeContainment(
     ////
 
     companion object {
-        val TYPE = ConnectionType<ConstrainedDataTypeContainment>("ConstrainedDataTypeContainment")
+        val TYPE = ConnectionType<ConstrainedDataTypeContainment>(
+            "o.barlom.domain.graphschema.api.connections.ConstrainedDataTypeContainment"
+        )
     }
 
 }

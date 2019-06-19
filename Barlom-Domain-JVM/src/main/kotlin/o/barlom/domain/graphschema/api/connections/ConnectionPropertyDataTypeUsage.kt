@@ -34,7 +34,9 @@ data class ConnectionPropertyDataTypeUsage(
     ////
 
     companion object {
-        val TYPE = ConnectionType<ConnectionPropertyDataTypeUsage>("ConnectionPropertyDataTypeUsage")
+        val TYPE = ConnectionType<ConnectionPropertyDataTypeUsage>(
+            "o.barlom.domain.graphschema.api.connections.ConnectionPropertyDataTypeUsage"
+        )
     }
 
 }

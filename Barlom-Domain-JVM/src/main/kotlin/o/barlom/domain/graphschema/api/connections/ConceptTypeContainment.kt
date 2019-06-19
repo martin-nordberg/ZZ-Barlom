@@ -32,7 +32,9 @@ data class ConceptTypeContainment(
     ////
 
     companion object {
-        val TYPE = ConnectionType<ConceptTypeContainment>("ConceptTypeContainment")
+        val TYPE = ConnectionType<ConceptTypeContainment>(
+            "o.barlom.domain.graphschema.api.connections.ConceptTypeContainment"
+        )
     }
 
 }

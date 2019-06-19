@@ -30,7 +30,9 @@ data class DirectedConnectionTypeHeadConnectivity(
     ////
 
     companion object {
-        val TYPE = ConnectionType<DirectedConnectionTypeHeadConnectivity>("DirectedConnectionTypeHeadConnectivity")
+        val TYPE = ConnectionType<DirectedConnectionTypeHeadConnectivity>(
+            "o.barlom.domain.graphschema.api.connections.DirectedConnectionTypeHeadConnectivity"
+        )
     }
 
 }

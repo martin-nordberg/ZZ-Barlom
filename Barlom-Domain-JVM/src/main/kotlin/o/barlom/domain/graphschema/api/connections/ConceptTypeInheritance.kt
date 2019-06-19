@@ -33,7 +33,9 @@ data class ConceptTypeInheritance(
     ////
 
     companion object {
-        val TYPE = ConnectionType<ConceptTypeInheritance>("ConceptTypeInheritance")
+        val TYPE = ConnectionType<ConceptTypeInheritance>(
+            "o.barlom.domain.graphschema.api.connections.ConceptTypeInheritance"
+        )
     }
 
 }

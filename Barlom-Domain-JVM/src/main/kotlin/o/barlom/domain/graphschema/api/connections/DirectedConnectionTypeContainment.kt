@@ -32,7 +32,9 @@ data class DirectedConnectionTypeContainment(
     ////
 
     companion object {
-        val TYPE = ConnectionType<DirectedConnectionTypeContainment>("DirectedConnectionTypeContainment")
+        val TYPE = ConnectionType<DirectedConnectionTypeContainment>(
+            "o.barlom.domain.graphschema.api.connections.DirectedConnectionTypeContainment"
+        )
     }
 
 }

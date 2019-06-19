@@ -33,7 +33,9 @@ data class UndirectedConnectionTypeInheritance(
     ////
 
     companion object {
-        val TYPE = ConnectionType<UndirectedConnectionTypeInheritance>("UndirectedConnectionTypeInheritance")
+        val TYPE = ConnectionType<UndirectedConnectionTypeInheritance>(
+            "o.barlom.domain.graphschema.api.connections.UndirectedConnectionTypeInheritance"
+        )
     }
 
 }
