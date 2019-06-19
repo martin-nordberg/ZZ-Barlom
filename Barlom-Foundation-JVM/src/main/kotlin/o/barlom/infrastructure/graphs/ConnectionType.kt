@@ -10,6 +10,7 @@ package o.barlom.infrastructure.graphs
 /**
  * The type of a connection.
  */
+@Suppress("unused")
 data class ConnectionType<Connection:IConnection<Connection>>(
 
     /** The name of this connection type. */

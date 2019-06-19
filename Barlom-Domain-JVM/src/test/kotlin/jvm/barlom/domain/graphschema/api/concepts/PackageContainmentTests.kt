@@ -8,7 +8,6 @@ package jvm.barlom.domain.graphschema.api.concepts
 import jvm.barlom.domain.graphschema.api.SchemaGraphTests
 import o.barlom.domain.graphschema.api.concepts.Package
 import o.barlom.domain.graphschema.api.connections.PackageContainment
-import o.barlom.domain.graphschema.api.connections.PackageDependency
 import o.barlom.domain.graphschema.api.model.Model
 import o.barlom.domain.graphschema.api.queries.*
 import o.barlom.domain.graphschema.api.types.ESharing
@@ -23,7 +22,7 @@ import kotlin.test.assertTrue
  * Tests of adding packages to a schema graph.
  */
 @Suppress("RemoveRedundantBackticks")
-class PackageTests
+class PackageContainmentTests
     : SchemaGraphTests() {
 
     @Test
@@ -192,59 +191,6 @@ class PackageTests
                 addConnection(containment1a)
                 addConnection(containment1ai)
                 addConnection(containment1b)
-            }
-        }
-
-    }
-
-    @Test
-    fun `A graph can establish package dependencies`() {
-
-        lateinit var dep12: PackageDependency
-        lateinit var dep23: PackageDependency
-        lateinit var dep34: PackageDependency
-
-        fun check(m: Model) =
-            with(m.graph) {
-                assertEquals(8, numConcepts)
-                assertEquals(10, numConnections)
-                assertFalse(isEmpty())
-                assertTrue(isNotEmpty())
-                assertTrue(containsConnection(dep12))
-                assertTrue(containsConnection(dep23))
-                assertTrue(containsConnection(dep34))
-                assertEquals(dep12, connection(dep12.id))
-                assertEquals(dep23, connection(dep23.id))
-                assertEquals(dep34, connection(dep34.id))
-                assertEquals(dep12, connection(dep12.id))
-                assertEquals(dep23, connection(dep23.id))
-                assertEquals(dep34, connection(dep34.id))
-            }
-
-        runWriteCheckTest(::check) { m, g ->
-            val pkg1 = Package(m.makeUuid(), false, "pkg1")
-            val pkg2 = Package(m.makeUuid(), false, "pkg2")
-            val pkg3 = Package(m.makeUuid(), false, "pkg3")
-            val pkg4 = Package(m.makeUuid(), false, "pkg4")
-
-            with(g) {
-                addConcept(pkg1)
-                addConcept(pkg2)
-                addConcept(pkg3)
-                addConcept(pkg4)
-
-                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg1))
-                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg2))
-                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg3))
-                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg4))
-
-                dep12 = PackageDependency(m.makeUuid(), pkg1, pkg2)
-                dep23 = PackageDependency(m.makeUuid(), pkg2, pkg3)
-                dep34 = PackageDependency(m.makeUuid(), pkg3, pkg4)
-
-                addConnection(dep12)
-                addConnection(dep23)
-                addConnection(dep34)
             }
         }
 

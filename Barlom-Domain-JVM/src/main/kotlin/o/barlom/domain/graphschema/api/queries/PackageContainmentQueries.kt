@@ -18,26 +18,22 @@ import o.barlom.infrastructure.graphs.*
  * Finds the immediate child packages of a package with ID [parentPackageId].
  */
 fun Model.childPackages(parentPackageId: Id<Package>): List<Package> =
-    graph.findConceptsConnectedFrom(
-        parentPackageId, PackageContainment.TYPE
-    )
+    graph.findConceptsConnectedFrom(parentPackageId, PackageContainment.TYPE)
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Tests whether the package with ID [parentPackageId] has a child package with ID [childPackage].
+ * Tests whether the package with ID [parentPackageId] has a child package with ID [childPackageId].
  */
 fun Model.hasChild(parentPackageId: Id<Package>, childPackageId: Id<Package>): Boolean =
-    graph.hasConceptConnectedFrom(
-        parentPackageId, PackageContainment.TYPE
-    ) { connection ->
+    graph.hasConceptConnectedFrom(parentPackageId, PackageContainment.TYPE) { connection ->
         connection.childElementId == childPackageId
     }
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Tests whether the package with ID [childPackageId] has parent with ID [parentPackage].
+ * Tests whether the package with ID [childPackageId] has parent with ID [parentPackageId].
  */
 fun Model.hasParent(childPackageId: Id<Package>, parentPackageId: Id<Package>): Boolean =
     hasChild(parentPackageId, childPackageId)
@@ -45,33 +41,33 @@ fun Model.hasParent(childPackageId: Id<Package>, parentPackageId: Id<Package>): 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Tests whether a given [parentPackage] has a given child or grandchild package [childPackage].
+ * Tests whether a package with ID [parentPackageId] has a given child or grandchild package with ID [childPackageId].
  */
-fun Model.hasTransitiveChild(parentPackage: Package, childPackage: Package): Boolean =
-    graph.hasTransitiveConceptConnectedFrom(parentPackage.id, PackageContainment.TYPE) { connection ->
-        connection.childElementId == childPackage.id
+fun Model.hasTransitiveChild(parentPackageId: Id<Package>, childPackageId: Id<Package>): Boolean =
+    graph.hasTransitiveConceptConnectedFrom(parentPackageId, PackageContainment.TYPE) { connection ->
+        connection.childElementId == childPackageId
     }
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Tests whether a given [parentPackage] has a given child or grandchild package [childPackage].
+ * Tests whether a package with ID [childPackageId] has a given parent or grandparent package with ID [parentPackageId].
  */
-fun Model.hasTransitiveParent(childPackage: Package, parentPackage: Package): Boolean =
-    hasTransitiveChild(parentPackage, childPackage)
+fun Model.hasTransitiveParent(childPackageId: Id<Package>, parentPackageId: Id<Package>): Boolean =
+    hasTransitiveChild(parentPackageId, childPackageId)
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Computes the parent package of a [childPackage].
+ * Computes the parent package of the package with ID [childPackageId].
  */
-fun Model.parentPackage(childPackage: Package): Package? =
-    graph.findConceptConnectedTo(childPackage.id, PackageContainment.TYPE)
+fun Model.parentPackage(childPackageId: Id<Package>): Package? =
+    graph.findConceptConnectedTo(childPackageId, PackageContainment.TYPE)
 
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Computes the dot-delimited path to a packaged concept.
+ * Computes the dot-delimited path to a packaged [concept].
  */
 fun <Concept : AbstractPackagedConcept<Concept>> Model.path(concept: Concept): String {
 
@@ -83,10 +79,8 @@ fun <Concept : AbstractPackagedConcept<Concept>> Model.path(concept: Concept): S
 
         with(graph) {
 
-            for (connection in connections(pkg.id)) {
-                if (connection is PackageContainment && connection.childElementId == pkg.id) {
-                    return buildPath(concept(connection.parentPackageId) as Package, pkg.name + "." + subPath)
-                }
+            for (connection in connectionsTo(pkg.id,PackageContainment.TYPE)) {
+                return buildPath(concept(connection.parentPackageId) as Package, pkg.name + "." + subPath)
             }
 
             return "???.$subPath"
@@ -112,10 +106,10 @@ fun <Concept : AbstractPackagedConcept<Concept>> Model.path(concept: Concept): S
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Finds the child and grandchild packages of a package.
+ * Finds the child and grandchild packages of the package with ID [packageId].
  */
-fun Model.transitiveChildPackages(pkg: Package): Set<Package> =
-    graph.findTransitiveConceptsConnectedFrom(pkg.id, PackageContainment.TYPE)
+fun Model.transitiveChildPackages(packageId: Package): Set<Package> =
+    graph.findTransitiveConceptsConnectedFrom(packageId, PackageContainment.TYPE)
 
 //---------------------------------------------------------------------------------------------------------------------
 

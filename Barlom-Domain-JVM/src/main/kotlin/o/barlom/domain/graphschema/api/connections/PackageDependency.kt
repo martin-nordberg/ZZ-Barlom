@@ -26,7 +26,7 @@ data class PackageDependency(
     val consumerPackageId
         get() = fromConceptId
 
-    val producerPackageId
+    val supplierPackageId
         get() = toConceptId
 
     override val type = TYPE
