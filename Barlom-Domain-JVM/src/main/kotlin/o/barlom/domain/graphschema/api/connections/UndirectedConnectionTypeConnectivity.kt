@@ -24,6 +24,8 @@ data class UndirectedConnectionTypeConnectivity(
     val undirectedConnectionTypeId
         get() = fromConceptId
 
+    override val typeName = "UndirectedConnectionTypeConnectivity"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

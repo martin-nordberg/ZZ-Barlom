@@ -29,6 +29,10 @@ internal class ConceptConnectionMap {
     fun getMap(conceptUuid: Uuid): ConnectionMap =
         connectionsByConcept[conceptUuid] ?: ConnectionMap()
 
+    /** @return the map of connections for given concept UUID [conceptUuid]. */
+    fun <E:IConnection<E>> getMapForConnectionType(conceptUuid: Uuid, connectionTypeName: String): Collection<E> =
+        connectionsByConcept[conceptUuid]?.getByType(connectionTypeName) ?: setOf()
+
     /** Adds a [connection] that is linked to concept with UUID [conceptUuid] to this map. */
     fun put(conceptUuid: Uuid, connection: IConnection<*>) =
         connectionsByConcept.getOrPut(conceptUuid) { ConnectionMap() }.put(connection)

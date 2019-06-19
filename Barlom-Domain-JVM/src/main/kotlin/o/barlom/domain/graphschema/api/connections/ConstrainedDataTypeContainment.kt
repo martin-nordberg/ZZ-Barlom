@@ -26,6 +26,8 @@ data class ConstrainedDataTypeContainment(
     val childConstrainedDataTypeId
         get() = toConceptId
 
+    override val typeName = "ConstrainedDateTypeContainment"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

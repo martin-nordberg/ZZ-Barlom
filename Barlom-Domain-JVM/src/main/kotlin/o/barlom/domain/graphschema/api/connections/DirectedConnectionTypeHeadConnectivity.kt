@@ -24,6 +24,8 @@ data class DirectedConnectionTypeHeadConnectivity(
     val directedConnectionTypeId
         get() = fromConceptId
 
+    override val typeName = "DirectedConnectionTypeHeadConnectivity"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

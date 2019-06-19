@@ -25,6 +25,8 @@ data class PackageContainment(
     val childPackageId
         get() = toConceptId
 
+    override val typeName = "PackageContainment"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

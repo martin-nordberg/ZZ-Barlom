@@ -28,6 +28,8 @@ data class ConnectionPropertyDataTypeUsage(
     val dataTypeId
         get() = toConceptId
 
+    override val typeName = "ConnectionPropertyDateTypeUsage"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

@@ -230,6 +230,25 @@ internal class WritableGraph(
         }
 
         return result
+
+    }
+
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionTypeName: String): Collection<E> {
+
+        val result = mutableSetOf<E>()
+
+        result.addAll(originalGraph.mappedConnectionsFrom<E>(conceptId.uuid, connectionTypeName))
+
+        result.addAll(addedConnectionsFrom.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+
+        result.addAll(updatedConnectionsFrom.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+
+        removedConnectionsFrom.getMapForConnectionType<E>(conceptId.uuid, connectionTypeName).forEach { connection ->
+            result.remove(connection)
+        }
+
+        return result
+
     }
 
     override fun <V : IConcept<V>> connectionsTo(conceptId: Id<V>): Set<IConnection<*>> {
@@ -247,6 +266,24 @@ internal class WritableGraph(
         }
 
         return result
+    }
+
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionTypeName: String): Collection<E> {
+
+        val result = mutableSetOf<E>()
+
+        result.addAll(originalGraph.mappedConnectionsTo(conceptId.uuid, connectionTypeName))
+
+        result.addAll(addedConnectionsTo.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+
+        result.addAll(updatedConnectionsTo.getMapForConnectionType(conceptId.uuid, connectionTypeName))
+
+        removedConnectionsTo.getMapForConnectionType<E>(conceptId.uuid, connectionTypeName).forEach { connection ->
+            result.remove(connection)
+        }
+
+        return result
+
     }
 
     override fun <V : IConcept<V>> containsConceptWithId(conceptId: Id<V>): Boolean {
@@ -290,6 +327,23 @@ internal class WritableGraph(
 
     }
 
+    override fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionTypeName: String): Collection<E> {
+
+        val result = mutableSetOf<E>()
+
+        result.addAll(originalGraph.mappedConnectionsFrom(conceptUuid, connectionTypeName))
+
+        result.addAll(addedConnectionsFrom.getMapForConnectionType(conceptUuid, connectionTypeName))
+        result.addAll(updatedConnectionsFrom.getMapForConnectionType(conceptUuid, connectionTypeName))
+
+        removedConnectionsFrom.getMapForConnectionType<E>(conceptUuid, connectionTypeName).forEach { connection ->
+            result.remove(connection)
+        }
+
+        return result
+
+    }
+
     override fun mappedConnectionsTo(conceptUuid: Uuid): ConnectionMap {
 
         val result = ConnectionMap()
@@ -301,6 +355,23 @@ internal class WritableGraph(
 
         removedConnectionsTo.getMap(conceptUuid).forEach { connection ->
             result.remove(connection.id.uuid)
+        }
+
+        return result
+
+    }
+
+    override fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionTypeName: String): Collection<E> {
+
+        val result = mutableSetOf<E>()
+
+        result.addAll(originalGraph.mappedConnectionsTo(conceptUuid, connectionTypeName))
+
+        result.addAll(addedConnectionsTo.getMapForConnectionType(conceptUuid, connectionTypeName))
+        result.addAll(updatedConnectionsTo.getMapForConnectionType(conceptUuid, connectionTypeName))
+
+        removedConnectionsTo.getMapForConnectionType<E>(conceptUuid, connectionTypeName).forEach { connection ->
+            result.remove(connection)
         }
 
         return result

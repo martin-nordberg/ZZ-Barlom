@@ -27,6 +27,8 @@ data class DirectedConnectionTypeInheritance(
     val superDirectedConnectionTypeId
         get() = toConceptId
 
+    override val typeName = "DirectedConnectionTypeInheritance"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

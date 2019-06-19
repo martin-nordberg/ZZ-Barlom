@@ -28,6 +28,8 @@ data class PackageDependency(
     val producerPackageId
         get() = toConceptId
 
+    override val typeName = "PackageDependency"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

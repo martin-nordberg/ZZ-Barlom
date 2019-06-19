@@ -28,6 +28,8 @@ data class ConceptPropertyDataTypeUsage(
     val dataTypeId
         get() = toConceptId
 
+    override val typeName = "ConceptPropertyDataTypeUsage"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

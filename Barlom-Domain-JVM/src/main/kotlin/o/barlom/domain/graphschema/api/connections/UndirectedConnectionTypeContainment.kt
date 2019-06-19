@@ -26,6 +26,8 @@ data class UndirectedConnectionTypeContainment(
     val childUndirectedConnectionTypeId
         get() = toConceptId
 
+    override val typeName = "UndirectedConnectionTypeContainment"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

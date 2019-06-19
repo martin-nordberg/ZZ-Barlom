@@ -27,6 +27,8 @@ data class ConceptTypeInheritance(
     val superTypeId
         get() = toConceptId
 
+    override val typeName = "ConceptTypeInheritance"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

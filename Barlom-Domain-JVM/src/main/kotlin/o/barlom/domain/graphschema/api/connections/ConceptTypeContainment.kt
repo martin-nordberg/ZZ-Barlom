@@ -26,6 +26,8 @@ data class ConceptTypeContainment(
     val childConceptTypeId
         get() = toConceptId
 
+    override val typeName = "ConceptTypeContainment"
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

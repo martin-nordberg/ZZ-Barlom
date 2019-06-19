@@ -17,6 +17,9 @@ interface IConnection<Connection>
     val id: Id<Connection>
         get() = this
 
+    /** The name of the type of this connection. */
+    val typeName: String
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

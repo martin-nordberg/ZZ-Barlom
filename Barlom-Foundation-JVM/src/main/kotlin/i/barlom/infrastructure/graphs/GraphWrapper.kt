@@ -19,7 +19,6 @@ internal class GraphWrapper(
     initiatingGraph: GraphWrapper? = null
 
 ) : IWritableGraph {
-
     /** The graph wrapped by this wrapper. */
     private var innerGraph: IGraphImpl =
         if (initiatingGraph == null) ReadableGraph() else WritableGraph(initiatingGraph.innerGraph)
@@ -113,9 +112,19 @@ internal class GraphWrapper(
         return innerGraph.connectionsFrom(conceptId)
     }
 
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionTypeName: String): Collection<E> {
+        require(isReadable)
+        return innerGraph.connectionsFrom(conceptId, connectionTypeName)
+    }
+
     override fun <V : IConcept<V>> connectionsTo(conceptId: Id<V>): Set<IConnection<*>> {
         require(isReadable)
         return innerGraph.connectionsTo(conceptId)
+    }
+
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionTypeName: String): Collection<E> {
+        require(isReadable)
+        return innerGraph.connectionsTo(conceptId, connectionTypeName)
     }
 
     override fun <V : IConcept<V>> containsConceptWithId(conceptId: Id<V>): Boolean {
