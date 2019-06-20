@@ -12,6 +12,10 @@ import o.barlom.domain.graphschema.api.connections.ConceptTypeContainment
 import o.barlom.domain.graphschema.api.connections.ConceptTypeInheritance
 import o.barlom.domain.graphschema.api.connections.PackageContainment
 import o.barlom.domain.graphschema.api.model.Model
+import o.barlom.domain.graphschema.api.queries.childConceptTypes
+import o.barlom.domain.graphschema.api.queries.hasChild
+import o.barlom.domain.graphschema.api.queries.hasParent
+import o.barlom.domain.graphschema.api.queries.parentPackage
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -20,10 +24,10 @@ import kotlin.test.assertTrue
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Tests of adding packages to a schema graph.
+ * Tests of adding concept types to a schema graph.
  */
 @Suppress("RemoveRedundantBackticks")
-class ConceptTypeTests
+class ConceptTypeContainmentTests
     : SchemaGraphTests() {
 
     @Test
@@ -40,29 +44,43 @@ class ConceptTypeTests
         lateinit var cti1b: ConceptTypeInheritance
 
         fun check(m: Model) =
-            with(m.graph) {
-                assertEquals(7, numConcepts)
-                assertEquals(8, numConnections)
-                assertFalse(isEmpty())
-                assertTrue(isNotEmpty())
-                assertTrue(containsConcept(m.rootPackage))
-                assertTrue(containsConcept(m.rootConceptType))
-                assertTrue(containsConcept(pkg1))
-                assertTrue(containsConcept(ct1a))
-                assertTrue(containsConcept(ct1b))
-                assertTrue(containsConnection(ctc1a))
-                assertTrue(containsConnection(ctc1b))
-                assertTrue(containsConnection(cti1a))
-                assertTrue(containsConnection(cti1b))
-                assertEquals(m.rootPackage, concept(m.rootPackage.id))
-                assertEquals(m.rootConceptType, concept(m.rootConceptType.id))
-                assertEquals(pkg1, concept(pkg1.id))
-                assertEquals(ct1a, concept(ct1a.id))
-                assertEquals(ct1b, concept(ct1b.id))
-                assertEquals(ctc1a, connection(ctc1a.id))
-                assertEquals(ctc1b, connection(ctc1b.id))
-                assertEquals(cti1a, connection(cti1a.id))
-                assertEquals(cti1b, connection(cti1b.id))
+            with(m) {
+                with(graph) {
+                    assertEquals(7, numConcepts)
+                    assertEquals(8, numConnections)
+                    assertFalse(isEmpty())
+                    assertTrue(isNotEmpty())
+                    assertTrue(containsConcept(m.rootPackage))
+                    assertTrue(containsConcept(m.rootConceptType))
+                    assertTrue(containsConcept(pkg1))
+                    assertTrue(containsConcept(ct1a))
+                    assertTrue(containsConcept(ct1b))
+                    assertTrue(containsConnection(ctc1a))
+                    assertTrue(containsConnection(ctc1b))
+                    assertTrue(containsConnection(cti1a))
+                    assertTrue(containsConnection(cti1b))
+                    assertEquals(m.rootPackage, concept(m.rootPackage.id))
+                    assertEquals(m.rootConceptType, concept(m.rootConceptType.id))
+                    assertEquals(pkg1, concept(pkg1.id))
+                    assertEquals(ct1a, concept(ct1a.id))
+                    assertEquals(ct1b, concept(ct1b.id))
+                    assertEquals(ctc1a, connection(ctc1a.id))
+                    assertEquals(ctc1b, connection(ctc1b.id))
+                    assertEquals(cti1a, connection(cti1a.id))
+                    assertEquals(cti1b, connection(cti1b.id))
+                }
+
+                assertTrue(childConceptTypes(pkg1).contains(ct1a))
+                assertTrue(childConceptTypes(pkg1).contains(ct1b))
+
+                assertTrue(hasChild(pkg1,ct1a))
+                assertTrue(hasChild(pkg1,ct1b))
+
+                assertTrue(hasParent(ct1a,pkg1))
+                assertTrue(hasParent(ct1b,pkg1))
+
+                assertEquals(pkg1,parentPackage(ct1a))
+                assertEquals(pkg1,parentPackage(ct1b))
             }
 
         runWriteCheckTest(::check) { m, g ->

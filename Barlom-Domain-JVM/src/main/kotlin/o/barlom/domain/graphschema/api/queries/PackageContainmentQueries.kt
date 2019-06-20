@@ -59,7 +59,7 @@ fun Model.hasTransitiveParent(childPackageId: Id<Package>, parentPackageId: Id<P
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Computes the parent package of the package with ID [childPackageId].
+ * Finds the parent package of the package with ID [childPackageId].
  */
 fun Model.parentPackage(childPackageId: Id<Package>): Package? =
     graph.findConceptConnectedTo(childPackageId, PackageContainment.TYPE)
