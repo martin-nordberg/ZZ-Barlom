@@ -273,3 +273,49 @@ fun <
 
 //---------------------------------------------------------------------------------------------------------------------
 
+fun <
+    Concept : IConcept<Concept>,
+    Connection : IDirectedConnection<Connection, Concept, Concept>
+> IGraph.hasTransitiveConceptConnectedTo(
+    conceptId: Id<Concept>,
+    connectionType: ConnectionType<Connection>,
+    connectionPredicate: (Connection) -> Boolean = { true }
+): Boolean {
+
+    val checked: MutableSet<Concept> = mutableSetOf()
+
+    var idsToCheck: MutableSet<Id<Concept>> = mutableSetOf(conceptId)
+
+    while (idsToCheck.isNotEmpty()) {
+
+        val moreIdsToCheck: MutableSet<Id<Concept>> = mutableSetOf()
+
+        for (idToCheck in idsToCheck) {
+
+            for (connection in connectionsTo(idToCheck, connectionType)) {
+
+                if (connectionPredicate(connection)) {
+                    return true
+                }
+
+                val c = concept(connection.fromConceptId) as Concept
+
+                if (!checked.contains(c)) {
+                    checked.add(c)
+                    moreIdsToCheck.add(c.id)
+                }
+
+            }
+
+        }
+
+        idsToCheck = moreIdsToCheck
+
+    }
+
+    return false
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+

@@ -36,7 +36,9 @@ fun Model.hasChild(parentPackageId: Id<Package>, childPackageId: Id<Package>): B
  * Tests whether the package with ID [childPackageId] has parent with ID [parentPackageId].
  */
 fun Model.hasParent(childPackageId: Id<Package>, parentPackageId: Id<Package>): Boolean =
-    hasChild(parentPackageId, childPackageId)
+    graph.hasConceptConnectedTo(childPackageId, PackageContainment.TYPE) { connection ->
+        connection.parentPackageId == parentPackageId
+    }
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -54,7 +56,9 @@ fun Model.hasTransitiveChild(parentPackageId: Id<Package>, childPackageId: Id<Pa
  * Tests whether a package with ID [childPackageId] has a given parent or grandparent package with ID [parentPackageId].
  */
 fun Model.hasTransitiveParent(childPackageId: Id<Package>, parentPackageId: Id<Package>): Boolean =
-    hasTransitiveChild(parentPackageId, childPackageId)
+    graph.hasTransitiveConceptConnectedTo(childPackageId, PackageContainment.TYPE) { connection ->
+        connection.parentPackageId == parentPackageId
+    }
 
 //---------------------------------------------------------------------------------------------------------------------
 

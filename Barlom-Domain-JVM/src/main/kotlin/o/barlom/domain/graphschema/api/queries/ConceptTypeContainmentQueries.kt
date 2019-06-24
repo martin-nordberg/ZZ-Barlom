@@ -9,10 +9,7 @@ import o.barlom.domain.graphschema.api.concepts.ConceptType
 import o.barlom.domain.graphschema.api.concepts.Package
 import o.barlom.domain.graphschema.api.connections.ConceptTypeContainment
 import o.barlom.domain.graphschema.api.model.Model
-import o.barlom.infrastructure.graphs.Id
-import o.barlom.infrastructure.graphs.findConceptConnectedTo
-import o.barlom.infrastructure.graphs.findConceptsConnectedFrom
-import o.barlom.infrastructure.graphs.hasConceptConnectedFrom
+import o.barlom.infrastructure.graphs.*
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -38,7 +35,9 @@ fun Model.hasChild(parentPackageId: Id<Package>, childConceptTypeId: Id<ConceptT
  * Tests whether the concept type with ID [childConceptTypeId] has parent with ID [parentPackageId].
  */
 fun Model.hasParent(childConceptTypeId: Id<ConceptType>, parentPackageId: Id<Package>): Boolean =
-    hasChild(parentPackageId, childConceptTypeId)
+    graph.hasConceptConnectedTo(childConceptTypeId, ConceptTypeContainment.TYPE) { connection ->
+        connection.parentPackageId == parentPackageId
+    }
 
 //---------------------------------------------------------------------------------------------------------------------
 
