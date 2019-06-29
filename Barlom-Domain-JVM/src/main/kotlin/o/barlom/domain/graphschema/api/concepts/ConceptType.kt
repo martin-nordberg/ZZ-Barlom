@@ -6,6 +6,7 @@
 package o.barlom.domain.graphschema.api.concepts
 
 import o.barlom.domain.graphschema.api.types.EAbstractness
+import o.barlom.infrastructure.graphs.ConceptTypeId
 import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -37,6 +38,16 @@ data class ConceptType(
 
     override fun propertyNames(): Set<String> =
         super.propertyNames().plus("abstractness").plus("isRoot")
+
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConceptType>(
+            "o.barlom.domain.graphschema.api.concepts.ConceptType"
+        )
+    }
 
 }
 

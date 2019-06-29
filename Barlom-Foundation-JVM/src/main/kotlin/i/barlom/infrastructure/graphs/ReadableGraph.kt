@@ -34,10 +34,10 @@ internal class ReadableGraph(
 
     ////
 
-    override fun <V : IConcept<V>> addConcept(concept: V) =
+    override fun <V : IConcept<V>> addConcept(concept: V): Nothing =
         throw IllegalStateException("Graph is not writeable.")
 
-    override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E) =
+    override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E): Nothing =
         throw IllegalStateException("Graph is not writeable.")
 
     override fun <E : IUndirectedConnection<E, V>, V : IConcept<V>> addConnection(connection: E) =
@@ -68,18 +68,18 @@ internal class ReadableGraph(
     override fun <V : IConcept<V>> connectionsFrom(conceptId: Id<V>): Set<IConnection<*>> =
         data.connectionsFrom.getMap(conceptId.uuid)
 
-    override fun <V : IConcept<V>, E: IConnection<E>> connectionsFrom(
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(
         conceptId: Id<V>,
-        connectionType: ConnectionType<E>
+        connectionType: ConnectionTypeId<E>
     ): Collection<E> =
         data.connectionsFrom.getMapForConnectionType(conceptId.uuid, connectionType)
 
     override fun <V : IConcept<V>> connectionsTo(conceptId: Id<V>): Set<IConnection<*>> =
         data.connectionsTo.getMap(conceptId.uuid)
 
-    override fun <V : IConcept<V>, E: IConnection<E>> connectionsTo(
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(
         conceptId: Id<V>,
-        connectionType: ConnectionType<E>
+        connectionType: ConnectionTypeId<E>
     ): Collection<E> =
         data.connectionsTo.getMapForConnectionType(conceptId.uuid, connectionType)
 
@@ -98,13 +98,13 @@ internal class ReadableGraph(
     override fun mappedConnectionsFrom(conceptUuid: Uuid): ConnectionMap =
         data.connectionsFrom.getMap(conceptUuid)
 
-    override fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E> =
+    override fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionType: ConnectionTypeId<E>): Collection<E> =
         data.connectionsFrom.getMapForConnectionType(conceptUuid, connectionType)
 
     override fun mappedConnectionsTo(conceptUuid: Uuid): ConnectionMap =
         data.connectionsTo.getMap(conceptUuid)
 
-    override fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E> =
+    override fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionType: ConnectionTypeId<E>): Collection<E> =
         data.connectionsTo.getMapForConnectionType(conceptUuid, connectionType)
 
     override fun <V : IConcept<V>> removeConcept(conceptId: Id<V>) =

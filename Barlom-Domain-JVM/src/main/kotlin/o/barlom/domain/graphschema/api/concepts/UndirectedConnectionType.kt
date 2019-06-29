@@ -9,6 +9,7 @@ import o.barlom.domain.graphschema.api.types.EAbstractness
 import o.barlom.domain.graphschema.api.types.ECyclicity
 import o.barlom.domain.graphschema.api.types.EMultiEdgedness
 import o.barlom.domain.graphschema.api.types.ESelfLooping
+import o.barlom.infrastructure.graphs.ConceptTypeId
 import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -45,6 +46,16 @@ data class UndirectedConnectionType(
 
     override fun propertyNames(): Set<String> =
         super.propertyNames().plus("maxDegree").plus("minDegree")
+
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<UndirectedConnectionType>(
+            "o.barlom.domain.graphschema.api.concepts.UndirectedConnectionType"
+        )
+    }
 
 }
 

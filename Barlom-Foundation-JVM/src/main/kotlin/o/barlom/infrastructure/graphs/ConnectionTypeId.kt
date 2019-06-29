@@ -11,7 +11,7 @@ package o.barlom.infrastructure.graphs
  * The type of a connection.
  */
 @Suppress("unused")
-data class ConnectionType<Connection:IConnection<Connection>>(
+data class ConnectionTypeId<Connection : IConnection<Connection>>(
 
     /** The name of this connection type. */
     val typeName: String

@@ -6,6 +6,7 @@
 package o.barlom.domain.graphschema.api.concepts
 
 import o.barlom.domain.graphschema.api.types.EDataType
+import o.barlom.infrastructure.graphs.ConceptTypeId
 import x.barlom.infrastructure.platform.DateTime
 import x.barlom.infrastructure.uuids.Uuid
 
@@ -14,8 +15,8 @@ import x.barlom.infrastructure.uuids.Uuid
 /**
  * Metadata for a data type with constraints.
  */
-sealed class ConstrainedDataType
-    : AbstractPackagedConcept<ConstrainedDataType>() {
+sealed class ConstrainedDataType<Concept : ConstrainedDataType<Concept>>
+    : AbstractPackagedConcept<Concept>() {
 
     abstract val dataType: EDataType
 
@@ -42,9 +43,19 @@ data class ConstrainedBoolean(
     override val uuid: Uuid,
     override val name: String,
     override val description: String = ""
-) : ConstrainedDataType() {
+) : ConstrainedDataType<ConstrainedBoolean>() {
 
     override val dataType = EDataType.BOOLEAN
+
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConstrainedBoolean>(
+            "o.barlom.domain.graphschema.api.concepts.ConstrainedBoolean"
+        )
+    }
 
 }
 
@@ -56,7 +67,7 @@ data class ConstrainedDateTime(
     override val description: String = "",
     val maxValue: DateTime? = null,
     val minValue: DateTime? = null
-) : ConstrainedDataType() {
+) : ConstrainedDataType<ConstrainedDateTime>() {
 
     override val dataType = EDataType.DATETIME
 
@@ -77,6 +88,16 @@ data class ConstrainedDateTime(
     override fun propertyNames(): Set<String> =
         super.propertyNames().plus("maxValue").plus("minValue")
 
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConstrainedDateTime>(
+            "o.barlom.domain.graphschema.api.concepts.ConstrainedDateTime"
+        )
+    }
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -92,7 +113,7 @@ data class ConstrainedFloat64(
     val defaultValue: Double? = null,
     val maxValue: Double? = null,
     val minValue: Double? = null
-) : ConstrainedDataType() {
+) : ConstrainedDataType<ConstrainedFloat64>() {
 
     override val dataType = EDataType.FLOAT64
 
@@ -115,6 +136,16 @@ data class ConstrainedFloat64(
     override fun propertyNames(): Set<String> =
         super.propertyNames().plus("defaultValue").plus("maxValue").plus("minValue")
 
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConstrainedFloat64>(
+            "o.barlom.domain.graphschema.api.concepts.ConstrainedFloat64"
+        )
+    }
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -126,7 +157,7 @@ data class ConstrainedInteger32(
     val defaultValue: Int? = null,
     val maxValue: Int? = null,
     val minValue: Int? = null
-) : ConstrainedDataType() {
+) : ConstrainedDataType<ConstrainedInteger32>() {
 
     override val dataType = EDataType.INTEGER32
 
@@ -149,6 +180,16 @@ data class ConstrainedInteger32(
     override fun propertyNames(): Set<String> =
         super.propertyNames().plus("defaultValue").plus("maxValue").plus("minValue")
 
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConstrainedInteger32>(
+            "o.barlom.domain.graphschema.api.concepts.ConstrainedInteger32"
+        )
+    }
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -161,7 +202,7 @@ data class ConstrainedString(
     val maxLength: Int? = null,
     val minLength: Int = 0,
     val regexPattern: Regex? = null
-) : ConstrainedDataType() {
+) : ConstrainedDataType<ConstrainedString>() {
 
     override val dataType = EDataType.STRING
 
@@ -190,6 +231,16 @@ data class ConstrainedString(
             .plus("minLength")
             .plus("regexPattern")
 
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConstrainedString>(
+            "o.barlom.domain.graphschema.api.concepts.ConstrainedString"
+        )
+    }
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -198,9 +249,19 @@ data class ConstrainedUuid(
     override val uuid: Uuid,
     override val name: String,
     override val description: String = ""
-) : ConstrainedDataType() {
+) : ConstrainedDataType<ConstrainedUuid>() {
 
     override val dataType = EDataType.UUID
+
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConstrainedUuid>(
+            "o.barlom.domain.graphschema.api.concepts.ConstrainedUuid"
+        )
+    }
 
 }
 

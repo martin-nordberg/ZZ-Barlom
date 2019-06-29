@@ -8,18 +8,14 @@ package o.barlom.infrastructure.graphs
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A connection (edge or link) in a graph. Provides the unique ID of the connection.
+ * The type of a concept.
  */
-interface IConnection<Connection : IConnection<Connection>>
-    : Id<Connection> {
+@Suppress("unused")
+data class ConceptTypeId<Concept : IConcept<Concept>>(
 
-    /** The unique ID of the connection. */
-    val id: Id<Connection>
-        get() = this
+    /** The name of this concept type. */
+    val typeName: String
 
-    /** The type of this connection. */
-    val typeId: ConnectionTypeId<Connection>
-
-}
+)
 
 //---------------------------------------------------------------------------------------------------------------------

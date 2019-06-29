@@ -112,7 +112,7 @@ internal class GraphWrapper(
         return innerGraph.connectionsFrom(conceptId)
     }
 
-    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E> {
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionType: ConnectionTypeId<E>): Collection<E> {
         require(isReadable)
         return innerGraph.connectionsFrom(conceptId, connectionType)
     }
@@ -122,7 +122,7 @@ internal class GraphWrapper(
         return innerGraph.connectionsTo(conceptId)
     }
 
-    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E> {
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionType: ConnectionTypeId<E>): Collection<E> {
         require(isReadable)
         return innerGraph.connectionsTo(conceptId, connectionType)
     }

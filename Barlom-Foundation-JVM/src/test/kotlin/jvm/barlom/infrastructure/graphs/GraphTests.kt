@@ -128,7 +128,9 @@ data class SampleConcept(
 
     override val uuid: Uuid = makeUuid()
 
-) : IConcept<SampleConcept>
+) : IConcept<SampleConcept> {
+    override val typeId = ConceptTypeId<SampleConcept>("SampleConcept")
+}
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -137,7 +139,7 @@ data class SampleUndirectedConnection(
     override val conceptIdB: Id<SampleConcept>,
     override val uuid: Uuid = makeUuid()
 ) : IUndirectedConnection<SampleUndirectedConnection, SampleConcept> {
-    override val type = ConnectionType<SampleUndirectedConnection>("SampleUndirectedConnection")
+    override val typeId = ConnectionTypeId<SampleUndirectedConnection>("SampleUndirectedConnection")
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -147,7 +149,7 @@ data class SampleDirectedConnection(
     override val toConceptId: Id<SampleConcept>,
     override val uuid: Uuid = makeUuid()
 ) : IDirectedConnection<SampleDirectedConnection, SampleConcept, SampleConcept> {
-    override val type = ConnectionType<SampleDirectedConnection>("SampleDirectedConnection")
+    override val typeId = ConnectionTypeId<SampleDirectedConnection>("SampleDirectedConnection")
 }
 
 //---------------------------------------------------------------------------------------------------------------------

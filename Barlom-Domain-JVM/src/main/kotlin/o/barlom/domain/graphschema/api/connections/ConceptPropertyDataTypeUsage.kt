@@ -6,8 +6,8 @@
 package o.barlom.domain.graphschema.api.connections
 
 import o.barlom.domain.graphschema.api.concepts.ConceptPropertyType
-import o.barlom.domain.graphschema.api.concepts.ConstrainedDataType
-import o.barlom.infrastructure.graphs.ConnectionType
+import o.barlom.domain.graphschema.api.concepts.ConstrainedBoolean
+import o.barlom.infrastructure.graphs.ConnectionTypeId
 import o.barlom.infrastructure.graphs.Id
 import o.barlom.infrastructure.propertygraphs.IDirectedPropertyConnection
 import x.barlom.infrastructure.uuids.Uuid
@@ -15,13 +15,13 @@ import x.barlom.infrastructure.uuids.Uuid
 //---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A connection from a concept property type to its data type.
+ * A connection from a concept property type to its boolean data type.
  */
-data class ConceptPropertyDataTypeUsage(
+data class ConceptPropertyBooleanUsage(
     override val uuid: Uuid,
     override val fromConceptId: Id<ConceptPropertyType>,
-    override val toConceptId: Id<ConstrainedDataType>
-) : IDirectedPropertyConnection<ConceptPropertyDataTypeUsage, ConceptPropertyType, ConstrainedDataType> {
+    override val toConceptId: Id<ConstrainedBoolean>
+) : IDirectedPropertyConnection<ConceptPropertyBooleanUsage, ConceptPropertyType, ConstrainedBoolean> {
 
     val conceptPropertyTypeId
         get() = fromConceptId
@@ -29,13 +29,13 @@ data class ConceptPropertyDataTypeUsage(
     val dataTypeId
         get() = toConceptId
 
-    override val type = TYPE
+    override val typeId = TYPE
 
     ////
 
     companion object {
-        val TYPE = ConnectionType<ConceptPropertyDataTypeUsage>(
-            "o.barlom.domain.graphschema.api.connections.ConceptPropertyDataTypeUsage"
+        val TYPE = ConnectionTypeId<ConceptPropertyBooleanUsage>(
+            "o.barlom.domain.graphschema.api.connections.ConceptPropertyBooleanUsage"
         )
     }
 

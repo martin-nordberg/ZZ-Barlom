@@ -7,6 +7,7 @@ package o.barlom.domain.graphschema.api.concepts
 
 import o.barlom.domain.graphschema.api.types.ELabelDefaulting
 import o.barlom.domain.graphschema.api.types.EOptionality
+import o.barlom.infrastructure.graphs.ConceptTypeId
 import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -36,6 +37,16 @@ data class ConceptPropertyType(
 
     override fun propertyNames(): Set<String> =
         super.propertyNames().plus("labelDefaulting")
+
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<ConceptPropertyType>(
+            "o.barlom.domain.graphschema.api.concepts.ConceptPropertyType"
+        )
+    }
 
 }
 

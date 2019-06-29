@@ -12,7 +12,8 @@ import o.barlom.infrastructure.graphs.IConcept
 /**
  * A concept (vertex or node) in a graph with properties retrievable by name.
  */
-interface IPropertyConcept<Concept: IPropertyConcept<Concept>> : IConcept<Concept>, IPropertyContainer
+interface IPropertyConcept<Concept : IPropertyConcept<Concept>>
+    : IConcept<Concept>, IPropertyContainer
 
 //---------------------------------------------------------------------------------------------------------------------
 

@@ -9,6 +9,7 @@ import o.barlom.domain.graphschema.api.types.EAbstractness
 import o.barlom.domain.graphschema.api.types.ECyclicity
 import o.barlom.domain.graphschema.api.types.EMultiEdgedness
 import o.barlom.domain.graphschema.api.types.ESelfLooping
+import o.barlom.infrastructure.graphs.ConceptTypeId
 import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -71,6 +72,16 @@ data class DirectedConnectionType(
             .plus("minTailOutDegree")
             .plus("reverseName")
             .plus("tailRoleName")
+
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<DirectedConnectionType>(
+            "o.barlom.domain.graphschema.api.concepts.DirectedConnectionType"
+        )
+    }
 
 }
 

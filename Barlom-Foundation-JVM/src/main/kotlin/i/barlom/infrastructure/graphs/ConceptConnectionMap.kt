@@ -5,7 +5,7 @@
 
 package i.barlom.infrastructure.graphs
 
-import o.barlom.infrastructure.graphs.ConnectionType
+import o.barlom.infrastructure.graphs.ConnectionTypeId
 import o.barlom.infrastructure.graphs.IConnection
 import x.barlom.infrastructure.uuids.Uuid
 
@@ -31,7 +31,7 @@ internal class ConceptConnectionMap {
         connectionsByConcept[conceptUuid] ?: ConnectionMap()
 
     /** @return the map of connections for given concept UUID [conceptUuid]. */
-    fun <E:IConnection<E>> getMapForConnectionType(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E> =
+    fun <E : IConnection<E>> getMapForConnectionType(conceptUuid: Uuid, connectionType: ConnectionTypeId<E>): Collection<E> =
         connectionsByConcept[conceptUuid]?.getByType(connectionType) ?: setOf()
 
     /** Adds a [connection] that is linked to concept with UUID [conceptUuid] to this map. */

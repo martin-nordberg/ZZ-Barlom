@@ -66,14 +66,14 @@ internal class WritableGraph(
 
     ////
 
-    override fun <V : IConcept<V>> addConcept(concept: V) {
+    override fun <V : IConcept<V>> addConcept(concept: V): V {
 
         require(isWritable)
         require(!containsConcept(concept)) { "Concept $concept already added." }
 
         val conceptUuid = concept.id.uuid
 
-        if ( removedConcepts.remove(conceptUuid) ) {
+        if (removedConcepts.remove(conceptUuid)) {
             updateConcept(concept)
         }
         else {
@@ -82,9 +82,11 @@ internal class WritableGraph(
 
         check(containsConcept(concept))
 
+        return concept
+
     }
 
-    override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E) {
+    override fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E): E {
 
         require(isWritable)
         require(!containsConnectionWithId(connection.id))
@@ -106,6 +108,8 @@ internal class WritableGraph(
         check(containsConnection(connection))
         check(connections(connection.fromConceptId).contains(connection))
         check(connections(connection.toConceptId).contains(connection))
+
+        return connection
 
     }
 
@@ -233,7 +237,7 @@ internal class WritableGraph(
 
     }
 
-    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E> {
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionType: ConnectionTypeId<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 
@@ -268,7 +272,7 @@ internal class WritableGraph(
         return result
     }
 
-    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E> {
+    override fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionType: ConnectionTypeId<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 
@@ -327,7 +331,7 @@ internal class WritableGraph(
 
     }
 
-    override fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E> {
+    override fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionType: ConnectionTypeId<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 
@@ -361,7 +365,7 @@ internal class WritableGraph(
 
     }
 
-    override fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E> {
+    override fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionType: ConnectionTypeId<E>): Collection<E> {
 
         val result = mutableSetOf<E>()
 

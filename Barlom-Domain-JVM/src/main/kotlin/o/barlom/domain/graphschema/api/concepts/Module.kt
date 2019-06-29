@@ -5,6 +5,7 @@
 
 package o.barlom.domain.graphschema.api.concepts
 
+import o.barlom.infrastructure.graphs.ConceptTypeId
 import x.barlom.infrastructure.uuids.Uuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -12,12 +13,12 @@ import x.barlom.infrastructure.uuids.Uuid
 /**
  * A package containing concept types and connection types.
  */
-data class Package(
+data class Module(
     override val uuid: Uuid,
     val isRoot: Boolean = false,
-    override val name: String = if (isRoot) "Schema" else "newpackage",
-    override val description: String = if (isRoot) "Root package." else ""
-) : AbstractPackagedConcept<Package>() {
+    override val name: String = if (isRoot) "Schema" else "newmodule",
+    override val description: String = if (isRoot) "Root module." else ""
+) : AbstractPackagedConcept<Module>() {
 
     override fun get(propertyName: String): Any? =
         when (propertyName) {
@@ -33,6 +34,16 @@ data class Package(
 
     override fun propertyNames(): Set<String> =
         super.propertyNames().plus("isRoot")
+
+    override val typeId = TYPE_ID
+
+    ////
+
+    companion object {
+        val TYPE_ID = ConceptTypeId<Module>(
+            "o.barlom.domain.graphschema.api.concepts.Module"
+        )
+    }
 
 }
 

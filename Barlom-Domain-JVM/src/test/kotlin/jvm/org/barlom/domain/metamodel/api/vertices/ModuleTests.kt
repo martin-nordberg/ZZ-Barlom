@@ -16,10 +16,10 @@ import kotlin.test.assertTrue
 
 /**
  *
- * Tests of Package.
+ * Tests of Module.
  */
 @Suppress("RemoveRedundantBackticks")
-class PackageTests {
+class ModuleTests {
 
     @Test
     fun `Root elements of the model have fixed names`() {

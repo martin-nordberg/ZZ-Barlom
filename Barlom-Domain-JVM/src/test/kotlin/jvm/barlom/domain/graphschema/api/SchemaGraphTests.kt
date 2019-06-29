@@ -6,6 +6,7 @@
 package jvm.barlom.domain.graphschema.api
 
 import o.barlom.domain.graphschema.api.model.Model
+import o.barlom.domain.graphschema.api.model.ModelUpdate
 import o.barlom.infrastructure.graphs.IWritableGraph
 import x.barlom.infrastructure.uuids.makeUuid
 
@@ -24,6 +25,23 @@ abstract class SchemaGraphTests {
         model: Model,
         check: (Model) -> Unit,
         write: (Model, IWritableGraph) -> Unit
+    ): Model {
+
+        model.update(write)
+
+        check(model)
+
+        return model
+
+    }
+
+    protected fun runWriteCheckTest(check: (Model) -> Unit, write: (ModelUpdate) -> Unit) =
+        runWriteCheckTest(Model(::makeUuid), check, write)
+
+    protected fun runWriteCheckTest(
+        model: Model,
+        check: (Model) -> Unit,
+        write: (ModelUpdate) -> Unit
     ): Model {
 
         model.update(write)

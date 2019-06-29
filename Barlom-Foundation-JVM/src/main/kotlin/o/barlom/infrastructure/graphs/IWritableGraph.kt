@@ -21,12 +21,12 @@ interface IWritableGraph
     /**
      * Adds a [concept] to the graph.
      */
-    fun <V : IConcept<V>> addConcept(concept: V)
+    fun <V : IConcept<V>> addConcept(concept: V): V
 
     /**
      * Adds a directed [connection] to the graph. The connected concepts must have already been added to the graph.
      */
-    fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E)
+    fun <E : IDirectedConnection<E, V1, V2>, V1 : IConcept<V1>, V2 : IConcept<V2>> addConnection(connection: E): E
 
     /**
      * Adds an undirected [connection] to the graph. The connected concepts must have already been added to the graph.

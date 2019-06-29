@@ -7,12 +7,10 @@ package jvm.barlom.domain.graphschema.api.concepts
 
 import jvm.barlom.domain.graphschema.api.SchemaGraphTests
 import o.barlom.domain.graphschema.api.concepts.ConceptType
-import o.barlom.domain.graphschema.api.concepts.Package
-import o.barlom.domain.graphschema.api.connections.ConceptTypeContainment
+import o.barlom.domain.graphschema.api.concepts.Module
 import o.barlom.domain.graphschema.api.connections.ConceptTypeInheritance
-import o.barlom.domain.graphschema.api.connections.PackageContainment
+import o.barlom.domain.graphschema.api.connections.Inheritance
 import o.barlom.domain.graphschema.api.model.Model
-import o.barlom.domain.graphschema.api.queries.*
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -30,16 +28,11 @@ class ConceptTypeInheritanceTests
     @Test
     fun `Concept types can be connected by inheritance`() {
 
-        lateinit var pkg1: Package
+        lateinit var mod1: Module
         lateinit var ct1a: ConceptType
         lateinit var ct1b: ConceptType
         lateinit var ct2: ConceptType
         lateinit var ct3: ConceptType
-
-        lateinit var ctc1a: ConceptTypeContainment
-        lateinit var ctc1b: ConceptTypeContainment
-        lateinit var ctc2: ConceptTypeContainment
-        lateinit var ctc3: ConceptTypeContainment
 
         lateinit var cti21a: ConceptTypeInheritance
         lateinit var cti21b: ConceptTypeInheritance
@@ -52,9 +45,9 @@ class ConceptTypeInheritanceTests
                     assertEquals(11, numConnections)
                     assertFalse(isEmpty())
                     assertTrue(isNotEmpty())
-                    assertTrue(containsConcept(m.rootPackage))
+                    assertTrue(containsConcept(m.rootModule))
                     assertTrue(containsConcept(m.rootConceptType))
-                    assertTrue(containsConcept(pkg1))
+                    assertTrue(containsConcept(mod1))
                     assertTrue(containsConcept(ct1a))
                     assertTrue(containsConcept(ct1b))
                     assertTrue(containsConcept(ct2))
@@ -67,98 +60,91 @@ class ConceptTypeInheritanceTests
                     assertEquals(cti32, connection(cti32.id))
                 }
 
-                assertTrue(childConceptTypes(pkg1).contains(ct1a))
-                assertTrue(childConceptTypes(pkg1).contains(ct1b))
-                assertTrue(childConceptTypes(pkg1).contains(ct2))
-                assertTrue(childConceptTypes(pkg1).contains(ct3))
+                assertTrue(mod1.childConceptTypes().contains(ct1a))
+                assertTrue(mod1.childConceptTypes().contains(ct1b))
+                assertTrue(mod1.childConceptTypes().contains(ct2))
+                assertTrue(mod1.childConceptTypes().contains(ct3))
 
-                assertEquals(1,subTypes(ct1a).size)
-                assertTrue(subTypes(ct1a).contains(ct2))
-                assertEquals(1,subTypes(ct1b).size)
-                assertTrue(subTypes(ct1b).contains(ct2))
-                assertEquals(1,subTypes(ct2).size)
-                assertTrue(subTypes(ct2).contains(ct3))
-                assertTrue(subTypes(ct3).isEmpty())
+                assertEquals(1, ct1a.subTypes().size)
+                assertTrue(ct1a.subTypes().contains(ct2))
+                assertEquals(1, ct1b.subTypes().size)
+                assertTrue(ct1b.subTypes().contains(ct2))
+                assertEquals(1, ct2.subTypes().size)
+                assertTrue(ct2.subTypes().contains(ct3))
+                assertTrue(ct3.subTypes().isEmpty())
 
-                assertTrue(hasSubType(ct1a,ct2))
-                assertTrue(hasSubType(ct1b,ct2))
-                assertTrue(hasSubType(ct2,ct3))
+                assertTrue(ct1a.hasSubType(ct2))
+                assertTrue(ct1b.hasSubType(ct2))
+                assertTrue(ct2.hasSubType(ct3))
 
-                assertEquals(2,transitiveSubTypes(ct1a).size)
-                assertTrue(transitiveSubTypes(ct1a).contains(ct2))
-                assertTrue(transitiveSubTypes(ct1a).contains(ct3))
-                assertEquals(2,transitiveSubTypes(ct1b).size)
-                assertTrue(transitiveSubTypes(ct1b).contains(ct2))
-                assertTrue(transitiveSubTypes(ct1b).contains(ct3))
-                assertEquals(1,transitiveSubTypes(ct2).size)
-                assertTrue(transitiveSubTypes(ct2).contains(ct3))
-                assertTrue(transitiveSubTypes(ct3).isEmpty())
+                assertEquals(2, ct1a.transitiveSubTypes().size)
+                assertTrue(ct1a.transitiveSubTypes().contains(ct2))
+                assertTrue(ct1a.transitiveSubTypes().contains(ct3))
+                assertEquals(2, ct1b.transitiveSubTypes().size)
+                assertTrue(ct1b.transitiveSubTypes().contains(ct2))
+                assertTrue(ct1b.transitiveSubTypes().contains(ct3))
+                assertEquals(1, ct2.transitiveSubTypes().size)
+                assertTrue(ct2.transitiveSubTypes().contains(ct3))
+                assertTrue(ct3.transitiveSubTypes().isEmpty())
 
-                assertTrue(hasTransitiveSubType(ct1a,ct2))
-                assertTrue(hasTransitiveSubType(ct1a,ct3))
-                assertTrue(hasTransitiveSubType(ct1b,ct2))
-                assertTrue(hasTransitiveSubType(ct1b,ct3))
-                assertTrue(hasTransitiveSubType(ct2,ct3))
+                assertTrue(ct1a.hasTransitiveSubType(ct2))
+                assertTrue(ct1a.hasTransitiveSubType(ct3))
+                assertTrue(ct1b.hasTransitiveSubType(ct2))
+                assertTrue(ct1b.hasTransitiveSubType(ct3))
+                assertTrue(ct2.hasTransitiveSubType(ct3))
 
-                assertTrue(superTypes(ct1a).isEmpty())
-                assertTrue(superTypes(ct1b).isEmpty())
-                assertEquals(2,superTypes(ct2).size)
-                assertTrue(superTypes(ct2).contains(ct1a))
-                assertTrue(superTypes(ct2).contains(ct1b))
-                assertEquals(1,superTypes(ct3).size)
-                assertTrue(superTypes(ct3).contains(ct2))
+                assertTrue(ct1a.superTypes().isEmpty())
+                assertTrue(ct1b.superTypes().isEmpty())
+                assertEquals(2, ct2.superTypes().size)
+                assertTrue(ct2.superTypes().contains(ct1a))
+                assertTrue(ct2.superTypes().contains(ct1b))
+                assertEquals(1, ct3.superTypes().size)
+                assertTrue(ct3.superTypes().contains(ct2))
 
-                assertTrue(hasSuperType(ct2,ct1a))
-                assertTrue(hasSuperType(ct2,ct1b))
-                assertTrue(hasSuperType(ct3,ct2))
+                assertTrue(ct2.hasSuperType(ct1a))
+                assertTrue(ct2.hasSuperType(ct1b))
+                assertTrue(ct3.hasSuperType(ct2))
 
-                assertTrue(transitiveSuperTypes(ct1a).isEmpty())
-                assertTrue(transitiveSuperTypes(ct1b).isEmpty())
-                assertEquals(2,transitiveSuperTypes(ct2).size)
-                assertTrue(transitiveSuperTypes(ct2).contains(ct1a))
-                assertTrue(transitiveSuperTypes(ct2).contains(ct1b))
-                assertEquals(3,transitiveSuperTypes(ct3).size)
-                assertTrue(transitiveSuperTypes(ct3).contains(ct2))
-                assertTrue(transitiveSuperTypes(ct3).contains(ct1a))
-                assertTrue(transitiveSuperTypes(ct3).contains(ct1b))
+                assertTrue(ct1a.transitiveSuperTypes().isEmpty())
+                assertTrue(ct1b.transitiveSuperTypes().isEmpty())
+                assertEquals(2, ct2.transitiveSuperTypes().size)
+                assertTrue(ct2.transitiveSuperTypes().contains(ct1a))
+                assertTrue(ct2.transitiveSuperTypes().contains(ct1b))
+                assertEquals(3, ct3.transitiveSuperTypes().size)
+                assertTrue(ct3.transitiveSuperTypes().contains(ct2))
+                assertTrue(ct3.transitiveSuperTypes().contains(ct1a))
+                assertTrue(ct3.transitiveSuperTypes().contains(ct1b))
 
-                assertTrue(hasTransitiveSuperType(ct2,ct1a))
-                assertTrue(hasTransitiveSuperType(ct2,ct1b))
-                assertTrue(hasTransitiveSuperType(ct3,ct2))
-                assertTrue(hasTransitiveSuperType(ct3,ct1a))
-                assertTrue(hasTransitiveSuperType(ct3,ct1b))
+                assertTrue(ct2.hasTransitiveSuperType(ct1a))
+                assertTrue(ct2.hasTransitiveSuperType(ct1b))
+                assertTrue(ct3.hasTransitiveSuperType(ct2))
+                assertTrue(ct3.hasTransitiveSuperType(ct1a))
+                assertTrue(ct3.hasTransitiveSuperType(ct1b))
 
             }
 
-        runWriteCheckTest(::check) { m, g ->
-            pkg1 = Package(m.makeUuid(), false, "pkg1")
-            ct1a = ConceptType(m.makeUuid(), name = "ConceptType1a")
-            ct1b = ConceptType(m.makeUuid(), name = "ConceptType1b")
-            ct2 = ConceptType(m.makeUuid(), name = "ConceptType2")
-            ct3 = ConceptType(m.makeUuid(), name = "ConceptType3")
-            ctc1a = ConceptTypeContainment(m.makeUuid(), pkg1, ct1a)
-            ctc1b = ConceptTypeContainment(m.makeUuid(), pkg1, ct1b)
-            ctc2 = ConceptTypeContainment(m.makeUuid(), pkg1, ct2)
-            ctc3 = ConceptTypeContainment(m.makeUuid(), pkg1, ct3)
-            // TODO: inherit from root concept type
-            cti21a = ConceptTypeInheritance(m.makeUuid(), ct2, ct1a)
-            cti21b = ConceptTypeInheritance(m.makeUuid(), ct2, ct1b)
-            cti32 = ConceptTypeInheritance(m.makeUuid(), ct3, ct2)
+        runWriteCheckTest(::check) { mu ->
+            with(mu) {
+                mod1 = module("mod1")
+                mod1.containedBy(rootModule)
+                ct1a = conceptType("ConceptType1a")
+                ct1b = conceptType("ConceptType1b")
+                ct2 = conceptType("ConceptType2")
+                ct3 = conceptType("ConceptType3")
+                ct1a.containedBy(mod1)
+                ct1b.containedBy(mod1)
+                ct2.containedBy(mod1)
+                ct3.containedBy(mod1)
+                // TODO: inherit from root concept type
+                cti21a = ConceptTypeInheritance(Inheritance.CONCEPT_TYPE_INHERITANCE_TYPE, makeUuid(), ct2, ct1a)
+                cti21b = ConceptTypeInheritance(Inheritance.CONCEPT_TYPE_INHERITANCE_TYPE, makeUuid(), ct2, ct1b)
+                cti32 = ConceptTypeInheritance(Inheritance.CONCEPT_TYPE_INHERITANCE_TYPE, makeUuid(), ct3, ct2)
 
-            with(g) {
-                addConcept(pkg1)
-                addConcept(ct1a)
-                addConcept(ct1b)
-                addConcept(ct2)
-                addConcept(ct3)
-                addConnection(PackageContainment(m.makeUuid(), m.rootPackage, pkg1.id))
-                addConnection(ctc1a)
-                addConnection(ctc1b)
-                addConnection(ctc2)
-                addConnection(ctc3)
-                addConnection(cti21a)
-                addConnection(cti21b)
-                addConnection(cti32)
+                with(graph) {
+                    addConnection(cti21a)
+                    addConnection(cti21b)
+                    addConnection(cti32)
+                }
             }
         }
 

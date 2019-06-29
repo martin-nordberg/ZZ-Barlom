@@ -58,7 +58,7 @@ interface IGraph {
     /**
      * @return the connections of type [connectionType] linked from the concept with given ID [conceptId].
      */
-    fun <V : IConcept<V>, E: IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E>
+    fun <V : IConcept<V>, E : IConnection<E>> connectionsFrom(conceptId: Id<V>, connectionType: ConnectionTypeId<E>): Collection<E>
 
     /**
      * @return the connections linked from the concept with given ID [conceptId].
@@ -68,7 +68,7 @@ interface IGraph {
     /**
      * @return the connections of type [connectionType] linked to the concept with given ID [conceptId].
      */
-    fun <V : IConcept<V>, E: IConnection<E>> connectionsTo(conceptId: Id<V>, connectionType: ConnectionType<E>): Collection<E>
+    fun <V : IConcept<V>, E : IConnection<E>> connectionsTo(conceptId: Id<V>, connectionType: ConnectionTypeId<E>): Collection<E>
 
     /**
      * @return true if the graph contains the given [concept].

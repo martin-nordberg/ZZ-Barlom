@@ -5,7 +5,7 @@
 
 package i.barlom.infrastructure.graphs
 
-import o.barlom.infrastructure.graphs.ConnectionType
+import o.barlom.infrastructure.graphs.ConnectionTypeId
 import o.barlom.infrastructure.graphs.IConnection
 import o.barlom.infrastructure.graphs.IWritableGraph
 import x.barlom.infrastructure.uuids.Uuid
@@ -21,13 +21,13 @@ internal interface IGraphImpl : IWritableGraph {
     fun mappedConnectionsFrom(conceptUuid: Uuid): ConnectionMap
 
     /** @return the connection set for outgoing connections of type [connectionType] from the concept with UUID [conceptUuid]. */
-    fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E>
+    fun <E : IConnection<E>> mappedConnectionsFrom(conceptUuid: Uuid, connectionType: ConnectionTypeId<E>): Collection<E>
 
     /** @return the connection map for incoming connections to the concept with UUID [conceptUuid]. */
     fun mappedConnectionsTo(conceptUuid: Uuid): ConnectionMap
 
     /** @return the connection set for incoming connections of type [connectionType] to the concept with UUID [conceptUuid]. */
-    fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionType: ConnectionType<E>): Collection<E>
+    fun <E : IConnection<E>> mappedConnectionsTo(conceptUuid: Uuid, connectionType: ConnectionTypeId<E>): Collection<E>
 
 }
 

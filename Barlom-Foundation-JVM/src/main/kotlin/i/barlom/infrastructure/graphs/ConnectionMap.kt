@@ -5,7 +5,7 @@
 
 package i.barlom.infrastructure.graphs
 
-import o.barlom.infrastructure.graphs.ConnectionType
+import o.barlom.infrastructure.graphs.ConnectionTypeId
 import o.barlom.infrastructure.graphs.IConnection
 import x.barlom.infrastructure.uuids.Uuid
 
@@ -22,7 +22,7 @@ internal class ConnectionMap
     private val connectionsByUuid = HashMap<Uuid, IConnection<*>>()
 
     /** A redundant inner map of maps for faster queries when connection type is fixed. */
-    private val connectionsByTypeAndUuid = HashMap<ConnectionType<*>, HashMap<Uuid, IConnection<*>>>()
+    private val connectionsByTypeAndUuid = HashMap<ConnectionTypeId<*>, HashMap<Uuid, IConnection<*>>>()
 
     ////
 
@@ -36,7 +36,7 @@ internal class ConnectionMap
      * @return whether this connection map contains the given [connection].
      */
     override fun contains(connection: IConnection<*>) =
-        connectionsByTypeAndUuid[connection.type]?.get(connection.id.uuid) === connection
+        connectionsByTypeAndUuid[connection.typeId]?.get(connection.id.uuid) === connection
 
     /**
      * @return whether al of the given [connections] are contained in this map.
@@ -60,11 +60,11 @@ internal class ConnectionMap
      * @return all the connections of given type.
      */
     @Suppress("UNCHECKED_CAST")
-    fun <E:IConnection<E>> getByType(type:ConnectionType<E>) : Collection<E> {
+    fun <E : IConnection<E>> getByType(type: ConnectionTypeId<E>): Collection<E> {
 
         val connectionsByType = connectionsByTypeAndUuid[type]
 
-        if ( connectionsByType != null ) {
+        if (connectionsByType != null) {
             return connectionsByType.values as Collection<E>
         }
 
@@ -95,7 +95,7 @@ internal class ConnectionMap
      */
     fun put(connection: IConnection<*>) {
         connectionsByUuid[connection.id.uuid] = connection
-        connectionsByTypeAndUuid.getOrPut(connection.type) { HashMap() } [connection.id.uuid] = connection
+        connectionsByTypeAndUuid.getOrPut(connection.typeId) { HashMap() }[connection.id.uuid] = connection
     }
 
     /**
@@ -103,7 +103,7 @@ internal class ConnectionMap
      */
     fun putAll(addedConnections: ConnectionMap) {
 
-        for ( connection in addedConnections) {
+        for (connection in addedConnections) {
             put(connection)
         }
 
@@ -113,15 +113,15 @@ internal class ConnectionMap
      * Removes the connection with UUID [connectionUuid] from this map.
      * @return the removed connection or null if there is no connection with the given UUID.
      */
-    fun remove(connectionUuid: Uuid) : IConnection<*>? {
+    fun remove(connectionUuid: Uuid): IConnection<*>? {
 
         val result = connectionsByUuid.remove(connectionUuid)
 
-        if ( result != null ) {
-            val connectionsByType = connectionsByTypeAndUuid[result.type]!!
+        if (result != null) {
+            val connectionsByType = connectionsByTypeAndUuid[result.typeId]!!
             connectionsByType.remove(connectionUuid)
-            if ( connectionsByType.isEmpty() ) {
-                connectionsByTypeAndUuid.remove(result.type)
+            if (connectionsByType.isEmpty()) {
+                connectionsByTypeAndUuid.remove(result.typeId)
             }
         }
 
