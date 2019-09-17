@@ -22,6 +22,7 @@ interface IModuleContainmentQueries {
     /**
      * Finds the immediate child packages of a package with ID [parentModuleId].
      */
+
     fun Module.childModules(): List<Module> =
         graph.findConceptsConnectedFrom(this, Containment.MODULE_CONTAINMENT_TYPE)
 

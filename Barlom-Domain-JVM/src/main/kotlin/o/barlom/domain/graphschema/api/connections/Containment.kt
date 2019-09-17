@@ -20,7 +20,7 @@ import x.barlom.infrastructure.uuids.Uuid
 data class Containment<
     ParentConcept : AbstractNamedConcept<ParentConcept>,
     ChildConcept : AbstractNamedConcept<ChildConcept>
-    >(
+>(
     override val typeId: ConnectionTypeId<Containment<ParentConcept, ChildConcept>>,
     override val uuid: Uuid,
     override val fromConceptId: Id<ParentConcept>,

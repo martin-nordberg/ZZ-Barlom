@@ -21,7 +21,7 @@ import x.barlom.infrastructure.uuids.Uuid
  */
 data class Connectivity<
     ConnectionType : AbstractConnectionType<ConnectionType>
-    >(
+>(
     override val typeId: ConnectionTypeId<Connectivity<ConnectionType>>,
     override val uuid: Uuid,
     override val fromConceptId: Id<ConnectionType>,
