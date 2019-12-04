@@ -20,7 +20,7 @@ import x.barlom.infrastructure.uuids.Uuid
 data class Containment<
     ParentConcept : AbstractNamedConcept<ParentConcept>,
     ChildConcept : AbstractNamedConcept<ChildConcept>
->(
+> (
     override val typeId: ConnectionTypeId<Containment<ParentConcept, ChildConcept>>,
     override val uuid: Uuid,
     override val fromConceptId: Id<ParentConcept>,
@@ -65,7 +65,7 @@ data class Containment<
             "o.barlom.domain.graphschema.api.connections.ConceptPropertyTypeContainment"
         )
 
-        val CONCEPT_TYPE_CONTAINMENT_TYPE = ConnectionTypeId<Containment<Module, ConceptType>>(
+        val CONCEPT_TYPE_CONTAINMENT_TYPE = ConnectionTypeId<ConceptTypeContainment>(
             "o.barlom.domain.graphschema.api.connections.ConceptTypeContainment"
         )
 
@@ -82,7 +82,7 @@ data class Containment<
             "o.barlom.domain.graphschema.api.connections.DirectedConnectionTypeContainment"
         )
 
-        val MODULE_CONTAINMENT_TYPE = ConnectionTypeId<Containment<Module, Module>>(
+        val MODULE_CONTAINMENT_TYPE = ConnectionTypeId<ModuleContainment>(
             "o.barlom.domain.graphschema.api.connections.ModuleContainment"
         )
 
