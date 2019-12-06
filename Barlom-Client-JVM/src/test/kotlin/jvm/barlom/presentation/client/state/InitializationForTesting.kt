@@ -3,7 +3,7 @@
 // Apache 2.0 License
 //
 
-package jvm.org.barlom.presentation.client.state
+package jvm.barlom.presentation.client.state
 
 import o.barlom.presentation.client.ApplicationState
 

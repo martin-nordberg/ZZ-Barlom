@@ -13,7 +13,7 @@ import kotlin.test.*
  * Tests of class RevisionHistory.
  */
 @Suppress("RemoveRedundantBackticks")
-class RevisionHistoryTests {
+internal class RevisionHistoryTests {
 
     @Test
     fun `A revision history supports transactions`() {

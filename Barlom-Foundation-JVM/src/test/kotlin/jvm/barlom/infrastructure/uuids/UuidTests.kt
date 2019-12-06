@@ -17,7 +17,7 @@ import java.lang.Math.min
  * Tests of class Uuid and associated builder functions.
  */
 @Suppress("RemoveRedundantBackticks")
-class UuidTests {
+internal class UuidTests {
 
     @Test
     fun `A Uuid can be converted from and back to a string`() {

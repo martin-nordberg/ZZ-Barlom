@@ -1,6 +1,11 @@
-package jvm.org.barlom.presentation.client.actions
+//
+// (C) Copyright 2017-2018 Martin E. Nordberg III
+// Apache 2.0 License
+//
 
-import jvm.org.barlom.presentation.client.state.initializeAppStateForTesting
+package jvm.barlom.presentation.client.actions
+
+import jvm.barlom.presentation.client.state.initializeAppStateForTesting
 import o.barlom.infrastructure.revisions.RevisionHistory
 import o.barlom.presentation.client.actions.GeneralActions
 import org.junit.jupiter.api.Test

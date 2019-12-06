@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
  * Tests of classes Graph and WritableGraph.
  */
 @Suppress("RemoveRedundantBackticks")
-abstract class GraphTests {
+internal abstract class GraphTests {
 
     protected fun runWriteCheckTest(check: (IGraph) -> Unit, write: (IWritableGraph) -> Unit) =
         runWriteCheckTest(graphOf(), check, write)

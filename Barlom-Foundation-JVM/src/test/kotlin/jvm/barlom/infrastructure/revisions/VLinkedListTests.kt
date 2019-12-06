@@ -14,7 +14,7 @@ import kotlin.test.*
  * Tests of class VLinkedList.
  */
 @Suppress("RemoveRedundantBackticks")
-class VLinkedListTests {
+internal class VLinkedListTests {
 
     @Test
     fun `A versioned linked list grows and shrinks with old versions preserved`() {

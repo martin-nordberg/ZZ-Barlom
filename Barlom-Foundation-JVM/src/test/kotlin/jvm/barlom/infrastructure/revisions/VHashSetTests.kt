@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
  * Tests of class VHashSet.
  */
 @Suppress("RemoveRedundantBackticks")
-class VHashSetTests {
+internal class VHashSetTests {
 
     @Test
     fun `A versioned hash set grows and shrinks with old versions preserved`() {

@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
  * Tests of classes ReadableGraph and WritableGraph for updating concepts and connections.
  */
 @Suppress("RemoveRedundantBackticks")
-class GraphUpdateTests
+internal class GraphUpdateTests
     : GraphTests() {
 
     @Test
