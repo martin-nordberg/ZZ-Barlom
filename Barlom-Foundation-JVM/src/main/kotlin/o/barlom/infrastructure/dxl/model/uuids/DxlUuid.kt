@@ -5,15 +5,19 @@
 
 package o.barlom.infrastructure.dxl.model.uuids
 
+import o.barlom.infrastructure.codegen.CodeWriter
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
-abstract class DxlUuid(
-    val origin: DxlOrigin
-) {
+class DxlUuid(
+    origin: DxlOrigin,
+    val text : String
+) : DxlOptUuid( origin ) {
 
-    abstract val text: String
+    override fun writeCode(output: CodeWriter) {
+        output.write(text)
+    }
 
 }
 

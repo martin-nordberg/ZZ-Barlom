@@ -6,15 +6,13 @@
 package o.barlom.infrastructure.dxl.model.expressions.literals
 
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
-import o.barlom.infrastructure.dxl.model.documentation.DxlDocumentation
 
 //---------------------------------------------------------------------------------------------------------------------
 
 class DxlCharacterLiteral(
     origin: DxlOrigin,
-    documentation: DxlDocumentation,
     override val text: String
-) : DxlLiteralExpression(origin, documentation)
+) : DxlLiteralExpression(origin)
 
 //---------------------------------------------------------------------------------------------------------------------
 

@@ -6,15 +6,12 @@
 package o.barlom.infrastructure.dxl.model.expressions
 
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
-import o.barlom.infrastructure.dxl.model.documentation.DxlDocumentation
-import o.barlom.infrastructure.dxl.model.elements.DxlElement
 
 //---------------------------------------------------------------------------------------------------------------------
 
 abstract class DxlExpression(
-    origin: DxlOrigin,
-    documentation: DxlDocumentation
-) : DxlElement(origin, documentation)
+    origin: DxlOrigin
+) : DxlOptExpression(origin)
 
 //---------------------------------------------------------------------------------------------------------------------
 

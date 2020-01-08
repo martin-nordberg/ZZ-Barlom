@@ -8,34 +8,33 @@ package o.barlom.infrastructure.dxl.parsing
 import i.barlom.infrastructure.dxl.parsing.DxlExpectedTokenBufferImpl
 import i.barlom.infrastructure.dxl.scanning.DxlToken
 import i.barlom.infrastructure.dxl.scanning.EDxlTokenType.*
-import o.barlom.infrastructure.dxl.model.annotations.DxlAnnotation
-import o.barlom.infrastructure.dxl.model.annotations.DxlAnnotationList
-import o.barlom.infrastructure.dxl.model.arguments.*
-import o.barlom.infrastructure.dxl.model.connectedelements.DxlConnectedElement
-import o.barlom.infrastructure.dxl.model.connectedelements.DxlConnectedElementList
-import o.barlom.infrastructure.dxl.model.connectedelements.DxlConnectedQualifiedName
-import o.barlom.infrastructure.dxl.model.connectedelements.DxlConnectedUuid
+import o.barlom.infrastructure.dxl.model.concepts.DxlConceptDeclaration
 import o.barlom.infrastructure.dxl.model.connections.*
 import o.barlom.infrastructure.dxl.model.core.DxlFileOrigin
-import o.barlom.infrastructure.dxl.model.documentation.DxlBlockDocumentation
+import o.barlom.infrastructure.dxl.model.core.DxlOrigin
+import o.barlom.infrastructure.dxl.model.declarations.DxlDeclaration
+import o.barlom.infrastructure.dxl.model.declarations.DxlDeclarations
+import o.barlom.infrastructure.dxl.model.declarations.DxlTopLevel
 import o.barlom.infrastructure.dxl.model.documentation.DxlDocumentation
-import o.barlom.infrastructure.dxl.model.documentation.DxlNullDocumentation
-import o.barlom.infrastructure.dxl.model.elements.DxlConcept
-import o.barlom.infrastructure.dxl.model.elements.DxlDeclaration
+import o.barlom.infrastructure.dxl.model.documentation.DxlNoDocumentation
+import o.barlom.infrastructure.dxl.model.documentation.DxlOptDocumentation
 import o.barlom.infrastructure.dxl.model.elements.DxlElement
+import o.barlom.infrastructure.dxl.model.elements.DxlSpecifiedElement
 import o.barlom.infrastructure.dxl.model.expressions.DxlExpression
+import o.barlom.infrastructure.dxl.model.expressions.DxlNoValue
 import o.barlom.infrastructure.dxl.model.expressions.literals.*
-import o.barlom.infrastructure.dxl.model.expressions.references.DxlReferenceExpression
-import o.barlom.infrastructure.dxl.model.names.DxlName
-import o.barlom.infrastructure.dxl.model.names.DxlNullName
-import o.barlom.infrastructure.dxl.model.names.DxlQualifiedName
-import o.barlom.infrastructure.dxl.model.names.DxlSimpleName
-import o.barlom.infrastructure.dxl.model.parameters.DxlNullParameterList
+import o.barlom.infrastructure.dxl.model.names.*
+import o.barlom.infrastructure.dxl.model.parameters.DxlNoParameters
+import o.barlom.infrastructure.dxl.model.parameters.DxlOptParameters
 import o.barlom.infrastructure.dxl.model.parameters.DxlParameter
-import o.barlom.infrastructure.dxl.model.parameters.DxlParameterList
-import o.barlom.infrastructure.dxl.model.parameters.DxlSpecifiedParameterList
-import o.barlom.infrastructure.dxl.model.uuids.DxlKnownUuid
-import o.barlom.infrastructure.dxl.model.uuids.DxlNullUuid
+import o.barlom.infrastructure.dxl.model.parameters.DxlParameters
+import o.barlom.infrastructure.dxl.model.properties.DxlProperties
+import o.barlom.infrastructure.dxl.model.properties.DxlProperty
+import o.barlom.infrastructure.dxl.model.types.DxlNoTypeRef
+import o.barlom.infrastructure.dxl.model.types.DxlOptTypeRef
+import o.barlom.infrastructure.dxl.model.types.DxlTypeRef
+import o.barlom.infrastructure.dxl.model.uuids.DxlNoUuid
+import o.barlom.infrastructure.dxl.model.uuids.DxlOptUuid
 import o.barlom.infrastructure.dxl.model.uuids.DxlUuid
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -50,337 +49,165 @@ class DxlParser(
     ////
 
     /**
-     * element
-     *   : declaration
-     *   | expression
+     * topLevel
+     *   : namespace? alias* declaration+
      *   ;
      */
-    fun parseElement(): DxlElement {
+    fun parseTopLevel(): DxlTopLevel {
 
-        if (
-            input.hasLookAhead(HASH) ||
-            input.hasLookAhead(AT) ||
-            input.hasLookAhead(2, HASH) ||
-            input.hasLookAhead(2, AT)
-        ) {
-            // declaration
-            return parseDeclaration()
-        }
+        // TODO: val namespace = parseNamespaceOpt()
 
-        // expression
-        return parseExpression()
+        // TODO: val aliases = parseAliases()
+
+        val declarations = parseDeclarations()
+
+        return DxlTopLevel( /* TODO: namespace, aliases, */ declarations)
 
     }
 
     ////
 
     /**
-     * Parses one annotation.
-     *
-     * annotation
-     *   : "@" qualifiedName argumentList?
-     *   ;
+     * conceptDeclaration
+     *   : "[" element "]" connections? content?
      */
-    private fun parseAnnotation(): DxlAnnotation {
-
-        // "@"
-        val atToken = input.read(AT)
-
-        // qualifiedName
-        val qualifiedName = parseQualifiedName()
-
-        // argumentList?
-        val argumentList = parseArgumentListOpt()
-
-        return DxlAnnotation(atToken.origin, qualifiedName, argumentList)
-
-    }
-
-    /**
-     * Parses a possibly empty list of annotations.
-     *
-     * annotationList
-     *   : annotation*
-     *   ;
-     */
-    private fun parseAnnotationList(): DxlAnnotationList {
-
-        val annotations = mutableListOf<DxlAnnotation>()
-
-        // annotation*
-        while (input.hasLookAhead(AT)) {
-            annotations.add(parseAnnotation())
-        }
-
-        return DxlAnnotationList(annotations)
-
-    }
-
-    /**
-     * Parses one argument.
-     *
-     * argument
-     *   : argumentName? expression
-     *   ;
-     */
-    private fun parseArgument(): DxlArgument {
-
-        val origin = input.lookAhead(1)!!.origin
-
-        // argumentName?
-        val argumentName = parseArgumentNameOpt()
-
-        // expression
-        val expression = parseExpression()
-
-        return DxlArgument(origin, argumentName, expression)
-
-    }
-
-    /**
-     * Parses an argument list.
-     *
-     * parameterList
-     *   : "(" ( argument ("," argument)* )? ")"
-     *   ;
-     */
-    private fun parseArgumentList(): DxlArgumentList {
-
-        // "("
-        val leftParenToken = input.read(LEFT_PARENTHESIS)
-
-        val arguments = mutableListOf<DxlArgument>()
-
-        if (!input.consumeWhen(RIGHT_PARENTHESIS)) {
-
-            // argument
-            arguments.add(parseArgument())
-
-            // ( "," argument )*
-            while (input.consumeWhen(COMMA)) {
-                arguments.add(parseArgument())
-            }
-
-            // ")"
-            input.read(RIGHT_PARENTHESIS)
-
-        }
-
-        return DxlSpecifiedArgumentList(leftParenToken.origin, arguments)
-
-    }
-
-    /**
-     * Parses an optional argument list.
-     */
-    private fun parseArgumentListOpt(): DxlArgumentList {
-
-        if (input.hasLookAhead(LEFT_PARENTHESIS)) {
-            return parseArgumentList()
-        }
-
-        return DxlNullArgumentList
-
-    }
-
-    /**
-     * Parses an optional argument name.
-     *
-     * argumentName
-     *   : (simpleName "=")
-     *   ;
-     */
-    private fun parseArgumentNameOpt(): DxlArgumentName {
-
-        if (input.hasLookAhead(2, EQ) && input.hasLookAhead(IDENTIFIER)) {
-
-            // simpleName
-            val name = parseSimpleName()
-
-            // "="
-            input.read(EQ)
-
-            return DxlSpecifiedArgumentName(name.origin, name.text)
-
-        }
-
-        return DxlNullArgumentName
-
-    }
-
-    /**
-     * Parses a hash tag and qualifiedName signifying a concept.
-     *
-     * concept
-     *   : "#" qualifiedName
-     *   ;
-     */
-    private fun parseConcept(): DxlConcept {
-
-        // "#"
-        val hashToken = input.read(HASH)
-
-        // qualifiedName
-        val qualifiedName = parseQualifiedName()
-
-        return DxlConcept(hashToken.origin, qualifiedName)
-
-    }
-
-    /**
-     * Parses a connected element (to the right of a connector).
-     *
-     * connectedElement
-     *   : qualifiedName
-     *   | uuid
-     *   | "[" element ("," element)* "]"
-     *   ;
-     */
-    private fun parseConnectedElement(): DxlConnectedElement {
-
-        // qualifiedName
-        if (input.hasLookAhead(IDENTIFIER)) {
-            return DxlConnectedQualifiedName(parseQualifiedName())
-        }
-
-        // uuid
-        if (input.hasLookAhead(UUID)) {
-            return DxlConnectedUuid(parseUuid())
-        }
+    private fun parseConceptDeclaration(documentation: DxlOptDocumentation): DxlConceptDeclaration {
 
         // "["
         val leftBracketToken = input.read(LEFT_BRACKET)
 
-        val elements = mutableListOf<DxlElement>()
-
         // element
-        elements.add(parseElement())
-
-        // ("," element)*
-        while (input.consumeWhen(COMMA)) {
-            elements.add(parseElement())
-        }
+        val element = parseElement(leftBracketToken.origin)
 
         // "]"
         input.read(RIGHT_BRACKET)
 
-        return DxlConnectedElementList(leftBracketToken.origin, elements)
-
-    }
-
-    /**
-     * Parses a list of connections (that can be empty).
-     *
-     * connectionList
-     *   : implicitConnection+ explicitConnection* (containment | valueAssignment)? semicolonOrNewLine
-     *   | explicitConnection+ (containment | valueAssignment)? semicolonOrNewLine
-     *   | containment semicolonOrNewLine
-     *   | valueAssignment semicolonOrNewLine
-     *   ;
-     */
-    private fun parseConnectionList(): DxlConnectionList {
-
+        // connections?
         val connections = mutableListOf<DxlConnection>()
 
-        while (input.hasLookAhead(COLON)) {
-            connections.add(parseImplicitConnection())
+        while (input.hasLookAhead(DOUBLE_DASH) || input.hasLookAhead(LEFT_ARROW)) {
+            connections.add(parseConnection())
         }
 
-        while (input.hasLookAhead(TILDE)) {
-            connections.add(parseExplicitConnection())
+        // content?
+        val content = if (input.hasLookAhead(LEFT_BRACE)) {
+            parseContent()
+        }
+        else {
+            DxlNoContent
         }
 
-        if (input.hasLookAhead(LEFT_BRACE)) {
-            connections.add(parseContainment())
+        return DxlConceptDeclaration(leftBracketToken.origin, documentation, element, DxlConnections(connections), content)
+    }
+
+    /**
+     * connection
+     *   : ("<-" | "--") "-[" element "]-" ("--" | "->") "[" element "]"
+     */
+    private fun parseConnection(): DxlConnection {
+
+        val arrowStart = input.readOneOf(DOUBLE_DASH, LEFT_ARROW)
+
+        val leftDashBracketToken = input.read(LEFT_DASH_BRACKET)
+
+        val element = parseElement(leftDashBracketToken.origin)
+
+        input.read(RIGHT_DASH_BRACKET)
+
+        val arrowEnd = input.readOneOf(DOUBLE_DASH, RIGHT_ARROW)
+
+        val leftBracketToken = input.read(LEFT_BRACKET)
+
+        val connectedElement = parseElement(leftBracketToken.origin)
+
+        input.read(RIGHT_BRACKET)
+
+        val direction = if ( arrowStart.type == DOUBLE_DASH ) {
+            if ( arrowEnd.type == DOUBLE_DASH) {
+                EDxlConnectionDirection.UNDIRECTED
+            }
+            else {
+                EDxlConnectionDirection.DIRECTED_RIGHT
+            }
         }
-        else if (input.hasLookAhead(EQ)) {
-            connections.add(parseValueAssignment())
+        else {
+            if ( arrowEnd.type == DOUBLE_DASH) {
+                EDxlConnectionDirection.DIRECTED_LEFT
+            }
+            else {
+                EDxlConnectionDirection.BIDIRECTIONAL
+            }
         }
 
-        if (!input.hasLookAhead(RIGHT_BRACE)) {
-            parseSemicolonOrNewLine()
-        }
-
-        return DxlConnectionList(connections)
+        return DxlConnection(arrowStart.origin, direction, element, connectedElement)
 
     }
 
     /**
-     * Parses a list of contained concepts.
-     *
-     * containment
-     *   : "{" element* "}"
+     * connectionDeclaration
+     *   : "-[" element "]-"
+     */
+    private fun parseConnectionDeclaration(documentation: DxlOptDocumentation): DxlConnectionDeclaration {
+
+        // "-["
+        val leftBracketToken = input.read(LEFT_DASH_BRACKET)
+
+        // element
+        val element = parseElement(leftBracketToken.origin)
+
+        // "]-"
+        input.read(RIGHT_DASH_BRACKET)
+
+        return DxlConnectionDeclaration(leftBracketToken.origin, documentation, element)
+
+    }
+
+    /**
+     * content
+     *   : "{" declarations "}"
+     */
+    private fun parseContent(): DxlContent {
+
+        val leftBraceToken = input.read(LEFT_BRACE)
+
+        val declarations = parseDeclarations()
+
+        input.read(RIGHT_BRACE)
+
+        return DxlContent(leftBraceToken.origin, declarations)
+
+    }
+
+    /**
+     * declarations
+     *   : (conceptDeclaration | connectionDeclaration)*
      *   ;
      */
-    private fun parseContainment(): DxlContainment {
+    private fun parseDeclarations(): DxlDeclarations {
 
-        // "{"
-        val leftBrace = input.read(LEFT_BRACE)
+        val declarations = mutableListOf<DxlDeclaration>()
 
-        val containedElements = mutableListOf<DxlElement>()
+        while (true) {
 
-        // element* "}"
-        while (!input.hasLookAhead(RIGHT_BRACE)) {
-            containedElements.add(parseElement())
+            val documentation = parseDocumentationOpt()
+
+            if (input.hasLookAhead(LEFT_BRACKET)) {
+                declarations.add(parseConceptDeclaration(documentation))
+            }
+            else if (input.hasLookAhead(LEFT_DASH_BRACKET)) {
+                declarations.add(parseConnectionDeclaration(documentation))
+            }
+            else {
+                break
+            }
+
         }
 
-        return DxlContainment(leftBrace.origin, containedElements)
-
-    }
-
-    /**
-     * Parses a declaration element.
-     *
-     * declaration
-     *   : documentation? annotationList concept qualifiedName? uuid? parameterList? connectionList
-     *   ;
-     */
-    private fun parseDeclaration(): DxlDeclaration {
-
-        // documentation?
-        val documentation = parseDocumentationOpt()
-
-        // annotationList
-        val annotations = parseAnnotationList()
-
-        // concept
-        val concept = parseConcept()
-
-        // qualifiedName?
-        val qualifiedName = parseQualifiedNameOpt()
-
-        // uuid?
-        val uuid = parseUuidOpt()
-
-        // parameterList?
-        val parameterList = parseParameterListOpt()
-
-        // connectionList
-        val connectionList = parseConnectionList()
-
-        // Put together the declaration from its pieces.
-        return DxlDeclaration(
-            documentation,
-            annotations,
-            concept,
-            qualifiedName,
-            uuid,
-            parameterList,
-            connectionList
-        )
-
-    }
-
-    /**
-     * Parses an optional block of documentation.
-     */
-    private fun parseDocumentationOpt(): DxlDocumentation {
-
-        if (input.hasLookAhead(DOCUMENTATION)) {
-            return parseDocumentation()
+        if (declarations.isEmpty()) {
+            input.expected("Concept or connection declaration")
         }
 
-        return DxlNullDocumentation
+        return DxlDeclarations(declarations)
 
     }
 
@@ -391,180 +218,71 @@ class DxlParser(
      *   : DOCUMENTATION
      *   ;
      */
-    private fun parseDocumentation(): DxlBlockDocumentation {
+    private fun parseDocumentation(): DxlDocumentation {
 
         // DOCUMENTATION
         val token = input.read(DOCUMENTATION)
 
-        return DxlBlockDocumentation(token.origin, token.text)
+        return DxlDocumentation(token.origin, token.text)
 
     }
 
     /**
-     * Parses an explicit connection (one where the connector is spelled out).
-     *
-     * explicitConnection
-     *   : "~" qualifiedName argumentList? "~" connectedElement
-     *   | "~" qualifiedName argumentList? "~>" connectedElement
-     *   | "<~" qualifiedName argumentList? "~" connectedElement
-     *   ;
+     * Parses an optional block of documentation.
      */
-    private fun parseExplicitConnection(): DxlExplicitConnection {
+    private fun parseDocumentationOpt(): DxlOptDocumentation {
 
-        val tildeToken1 = if (input.hasLookAhead(TILDE)) {
-            // "~"
-            input.read(TILDE)
-        }
-        else {
-            // "<~"
-            input.read(LEFT_TILDE)
+        if (input.hasLookAhead(DOCUMENTATION)) {
+            return parseDocumentation()
         }
 
-        // qualifiedName
-        val qualifiedName = parseQualifiedName()
-
-        // argumentList?
-        val arguments = parseArgumentListOpt()
-
-        val tildeToken2 = if (input.hasLookAhead(TILDE)) {
-            // "~"
-            input.read(TILDE)
-        }
-        else {
-            // "~>"
-            input.read(RIGHT_TILDE)
-        }
-
-        val direction = when {
-            tildeToken1.type == LEFT_TILDE  -> EDxlConnectionDirection.LEFT
-            tildeToken2.type == RIGHT_TILDE -> EDxlConnectionDirection.RIGHT
-            else                            -> EDxlConnectionDirection.UNDIRECTED
-        }
-
-        val connector = DxlConnector(qualifiedName.origin, qualifiedName, arguments, direction)
-
-        // connectedElement
-        val connectedElement = parseConnectedElement()
-
-        return DxlExplicitConnection(connector, connectedElement)
+        return DxlNoDocumentation
 
     }
 
     /**
-     * Parses an expression.
-     *
-     * expression
-     *   : literalExpression
-     *   | referenceExpression
-     *   ;
+     * element
+     *   : uuid? (qualifiedName parameters?)? typeRef? properties
      */
+    private fun parseElement(origin: DxlOrigin): DxlElement {
+
+        // uuid?
+        val uuid = parseUuidOpt()
+
+        // qualifiedName?
+        val name = parseQualifiedNameOpt()
+
+        // parameters?
+        val parameters = if (name is DxlNoName) {
+            DxlNoParameters
+        }
+        else {
+            parseParametersOpt()
+        }
+
+        // typeRef?
+        val typeRef = parseTypeRefOpt()
+
+        // properties
+        val properties = parseProperties()
+
+        return DxlSpecifiedElement(origin, uuid, name, parameters, typeRef, properties)
+    }
+
     private fun parseExpression(): DxlExpression {
 
-        if (
-            input.hasLookAhead(BOOLEAN_LITERAL) ||
-            input.hasLookAhead(CHARACTER_LITERAL) ||
-            input.hasLookAhead(FLOATING_POINT_LITERAL) ||
-            input.hasLookAhead(INTEGER_LITERAL) ||
-            input.hasLookAhead(STRING_LITERAL) ||
-            input.hasLookAhead(2, BOOLEAN_LITERAL) ||
-            input.hasLookAhead(2, CHARACTER_LITERAL) ||
-            input.hasLookAhead(2, FLOATING_POINT_LITERAL) ||
-            input.hasLookAhead(2, INTEGER_LITERAL) ||
-            input.hasLookAhead(2, STRING_LITERAL)
-        ) {
-            // literal Expression
-            return parseLiteralExpression()
+        val token = input.read()
+
+        when (token.type) {
+            BOOLEAN_LITERAL        -> return DxlBooleanLiteral(token.origin, token.text)
+            CHARACTER_LITERAL      -> return DxlCharacterLiteral(token.origin, token.text)
+            FLOATING_POINT_LITERAL -> return DxlFloatingPointLiteral(token.origin, token.text)
+            INTEGER_LITERAL        -> return DxlIntegerLiteral(token.origin, token.text)
+            STRING_LITERAL         -> return DxlStringLiteral(token.origin, token.text)
+            else                   -> input.expected("expression")
         }
 
-        // referenceExpression
-        return parseReferenceExpression()
-
-    }
-
-    /**
-     * Parses an implicit connection (just a colon with connection type implied by the concept and connected).
-     *
-     * implicitConnection
-     *   : ":" connectedElement
-     *   ;
-     */
-    private fun parseImplicitConnection(): DxlSpecifiedImplicitConnection {
-
-        // ":"
-        val colonToken = input.read(COLON)
-
-        // connectedElement
-        val connectedElement = parseConnectedElement()
-
-        return DxlSpecifiedImplicitConnection(colonToken.origin, connectedElement)
-
-    }
-
-    /**
-     * Parses an optional implicit connection.
-     */
-    private fun parseImplicitConnectionOpt(): DxlImplicitConnection {
-
-        if (input.hasLookAhead(COLON)) {
-            return parseImplicitConnection()
-        }
-
-        return DxlNullImplicitConnection
-
-    }
-
-    /**
-     * Parses a literal expression.
-     *
-     * literalExpression
-     *   : documentation?
-     *     ( BOOLEAN_LITERAL |
-     *       CHARACTER_LITERAL |
-     *       FLOATING_POINT_LITERAL |
-     *       INTEGER_LITERAL |
-     *       STRING_LITERAL )
-     *   ;
-     */
-    private fun parseLiteralExpression(): DxlLiteralExpression {
-
-        val documentation = parseDocumentationOpt()
-
-        val literalToken = input.readOneOf(
-            BOOLEAN_LITERAL,
-            CHARACTER_LITERAL,
-            FLOATING_POINT_LITERAL,
-            INTEGER_LITERAL,
-            STRING_LITERAL
-        )
-
-        return when (literalToken.type) {
-            BOOLEAN_LITERAL        -> DxlBooleanLiteral(
-                literalToken.origin,
-                documentation,
-                literalToken.text
-            )
-            CHARACTER_LITERAL      -> DxlCharacterLiteral(
-                literalToken.origin,
-                documentation,
-                literalToken.text
-            )
-            FLOATING_POINT_LITERAL -> DxlFloatingPointLiteral(
-                literalToken.origin,
-                documentation,
-                literalToken.text
-            )
-            INTEGER_LITERAL        -> DxlIntegerLiteral(
-                literalToken.origin,
-                documentation,
-                literalToken.text
-            )
-            STRING_LITERAL         -> DxlStringLiteral(
-                literalToken.origin,
-                documentation,
-                literalToken.text
-            )
-            else                   -> throw IllegalStateException("Unexpected token type: ${literalToken.type}.")
-        }
+        // TODO: more than just literals
 
     }
 
@@ -572,7 +290,7 @@ class DxlParser(
      * Parses one parameter.
      *
      * parameter
-     *   : simpleName implicitConnection?
+     *   : simpleName typeRef? ( "=" expression )?
      *   ;
      */
     private fun parseParameter(): DxlParameter {
@@ -580,27 +298,34 @@ class DxlParser(
         // simpleName
         val simpleName = parseSimpleName()
 
-        // implicitConnection
-        val implicitConnection = parseImplicitConnectionOpt()
+        // typeRef?
+        val typeRef = parseTypeRefOpt()
 
-        return DxlParameter(simpleName.origin, simpleName, implicitConnection)
+        // ( "=" expression )?
+        val expression = if (input.consumeWhen(EQUALS)) {
+            parseExpression()
+        }
+        else {
+            DxlNoValue
+        }
+
+        return DxlParameter(simpleName.origin, simpleName, typeRef, expression)
 
     }
 
     /**
      * Parses a parameter list.
      *
-     * parameterList
+     * parameters
      *   : "(" ( parameter ("," parameter)* )? ")"
      *   ;
      */
-    private fun parseParameterList(): DxlParameterList {
+    private fun parseParameters(): DxlParameters {
 
         // "("
         val leftParenToken = input.read(LEFT_PARENTHESIS)
 
         val parameters = mutableListOf<DxlParameter>()
-
 
         if (!input.consumeWhen(RIGHT_PARENTHESIS)) {
 
@@ -617,20 +342,64 @@ class DxlParser(
 
         }
 
-        return DxlSpecifiedParameterList(leftParenToken.origin, parameters)
+        return DxlParameters(leftParenToken.origin, parameters)
 
     }
 
     /**
      * Parses an optional parameter list.
      */
-    private fun parseParameterListOpt(): DxlParameterList {
+    private fun parseParametersOpt(): DxlOptParameters {
 
         if (input.hasLookAhead(LEFT_PARENTHESIS)) {
-            return parseParameterList()
+            return parseParameters()
         }
 
-        return DxlNullParameterList
+        return DxlNoParameters
+
+    }
+
+    /**
+     * Parses one property.
+     *
+     * property
+     *   : name typeRef? "=" expression
+     *   ;
+     */
+    private fun parseProperty(): DxlProperty {
+
+        // simpleName
+        val simpleName = parseSimpleName()
+
+        // typeRef?
+        val typeRef = parseTypeRefOpt()
+
+        // "="
+        input.read(EQUALS)
+
+        // expression
+        val expression = parseExpression()
+
+        return DxlProperty(simpleName, typeRef, expression)
+
+    }
+
+    /**
+     * Parses a property list. (It could be empty.)
+     *
+     * properties
+     *   : ( "~" property )*
+     *   ;
+     */
+    private fun parseProperties(): DxlProperties {
+
+        val properties = mutableListOf<DxlProperty>()
+
+        while (input.consumeWhen(TILDE)) {
+            properties.add(parseProperty())
+        }
+
+        return DxlProperties(properties)
 
     }
 
@@ -669,61 +438,13 @@ class DxlParser(
     /**
      * Parses an optional qualified name.
      */
-    private fun parseQualifiedNameOpt(): DxlName {
+    private fun parseQualifiedNameOpt(): DxlOptName {
 
         if (!input.hasLookAhead(IDENTIFIER)) {
-            return DxlNullName
+            return DxlNoName
         }
 
         return parseQualifiedName()
-    }
-
-    /**
-     * Parses a reference expression.
-     *
-     * referenceExpression
-     *   : documentation? (qualifiedName | uuid) argumentList? valueAssignment?
-     *   ;
-     */
-    private fun parseReferenceExpression(): DxlReferenceExpression {
-
-        // documentation
-        val documentation = parseDocumentationOpt()
-
-        // qualifiedName
-        val qualifiedName = parseQualifiedNameOpt()
-
-        // uuid?
-        val uuid = if (qualifiedName is DxlNullName) parseUuid() else DxlNullUuid
-
-        // argumentList?
-        val argumentList = parseArgumentListOpt()
-
-        // valueAssignment?
-        val valueAssignment = parseValueAssignmentOpt()
-
-        return DxlReferenceExpression(documentation, qualifiedName, uuid, argumentList, valueAssignment)
-
-    }
-
-    /**
-     * Parses a semicolon or line break.
-     *
-     * semicolonOrNewLine
-     *   : ";"
-     *   | /* next token occurs on new line */
-     *   ;
-     */
-    private fun parseSemicolonOrNewLine() {
-
-        // next token on new line
-        if (input.hasLookAheadOnNewLine()) {
-            return
-        }
-
-        // ";"
-        input.read(SEMICOLON)
-
     }
 
     /**
@@ -743,64 +464,65 @@ class DxlParser(
     }
 
     /**
+     * Parses a type reference.
+     *
+     * parameters
+     *   : ":" qualifiedName arguments?
+     *   ;
+     */
+    private fun parseTypeRef(): DxlTypeRef {
+
+        // ":"
+        val colonToken = input.read(COLON)
+
+        // qualifiedName
+        val typeName = parseQualifiedName()
+
+        // TODO: arguments?
+
+        return DxlTypeRef(colonToken.origin, typeName)
+
+    }
+
+    /**
+     * Parses an optional type spec.
+     */
+    private fun parseTypeRefOpt(): DxlOptTypeRef {
+
+        if (input.hasLookAhead(COLON)) {
+            return parseTypeRef()
+        }
+
+        return DxlNoTypeRef
+
+    }
+
+    /**
      * Parses an optional UUID.
      *
      * uuid
      *   : UUID
      *   ;
      */
-    private fun parseUuid(): DxlKnownUuid {
+    private fun parseUuid(): DxlUuid {
 
         // UUID
-        val uuidToken = input.read(UUID)
+        val uuidToken = input.read(UUID_LITERAL)
 
-        return DxlKnownUuid(uuidToken.origin, uuidToken.text)
+        return DxlUuid(uuidToken.origin, uuidToken.text)
 
     }
 
     /**
      * Parses an optional UUID.
      */
-    private fun parseUuidOpt(): DxlUuid {
+    private fun parseUuidOpt(): DxlOptUuid {
 
-        if (!input.hasLookAhead(UUID)) {
-            return DxlNullUuid
+        if (!input.hasLookAhead(UUID_LITERAL)) {
+            return DxlNoUuid
         }
 
         return parseUuid()
-
-    }
-
-    /**
-     * Parses a value assignment.
-     *
-     * valueAssignment
-     *   : "=" literalExpression
-     *   ;
-     */
-    private fun parseValueAssignment(): DxlValueAssignment {
-
-        // "="
-        val equals = input.read(EQ)
-
-        // literalExpression
-        // TODO: parse an arbitrary expression or just a literal?
-        val expression = parseLiteralExpression()
-
-        return DxlLiteralValueAssignment(equals.origin, expression)
-
-    }
-
-    /**
-     * Parses an optional value assignment.
-     */
-    private fun parseValueAssignmentOpt(): DxlValueAssignment {
-
-        if (input.hasLookAhead(EQ)) {
-            return parseValueAssignment()
-        }
-
-        return DxlNullValueAssignment
 
     }
 

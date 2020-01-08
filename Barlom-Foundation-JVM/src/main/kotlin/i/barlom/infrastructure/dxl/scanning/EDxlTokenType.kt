@@ -15,24 +15,34 @@ internal enum class EDxlTokenType(
     IDENTIFIER("[identifier]"),
 
     /* Punctuation */
+    AMPERSAND("'&'"),
+    ASTERISK("'*'"),
     AT("'@'"),
+    BACKSLASH("'\'"),
+    CARET("'^'"),
     COLON("':'"),
     COMMA("','"),
-    DASH("'-'"), // TODO: keep?
+    DASH("'-'"),
     DOT("'.'"),
-    EQ("'='"),
+    DOUBLE_DASH("'--'"),
+    EQUALS("'='"),
     HASH("'#'"),
+    LEFT_ARROW("'<-'"),
     LEFT_BRACE("'{'"),
     LEFT_BRACKET("'['"),
+    LEFT_DASH_BRACKET("'-['"),
     LEFT_PARENTHESIS("'('"),
-    LEFT_TILDE("'<~'"),
-    PERCENT("'%'"),  // TODO: keep?
+    PERCENT("'%'"),
+    QUESTION_MARK("'?'"),
+    RIGHT_ARROW("'->'"),
     RIGHT_BRACE("'}'"),
-    RIGHT_BRACKET("'}'"),
+    RIGHT_BRACKET("']'"),
+    RIGHT_DASH_BRACKET("']-'"),
     RIGHT_PARENTHESIS("')'"),
-    RIGHT_TILDE("'~>'"),
     SEMICOLON("';'"),
+    SLASH("'/'"),
     TILDE("'~'"),
+    VERTICAL_LINE( "'|'" ),
 
     /* Literals */
     BOOLEAN_LITERAL("[boolean literal]"),
@@ -40,7 +50,7 @@ internal enum class EDxlTokenType(
     FLOATING_POINT_LITERAL("[floating point literal]"),
     INTEGER_LITERAL("[integer literal]"),
     STRING_LITERAL("[string literal]"),
-    UUID("[UUID]"),
+    UUID_LITERAL("[UUID literal]"),
     // TODO: date $...$
     // TODO: date/time $...T...$
     // TODO?: rational number 123r45

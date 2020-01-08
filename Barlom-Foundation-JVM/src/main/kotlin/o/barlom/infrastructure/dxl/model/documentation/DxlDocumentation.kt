@@ -5,15 +5,20 @@
 
 package o.barlom.infrastructure.dxl.model.documentation
 
+import o.barlom.infrastructure.codegen.CodeWriter
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
-abstract class DxlDocumentation(
-    val origin: DxlOrigin
-) {
+class DxlDocumentation(
+    origin: DxlOrigin,
+    val text : String
+) : DxlOptDocumentation(origin) {
 
-    abstract val text: String
+    override fun writeCode(output: CodeWriter) {
+        output.write(text)
+        output.writeNewLine()
+    }
 
 }
 

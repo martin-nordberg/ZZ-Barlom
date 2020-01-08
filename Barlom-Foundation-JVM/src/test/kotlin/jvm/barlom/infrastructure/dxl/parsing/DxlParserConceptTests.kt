@@ -16,7 +16,7 @@ internal class DxlParserConceptTests {
 
     private fun checkParseAndGenerate(code: String) {
         val parser = DxlParser("test.dxl", code)
-        val element = parser.parseElement()
+        val element = parser.parseTopLevel()
 
         assertEquals(code, element.code)
     }
@@ -26,7 +26,7 @@ internal class DxlParserConceptTests {
 
         val code = """
             /* documentation */
-            #example.sample.test
+            []
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -38,33 +38,7 @@ internal class DxlParserConceptTests {
 
         val code = """
             /* documentation */
-            #example sample.test
-        """.trimIndent()
-
-        checkParseAndGenerate(code)
-
-    }
-
-    @Test
-    fun `An annotated concept is parsed`() {
-
-        val code = """
-            /* documentation */
-            @wonderful @terrific(100)
-            #example sample.test
-        """.trimIndent()
-
-        checkParseAndGenerate(code)
-
-    }
-
-    @Test
-    fun `An elaborate annotated concept is parsed`() {
-
-        val code = """
-            /* documentation */
-            @wonderful @terrific(100, 'A', job = "stupendous")
-            #example sample.test
+            [sample.test]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -76,8 +50,7 @@ internal class DxlParserConceptTests {
 
         val code = """
             /* documentation */
-            @annotated
-            #example sample.test %11111111-2222-3333-4444-555555555555%
+            [%11111111-2222-3333-4444-555555555555% sample.test]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -85,12 +58,11 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with an empty parameter list is parsed`() {
+    fun `A concept with empty parameters is parsed`() {
 
         val code = """
             /* documentation */
-            @annotated(value = "whatever")
-            #example sample.test()
+            [sample.test()]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -98,12 +70,11 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with a single parameter is parsed`() {
+    fun `A concept with simple parameters is parsed`() {
 
         val code = """
             /* documentation */
-            @annotated(value = "whatever")
-            #example sample.test(a)
+            [sample.test(a, b, c)]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -111,12 +82,11 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with multiple parameters is parsed`() {
+    fun `A concept with typed parameters is parsed`() {
 
         val code = """
             /* documentation */
-            @annotated(value = "whatever")
-            #example sample.test(a, b, c)
+            [sample.test(a: A, b: B, c: C)]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -124,12 +94,11 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with connected parameters is parsed`() {
+    fun `A concept with default valued parameters is parsed`() {
 
         val code = """
             /* documentation */
-            @annotated(value = "whatever")
-            #example sample.test(a: A, b: B, c: C)
+            [sample.test(a = 3, b: B = "bee", c: C = 17.4f)]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -137,10 +106,10 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with an implicit connection is parsed`() {
+    fun `A concept with a type is parsed`() {
 
         val code = """
-            #example sample.test(a: A, b: B, c: C) : p.q.R
+            [sample.test(a): S]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -148,10 +117,13 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with an explicit connection is parsed`() {
+    fun `Multiple concepts are parsed`() {
 
         val code = """
-            #example sample.test(a: A, b: B, c: C) ~uses~> x.y.Z
+            /* first */
+            [sample.test: S]
+            /* second */
+            [example.two(a, b): S]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -159,10 +131,10 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with multiple explicit connections is parsed`() {
+    fun `A concept with properties is parsed`() {
 
         val code = """
-            #example sample.test(a: A, b: B, c: C) ~uses~> x.y.Z ~extends~> e.f.G
+            [sample.test(a): S ~ x = 1 ~ y = "two" ~ ch = 'a' ~ b = true]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -170,10 +142,14 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with an explicit connection to multiple items is parsed`() {
+    fun `A concept with long-valued properties is parsed`() {
 
         val code = """
-            #example sample.test(a: A, b: B, c: C) ~uses~> [x.y.Z, e.f.G]
+            [sample.test(a): S
+              ~ x = "a long string that ensures line wrapping"
+              ~ y = "another long string to really make sure"
+              ~ z = "definitely this will force multiple lines"
+            ]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -181,10 +157,10 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with a containment is parsed`() {
+    fun `A concept with content is parsed`() {
 
         val code = """
-            #example sample.test(a: A, b: B, c: C) ~uses~> x.y.Z { #subitem qwerty }
+            [sample.test(a): S] { [a] [b] }
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -192,47 +168,12 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with two containments is parsed`() {
+    fun `A concept with connections is parsed`() {
 
         val code = """
-            #example sample.test(a: A, b: B, c: C) ~uses~> x.y.Z { #subitem qwerty; #subitem asdf }
-        """.trimIndent()
+            [sample.test(a): S]
+              ---[: hasStuff]-->[s: Stuff]
 
-        checkParseAndGenerate(code)
-
-    }
-
-    @Test
-    fun `A concept with multiple contained items is parsed`() {
-
-        val code = """
-            #example sample.test(a: A, b: B, c: C) ~uses~> x.y.Z {
-              #subitem qwerty; #another asdf; #athird zxcv
-            }
-        """.trimIndent()
-
-        checkParseAndGenerate(code)
-
-    }
-
-    @Test
-    fun `A concept with no contained items is parsed`() {
-
-        val code = """
-            #example sample.test(a: A, b: B, c: C) ~uses~> x.y.Z {}
-        """.trimIndent()
-
-        checkParseAndGenerate(code)
-
-    }
-
-    @Test
-    fun `A concept with all kinds of connections is parsed`() {
-
-        val code = """
-            #example sample.test(a: A, b: B, c: C) : p.q.R ~uses~> x.y.Z ~extends~> e.f.G {
-              #subitem qwerty; #another asdf = "5"; #aUuid %11111111-2222-3333-4444-555555555555%
-            }
         """.trimIndent()
 
         checkParseAndGenerate(code)

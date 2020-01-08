@@ -6,6 +6,7 @@
 package i.barlom.infrastructure.dxl.scanning
 
 import i.barlom.infrastructure.dxl.scanning.EDxlTokenType.*
+import i.barlom.infrastructure.dxl.scanning.StringTokenizer.Companion.END_OF_INPUT_CHAR
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -37,19 +38,38 @@ internal class DxlScanner(
             return input.extractTokenFromMark(ONE_CHARACTER_TOKENS.getValue(nextChar))
         }
 
-        // Scan "<~".
-        if (nextChar == '<' && input.lookAhead() == '~') {
-            return input.advanceAndExtractTokenFromMark(LEFT_TILDE)
+        // Scan "<-".
+        if (nextChar == '<' && input.lookAhead() == '-') {
+            return input.advanceAndExtractTokenFromMark(LEFT_ARROW)
         }
 
-        // Scan "~>" or "~".
-        if (nextChar == '~') {
+        // Scan "->", "--", "-[", or "-".
+        if (nextChar == '-') {
 
             if (input.lookAhead() == '>') {
-                return input.advanceAndExtractTokenFromMark(RIGHT_TILDE)
+                return input.advanceAndExtractTokenFromMark(RIGHT_ARROW)
             }
 
-            return input.extractTokenFromMark(TILDE)
+            if (input.lookAhead() == '-') {
+                return input.advanceAndExtractTokenFromMark(DOUBLE_DASH)
+            }
+
+            if (input.lookAhead() == '[') {
+                return input.advanceAndExtractTokenFromMark(LEFT_DASH_BRACKET)
+            }
+
+            return input.extractTokenFromMark(DASH)
+
+        }
+
+        // Scan "]-" or "]".
+        if (nextChar == ']') {
+
+            if (input.lookAhead() == '-') {
+                return input.advanceAndExtractTokenFromMark(RIGHT_DASH_BRACKET)
+            }
+
+            return input.extractTokenFromMark(RIGHT_BRACKET)
 
         }
 
@@ -59,9 +79,15 @@ internal class DxlScanner(
         }
 
         // Scan a block of documentation.
-        if (nextChar == '/' && input.lookAhead() == '*') {
-            input.advance()
-            return scanDocumentation()
+        if (nextChar == '/') {
+
+            if (input.lookAhead() == '*') {
+                input.advance()
+                return scanDocumentation()
+            }
+
+            return input.extractTokenFromMark(SLASH)
+
         }
 
         // Scan a string literal.
@@ -151,7 +177,7 @@ internal class DxlScanner(
 
         while (true) {
 
-            if (nextChar == StringTokenizer.END_OF_INPUT_CHAR) {
+            if (nextChar == END_OF_INPUT_CHAR) {
                 return input.extractTokenFromMark(UNTERMINATED_DOCUMENTATION)
             }
 
@@ -338,7 +364,7 @@ internal class DxlScanner(
                 readUuidChars(12) && readPercent()
 
         if (scanned) {
-            return input.extractTokenFromMark(UUID)
+            return input.extractTokenFromMark(UUID_LITERAL)
         }
 
         while (readUuidChars(1) || readDash()) {
@@ -360,20 +386,25 @@ internal class DxlScanner(
 
         /** Characters that serve as tokens of length one. */
         private val ONE_CHARACTER_TOKENS = mapOf(
+            '&' to AMPERSAND,
+            '*' to ASTERISK,
             '@' to AT,
+            '\\' to BACKSLASH,
+            '^' to CARET,
             ':' to COLON,
             ',' to COMMA,
-            '-' to DASH,
             '.' to DOT,
-            '=' to EQ,
+            '=' to EQUALS,
             '#' to HASH,
             '{' to LEFT_BRACE,
             '[' to LEFT_BRACKET,
             '(' to LEFT_PARENTHESIS,
+            '?' to QUESTION_MARK,
             '}' to RIGHT_BRACE,
-            ']' to RIGHT_BRACKET,
             ')' to RIGHT_PARENTHESIS,
             ';' to SEMICOLON,
+            '~' to TILDE,
+            '|' to VERTICAL_LINE,
             StringTokenizer.END_OF_INPUT_CHAR to END_OF_INPUT
         )
 

@@ -5,17 +5,15 @@
 
 package o.barlom.infrastructure.dxl.model.expressions.literals
 
-import o.barlom.infrastructure.dxl.model.expressions.DxlExpression
-import o.barlom.infrastructure.dxl.model.core.DxlOrigin
-import o.barlom.infrastructure.dxl.model.documentation.DxlDocumentation
 import o.barlom.infrastructure.codegen.CodeWriter
+import o.barlom.infrastructure.dxl.model.core.DxlOrigin
+import o.barlom.infrastructure.dxl.model.expressions.DxlExpression
 
 //---------------------------------------------------------------------------------------------------------------------
 
 abstract class DxlLiteralExpression(
-    origin: DxlOrigin,
-    documentation: DxlDocumentation
-) : DxlExpression(origin, documentation) {
+    origin: DxlOrigin
+) : DxlExpression(origin) {
 
     abstract val text: String
 

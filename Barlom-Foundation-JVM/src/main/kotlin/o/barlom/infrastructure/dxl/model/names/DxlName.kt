@@ -5,15 +5,20 @@
 
 package o.barlom.infrastructure.dxl.model.names
 
+import o.barlom.infrastructure.codegen.CodeWriter
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
 abstract class DxlName(
-    val origin: DxlOrigin
-) {
+    origin: DxlOrigin
+) : DxlOptName(origin) {
 
     abstract val text : String
+
+    override fun writeCode(output: CodeWriter) {
+        output.write(text)
+    }
 
 }
 

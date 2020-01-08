@@ -16,21 +16,6 @@ internal class DxlScannerErrorTests
     : DxlScannerTests() {
 
     @Test
-    fun `Invalid characters are scanned`() {
-
-        checkScan(
-            " #key id ^^ /* doc */ ",
-            DxlToken(EDxlTokenType.HASH, "#", 1, 2),
-            DxlToken(EDxlTokenType.IDENTIFIER, "key", 1, 3),
-            DxlToken(EDxlTokenType.IDENTIFIER, "id", 1, 7),
-            DxlToken(EDxlTokenType.INVALID_CHARACTER, "^", 1, 10),
-            DxlToken(EDxlTokenType.INVALID_CHARACTER, "^", 1, 11),
-            DxlToken(EDxlTokenType.DOCUMENTATION, "/* doc */", 1, 13)
-        )
-
-    }
-
-    @Test
     fun `Unterminated string literals are scanned`() {
 
         checkScan(

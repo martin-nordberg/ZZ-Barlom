@@ -5,23 +5,49 @@
 
 package o.barlom.infrastructure.dxl.model.connections
 
-import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 import o.barlom.infrastructure.codegen.CodeWriter
+import o.barlom.infrastructure.dxl.model.core.DxlItem
+import o.barlom.infrastructure.dxl.model.core.DxlOrigin
+import o.barlom.infrastructure.dxl.model.elements.DxlElement
 
 //---------------------------------------------------------------------------------------------------------------------
 
-abstract class DxlConnection(
-    val origin: DxlOrigin
-) {
+class DxlConnection(
+    origin: DxlOrigin,
+    val direction: EDxlConnectionDirection,
+    val element: DxlElement,
+    val connectedConcept: DxlElement
+) : DxlItem(origin) {
 
-    val code: String
-        get() {
-            val output = CodeWriter()
-            writeCode(output)
-            return output.toString()
+    override fun writeCode(output: CodeWriter) {
+
+        when (direction) {
+            EDxlConnectionDirection.BIDIRECTIONAL,
+            EDxlConnectionDirection.DIRECTED_LEFT  -> output.write("<-")
+            EDxlConnectionDirection.UNDIRECTED,
+            EDxlConnectionDirection.DIRECTED_RIGHT -> output.write("--")
         }
 
-    abstract fun writeCode(output: CodeWriter)
+        output.write("-[")
+
+        element.writeCode(output)
+
+        output.write("]-")
+
+        when (direction) {
+            EDxlConnectionDirection.UNDIRECTED,
+            EDxlConnectionDirection.DIRECTED_LEFT  -> output.write("--")
+            EDxlConnectionDirection.BIDIRECTIONAL,
+            EDxlConnectionDirection.DIRECTED_RIGHT -> output.write("->")
+        }
+
+        output.write("[")
+
+        connectedConcept.writeCode(output)
+
+        output.write("]")
+
+    }
 
 }
 

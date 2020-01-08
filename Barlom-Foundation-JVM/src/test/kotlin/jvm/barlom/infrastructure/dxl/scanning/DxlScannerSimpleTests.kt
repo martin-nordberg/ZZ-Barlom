@@ -19,7 +19,7 @@ internal class DxlScannerSimpleTests
     fun `Single character tokens are scanned`() {
 
         checkScan(
-            " { } ( ) [ ] . : , = ; - ~ % @ ",
+            " { } ( ) [ ] . : , = ; - ~ % @ \\ / ^ & * # ",
             DxlToken(EDxlTokenType.LEFT_BRACE, "{", 1, 2),
             DxlToken(EDxlTokenType.RIGHT_BRACE, "}", 1, 4),
             DxlToken(EDxlTokenType.LEFT_PARENTHESIS, "(", 1, 6),
@@ -29,12 +29,18 @@ internal class DxlScannerSimpleTests
             DxlToken(EDxlTokenType.DOT, ".", 1, 14),
             DxlToken(EDxlTokenType.COLON, ":", 1, 16),
             DxlToken(EDxlTokenType.COMMA, ",", 1, 18),
-            DxlToken(EDxlTokenType.EQ, "=", 1, 20),
+            DxlToken(EDxlTokenType.EQUALS, "=", 1, 20),
             DxlToken(EDxlTokenType.SEMICOLON, ";", 1, 22),
             DxlToken(EDxlTokenType.DASH, "-", 1, 24),
             DxlToken(EDxlTokenType.TILDE, "~", 1, 26),
             DxlToken(EDxlTokenType.PERCENT, "%", 1, 28),
-            DxlToken(EDxlTokenType.AT, "@", 1, 30)
+            DxlToken(EDxlTokenType.AT, "@", 1, 30),
+            DxlToken(EDxlTokenType.BACKSLASH, "\\", 1, 32),
+            DxlToken(EDxlTokenType.SLASH, "/", 1, 34),
+            DxlToken(EDxlTokenType.CARET, "^", 1, 36),
+            DxlToken(EDxlTokenType.AMPERSAND, "&", 1, 38),
+            DxlToken(EDxlTokenType.ASTERISK, "*", 1, 40),
+            DxlToken(EDxlTokenType.HASH, "#", 1, 42)
         )
 
     }
@@ -78,6 +84,22 @@ internal class DxlScannerSimpleTests
             DxlToken(EDxlTokenType.IDENTIFIER, "pqrs", 1, 7),
             DxlToken(EDxlTokenType.HASH, "#", 3, 2),
             DxlToken(EDxlTokenType.IDENTIFIER, "xyz_123", 3, 3)
+        )
+
+    }
+
+    @Test
+    fun `Connector lines are scanned`() {
+
+        checkScan(
+            "-- -> <- -[ ]- ---[",
+            DxlToken(EDxlTokenType.DOUBLE_DASH, "--", 1, 1),
+            DxlToken(EDxlTokenType.RIGHT_ARROW, "->", 1, 4),
+            DxlToken(EDxlTokenType.LEFT_ARROW, "<-", 1, 7),
+            DxlToken(EDxlTokenType.LEFT_DASH_BRACKET, "-[", 1, 10),
+            DxlToken(EDxlTokenType.RIGHT_DASH_BRACKET, "]-", 1, 13),
+            DxlToken(EDxlTokenType.DOUBLE_DASH, "--", 1, 16),
+            DxlToken(EDxlTokenType.LEFT_DASH_BRACKET, "-[", 1, 18)
         )
 
     }
@@ -150,8 +172,8 @@ internal class DxlScannerSimpleTests
 
         checkScan(
             "%12345678-ABCD-EFab-cdef-901234567890%\n%11111111-2222-3333-4444-555555555555%",
-            DxlToken(EDxlTokenType.UUID, "%12345678-ABCD-EFab-cdef-901234567890%", 1, 1),
-            DxlToken(EDxlTokenType.UUID, "%11111111-2222-3333-4444-555555555555%", 2, 1)
+            DxlToken(EDxlTokenType.UUID_LITERAL, "%12345678-ABCD-EFab-cdef-901234567890%", 1, 1),
+            DxlToken(EDxlTokenType.UUID_LITERAL, "%11111111-2222-3333-4444-555555555555%", 2, 1)
         )
 
     }
