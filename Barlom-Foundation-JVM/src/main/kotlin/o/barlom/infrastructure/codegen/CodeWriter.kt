@@ -64,19 +64,7 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeBlankSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(BlankSeparatedCodeBlock(blockChunks))
-
+        codeChunks.add(BlankSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -85,19 +73,7 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeBraceBlankBlock(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(BraceBlankCodeBlock(blockChunks))
-
+        codeChunks.add(BraceBlankCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -106,19 +82,7 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeBraceSemicolonBlock(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(BraceSemicolonCodeBlock(blockChunks))
-
+        codeChunks.add(BraceSemicolonCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -127,19 +91,16 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeCommaSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        codeChunks.add(CommaSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+    }
 
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(CommaSeparatedCodeBlock(blockChunks))
-
+    /**
+     * Outputs a sequence of items separated by blanks and enclosed in line brackets ("-|" ... "|-").
+     * @param items a collection of items to output.
+     * @param itemOut the code to output a single item.
+     */
+    fun <T> writeLineBracketBlankBlock(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        codeChunks.add(LineBracketBlankCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -148,19 +109,7 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeNewLineSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(NewLineSeparatedCodeBlock(blockChunks))
-
+        codeChunks.add(NewLineSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -169,19 +118,7 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeNewLineSeparatedIndented(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(NewLineSeparatedIndentedCodeBlock(blockChunks))
-
+        codeChunks.add(NewLineSeparatedIndentedCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -190,19 +127,7 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeParenCommaBlock(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(ParenCommaCodeBlock(blockChunks))
-
+        codeChunks.add(ParenCommaCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -211,19 +136,16 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeSemicolonSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        codeChunks.add(SemicolonSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+    }
 
-        val blockChunks = mutableListOf<ICodeChunk>()
-
-        for (item in items) {
-            val itemOutput = CodeWriter()
-            itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
-                blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
-            }
-        }
-
-        codeChunks.add(SemicolonSeparatedCodeBlock(blockChunks))
-
+    /**
+     * Outputs a sequence of items separated by blanks and enclosed in square brackets.
+     * @param items a collection of items to output.
+     * @param itemOut the code to output a single item.
+     */
+    fun <T> writeSqBracketBlankBlock(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        codeChunks.add(SqBracketBlankCodeBlock(writeBracketedChunks(items, itemOut)))
     }
 
     /**
@@ -232,6 +154,19 @@ class CodeWriter() {
      * @param itemOut the code to output a single item.
      */
     fun <T> writeSqBracketCommaBlock(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        codeChunks.add(SqBracketCommaCodeBlock(writeBracketedChunks(items, itemOut)))
+    }
+
+    /**
+     * Writes an explicit new line to the output.
+     */
+    fun writeNewLine() {
+        codeChunks.add(NewLineCodeChunk())
+    }
+
+    ////
+
+    private fun <T> writeBracketedChunks(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit): MutableList<ICodeChunk> {
 
         val blockChunks = mutableListOf<ICodeChunk>()
 
@@ -242,16 +177,8 @@ class CodeWriter() {
                 blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
             }
         }
+        return blockChunks
 
-        codeChunks.add(SqBracketCommaCodeBlock(blockChunks))
-
-    }
-
-    /**
-     * Writes an explicit new line to the output.
-     */
-    fun writeNewLine() {
-        codeChunks.add(NewLineCodeChunk())
     }
 
 }

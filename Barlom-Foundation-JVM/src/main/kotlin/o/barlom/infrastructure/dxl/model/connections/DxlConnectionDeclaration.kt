@@ -20,10 +20,13 @@ class DxlConnectionDeclaration(
 ) : DxlDeclaration(origin, documentation) {
 
     override fun writeCode(output: CodeWriter) {
+
         documentation.writeCode(output)
-        output.write("-|")
-        element.writeCode(output)
-        output.write("|-")
+
+        output.writeLineBracketBlankBlock(listOf(element)) { e ->
+            e.writeCode(this)
+        }
+
     }
 
 }

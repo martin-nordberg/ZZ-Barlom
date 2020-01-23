@@ -28,11 +28,9 @@ class DxlConnection(
             EDxlConnectionDirection.DIRECTED_RIGHT -> output.write("--")
         }
 
-        output.write("-|")
-
-        element.writeCode(output)
-
-        output.write("|-")
+        output.writeLineBracketBlankBlock(listOf(element)) { e ->
+            e.writeCode(this)
+        }
 
         when (direction) {
             EDxlConnectionDirection.UNDIRECTED,
@@ -41,11 +39,9 @@ class DxlConnection(
             EDxlConnectionDirection.DIRECTED_RIGHT -> output.write("->")
         }
 
-        output.write("[")
-
-        connectedConcept.writeCode(output)
-
-        output.write("]")
+        output.writeSqBracketBlankBlock( listOf(connectedConcept)) { c ->
+            c.writeCode(this)
+        }
 
     }
 

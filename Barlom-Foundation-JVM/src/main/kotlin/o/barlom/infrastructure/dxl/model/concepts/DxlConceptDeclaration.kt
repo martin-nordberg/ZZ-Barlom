@@ -27,11 +27,9 @@ class DxlConceptDeclaration(
 
         documentation.writeCode(output)
 
-        output.write("[")
-
-        element.writeCode(output)
-
-        output.write("]")
+        output.writeSqBracketBlankBlock(listOf(element)) { e ->
+            e.writeCode(this)
+        }
 
         connections.writeCode(output)
 

@@ -12,7 +12,8 @@ import i.barlom.infrastructure.codegen.chunks.SimpleTextCodeChunk
 //---------------------------------------------------------------------------------------------------------------------
 
 
-internal abstract class AbstractCodeBlock() : ICodeChunk {
+internal abstract class AbstractCodeBlock
+    : ICodeChunk {
 
     private var codeChunks = mutableListOf<ICodeChunk>()
 
@@ -22,7 +23,8 @@ internal abstract class AbstractCodeBlock() : ICodeChunk {
 
     fun add(codeChunk: ICodeChunk) {
         codeChunks.add(codeChunk)
-        hasNestedBlocks = hasNestedBlocks || codeChunk !is SimpleTextCodeChunk && codeChunk !is SimpleCodeBlock
+        hasNestedBlocks = hasNestedBlocks ||
+            codeChunk !is SimpleTextCodeChunk && codeChunk !is SimpleCodeBlock
     }
 
     protected open fun getPrefix(density: ECodeDensity): String {
