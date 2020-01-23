@@ -172,7 +172,7 @@ internal class DxlParserConceptTests {
 
         val code = """
             [sample.test(a): S]
-              ---[: hasStuff]-->[s: Stuff]
+              ---|: hasStuff|-->[s: Stuff]
 
         """.trimIndent()
 

@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2018 Martin E. Nordberg III
+// (C) Copyright 2018-2020 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -20,46 +20,47 @@ internal class DxlSmallSampleGraphTests {
         assertEquals(code, element.code)
     }
 
-//    @Test
+    // @Test
     fun `Cities are linked by highways`() {
 
         val code = """
           [dmv:Graph] {  
 
-            [dc: State]
-              ---[:HasNeighbor]--- [md]
-              ---[:HasNeighbor]--- [va]
-            {
-              [washington: City]
+            [dc: State] {
+              [washington: City
                 ~ name = "Washington"
-                ~ population = 633_427
+                ~ population = 633_427]
             }
 
             [va: State] {  
-              [centreville: City]
+              [centreville: City
                 ~ name = "Centreville"
-                ~ population = 71_135
-              [fredericksburg: City]
+                ~ population = 71_135]
+              [fredericksburg: City
                 ~ name = "Fredericksburg"
-                ~ population = 25_691
+                ~ population = 25_691]
             }
             
             [md: State] {
-              [baltimore: City]
+              [baltimore: City
                 ~ name = "Baltimore"
-                ~ population = 619_493
-              [`college park`: City]
+                ~ population = 619_493]
+              [`college park`: City
                 ~ name = "College Park"
-                ~ population = 32_303
+                ~ population = 32_303]
             }
-              
-            [dc.washington] ---[:Highway(type=Interstate) ~ name = "I-66" ~ distance = 36]--- [va.centreville]
-            [dc.washington] ---[:Highway(type=Interstate) ~ name = "I-95" ~ distance = 53]--- [va.fredericksburg]
-            [dc.washington] ---[:Highway(type=Interstate) ~ name = "I-95" ~ distance = 41]--- [md.baltimore]
-            [dc.washington] ---[:Highway(type=Interstate) ~ name = "I-295" ~ distance = 39]--- [md.baltimore]
-            [dc.washington] ---[us1]--- [md.`college park`]
             
-            -[us1:Highway(type=US) ~ name = "US-1" ~ distance = 9]-
+            [dc]---|:HasNeighbor|---[md]
+            [dc]---|:HasNeighbor|---[va]
+            [va]---|:HasNeighbor|---[md]
+              
+            [dc.washington] ---|:Highway(type=Interstate) ~ name = "I-66" ~ distance = 36|--- [va.centreville]
+            [dc.washington] ---|:Highway(type=Interstate) ~ name = "I-95" ~ distance = 53|--- [va.fredericksburg]
+            [dc.washington] ---|:Highway(type=Interstate) ~ name = "I-95" ~ distance = 41|--- [md.baltimore]
+            [dc.washington] ---|:Highway(type=Interstate) ~ name = "I-295" ~ distance = 39|--- [md.baltimore]
+            [dc.washington] ---|us1|--- [md.`college park`]
+            
+            -|us1:Highway(type=US) ~ name = "US-1" ~ distance = 9|-
 
           }  
               
@@ -82,78 +83,83 @@ internal class DxlSmallSampleGraphTests {
         val code = """
             [:Senate] {
             
-              [classI: Class] 
+              [classI: Class
                 ~ doc = "The first class"
                 ~ name = "Class I"
-                ~ year = 2025
+                ~ year = 2025] {
+                [tammyBaldwin]
+                [johnBarrasso]
+              }
 
-              [classII: Class] 
+              [classII: Class
                 ~ doc = "The second class"
                 ~ name = "Class II"
-                ~ year = 2021
+                ~ year = 2021] {
+                [lamarAlexander]
+              }
 
-              [classIII: Class] 
+              [classIII: Class
                 ~ doc = "The third class"
                 ~ name = "Class III"
-                ~ year = 2023
+                ~ year = 2023] {
+                [michaelBennet]
+              }
               
-              [democrats: Party]
-                ~ name = "Democratic Party"
-                ---[:HasMember]--> [tammyBaldwin]
-                ---[:HasMember]--> [michaelBennet]
+              [democrats: Party
+                ~ name = "Democratic Party"] {
+                [tammyBaldwin]
+                [michaelBennet]
+              }
               
-              [republicans: Party]
-                ~ name = "Republican Party"
-                ---[:HasMember]--> [lamarAlexander]
-                ---[:HasMember]--> [johnBarrasso]
+              [republicans: Party
+                ~ name = "Republican Party"] {
+                [lamarAlexander]
+                [johnBarrasso]
+              }
 
-              [co: State]
+              [co: State
                 ~ name = "Colorado"
-                ~ abbrev = "CO"
+                ~ abbrev = "CO"]
               
-              [tn: State]
+              [tn: State
                 ~ name = "Tennessee"
-                ~ abbrev = "TN"
+                ~ abbrev = "TN"]
               
-              [wi: State]
+              [wi: State
                 ~ name = "Wisconsin"
-                ~ abbrev = "WI"
+                ~ abbrev = "WI"]
 
-              [wy: State]
+              [wy: State
                 ~ name = "Wyoming"
-                ~ abbrev = "WY"
+                ~ abbrev = "WY"]
               
-              [lamarAlexander: Senator]
+              [lamarAlexander: Senator
                 ~ name = "Alexander, Lamar"
                 ~ address = "455 Dirksen Senate Office Building Washington DC 20510"
                 ~ phone = "(202) 224-4944"
-                ~ contact = "www.alexander.senate.gov/public/index.cfm?p=Email"
-                ---[:IsMemberOf]--> [classII]
-                ---[:ServesState]--> [tn] 
+                ~ contact = "www.alexander.senate.gov/public/index.cfm?p=Email"]
+                ---|:ServesState|--> [tn] 
               
-              [tammyBaldwin: Senator]
+              [tammyBaldwin: Senator
                 ~ name = "Baldwin, Tammy"
                 ~ address = "709 Hart Senate Office Building Washington DC 20510"
                 ~ phone = "(202) 224-5653"
-                ~ contact = "www.baldwin.senate.gov/feedback"
-                ---[:IsMemberOf]--> [classI]
-                ---[:ServesState]--> [wi] 
+                ~ contact = "www.baldwin.senate.gov/feedback"]
+                ---|:ServesState|--> [wi] 
               
-              [johnBarrasso: Senator] 
+              [johnBarrasso: Senator
                 ~ name = "Barrasso, John"
                 ~ address = "307 Dirksen Senate Office Building Washington DC 20510"
                 ~ phone = "(202) 224-6441"
-                ~ contact = "www.barrasso.senate.gov/public/index.cfm/contact-form"
-                ---[:IsMemberOf]--> [classI]
-                ---[:ServesState]--> [wy]
+                ~ contact = "www.barrasso.senate.gov/public/index.cfm/contact-form"]
+                ---|:ServesState|--> [wy]
 
-              [michaelBennet: Senator]
+              [michaelBennet: Senator
                 ~ name = "Bennet, Michael F."
                 ~ contact = "261 Russell Senate Office Building Washington DC 20510"
                 ~ phone = "(202) 224-5852"
-                ~ contact = "www.bennet.senate.gov/public/index.cfm/contact"
-                ---[:IsMemberOf]--> [classIII]
-                ---[:ServesState]--> [co]
+                ~ contact = "www.bennet.senate.gov/public/index.cfm/contact"]
+                ---|:ServesState|--> [co]
 
             }
         """.trimIndent()

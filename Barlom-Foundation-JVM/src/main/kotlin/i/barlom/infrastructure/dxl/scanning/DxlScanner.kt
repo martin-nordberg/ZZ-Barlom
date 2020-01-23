@@ -33,91 +33,87 @@ internal class DxlScanner(
         // Consume the one character after marking the start of a token.
         input.markAndAdvance()
 
-        // Scan a single-character token.
-        if (ONE_CHARACTER_TOKENS.containsKey(nextChar)) {
-            return input.extractTokenFromMark(ONE_CHARACTER_TOKENS.getValue(nextChar))
+        return when (nextChar) {
+
+            // Single character punctuation tokens
+            '&'  -> input.extractTokenFromMark(AMPERSAND)
+            '*'  -> input.extractTokenFromMark(ASTERISK)
+            '@'  -> input.extractTokenFromMark(AT)
+            '\\' -> input.extractTokenFromMark(BACKSLASH)
+            '^'  -> input.extractTokenFromMark(CARET)
+            ':'  -> input.extractTokenFromMark(COLON)
+            ','  -> input.extractTokenFromMark(COMMA)
+            '.'  -> input.extractTokenFromMark(DOT)
+            '='  -> input.extractTokenFromMark(EQUALS)
+            '>'  -> input.extractTokenFromMark(GREATER_THAN)
+            '#'  -> input.extractTokenFromMark(HASH)
+            '{'  -> input.extractTokenFromMark(LEFT_BRACE)
+            '['  -> input.extractTokenFromMark(LEFT_BRACKET)
+            '('  -> input.extractTokenFromMark(LEFT_PARENTHESIS)
+            '?'  -> input.extractTokenFromMark(QUESTION_MARK)
+            '}'  -> input.extractTokenFromMark(RIGHT_BRACE)
+            ']'  -> input.extractTokenFromMark(RIGHT_BRACKET)
+            ')'  -> input.extractTokenFromMark(RIGHT_PARENTHESIS)
+            ';'  -> input.extractTokenFromMark(SEMICOLON)
+            '~'  -> input.extractTokenFromMark(TILDE)
+
+            // "<-" or "<"
+            '<'  ->
+                if (input.lookAhead() == '-') input.advanceAndExtractTokenFromMark(LEFT_ARROW)
+                else input.extractTokenFromMark(LESS_THAN)
+
+            // "->", "--", "-[", or "-"
+            '-'  ->
+                when (input.lookAhead()) {
+                    '>'  -> input.advanceAndExtractTokenFromMark(RIGHT_ARROW)
+                    '-'  -> input.advanceAndExtractTokenFromMark(DOUBLE_DASH)
+                    '|'  -> input.advanceAndExtractTokenFromMark(LEFT_LINE_BRACKET)
+                    else -> input.extractTokenFromMark(DASH)
+                }
+
+            // "|-" or "|"
+            '|'  ->
+                when (input.lookAhead()) {
+                    '-'  -> input.advanceAndExtractTokenFromMark(RIGHT_LINE_BRACKET)
+                    else -> input.extractTokenFromMark(VERTICAL_LINE)
+                }
+
+            // documentation or "/"
+            '/'  ->
+                when (input.lookAhead()) {
+                    '*'  -> scanDocumentation()
+                    else -> input.extractTokenFromMark(SLASH)
+                }
+
+            // String literal
+            '"'  -> scanStringLiteral()
+
+            // Character literal
+            '\'' -> scanCharacterLiteral()
+
+            // Identifier enclosed in back ticks
+            '`'  -> scanQuotedIdentifier()
+
+            // UUID literal
+            '%'  -> scanUuid()
+
+            // End of input sentinel
+            END_OF_INPUT_CHAR -> input.extractTokenFromMark(END_OF_INPUT)
+
+            // Miscellaneous
+            else ->
+                when {
+                    // Scan an identifier.
+                    isIdentifierStart(nextChar) -> scanIdentifier()
+
+                    // Scan a numeric literal (integer or floating point).
+                    isDigit(nextChar)           -> scanNumericLiteral()
+
+                    // Error - nothing else it could be.
+                    else                        -> input.extractTokenFromMark(INVALID_CHARACTER)
+                }
+
         }
-
-        // Scan "<-".
-        if (nextChar == '<' && input.lookAhead() == '-') {
-            return input.advanceAndExtractTokenFromMark(LEFT_ARROW)
-        }
-
-        // Scan "->", "--", "-[", or "-".
-        if (nextChar == '-') {
-
-            if (input.lookAhead() == '>') {
-                return input.advanceAndExtractTokenFromMark(RIGHT_ARROW)
-            }
-
-            if (input.lookAhead() == '-') {
-                return input.advanceAndExtractTokenFromMark(DOUBLE_DASH)
-            }
-
-            if (input.lookAhead() == '[') {
-                return input.advanceAndExtractTokenFromMark(LEFT_DASH_BRACKET)
-            }
-
-            return input.extractTokenFromMark(DASH)
-
-        }
-
-        // Scan "]-" or "]".
-        if (nextChar == ']') {
-
-            if (input.lookAhead() == '-') {
-                return input.advanceAndExtractTokenFromMark(RIGHT_DASH_BRACKET)
-            }
-
-            return input.extractTokenFromMark(RIGHT_BRACKET)
-
-        }
-
-        // Scan an identifier.
-        if (isIdentifierStart(nextChar)) {
-            return scanIdentifier()
-        }
-
-        // Scan a block of documentation.
-        if (nextChar == '/') {
-
-            if (input.lookAhead() == '*') {
-                input.advance()
-                return scanDocumentation()
-            }
-
-            return input.extractTokenFromMark(SLASH)
-
-        }
-
-        // Scan a string literal.
-        if (nextChar == '"') {
-            return scanStringLiteral()
-        }
-
-        // Scan a character literal.
-        if (nextChar == '\'') {
-            return scanCharacterLiteral()
-        }
-
-        // Scan a numeric literal (integer or floating point).
-        if (isDigit(nextChar)) {
-            return scanNumericLiteral()
-        }
-
-        // Scan an identifier enclosed in back ticks.
-        if (nextChar == '`') {
-            return scanQuotedIdentifier()
-        }
-
-        // Scan a UUID.
-        if (nextChar == '%') {
-            return scanUuid()
-        }
-
-        // Error - nothing else it could be.
-        return input.extractTokenFromMark(INVALID_CHARACTER)
-
     }
 
     ////
@@ -155,7 +151,7 @@ internal class DxlScanner(
 
         while (nextChar != '\'') {
 
-            if (nextChar == '\n' || nextChar == StringTokenizer.END_OF_INPUT_CHAR) {
+            if (nextChar == '\n' || nextChar == END_OF_INPUT_CHAR) {
                 return input.extractTokenFromMark(UNTERMINATED_CHARACTER_LITERAL)
             }
 
@@ -168,10 +164,13 @@ internal class DxlScanner(
     }
 
     /**
-     * Scans a block of documentation after its opening '/' and '*' characters have been marked and consumed in
-     * the tokenizer.
+     * Scans a block of documentation after its opening '/' character has been marked and consumed in
+     * the tokenizer and the '*' character has been recognized.
      */
     private fun scanDocumentation(): DxlToken {
+
+        // "*"
+        input.advance()
 
         var nextChar = input.lookAhead()
 
@@ -287,7 +286,7 @@ internal class DxlScanner(
 
         while (nextChar != '`') {
 
-            if (nextChar == '\n' || nextChar == StringTokenizer.END_OF_INPUT_CHAR) {
+            if (nextChar == '\n' || nextChar == END_OF_INPUT_CHAR) {
                 return input.extractTokenFromMark(UNTERMINATED_QUOTED_IDENTIFIER)
             }
 
@@ -308,7 +307,7 @@ internal class DxlScanner(
 
         while (nextChar != '"') {
 
-            if (nextChar == '\n' || nextChar == StringTokenizer.END_OF_INPUT_CHAR) {
+            if (nextChar == '\n' || nextChar == END_OF_INPUT_CHAR) {
                 return input.extractTokenFromMark(UNTERMINATED_STRING_LITERAL)
             }
 
@@ -383,30 +382,6 @@ internal class DxlScanner(
 
         /** Characters that distinguish a floating point literal from an integer literal. */
         private val FLOATING_POINT_STARTERS = setOf('.', 'd', 'D', 'e', 'E', 'f', 'F')
-
-        /** Characters that serve as tokens of length one. */
-        private val ONE_CHARACTER_TOKENS = mapOf(
-            '&' to AMPERSAND,
-            '*' to ASTERISK,
-            '@' to AT,
-            '\\' to BACKSLASH,
-            '^' to CARET,
-            ':' to COLON,
-            ',' to COMMA,
-            '.' to DOT,
-            '=' to EQUALS,
-            '#' to HASH,
-            '{' to LEFT_BRACE,
-            '[' to LEFT_BRACKET,
-            '(' to LEFT_PARENTHESIS,
-            '?' to QUESTION_MARK,
-            '}' to RIGHT_BRACE,
-            ')' to RIGHT_PARENTHESIS,
-            ';' to SEMICOLON,
-            '~' to TILDE,
-            '|' to VERTICAL_LINE,
-            StringTokenizer.END_OF_INPUT_CHAR to END_OF_INPUT
-        )
 
     }
 

@@ -26,7 +26,7 @@ internal class DxlParserConnectionTests {
 
         val code = """
             /* documentation */
-            -[]-
+            -||-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -38,7 +38,7 @@ internal class DxlParserConnectionTests {
 
         val code = """
             /* documentation */
-            -[sample.test]-
+            -|sample.test|-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -50,7 +50,7 @@ internal class DxlParserConnectionTests {
 
         val code = """
             /* documentation */
-            -[%11111111-2222-3333-4444-555555555555% sample.test]-
+            -|%11111111-2222-3333-4444-555555555555% sample.test|-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -62,7 +62,7 @@ internal class DxlParserConnectionTests {
 
         val code = """
             /* documentation */
-            -[sample.test()]-
+            -|sample.test()|-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -74,7 +74,7 @@ internal class DxlParserConnectionTests {
 
         val code = """
             /* documentation */
-            -[sample.test(a, b, c)]-
+            -|sample.test(a, b, c)|-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -85,7 +85,7 @@ internal class DxlParserConnectionTests {
     fun `A connection with a type is parsed`() {
 
         val code = """
-            -[sample.test(a): S]-
+            -|sample.test(a): S|-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -97,9 +97,9 @@ internal class DxlParserConnectionTests {
 
         val code = """
             /* first */
-            -[sample.test: S]-
+            -|sample.test: S|-
             /* second */
-            -[example.two(a, b): S]-
+            -|example.two(a, b): S|-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -110,7 +110,7 @@ internal class DxlParserConnectionTests {
     fun `A connection with properties is parsed`() {
 
         val code = """
-            -[sample.test(a): S ~ x = 1 ~ y = "two" ~ ch = 'a' ~ b = true]-
+            -|sample.test(a): S ~ x = 1 ~ y = "two" ~ ch = 'a' ~ b = true|-
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -121,11 +121,11 @@ internal class DxlParserConnectionTests {
     fun `A connection with long-valued properties is parsed`() {
 
         val code = """
-            -[sample.test(a): S
+            -|sample.test(a): S
               ~ x = "a long string that ensures line wrapping"
               ~ y = "another long string to really make sure"
               ~ z = "definitely this will force multiple lines"
-            ]-
+            |-
         """.trimIndent()
 
         checkParseAndGenerate(code)

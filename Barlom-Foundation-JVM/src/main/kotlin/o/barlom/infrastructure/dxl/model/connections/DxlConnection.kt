@@ -28,11 +28,11 @@ class DxlConnection(
             EDxlConnectionDirection.DIRECTED_RIGHT -> output.write("--")
         }
 
-        output.write("-[")
+        output.write("-|")
 
         element.writeCode(output)
 
-        output.write("]-")
+        output.write("|-")
 
         when (direction) {
             EDxlConnectionDirection.UNDIRECTED,

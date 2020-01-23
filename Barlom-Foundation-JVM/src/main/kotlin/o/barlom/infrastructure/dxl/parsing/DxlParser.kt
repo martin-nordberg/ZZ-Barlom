@@ -102,26 +102,35 @@ class DxlParser(
 
     /**
      * connection
-     *   : ("<-" | "--") "-[" element "]-" ("--" | "->") "[" element "]"
+     *   : ("<-" | "--") "-|" element "|-" ("--" | "->") "[" element "]"
      */
     private fun parseConnection(): DxlConnection {
 
+        // ("<-" | "--")
         val arrowStart = input.readOneOf(DOUBLE_DASH, LEFT_ARROW)
 
-        val leftDashBracketToken = input.read(LEFT_DASH_BRACKET)
+        // "-|"
+        val leftLineBracketToken = input.read(LEFT_LINE_BRACKET)
 
-        val element = parseElement(leftDashBracketToken.origin)
+        // element
+        val element = parseElement(leftLineBracketToken.origin)
 
-        input.read(RIGHT_DASH_BRACKET)
+        // "|-"
+        input.read(RIGHT_LINE_BRACKET)
 
+        // ("--" | "->")
         val arrowEnd = input.readOneOf(DOUBLE_DASH, RIGHT_ARROW)
 
+        // "["
         val leftBracketToken = input.read(LEFT_BRACKET)
 
+        // element
         val connectedElement = parseElement(leftBracketToken.origin)
 
+        // "]"
         input.read(RIGHT_BRACKET)
 
+        // Determine the direction of the connection from the arrow tokens.
         val direction = if ( arrowStart.type == DOUBLE_DASH ) {
             if ( arrowEnd.type == DOUBLE_DASH) {
                 EDxlConnectionDirection.UNDIRECTED
@@ -145,18 +154,18 @@ class DxlParser(
 
     /**
      * connectionDeclaration
-     *   : "-[" element "]-"
+     *   : "-|" element "|-"
      */
     private fun parseConnectionDeclaration(documentation: DxlOptDocumentation): DxlConnectionDeclaration {
 
-        // "-["
-        val leftBracketToken = input.read(LEFT_DASH_BRACKET)
+        // "-|"
+        val leftBracketToken = input.read(LEFT_LINE_BRACKET)
 
         // element
         val element = parseElement(leftBracketToken.origin)
 
-        // "]-"
-        input.read(RIGHT_DASH_BRACKET)
+        // "|-"
+        input.read(RIGHT_LINE_BRACKET)
 
         return DxlConnectionDeclaration(leftBracketToken.origin, documentation, element)
 
@@ -194,7 +203,7 @@ class DxlParser(
             if (input.hasLookAhead(LEFT_BRACKET)) {
                 declarations.add(parseConceptDeclaration(documentation))
             }
-            else if (input.hasLookAhead(LEFT_DASH_BRACKET)) {
+            else if (input.hasLookAhead(LEFT_LINE_BRACKET)) {
                 declarations.add(parseConnectionDeclaration(documentation))
             }
             else {

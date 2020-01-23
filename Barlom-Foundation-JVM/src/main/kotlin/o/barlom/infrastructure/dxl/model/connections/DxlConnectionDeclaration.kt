@@ -21,9 +21,9 @@ class DxlConnectionDeclaration(
 
     override fun writeCode(output: CodeWriter) {
         documentation.writeCode(output)
-        output.write("-[")
+        output.write("-|")
         element.writeCode(output)
-        output.write("]-")
+        output.write("|-")
     }
 
 }

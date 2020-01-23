@@ -92,14 +92,16 @@ internal class DxlScannerSimpleTests
     fun `Connector lines are scanned`() {
 
         checkScan(
-            "-- -> <- -[ ]- ---[",
+            "-- -> <- -| |- ---| |---",
             DxlToken(EDxlTokenType.DOUBLE_DASH, "--", 1, 1),
             DxlToken(EDxlTokenType.RIGHT_ARROW, "->", 1, 4),
             DxlToken(EDxlTokenType.LEFT_ARROW, "<-", 1, 7),
-            DxlToken(EDxlTokenType.LEFT_DASH_BRACKET, "-[", 1, 10),
-            DxlToken(EDxlTokenType.RIGHT_DASH_BRACKET, "]-", 1, 13),
+            DxlToken(EDxlTokenType.LEFT_LINE_BRACKET, "-|", 1, 10),
+            DxlToken(EDxlTokenType.RIGHT_LINE_BRACKET, "|-", 1, 13),
             DxlToken(EDxlTokenType.DOUBLE_DASH, "--", 1, 16),
-            DxlToken(EDxlTokenType.LEFT_DASH_BRACKET, "-[", 1, 18)
+            DxlToken(EDxlTokenType.LEFT_LINE_BRACKET, "-|", 1, 18),
+            DxlToken(EDxlTokenType.RIGHT_LINE_BRACKET, "|-", 1, 21),
+            DxlToken(EDxlTokenType.DOUBLE_DASH, "--", 1, 23)
         )
 
     }
@@ -185,6 +187,26 @@ internal class DxlScannerSimpleTests
             "/* this is a block of documentation */\n\n /* this is ** another */",
             DxlToken(EDxlTokenType.DOCUMENTATION, "/* this is a block of documentation */", 1, 1),
             DxlToken(EDxlTokenType.DOCUMENTATION, "/* this is ** another */", 3, 2)
+        )
+
+    }
+
+    @Test
+    fun `Connections scan correctly`() {
+
+        checkScan(
+            "[a]---|b|---[c]",
+            DxlToken(EDxlTokenType.LEFT_BRACKET, "[", 1, 1),
+            DxlToken(EDxlTokenType.IDENTIFIER, "a", 1, 2),
+            DxlToken(EDxlTokenType.RIGHT_BRACKET, "]", 1, 3),
+            DxlToken(EDxlTokenType.DOUBLE_DASH, "--", 1, 4),
+            DxlToken(EDxlTokenType.LEFT_LINE_BRACKET, "-|", 1, 6),
+            DxlToken(EDxlTokenType.IDENTIFIER, "b", 1, 8),
+            DxlToken(EDxlTokenType.RIGHT_LINE_BRACKET, "|-", 1, 9),
+            DxlToken(EDxlTokenType.DOUBLE_DASH, "--", 1, 11),
+            DxlToken(EDxlTokenType.LEFT_BRACKET, "[", 1, 13),
+            DxlToken(EDxlTokenType.IDENTIFIER, "c", 1, 14),
+            DxlToken(EDxlTokenType.RIGHT_BRACKET, "]", 1, 15)
         )
 
     }
