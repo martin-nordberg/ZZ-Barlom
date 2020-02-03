@@ -8,6 +8,10 @@ package o.barlom.infrastructure.dxl.parsing
 import i.barlom.infrastructure.dxl.parsing.DxlExpectedTokenBufferImpl
 import i.barlom.infrastructure.dxl.scanning.DxlToken
 import i.barlom.infrastructure.dxl.scanning.EDxlTokenType.*
+import o.barlom.infrastructure.dxl.model.arguments.DxlArgument
+import o.barlom.infrastructure.dxl.model.arguments.DxlArguments
+import o.barlom.infrastructure.dxl.model.arguments.DxlNoArguments
+import o.barlom.infrastructure.dxl.model.arguments.DxlOptArguments
 import o.barlom.infrastructure.dxl.model.concepts.DxlConceptDeclaration
 import o.barlom.infrastructure.dxl.model.connections.*
 import o.barlom.infrastructure.dxl.model.core.DxlFileOrigin
@@ -66,6 +70,81 @@ class DxlParser(
     }
 
     ////
+
+    /**
+     * Parses one argument.
+     *
+     * parameter
+     *   : (simpleName "=")? expression
+     *   ;
+     */
+    private fun parseArgument(): DxlArgument {
+
+        // (simpleName "=")?
+        val name = if (input.hasLookAhead(IDENTIFIER) && input.hasLookAhead(2,EQUALS)) {
+            // simpleName
+            val simpleName = parseSimpleName()
+
+            input.read(EQUALS)
+
+            simpleName
+        }
+        else {
+            DxlNoName
+        }
+
+        // expression
+        val expression = parseExpression()
+
+        return DxlArgument(name, expression)
+
+    }
+
+    /**
+     * Parses an argument list.
+     *
+     * parameters
+     *   : "(" ( argument ("," argument)* )? ")"
+     *   ;
+     */
+    private fun parseArguments(): DxlArguments {
+
+        // "("
+        val leftParenToken = input.read(LEFT_PARENTHESIS)
+
+        val arguments = mutableListOf<DxlArgument>()
+
+        if (!input.consumeWhen(RIGHT_PARENTHESIS)) {
+
+            // parameter
+            arguments.add(parseArgument())
+
+            // ("," parameter)*
+            while (input.consumeWhen(COMMA)) {
+                arguments.add(parseArgument())
+            }
+
+            // ")"
+            input.read(RIGHT_PARENTHESIS)
+
+        }
+
+        return DxlArguments(leftParenToken.origin, arguments)
+
+    }
+
+    /**
+     * Parses an optional argument list.
+     */
+    private fun parseArgumentsOpt(): DxlOptArguments {
+
+        if (input.hasLookAhead(LEFT_PARENTHESIS)) {
+            return parseArguments()
+        }
+
+        return DxlNoArguments
+
+    }
 
     /**
      * conceptDeclaration
@@ -270,7 +349,7 @@ class DxlParser(
         }
 
         // typeRef?
-        val typeRef = parseTypeRefOpt()
+        val typeRef = parseTypeRefOpt(name is DxlNoName)
 
         // properties
         val properties = parseProperties()
@@ -308,7 +387,7 @@ class DxlParser(
         val simpleName = parseSimpleName()
 
         // typeRef?
-        val typeRef = parseTypeRefOpt()
+        val typeRef = parseTypeRefOpt(false)
 
         // ( "=" expression )?
         val expression = if (input.consumeWhen(EQUALS)) {
@@ -381,7 +460,7 @@ class DxlParser(
         val simpleName = parseSimpleName()
 
         // typeRef?
-        val typeRef = parseTypeRefOpt()
+        val typeRef = parseTypeRefOpt(false)
 
         // "="
         input.read(EQUALS)
@@ -479,7 +558,7 @@ class DxlParser(
      *   : ":" qualifiedName arguments?
      *   ;
      */
-    private fun parseTypeRef(): DxlTypeRef {
+    private fun parseTypeRef(isForUnnamedElement: Boolean): DxlTypeRef {
 
         // ":"
         val colonToken = input.read(COLON)
@@ -487,19 +566,20 @@ class DxlParser(
         // qualifiedName
         val typeName = parseQualifiedName()
 
-        // TODO: arguments?
+        // arguments?
+        val arguments = parseArgumentsOpt()
 
-        return DxlTypeRef(colonToken.origin, typeName)
+        return DxlTypeRef(colonToken.origin, typeName, arguments, isForUnnamedElement)
 
     }
 
     /**
      * Parses an optional type spec.
      */
-    private fun parseTypeRefOpt(): DxlOptTypeRef {
+    private fun parseTypeRefOpt(isForUnnamedElement: Boolean): DxlOptTypeRef {
 
         if (input.hasLookAhead(COLON)) {
-            return parseTypeRef()
+            return parseTypeRef(isForUnnamedElement)
         }
 
         return DxlNoTypeRef

@@ -167,7 +167,11 @@ internal class CodeStringBuilder(
             currentLine.append(currentLineBeforeTrial)
 
             // Return failure.
-            return false
+            if ( this.lineLengthLimitedCount == 1) {
+                return false
+            }
+
+            throw e;
         }
         finally {
             this.lineLengthLimitedCount -= 1

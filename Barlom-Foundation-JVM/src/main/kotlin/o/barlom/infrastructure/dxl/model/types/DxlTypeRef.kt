@@ -6,6 +6,7 @@
 package o.barlom.infrastructure.dxl.model.types
 
 import o.barlom.infrastructure.codegen.CodeWriter
+import o.barlom.infrastructure.dxl.model.arguments.DxlOptArguments
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 import o.barlom.infrastructure.dxl.model.names.DxlName
 
@@ -13,12 +14,24 @@ import o.barlom.infrastructure.dxl.model.names.DxlName
 
 class DxlTypeRef(
     origin: DxlOrigin,
-    val typeName: DxlName
+    val typeName: DxlName,
+    val arguments: DxlOptArguments,
+    val isForUnnamedElement: Boolean
 ) : DxlOptTypeRef(origin) {
 
     override fun writeCode(output: CodeWriter) {
-        output.write(": ")
+
+        if (isForUnnamedElement) {
+            output.write(":")
+        }
+        else {
+            output.write(": ")
+        }
+
         typeName.writeCode(output)
+
+        arguments.writeCode(output)
+
     }
 
 }

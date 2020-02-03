@@ -27,7 +27,7 @@ internal class SqBracketBlankCodeBlock(chunks: List<ICodeChunk>) :
         when (density) {
             ECodeDensity.ALL_ONE_LINE      -> " "
             ECodeDensity.EXTRA_LINE        -> " "
-            ECodeDensity.NEW_LINE_PER_ITEM -> ","
+            ECodeDensity.NEW_LINE_PER_ITEM -> ""
         }
 
     override fun getSuffix(density: ECodeDensity): String {

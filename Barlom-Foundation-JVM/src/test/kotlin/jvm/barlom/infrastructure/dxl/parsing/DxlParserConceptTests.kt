@@ -117,6 +117,50 @@ internal class DxlParserConceptTests {
     }
 
     @Test
+    fun `A concept with empty type arguments is parsed`() {
+
+        val code = """
+            [sample.test(a): S()]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with an unnamed type argument is parsed`() {
+
+        val code = """
+            [sample.test(a): S("example")]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with unnamed type arguments is parsed`() {
+
+        val code = """
+            [sample.test(a): S("example", 123)]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with named type arguments is parsed`() {
+
+        val code = """
+            [sample.test(a): S(a="example", b=123)]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
     fun `Multiple concepts are parsed`() {
 
         val code = """
@@ -172,7 +216,7 @@ internal class DxlParserConceptTests {
 
         val code = """
             [sample.test(a): S]
-              ---|: hasStuff|-->[s: Stuff]
+              ---|:hasStuff|-->[s: Stuff]
 
         """.trimIndent()
 

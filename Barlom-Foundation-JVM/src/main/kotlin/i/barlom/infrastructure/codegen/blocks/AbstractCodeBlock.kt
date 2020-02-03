@@ -45,6 +45,9 @@ internal abstract class AbstractCodeBlock
         if (hasNestedBlocks) {
             writeCode(output, ECodeDensity.NEW_LINE_PER_ITEM)
         }
+        else if ( codeChunks.size == 1 ) {
+            writeCode(output, ECodeDensity.ALL_ONE_LINE)
+        }
         else {
 
             // First try all one line.
