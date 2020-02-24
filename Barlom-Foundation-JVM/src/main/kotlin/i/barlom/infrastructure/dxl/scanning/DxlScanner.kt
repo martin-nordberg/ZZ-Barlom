@@ -241,10 +241,10 @@ internal class DxlScanner(
             input.advance()
         }
 
-        val text = input.extractedTokenText()
-
-        if (text == "true" || text == "false") {
-            return input.extractTokenFromMark(BOOLEAN_LITERAL)
+        when (input.extractedTokenText()) {
+            "alias" -> return input.extractTokenFromMark(ALIAS)
+            "false" -> return input.extractTokenFromMark(BOOLEAN_LITERAL)
+            "true" -> return input.extractTokenFromMark(BOOLEAN_LITERAL)
         }
 
         return input.extractTokenFromMark(IDENTIFIER)

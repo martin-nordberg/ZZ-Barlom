@@ -7,17 +7,23 @@ package o.barlom.infrastructure.dxl.model.declarations
 
 import o.barlom.infrastructure.codegen.CodeWriter
 import o.barlom.infrastructure.dxl.model.core.DxlItem
+import o.barlom.infrastructure.dxl.model.core.DxlOrigin
+import o.barlom.infrastructure.dxl.model.names.DxlName
+import o.barlom.infrastructure.dxl.model.names.DxlSimpleName
 
 //---------------------------------------------------------------------------------------------------------------------
 
-class DxlTopLevel(
-    val aliases: DxlAliases,
-    val declarations: DxlDeclarations
-) : DxlItem( declarations.origin ) {
+class DxlAlias(
+    origin: DxlOrigin,
+    val name: DxlSimpleName,
+    val qualifiedName: DxlName
+) : DxlItem(origin) {
 
     override fun writeCode(output: CodeWriter) {
-        aliases.writeCode(output)
-        declarations.writeCode(output)
+        output.write( "alias ")
+        name.writeCode(output)
+        output.write(" = ")
+        qualifiedName.writeCode(output)
     }
 
 }

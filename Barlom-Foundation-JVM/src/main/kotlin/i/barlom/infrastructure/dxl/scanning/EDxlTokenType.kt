@@ -11,6 +11,9 @@ internal enum class EDxlTokenType(
     val text: String
 ) {
 
+    /* Key words */
+    ALIAS("alias"),
+
     /* Identifiers */
     IDENTIFIER("[identifier]"),
 

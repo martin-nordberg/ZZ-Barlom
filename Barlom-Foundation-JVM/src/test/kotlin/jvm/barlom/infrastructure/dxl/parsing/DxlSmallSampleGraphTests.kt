@@ -25,7 +25,10 @@ internal class DxlSmallSampleGraphTests {
     fun `Cities are linked by highways`() {
 
         val code = """
-          [dmv: Graph] {
+          alias usmaps = geography.maps.us
+          alias State = geography.regions.us.State
+          
+          [usmaps.dmv: Graph] {
             [dc: State] { [washington: City ~ name = "Washington" ~ population = 633_427] }
             [va: State] {
               [centreville: City ~ name = "Centreville" ~ population = 71_135]

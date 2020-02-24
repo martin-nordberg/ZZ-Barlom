@@ -16,9 +16,7 @@ import o.barlom.infrastructure.dxl.model.concepts.DxlConceptDeclaration
 import o.barlom.infrastructure.dxl.model.connections.*
 import o.barlom.infrastructure.dxl.model.core.DxlFileOrigin
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
-import o.barlom.infrastructure.dxl.model.declarations.DxlDeclaration
-import o.barlom.infrastructure.dxl.model.declarations.DxlDeclarations
-import o.barlom.infrastructure.dxl.model.declarations.DxlTopLevel
+import o.barlom.infrastructure.dxl.model.declarations.*
 import o.barlom.infrastructure.dxl.model.documentation.DxlDocumentation
 import o.barlom.infrastructure.dxl.model.documentation.DxlNoDocumentation
 import o.barlom.infrastructure.dxl.model.documentation.DxlOptDocumentation
@@ -59,17 +57,39 @@ class DxlParser(
      */
     fun parseTopLevel(): DxlTopLevel {
 
-        // TODO: val namespace = parseNamespaceOpt()
-
-        // TODO: val aliases = parseAliases()
+        val aliases = parseAliases()
 
         val declarations = parseDeclarations()
 
-        return DxlTopLevel( /* TODO: namespace, aliases, */ declarations)
+        return DxlTopLevel( aliases, declarations)
 
     }
 
     ////
+
+    /**
+     * Parses zero or more alias declarations.
+     *
+     * aliases
+     *   : "alias" simpleName "=" qualifiedName
+     *   ;
+     */
+    private fun parseAliases(): DxlAliases {
+
+        val aliases = mutableListOf<DxlAlias>()
+
+        while (input.hasLookAhead(ALIAS)) {
+            val aliasToken = input.read()
+            val name = parseSimpleName()
+            input.read(EQUALS)
+            val qualifiedName = parseQualifiedName()
+
+            aliases.add(DxlAlias(aliasToken.origin,name,qualifiedName))
+        }
+
+        return DxlAliases(aliases)
+
+    }
 
     /**
      * Parses one argument.

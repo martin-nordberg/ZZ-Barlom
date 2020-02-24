@@ -6,14 +6,15 @@
 package o.barlom.infrastructure.dxl.model.properties
 
 import o.barlom.infrastructure.codegen.CodeWriter
-import o.barlom.infrastructure.dxl.model.core.DxlNullOrigin
 import o.barlom.infrastructure.dxl.model.core.DxlItem
+import o.barlom.infrastructure.dxl.model.core.DxlNullOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
 class DxlProperties(
-    val properties: List<DxlProperty>
-) : DxlItem(if (properties.isNotEmpty()) properties[0].origin else DxlNullOrigin) {
+    private val properties: List<DxlProperty>
+) : DxlItem(if (properties.isNotEmpty()) properties[0].origin else DxlNullOrigin),
+    Iterable<DxlProperty> by properties {
 
     fun isEmpty() =
         properties.isEmpty()

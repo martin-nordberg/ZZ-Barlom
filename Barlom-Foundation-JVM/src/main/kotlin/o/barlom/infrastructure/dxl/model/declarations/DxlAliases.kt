@@ -7,17 +7,32 @@ package o.barlom.infrastructure.dxl.model.declarations
 
 import o.barlom.infrastructure.codegen.CodeWriter
 import o.barlom.infrastructure.dxl.model.core.DxlItem
+import o.barlom.infrastructure.dxl.model.core.DxlNullOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
-class DxlTopLevel(
-    val aliases: DxlAliases,
-    val declarations: DxlDeclarations
-) : DxlItem( declarations.origin ) {
+class DxlAliases(
+    private val aliases: List<DxlAlias>
+) : DxlItem(if (aliases.isNotEmpty()) aliases[0].origin else DxlNullOrigin),
+    Iterable<DxlAlias> by aliases {
+
+    fun isEmpty() =
+        aliases.isEmpty()
+
+    fun isNotEmpty() =
+        aliases.isNotEmpty()
 
     override fun writeCode(output: CodeWriter) {
-        aliases.writeCode(output)
-        declarations.writeCode(output)
+
+        output.writeNewLineSeparated(aliases) { p ->
+            p.writeCode(this)
+        }
+
+        if (isNotEmpty()) {
+            output.writeNewLine()
+            output.writeNewLine()
+        }
+
     }
 
 }
