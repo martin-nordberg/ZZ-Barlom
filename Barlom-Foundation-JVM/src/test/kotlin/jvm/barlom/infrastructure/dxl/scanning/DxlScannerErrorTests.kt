@@ -93,6 +93,25 @@ internal class DxlScannerErrorTests
 
     }
 
+    @Test
+    fun `Invalid quoted identifiers are scanned`() {
+
+        checkScan(
+            "`a.` `b:` `c[` `d]` `e{` `f}` `g<` `h>` `i\\` `j/`",
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`a.`", 1, 1),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`b:`", 1, 6),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`c[`", 1, 11),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`d]`", 1, 16),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`e{`", 1, 21),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`f}`", 1, 26),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`g<`", 1, 31),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`h>`", 1, 36),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`i\\`", 1, 41),
+            DxlToken(EDxlTokenType.INVALID_QUOTED_IDENTIFIER, "`j/`", 1, 46)
+        )
+
+    }
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

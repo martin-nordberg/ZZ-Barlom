@@ -283,6 +283,7 @@ internal class DxlScanner(
     private fun scanQuotedIdentifier(): DxlToken {
 
         var nextChar = input.lookAhead()
+        var invalidChar = false;
 
         while (nextChar != '`') {
 
@@ -290,8 +291,16 @@ internal class DxlScanner(
                 return input.extractTokenFromMark(UNTERMINATED_QUOTED_IDENTIFIER)
             }
 
+            if (".:[]{}<>\\/".contains(nextChar)) {
+                invalidChar = true
+            }
+
             nextChar = input.advanceAndLookAhead()
 
+        }
+
+        if (invalidChar) {
+            return input.advanceAndExtractTokenFromMark(INVALID_QUOTED_IDENTIFIER)
         }
 
         return input.advanceAndExtractTokenFromMark(IDENTIFIER)

@@ -6,6 +6,7 @@
 package o.barlom.infrastructure.dxl.model.connections
 
 import o.barlom.infrastructure.codegen.CodeWriter
+import o.barlom.infrastructure.dxl.model.concepts.DxlConceptDeclaration
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 import o.barlom.infrastructure.dxl.model.elements.DxlElement
 
@@ -15,7 +16,7 @@ class DxlConnection(
     origin: DxlOrigin,
     val direction: EDxlConnectionDirection,
     val element: DxlElement,
-    val connectedConcept: DxlElement
+    val connectedConcept: DxlConceptDeclaration
 ) : DxlOptConnection(origin) {
 
     override fun writeCode(output: CodeWriter) {
@@ -38,9 +39,7 @@ class DxlConnection(
             EDxlConnectionDirection.DIRECTED_RIGHT -> output.write("->")
         }
 
-        output.writeSqBracketBlankBlock( listOf(connectedConcept)) { c ->
-            c.writeCode(this)
-        }
+        connectedConcept.writeCode(output)
 
     }
 

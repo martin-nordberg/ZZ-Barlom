@@ -69,6 +69,7 @@ internal enum class EDxlTokenType(
 
     /** Errors */
     INVALID_CHARACTER("[invalid character]"),
+    INVALID_QUOTED_IDENTIFIER("[invalid quoted identifier]"),
     INVALID_UUID_LITERAL("[invalid UUID literal]"),
     UNTERMINATED_CHARACTER_LITERAL("[unterminated character literal]"),
     UNTERMINATED_DOCUMENTATION("[unterminated documentation]"),

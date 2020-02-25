@@ -212,10 +212,21 @@ internal class DxlParserConceptTests {
     }
 
     @Test
-    fun `A concept with connections is parsed`() {
+    fun `A concept with a connection is parsed`() {
 
         val code = """
             [sample.test(a): S]---|:hasStuff|-->[s: Stuff]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept connection chain is parsed`() {
+
+        val code = """
+            [`Ms Miser`: Person]---|:hasStuff|-->[s: Stuff]---|:fillsCloset|-->[c: Closet]
         """.trimIndent()
 
         checkParseAndGenerate(code)

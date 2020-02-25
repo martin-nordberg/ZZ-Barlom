@@ -219,14 +219,8 @@ class DxlParser(
         // ("--" | "->")
         val arrowEnd = input.readOneOf(DOUBLE_DASH, RIGHT_ARROW)
 
-        // "["
-        val leftBracketToken = input.read(LEFT_BRACKET)
-
         // element
-        val connectedElement = parseElement(leftBracketToken.origin)
-
-        // "]"
-        input.read(RIGHT_BRACKET)
+        val connectedElement = parseConceptDeclaration(DxlNoDocumentation)
 
         // Determine the direction of the connection from the arrow tokens.
         val direction = if ( arrowStart.type == DOUBLE_DASH ) {
