@@ -15,8 +15,8 @@ import i.barlom.infrastructure.codegen.builders.CodeStringBuilder
  */
 internal interface ICodeChunk {
 
-    /** True if this chunk is composite. */
-    val hasNestedBlocks: Boolean
+    /** Writes out this code chunk as an s-expression. */
+    fun writeDebugString(output: CodeStringBuilder)
 
     /** Writes this chunk of code (recursively through the hierarchy) to the given [output] code string builder. */
     fun writeCode(output: CodeStringBuilder)

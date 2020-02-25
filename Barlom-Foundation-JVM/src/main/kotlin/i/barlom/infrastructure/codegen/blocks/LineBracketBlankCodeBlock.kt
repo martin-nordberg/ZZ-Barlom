@@ -19,6 +19,8 @@ internal class LineBracketBlankCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "LineBracketBlankBlock"
+
     override fun getPrefix(density: ECodeDensity): String {
         return "-|"
     }

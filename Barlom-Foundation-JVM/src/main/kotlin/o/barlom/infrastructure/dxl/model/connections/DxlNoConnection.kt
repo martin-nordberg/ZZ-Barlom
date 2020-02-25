@@ -3,25 +3,17 @@
 // Apache 2.0 License
 //
 
-package o.barlom.infrastructure.dxl.model.core
+package o.barlom.infrastructure.dxl.model.connections
 
 import o.barlom.infrastructure.codegen.CodeWriter
+import o.barlom.infrastructure.dxl.model.core.DxlNullOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
-abstract class DxlItem(
-    val origin: DxlOrigin
-) {
+object DxlNoConnection
+    : DxlOptConnection(DxlNullOrigin) {
 
-    val code: String
-        get() {
-            val output = CodeWriter()
-            writeCode(output)
-            print(output.toDebugString())
-            return output.toString()
-        }
-
-    abstract fun writeCode(output: CodeWriter)
+    override fun writeCode(output: CodeWriter) {}
 
 }
 

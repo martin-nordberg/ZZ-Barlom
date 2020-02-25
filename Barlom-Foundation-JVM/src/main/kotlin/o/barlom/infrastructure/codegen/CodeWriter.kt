@@ -29,6 +29,22 @@ class CodeWriter() {
     /**
      * Converts the code writer output to a simple string.
      */
+    fun toDebugString(): String {
+
+        val output = CodeStringBuilder("  ", 200)
+
+        for (chunk in codeChunks) {
+            chunk.writeDebugString(output)
+            output.appendNewLine()
+        }
+
+        return output.toString()
+
+    }
+
+    /**
+     * Converts the code writer output to a simple string.
+     */
     fun toCodeString(
         indentWhiteSpace: String = "  ",
         maxLineWidth: Int = 100
@@ -63,8 +79,10 @@ class CodeWriter() {
      * @param items a collection of items to output.
      * @param itemOut the code to output a single item.
      */
-    fun <T> writeBlankSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-        codeChunks.add(BlankSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+    fun <T> writeBlankSeparated(items: Collection<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        if (items.isNotEmpty()) {
+            codeChunks.add(BlankSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+        }
     }
 
     /**
@@ -90,8 +108,10 @@ class CodeWriter() {
      * @param items a collection of items to output.
      * @param itemOut the code to output a single item.
      */
-    fun <T> writeCommaSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-        codeChunks.add(CommaSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+    fun <T> writeCommaSeparated(items: Collection<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        if (items.isNotEmpty()) {
+            codeChunks.add(CommaSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+        }
     }
 
     /**
@@ -108,8 +128,10 @@ class CodeWriter() {
      * @param items a collection of items to output.
      * @param itemOut the code to output a single item.
      */
-    fun <T> writeNewLineSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-        codeChunks.add(NewLineSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+    fun <T> writeNewLineSeparated(items: Collection<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        if (items.isNotEmpty()) {
+            codeChunks.add(NewLineSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+        }
     }
 
     /**
@@ -117,8 +139,10 @@ class CodeWriter() {
      * @param items a collection of items to output.
      * @param itemOut the code to output a single item.
      */
-    fun <T> writeNewLineSeparatedIndented(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-        codeChunks.add(NewLineSeparatedIndentedCodeBlock(writeBracketedChunks(items, itemOut)))
+    fun <T> writeNewLineSeparatedIndented(items: Collection<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        if (items.isNotEmpty()) {
+            codeChunks.add(NewLineSeparatedIndentedCodeBlock(writeBracketedChunks(items, itemOut)))
+        }
     }
 
     /**
@@ -135,8 +159,10 @@ class CodeWriter() {
      * @param items a collection of items to output.
      * @param itemOut the code to output a single item.
      */
-    fun <T> writeSemicolonSeparated(items: Iterable<T>, itemOut: CodeWriter.(item: T) -> Unit) {
-        codeChunks.add(SemicolonSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+    fun <T> writeSemicolonSeparated(items: Collection<T>, itemOut: CodeWriter.(item: T) -> Unit) {
+        if (items.isNotEmpty()) {
+            codeChunks.add(SemicolonSeparatedCodeBlock(writeBracketedChunks(items, itemOut)))
+        }
     }
 
     /**
@@ -171,12 +197,19 @@ class CodeWriter() {
         val blockChunks = mutableListOf<ICodeChunk>()
 
         for (item in items) {
+
             val itemOutput = CodeWriter()
             itemOutput.itemOut(item)
-            if (itemOutput.codeChunks.isNotEmpty()) {
+
+            if (itemOutput.codeChunks.size > 1) {
                 blockChunks.add(SimpleCodeBlock(itemOutput.codeChunks))
             }
+            else if (itemOutput.codeChunks.size == 1) {
+                blockChunks.add(itemOutput.codeChunks[0])
+            }
+
         }
+
         return blockChunks
 
     }

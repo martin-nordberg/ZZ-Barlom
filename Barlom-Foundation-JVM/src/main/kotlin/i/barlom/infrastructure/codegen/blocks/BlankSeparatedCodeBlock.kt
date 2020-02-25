@@ -19,6 +19,8 @@ internal class BlankSeparatedCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "BlankSeparatedBlock"
+
     override fun getSeparator(density: ECodeDensity): String =
         when (density) {
             ECodeDensity.ALL_ONE_LINE      -> " "

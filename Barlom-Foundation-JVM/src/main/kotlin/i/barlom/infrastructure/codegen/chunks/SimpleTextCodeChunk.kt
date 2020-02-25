@@ -14,7 +14,9 @@ internal class SimpleTextCodeChunk(
     private var code: String
 ) : ICodeChunk {
 
-    override val hasNestedBlocks = false
+    override fun writeDebugString(output: CodeStringBuilder) {
+        output.append("Text:'$code'")
+    }
 
     override fun writeCode(output: CodeStringBuilder) {
         output.append(code)

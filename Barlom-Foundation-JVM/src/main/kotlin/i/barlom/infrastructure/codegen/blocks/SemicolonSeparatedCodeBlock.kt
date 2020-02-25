@@ -19,6 +19,8 @@ internal class SemicolonSeparatedCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "SemicolonSeparatedBlock"
+
     override fun getSeparator(density: ECodeDensity): String =
         when (density) {
             ECodeDensity.ALL_ONE_LINE      -> "; "

@@ -19,6 +19,8 @@ internal class BraceBlankCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "BraceBlankBlock"
+
     override fun getPrefix(density: ECodeDensity): String =
         when (density) {
             ECodeDensity.ALL_ONE_LINE      -> if (hasContent()) "{ " else "{"

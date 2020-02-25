@@ -13,7 +13,9 @@ import i.barlom.infrastructure.codegen.builders.CodeStringBuilder
 internal class NewLineCodeChunk
     : ICodeChunk {
 
-    override val hasNestedBlocks = false
+    override fun writeDebugString(output:CodeStringBuilder) {
+        output.append("NewLine")
+    }
 
     override fun writeCode(output: CodeStringBuilder) {
         output.appendNewLine()

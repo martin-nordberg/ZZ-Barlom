@@ -13,7 +13,10 @@ import o.barlom.infrastructure.dxl.model.arguments.DxlArguments
 import o.barlom.infrastructure.dxl.model.arguments.DxlNoArguments
 import o.barlom.infrastructure.dxl.model.arguments.DxlOptArguments
 import o.barlom.infrastructure.dxl.model.concepts.DxlConceptDeclaration
-import o.barlom.infrastructure.dxl.model.connections.*
+import o.barlom.infrastructure.dxl.model.connections.DxlConnection
+import o.barlom.infrastructure.dxl.model.connections.DxlConnectionDeclaration
+import o.barlom.infrastructure.dxl.model.connections.DxlContent
+import o.barlom.infrastructure.dxl.model.connections.EDxlConnectionDirection
 import o.barlom.infrastructure.dxl.model.core.DxlFileOrigin
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 import o.barlom.infrastructure.dxl.model.declarations.*
@@ -168,7 +171,7 @@ class DxlParser(
 
     /**
      * conceptDeclaration
-     *   : "[" element "]" connections? content?
+     *   : "[" element "]" (connection | content)?
      */
     private fun parseConceptDeclaration(documentation: DxlOptDocumentation): DxlConceptDeclaration {
 
@@ -181,22 +184,18 @@ class DxlParser(
         // "]"
         input.read(RIGHT_BRACKET)
 
-        // connections?
-        val connections = mutableListOf<DxlConnection>()
-
-        while (input.hasLookAhead(DOUBLE_DASH) || input.hasLookAhead(LEFT_ARROW)) {
-            connections.add(parseConnection())
+        // connection?
+        if (input.hasLookAhead(DOUBLE_DASH) || input.hasLookAhead(LEFT_ARROW)) {
+            return DxlConceptDeclaration(leftBracketToken.origin, documentation, element, parseConnection() )
         }
 
         // content?
-        val content = if (input.hasLookAhead(LEFT_BRACE)) {
-            parseContent()
-        }
-        else {
-            DxlNoContent
+        if (input.hasLookAhead(LEFT_BRACE)) {
+            return DxlConceptDeclaration(leftBracketToken.origin, documentation, element, parseContent())
         }
 
-        return DxlConceptDeclaration(leftBracketToken.origin, documentation, element, DxlConnections(connections), content)
+        return DxlConceptDeclaration(leftBracketToken.origin, documentation, element)
+
     }
 
     /**

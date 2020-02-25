@@ -19,6 +19,8 @@ internal class NewLineSeparatedCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "NewLineSeparatedBlock"
+
     override fun getSeparator(density: ECodeDensity): String =
         "\n"
 

@@ -19,6 +19,8 @@ internal class SqBracketBlankCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "SqBracketBlankBlock"
+
     override fun getPrefix(density: ECodeDensity): String {
         return "["
     }

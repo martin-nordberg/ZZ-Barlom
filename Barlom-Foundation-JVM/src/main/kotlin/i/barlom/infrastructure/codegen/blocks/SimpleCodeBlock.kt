@@ -7,7 +7,6 @@ package i.barlom.infrastructure.codegen.blocks
 
 import i.barlom.infrastructure.codegen.builders.CodeStringBuilder
 import i.barlom.infrastructure.codegen.chunks.ICodeChunk
-import i.barlom.infrastructure.codegen.chunks.SimpleTextCodeChunk
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -16,8 +15,6 @@ internal class SimpleCodeBlock(chunks: List<ICodeChunk>) :
     ICodeChunk {
 
     private var codeChunks = mutableListOf<ICodeChunk>()
-
-    override var hasNestedBlocks: Boolean = false
 
     ////
 
@@ -29,7 +26,22 @@ internal class SimpleCodeBlock(chunks: List<ICodeChunk>) :
 
     fun add(codeChunk: ICodeChunk) {
         codeChunks.add(codeChunk)
-        hasNestedBlocks = hasNestedBlocks || codeChunk !is SimpleTextCodeChunk && codeChunk !is SimpleCodeBlock
+    }
+
+    override fun writeDebugString(output: CodeStringBuilder) {
+
+        output.append( "SimpleBlock {")
+        output.appendNewLine()
+
+        output.indented {
+            for (codeChunk in codeChunks) {
+                codeChunk.writeDebugString(output)
+                output.appendNewLine()
+            }
+        }
+
+        output.append("}")
+
     }
 
     override fun writeCode(output: CodeStringBuilder) {

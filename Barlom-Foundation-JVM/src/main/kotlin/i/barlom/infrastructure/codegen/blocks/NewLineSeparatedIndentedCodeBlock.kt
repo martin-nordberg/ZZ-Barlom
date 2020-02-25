@@ -20,6 +20,8 @@ internal class NewLineSeparatedIndentedCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "NewLineSeparatedIndentedBlock"
+
     override fun writeCode(output: CodeStringBuilder) {
         super.writeCode(output, ECodeDensity.NEW_LINE_PER_ITEM)
     }

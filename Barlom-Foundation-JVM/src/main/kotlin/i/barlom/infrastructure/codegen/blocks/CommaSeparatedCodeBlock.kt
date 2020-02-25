@@ -19,6 +19,8 @@ internal class CommaSeparatedCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "CommaSeparatedBlock"
+
     override fun getSeparator(density: ECodeDensity): String =
         when (density) {
             ECodeDensity.ALL_ONE_LINE      -> ", "

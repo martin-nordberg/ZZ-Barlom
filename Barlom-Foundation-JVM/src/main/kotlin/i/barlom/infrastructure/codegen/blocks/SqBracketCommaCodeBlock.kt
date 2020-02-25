@@ -19,6 +19,8 @@ internal class SqBracketCommaCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "SqBracketCommaBlock"
+
     override fun getPrefix(density: ECodeDensity): String {
         return "["
     }

@@ -7,7 +7,6 @@ package i.barlom.infrastructure.codegen.blocks
 
 import i.barlom.infrastructure.codegen.builders.CodeStringBuilder
 import i.barlom.infrastructure.codegen.chunks.ICodeChunk
-import i.barlom.infrastructure.codegen.chunks.SimpleTextCodeChunk
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -17,14 +16,12 @@ internal abstract class AbstractCodeBlock
 
     private var codeChunks = mutableListOf<ICodeChunk>()
 
-    override var hasNestedBlocks: Boolean = false
+    abstract val debugNodeName: String
 
     ////
 
     fun add(codeChunk: ICodeChunk) {
         codeChunks.add(codeChunk)
-        hasNestedBlocks = hasNestedBlocks ||
-            codeChunk !is SimpleTextCodeChunk && codeChunk !is SimpleCodeBlock
     }
 
     protected open fun getPrefix(density: ECodeDensity): String {
@@ -40,12 +37,27 @@ internal abstract class AbstractCodeBlock
     fun hasContent() =
         codeChunks.isNotEmpty()
 
+    override fun writeDebugString(output:CodeStringBuilder) {
+
+        output.append(this.debugNodeName)
+        output.append(" {")
+        output.appendNewLine()
+
+        output.indented {
+            for (codeChunk in codeChunks) {
+                codeChunk.writeDebugString(output)
+                output.appendNewLine()
+            }
+        }
+
+
+        output.append("}")
+
+    }
+
     override fun writeCode(output: CodeStringBuilder) {
 
-        if (hasNestedBlocks) {
-            writeCode(output, ECodeDensity.NEW_LINE_PER_ITEM)
-        }
-        else if ( codeChunks.size == 1 ) {
+        if ( codeChunks.size == 1 ) {
             writeCode(output, ECodeDensity.ALL_ONE_LINE)
         }
         else {
@@ -107,10 +119,6 @@ internal abstract class AbstractCodeBlock
 
             ECodeDensity.NEW_LINE_PER_ITEM -> {
 
-                if (hasNestedBlocks) {
-                    output.appendNewLine()
-                }
-
                 output.indented {
                     for (codeChunk in codeChunks) {
                         output.append(sep)
@@ -118,10 +126,6 @@ internal abstract class AbstractCodeBlock
                         codeChunk.writeCode(output)
                         sep = separator
                     }
-                }
-
-                if (hasNestedBlocks) {
-                    output.appendNewLine()
                 }
 
                 output.appendNewLine()

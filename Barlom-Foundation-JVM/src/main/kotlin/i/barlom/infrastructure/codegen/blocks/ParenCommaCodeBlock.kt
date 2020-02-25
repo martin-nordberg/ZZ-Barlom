@@ -19,6 +19,8 @@ internal class ParenCommaCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "ParenCommaBlock"
+
     override fun getPrefix(density: ECodeDensity): String {
         return "("
     }

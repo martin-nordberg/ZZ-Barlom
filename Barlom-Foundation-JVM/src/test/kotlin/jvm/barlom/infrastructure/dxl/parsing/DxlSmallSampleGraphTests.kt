@@ -38,30 +38,14 @@ internal class DxlSmallSampleGraphTests {
               [baltimore: City ~ name = "Baltimore" ~ population = 619_493]
               [`college park`: City ~ name = "College Park" ~ population = 32_303]
             }
-            [dc]
-              ---|:HasNeighbor|---[md]
-
-            [dc]
-              ---|:HasNeighbor|---[va]
-
-            [va]
-              ---|:HasNeighbor|---[md]
-
-            [dc.washington]
-              ---|:Highway(type="Interstate") ~ name = "I-66" ~ distance = 36|---[va.centreville]
-
-            [dc.washington]
-              ---|:Highway(type="Interstate") ~ name = "I-95" ~ distance = 53|---[va.fredericksburg]
-
-            [dc.washington]
-              ---|:Highway(type="Interstate") ~ name = "I-95" ~ distance = 41|---[md.baltimore]
-
-            [dc.washington]
-              ---|:Highway(type="Interstate") ~ name = "I-295" ~ distance = 39|---[md.baltimore]
-
-            [dc.washington]
-              ---|us1|---[md.`college park`]
-
+            [dc]---|:HasNeighbor|---[md]
+            [dc]---|:HasNeighbor|---[va]
+            [va]---|:HasNeighbor|---[md]
+            [dc.washington]---|:Highway(type="Interstate") ~ name = "I-66" ~ distance = 36|---[va.centreville]
+            [dc.washington]---|:Highway(type="Interstate") ~ name = "I-95" ~ distance = 53|---[va.fredericksburg]
+            [dc.washington]---|:Highway(type="Interstate") ~ name = "I-95" ~ distance = 41|---[md.baltimore]
+            [dc.washington]---|:Highway(type="Interstate") ~ name = "I-295" ~ distance = 39|---[md.baltimore]
+            [dc.washington]---|us1|---[md.`college park`]
             -|us1: Highway(type="US") ~ name = "US-1" ~ distance = 9|-
           }
         """.trimIndent()
@@ -98,33 +82,25 @@ internal class DxlSmallSampleGraphTests {
                        ~ address = "455 Dirksen Senate Office Building Washington DC 20510"
                        ~ phone = "(202) 224-4944"
                        ~ contact = "www.alexander.senate.gov/public/index.cfm?p=Email"
-                     ]
-                       ---|:ServesState|-->[tn]
-
+                     ]---|:ServesState|-->[tn]
                      [tammyBaldwin: Senator
                        ~ name = "Baldwin, Tammy"
                        ~ address = "709 Hart Senate Office Building Washington DC 20510"
                        ~ phone = "(202) 224-5653"
                        ~ contact = "www.baldwin.senate.gov/feedback"
-                     ]
-                       ---|:ServesState|-->[wi]
-
+                     ]---|:ServesState|-->[wi]
                      [johnBarrasso: Senator
                        ~ name = "Barrasso, John"
                        ~ address = "307 Dirksen Senate Office Building Washington DC 20510"
                        ~ phone = "(202) 224-6441"
                        ~ contact = "www.barrasso.senate.gov/public/index.cfm/contact-form"
-                     ]
-                       ---|:ServesState|-->[wy]
-
+                     ]---|:ServesState|-->[wy]
                      [michaelBennet: Senator
                        ~ name = "Bennet, Michael F."
                        ~ contact = "261 Russell Senate Office Building Washington DC 20510"
                        ~ phone = "(202) 224-5852"
                        ~ contact = "www.bennet.senate.gov/public/index.cfm/contact"
-                     ]
-                       ---|:ServesState|-->[co]
-
+                     ]---|:ServesState|-->[co]
                    }
                    """.trimIndent()
 

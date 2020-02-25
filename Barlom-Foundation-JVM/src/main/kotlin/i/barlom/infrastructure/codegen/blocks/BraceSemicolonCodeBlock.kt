@@ -19,6 +19,8 @@ internal class BraceSemicolonCodeBlock(chunks: List<ICodeChunk>) :
         }
     }
 
+    override val debugNodeName = "BraceSemicolonBlock"
+
     override fun getPrefix(density: ECodeDensity): String =
         when (density) {
             ECodeDensity.ALL_ONE_LINE      -> if (hasContent()) "{ " else "{"
