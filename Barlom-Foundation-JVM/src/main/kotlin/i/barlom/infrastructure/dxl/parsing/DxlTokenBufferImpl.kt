@@ -44,7 +44,7 @@ internal class DxlTokenBufferImpl(
         }
 
         while (length < count) {
-            tokens[ringIndex(first + length)] = scanner.scan()
+            tokens[ringIndex(length)] = scanner.scan()
             length += 1
         }
 
@@ -54,15 +54,15 @@ internal class DxlTokenBufferImpl(
      * Advances the indexes after consuming [count] tokens from the buffer.
      */
     private fun advance(count: Int) {
-        first = ringIndex(first + count)
+        first = ringIndex(count)
         length -= count
     }
 
     /**
-     * Performs the modulo arithmetic needed to keep an [index] within the ring buffer range.
+     * Performs the modulo arithmetic needed to keep index = first + [indexAfterFirst] within the ring buffer range.
      */
-    private fun ringIndex(index: Int) =
-        index % size
+    private fun ringIndex(indexAfterFirst: Int) =
+        (first + indexAfterFirst) % size
 
     ////
 
@@ -76,7 +76,7 @@ internal class DxlTokenBufferImpl(
         fill(tokenTypes.size)
 
         for (i in 0 until tokenTypes.size) {
-            if (tokens[ringIndex(first + i)]?.type != tokenTypes[i]) {
+            if (tokens[ringIndex(i)]?.type != tokenTypes[i]) {
                 return false
             }
         }
@@ -97,7 +97,7 @@ internal class DxlTokenBufferImpl(
 
     override fun lookAhead(count: Int): DxlToken? {
         fill(count)
-        return tokens[ringIndex(first + count + size - 1)]
+        return tokens[ringIndex(count + size - 1)]
     }
 
     override fun read(): DxlToken {

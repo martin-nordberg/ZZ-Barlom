@@ -21,7 +21,7 @@ internal enum class EDxlTokenType(
     AMPERSAND("'&'"),
     ASTERISK("'*'"),
     AT("'@'"),
-    BACKSLASH("'\'"),
+    BACKSLASH("'\\'"),
     CARET("'^'"),
     COLON("':'"),
     COMMA("','"),

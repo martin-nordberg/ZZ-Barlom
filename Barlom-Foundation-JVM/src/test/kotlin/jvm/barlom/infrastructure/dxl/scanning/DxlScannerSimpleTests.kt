@@ -8,12 +8,20 @@ package jvm.barlom.infrastructure.dxl.scanning
 import i.barlom.infrastructure.dxl.scanning.DxlToken
 import i.barlom.infrastructure.dxl.scanning.EDxlTokenType
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 //---------------------------------------------------------------------------------------------------------------------
 
 @Suppress("RemoveRedundantBackticks")
 internal class DxlScannerSimpleTests
     : DxlScannerTests() {
+
+    @Test
+    fun `Token types have names`() {
+
+        assertEquals("'['", EDxlTokenType.LEFT_BRACKET.text)
+
+    }
 
     @Test
     fun `Single character tokens are scanned`() {

@@ -1,5 +1,5 @@
 //
-// (C) Copyright 2018 Martin E. Nordberg III
+// (C) Copyright 2018-2020 Martin E. Nordberg III
 // Apache 2.0 License
 //
 
@@ -16,20 +16,28 @@ import kotlin.test.assertEquals
 @Suppress("RemoveRedundantBackticks")
 internal abstract class DxlScannerTests {
 
-    protected fun checkScan( code: String, vararg expectedTokens: DxlToken) {
+    protected fun checkScan(code: String, vararg expectedTokens: DxlToken) {
 
-        val scanner = DxlScanner( StringTokenizer( code ) )
+        val scanner = DxlScanner(StringTokenizer(code))
 
-        for ( expectedToken in expectedTokens ) {
+        for (expectedToken in expectedTokens) {
+
             val token = scanner.scan()
-            assertEquals( expectedToken.type, token.type )
-            assertEquals( expectedToken.text, token.text )
-            assertEquals( expectedToken.line, token.line )
-            assertEquals( expectedToken.column, token.column )
-            assertEquals( expectedToken.text.length, token.length )
+            assertEquals(expectedToken.type, token.type)
+            assertEquals(expectedToken.text, token.text)
+            assertEquals(expectedToken.line, token.line)
+            assertEquals(expectedToken.column, token.column)
+            assertEquals(expectedToken.text.length, token.length)
+
+            if (expectedToken.text.length == 1 &&
+                expectedToken.type != EDxlTokenType.IDENTIFIER &&
+                expectedToken.type != EDxlTokenType.INTEGER_LITERAL) {
+                assertEquals("'" + expectedToken.text + "'", expectedToken.type.toString())
+            }
+
         }
 
-        assertEquals( EDxlTokenType.END_OF_INPUT, scanner.scan().type )
+        assertEquals(EDxlTokenType.END_OF_INPUT, scanner.scan().type)
 
     }
 
