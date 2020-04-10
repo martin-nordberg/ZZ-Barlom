@@ -5,12 +5,16 @@
 
 package o.barlom.infrastructure.dxl.model.documentation
 
-import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 import o.barlom.infrastructure.dxl.model.core.DxlItem
+import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Base class for documentation that is optional.
+ */
 abstract class DxlOptDocumentation(
+    /** Where the documentation originated. */
     origin: DxlOrigin
 ) : DxlItem(origin)
 

@@ -24,7 +24,6 @@ import o.barlom.infrastructure.dxl.model.documentation.DxlDocumentation
 import o.barlom.infrastructure.dxl.model.documentation.DxlNoDocumentation
 import o.barlom.infrastructure.dxl.model.documentation.DxlOptDocumentation
 import o.barlom.infrastructure.dxl.model.elements.DxlElement
-import o.barlom.infrastructure.dxl.model.elements.DxlSpecifiedElement
 import o.barlom.infrastructure.dxl.model.expressions.DxlExpression
 import o.barlom.infrastructure.dxl.model.expressions.DxlNoValue
 import o.barlom.infrastructure.dxl.model.expressions.literals.*
@@ -367,7 +366,7 @@ class DxlParser(
         // properties
         val properties = parseProperties()
 
-        return DxlSpecifiedElement(origin, uuid, name, parameters, typeRef, properties)
+        return DxlElement(origin, uuid, name, parameters, typeRef, properties)
     }
 
     private fun parseExpression(): DxlExpression {

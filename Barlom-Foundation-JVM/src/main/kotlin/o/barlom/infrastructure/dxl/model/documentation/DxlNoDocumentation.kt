@@ -10,6 +10,9 @@ import o.barlom.infrastructure.dxl.model.core.DxlNullOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Null object implementation when optional documentation is not present.
+ */
 object DxlNoDocumentation
     : DxlOptDocumentation(DxlNullOrigin) {
 

@@ -10,11 +10,17 @@ import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 
 //---------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Documentation for a parsed item.
+ */
 class DxlDocumentation(
+    /** Where the documentation starts in the source file. */
     origin: DxlOrigin,
+    /** The text of the documentation including "/*" and "*/". */
     val text : String
 ) : DxlOptDocumentation(origin) {
 
+    /** Writes the documentation followed by a new line. */
     override fun writeCode(output: CodeWriter) {
         output.write(text)
         output.writeNewLine()

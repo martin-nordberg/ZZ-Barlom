@@ -5,14 +5,14 @@
 
 package o.barlom.infrastructure.dxl.model.connections
 
+import o.barlom.infrastructure.dxl.model.core.DxlItem
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
-import o.barlom.infrastructure.dxl.model.elements.DxlElement
 
 //---------------------------------------------------------------------------------------------------------------------
 
 abstract class DxlOptContent(
     origin: DxlOrigin
-) : DxlElement(origin)
+) : DxlItem(origin)
 
 //---------------------------------------------------------------------------------------------------------------------
 
