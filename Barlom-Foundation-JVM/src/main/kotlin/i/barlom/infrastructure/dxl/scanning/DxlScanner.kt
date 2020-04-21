@@ -45,6 +45,7 @@ internal class DxlScanner(
             ','  -> input.extractTokenFromMark(COMMA)
             '.'  -> input.extractTokenFromMark(DOT)
             '='  -> input.extractTokenFromMark(EQUALS)
+            '!'  -> input.extractTokenFromMark(EXCLAMATION)
             '>'  -> input.extractTokenFromMark(GREATER_THAN)
             '#'  -> input.extractTokenFromMark(HASH)
             '{'  -> input.extractTokenFromMark(LEFT_BRACE)
@@ -62,7 +63,7 @@ internal class DxlScanner(
                 if (input.lookAhead() == '-') input.advanceAndExtractTokenFromMark(LEFT_ARROW)
                 else input.extractTokenFromMark(LESS_THAN)
 
-            // "->", "--", "-[", or "-"
+            // "->", "--", "-|", or "-"
             '-'  ->
                 when (input.lookAhead()) {
                     '>'  -> input.advanceAndExtractTokenFromMark(RIGHT_ARROW)

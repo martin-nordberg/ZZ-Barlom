@@ -27,7 +27,7 @@ internal class DxlScannerSimpleTests
     fun `Single character tokens are scanned`() {
 
         checkScan(
-            " { } ( ) [ ] . : , = ; - ~ % @ \\ / ^ & * # ",
+            " { } ( ) [ ] . : , = ; - ~ % @ \\ / ^ & * # ! ",
             DxlToken(EDxlTokenType.LEFT_BRACE, "{", 1, 2),
             DxlToken(EDxlTokenType.RIGHT_BRACE, "}", 1, 4),
             DxlToken(EDxlTokenType.LEFT_PARENTHESIS, "(", 1, 6),
@@ -48,7 +48,8 @@ internal class DxlScannerSimpleTests
             DxlToken(EDxlTokenType.CARET, "^", 1, 36),
             DxlToken(EDxlTokenType.AMPERSAND, "&", 1, 38),
             DxlToken(EDxlTokenType.ASTERISK, "*", 1, 40),
-            DxlToken(EDxlTokenType.HASH, "#", 1, 42)
+            DxlToken(EDxlTokenType.HASH, "#", 1, 42),
+            DxlToken(EDxlTokenType.EXCLAMATION, "!", 1, 44)
         )
 
     }
@@ -57,7 +58,7 @@ internal class DxlScannerSimpleTests
     fun `Identifiers are scanned`() {
 
         checkScan(
-            " a abc Ab234 _ _something rr_12_pq true false",
+            " a abc Ab234 _ _something rr_12_pq true false alias",
             DxlToken(EDxlTokenType.IDENTIFIER, "a", 1, 2),
             DxlToken(EDxlTokenType.IDENTIFIER, "abc", 1, 4),
             DxlToken(EDxlTokenType.IDENTIFIER, "Ab234", 1, 8),
@@ -65,7 +66,8 @@ internal class DxlScannerSimpleTests
             DxlToken(EDxlTokenType.IDENTIFIER, "_something", 1, 16),
             DxlToken(EDxlTokenType.IDENTIFIER, "rr_12_pq", 1, 27),
             DxlToken(EDxlTokenType.BOOLEAN_LITERAL, "true", 1, 36),
-            DxlToken(EDxlTokenType.BOOLEAN_LITERAL, "false", 1, 41)
+            DxlToken(EDxlTokenType.BOOLEAN_LITERAL, "false", 1, 41),
+            DxlToken(EDxlTokenType.ALIAS, "alias", 1, 47)
         )
 
     }

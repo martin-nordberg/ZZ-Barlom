@@ -13,10 +13,8 @@ import o.barlom.infrastructure.dxl.model.arguments.DxlArguments
 import o.barlom.infrastructure.dxl.model.arguments.DxlNoArguments
 import o.barlom.infrastructure.dxl.model.arguments.DxlOptArguments
 import o.barlom.infrastructure.dxl.model.concepts.DxlConceptDeclaration
-import o.barlom.infrastructure.dxl.model.connections.DxlConnection
-import o.barlom.infrastructure.dxl.model.connections.DxlConnectionDeclaration
-import o.barlom.infrastructure.dxl.model.connections.DxlContent
-import o.barlom.infrastructure.dxl.model.connections.EDxlConnectionDirection
+import o.barlom.infrastructure.dxl.model.concepts.DxlConceptDeletion
+import o.barlom.infrastructure.dxl.model.connections.*
 import o.barlom.infrastructure.dxl.model.core.DxlFileOrigin
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
 import o.barlom.infrastructure.dxl.model.declarations.*
@@ -198,6 +196,27 @@ class DxlParser(
     }
 
     /**
+     * conceptDeletion
+     *   : "!" "[" element "]"
+     */
+    private fun parseConceptDeletion(documentation: DxlOptDocumentation): DxlConceptDeletion {
+
+        // "!" already consumed
+
+        // "["
+        val leftBracketToken = input.read(LEFT_BRACKET)
+
+        // element
+        val element = parseElement(leftBracketToken.origin)
+
+        // "]"
+        input.read(RIGHT_BRACKET)
+
+        return DxlConceptDeletion(leftBracketToken.origin, documentation, element)
+
+    }
+
+    /**
      * connection
      *   : ("<-" | "--") "-|" element "|-" ("--" | "->") "[" element "]"
      */
@@ -263,6 +282,25 @@ class DxlParser(
     }
 
     /**
+     * connectionDeletion
+     *   : "-|" element "|-"
+     */
+    private fun parseConnectionDeletion(documentation: DxlOptDocumentation): DxlConnectionDeletion {
+
+        // "-|"
+        val leftBracketToken = input.read(LEFT_LINE_BRACKET)
+
+        // element
+        val element = parseElement(leftBracketToken.origin)
+
+        // "|-"
+        input.read(RIGHT_LINE_BRACKET)
+
+        return DxlConnectionDeletion(leftBracketToken.origin, documentation, element)
+
+    }
+
+    /**
      * content
      *   : "{" declarations "}"
      */
@@ -296,6 +334,17 @@ class DxlParser(
             }
             else if (input.hasLookAhead(LEFT_LINE_BRACKET)) {
                 declarations.add(parseConnectionDeclaration(documentation))
+            }
+            else if (input.consumeWhen(EXCLAMATION)) {
+                if (input.hasLookAhead(LEFT_BRACKET)) {
+                    declarations.add(parseConceptDeletion(documentation))
+                }
+                else if (input.hasLookAhead(LEFT_LINE_BRACKET)) {
+                    declarations.add(parseConnectionDeletion(documentation))
+                }
+                else {
+                    input.expected(LEFT_BRACKET, LEFT_LINE_BRACKET)
+                }
             }
             else {
                 break

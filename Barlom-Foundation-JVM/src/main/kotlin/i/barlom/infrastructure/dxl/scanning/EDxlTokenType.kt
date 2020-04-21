@@ -29,6 +29,7 @@ internal enum class EDxlTokenType(
     DOT("'.'"),
     DOUBLE_DASH("'--'"),
     EQUALS("'='"),
+    EXCLAMATION("'!'"),
     GREATER_THAN("'>'"),
     HASH("'#'"),
     LEFT_ARROW("'<-'"),
