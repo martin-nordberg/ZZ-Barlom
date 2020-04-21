@@ -391,7 +391,7 @@ class DxlParser(
 
     /**
      * element
-     *   : uuid? (qualifiedName parameters?)? typeRef? properties
+     *   : uuid? (qualifiedName? ("^" qualifiedName)? parameters?)? typeRef? properties
      */
     private fun parseElement(origin: DxlOrigin): DxlElement {
 
@@ -400,6 +400,14 @@ class DxlParser(
 
         // qualifiedName?
         val name = parseQualifiedNameOpt()
+
+        // ("^" qualifiedName)?
+        val revisedName = if(input.consumeWhen(CARET)) {
+            parseQualifiedName()
+        }
+        else {
+            DxlNoName
+        }
 
         // parameters?
         val parameters = if (name is DxlNoName) {
@@ -415,7 +423,7 @@ class DxlParser(
         // properties
         val properties = parseProperties()
 
-        return DxlElement(origin, uuid, name, parameters, typeRef, properties)
+        return DxlElement(origin, uuid, name, revisedName, parameters, typeRef, properties)
     }
 
     private fun parseExpression(): DxlExpression {
@@ -512,7 +520,7 @@ class DxlParser(
      * Parses one property.
      *
      * property
-     *   : name typeRef? "=" expression
+     *   : simpleName ("^" simpleName)? typeRef? ("=" expression)?
      *   ;
      */
     private fun parseProperty(): DxlProperty {
@@ -520,16 +528,29 @@ class DxlParser(
         // simpleName
         val simpleName = parseSimpleName()
 
+        // ("^" simpleName)?
+        val revisedName = if (input.consumeWhen(CARET)) {
+            parseSimpleName()
+        }
+        else {
+            DxlNoName
+        }
+
         // typeRef?
         val typeRef = parseTypeRefOpt(false)
 
-        // "="
-        input.read(EQUALS)
+        val expression = if (revisedName is DxlNoName || input.hasLookAhead(EQUALS)) {
+            // "="
+            input.read(EQUALS)
 
-        // expression
-        val expression = parseExpression()
+            // expression
+            parseExpression()
+        }
+        else {
+            DxlNoValue
+        }
 
-        return DxlProperty(simpleName, typeRef, expression)
+        return DxlProperty(simpleName, revisedName, typeRef, expression)
 
     }
 

@@ -8,6 +8,7 @@ package o.barlom.infrastructure.dxl.model.elements
 import o.barlom.infrastructure.codegen.CodeWriter
 import o.barlom.infrastructure.dxl.model.core.DxlItem
 import o.barlom.infrastructure.dxl.model.core.DxlOrigin
+import o.barlom.infrastructure.dxl.model.names.DxlNoName
 import o.barlom.infrastructure.dxl.model.names.DxlOptName
 import o.barlom.infrastructure.dxl.model.parameters.DxlOptParameters
 import o.barlom.infrastructure.dxl.model.properties.DxlProperties
@@ -23,6 +24,7 @@ class DxlElement(
     origin: DxlOrigin,
     val uuid: DxlOptUuid,
     val name: DxlOptName,
+    val revisedName: DxlOptName,
     val parameters: DxlOptParameters,
     val typeRef: DxlOptTypeRef,
     val properties: DxlProperties
@@ -32,6 +34,11 @@ class DxlElement(
 
         output.writeBlankSeparated(listOf(uuid, name)) { e ->
             e.writeCode(this)
+        }
+
+        if (revisedName !is DxlNoName) {
+            output.write("^")
+            revisedName.writeCode(output)
         }
 
         parameters.writeCode(output)
