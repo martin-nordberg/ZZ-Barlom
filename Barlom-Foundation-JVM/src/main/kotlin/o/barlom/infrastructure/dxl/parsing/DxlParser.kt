@@ -182,16 +182,22 @@ class DxlParser(
         input.read(RIGHT_BRACKET)
 
         // connection?
-        if (input.hasLookAhead(DOUBLE_DASH) || input.hasLookAhead(LEFT_ARROW)) {
-            return DxlConceptDeclaration(leftBracketToken.origin, documentation, element, parseConnection() )
+        val connection = if (input.hasLookAhead(DOUBLE_DASH) || input.hasLookAhead(LEFT_ARROW)) {
+            parseConnection()
+        }
+        else {
+            DxlNoConnection
         }
 
         // content?
-        if (input.hasLookAhead(LEFT_BRACE)) {
-            return DxlConceptDeclaration(leftBracketToken.origin, documentation, element, parseContent())
+        val content = if (input.hasLookAhead(LEFT_BRACE)) {
+            parseContent()
+        }
+        else {
+            DxlNoContent
         }
 
-        return DxlConceptDeclaration(leftBracketToken.origin, documentation, element)
+        return DxlConceptDeclaration(leftBracketToken.origin, documentation, element, connection, content)
 
     }
 
@@ -218,12 +224,15 @@ class DxlParser(
 
     /**
      * connection
-     *   : ("<-" | "--") "-|" element "|-" ("--" | "->") "[" element "]"
+     *   : ("<-" | "--") "!"? "-|" element "|-" ("--" | "->") "[" element "]"
      */
-    private fun parseConnection(): DxlConnection {
+    private fun parseConnection(): DxlOptConnection {
 
         // ("<-" | "--")
         val arrowStart = input.readOneOf(DOUBLE_DASH, LEFT_ARROW)
+
+        // "!"?
+        val isDisconnect = input.consumeWhen(EXCLAMATION)
 
         // "-|"
         val leftLineBracketToken = input.read(LEFT_LINE_BRACKET)
@@ -258,7 +267,12 @@ class DxlParser(
             }
         }
 
-        return DxlConnection(arrowStart.origin, direction, element, connectedElement)
+        return if (isDisconnect) {
+            DxlDisconnection(arrowStart.origin, direction, element, connectedElement)
+        }
+        else {
+            DxlConnection(arrowStart.origin, direction, element, connectedElement)
+        }
 
     }
 
@@ -520,16 +534,19 @@ class DxlParser(
      * Parses one property.
      *
      * property
-     *   : simpleName ("^" simpleName)? typeRef? ("=" expression)?
+     *   : "!"? simpleName ("^" simpleName)? typeRef? ("=" expression)?
      *   ;
      */
     private fun parseProperty(): DxlProperty {
+
+        // "!"?
+        val isRemoval = input.consumeWhen(EXCLAMATION)
 
         // simpleName
         val simpleName = parseSimpleName()
 
         // ("^" simpleName)?
-        val revisedName = if (input.consumeWhen(CARET)) {
+        val revisedName = if (!isRemoval && input.consumeWhen(CARET)) {
             parseSimpleName()
         }
         else {
@@ -537,9 +554,14 @@ class DxlParser(
         }
 
         // typeRef?
-        val typeRef = parseTypeRefOpt(false)
+        val typeRef = if (!isRemoval) {
+            parseTypeRefOpt(false)
+        }
+        else {
+            DxlNoTypeRef
+        }
 
-        val expression = if (revisedName is DxlNoName || input.hasLookAhead(EQUALS)) {
+        val expression = if (!isRemoval && (revisedName is DxlNoName || input.hasLookAhead(EQUALS))) {
             // "="
             input.read(EQUALS)
 
@@ -550,7 +572,7 @@ class DxlParser(
             DxlNoValue
         }
 
-        return DxlProperty(simpleName, revisedName, typeRef, expression)
+        return DxlProperty(simpleName, isRemoval, revisedName, typeRef, expression)
 
     }
 

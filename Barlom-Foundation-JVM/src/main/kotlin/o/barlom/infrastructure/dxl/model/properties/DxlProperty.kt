@@ -17,21 +17,33 @@ import o.barlom.infrastructure.dxl.model.types.DxlOptTypeRef
 
 class DxlProperty(
     val name: DxlSimpleName,
+    val isRemoval: Boolean,
     val revisedName: DxlOptName,
     val typeRef: DxlOptTypeRef,
     val value: DxlOptExpression
 ) : DxlItem(name.origin) {
 
     override fun writeCode(output: CodeWriter) {
-        output.write("~ ", name.text)
+
+        output.write("~ ")
+
+        if (isRemoval) {
+            output.write("!")
+        }
+
+        output.write(name.text)
+
         if (revisedName is DxlSimpleName) {
             output.write("^", revisedName.text)
         }
+
         typeRef.writeCode(output)
+
         if (value !is DxlNoValue) {
             output.write(" = ")
             value.writeCode(output)
         }
+
     }
 
 }

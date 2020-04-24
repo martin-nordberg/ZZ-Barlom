@@ -45,7 +45,11 @@ internal class DxlSmallSampleGraphTests {
             [pa ~ capitol^capital = "Harrisburg"]
             [pa ~ byrd^bird]
             ![pa]
+            [va ~ !state_bird]
             !-|us1|-
+            [dc]--!-|:HasNeighbor|---[pa]
+            [dc]<-!-|:HasNeighbor|---[pa]
+            [dc]--!-|:HasNeighbor|-->[pa]
             -|ny17^i96|-
             [dc.washington]---|:Highway(type="Interstate") ~ name = "I-66" ~ distance = 36|---[va.centreville]
             [dc.washington]---|:Highway(type="Interstate") ~ name = "I-95" ~ distance = 53|---[va.fredericksburg]
@@ -59,13 +63,6 @@ internal class DxlSmallSampleGraphTests {
         checkParseAndGenerate(code)
 
     }
-
-    /*
-            [dc]--!-|:HasNeighbor|---[pa]
-            [dc]<-!-|:HasNeighbor|---[pa]
-            [dc]--!-|:HasNeighbor|-->[pa]
-            [va ~ !state_bird]
-     */
 
     @Test
     fun `Senators are linked to states classes and parties`() {

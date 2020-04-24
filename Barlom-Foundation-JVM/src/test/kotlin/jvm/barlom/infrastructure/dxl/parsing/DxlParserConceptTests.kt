@@ -186,6 +186,28 @@ internal class DxlParserConceptTests {
     }
 
     @Test
+    fun `A concept property removal is parsed`() {
+
+        val code = """
+            [sample.test(a): S ~ x = 1 ~ !z]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept property rename is parsed`() {
+
+        val code = """
+            [sample.test(a): S ~ x^xx = 1 ~ z^zz]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
     fun `A concept with long-valued properties is parsed`() {
 
         val code = """
@@ -215,7 +237,62 @@ internal class DxlParserConceptTests {
     fun `A concept with a connection is parsed`() {
 
         val code = """
+            [sample.test(a): S]---|:hasStuff|---[s: Stuff]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with a right-directed connection is parsed`() {
+
+        val code = """
             [sample.test(a): S]---|:hasStuff|-->[s: Stuff]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with a left-directed connection is parsed`() {
+
+        val code = """
+            [sample.test(a): S]<--|:hasStuff|---[s: Stuff]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with a disconnection is parsed`() {
+
+        val code = """
+            [sample.test(a): S]--!-|:hasStuff|---[s: Stuff]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with a right-directed disconnection is parsed`() {
+
+        val code = """
+            [sample.test(a): S]--!-|:hasStuff|-->[s: Stuff]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept with a left-directed disconnection is parsed`() {
+
+        val code = """
+            [sample.test(a): S]<-!-|:hasStuff|---[s: Stuff]
         """.trimIndent()
 
         checkParseAndGenerate(code)
@@ -227,6 +304,28 @@ internal class DxlParserConceptTests {
 
         val code = """
             [`Ms Miser`: Person]---|:hasStuff|-->[s: Stuff]---|:fillsCloset|-->[c: Closet]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept deletion is parsed`() {
+
+        val code = """
+            ![ObsoleteConcept]
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A concept rename is parsed`() {
+
+        val code = """
+            [OldName^NewName]
         """.trimIndent()
 
         checkParseAndGenerate(code)

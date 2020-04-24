@@ -93,6 +93,28 @@ internal class DxlParserConnectionTests {
     }
 
     @Test
+    fun `A disconnection is parsed`() {
+
+        val code = """
+            !-|sample|-
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
+    fun `A connection rename is parsed`() {
+
+        val code = """
+            -|sample^example|-
+        """.trimIndent()
+
+        checkParseAndGenerate(code)
+
+    }
+
+    @Test
     fun `Multiple connections are parsed`() {
 
         val code = """
